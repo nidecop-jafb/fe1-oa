@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FE-T0A · DX · Detetive do Lab</title>
+<style>
+:root {
+  --azul: oklch(0.65 0.22 45);
+  --azul-claro: oklch(0.72 0.19 45);
+  --azul-bg: oklch(0.28 0.05 45);
+  --ouro: oklch(0.85 0.18 95);
+  --ouro-claro: oklch(0.25 0.04 95);
+  --verde: oklch(0.7 0.15 150);
+  --verde-claro: oklch(0.25 0.04 150);
+  --erro: oklch(0.6 0.22 25);
+  --erro-claro: oklch(0.22 0.05 25);
+  --cinza: oklch(0.55 0.02 260);
+  --cinza-claro: oklch(0.18 0.02 260);
+  --cinza-borda: oklch(0.38 0.02 260);
+  --texto: oklch(0.93 0 0);
+  --branco: oklch(0.93 0 0);
+  --superficie: oklch(0.24 0.02 260);
+  --input-bg: oklch(0.2 0.02 260);
+  --hover-bg: oklch(0.22 0.02 260);
+  --r: 0px;
+  --r-sm: 0px;
+  --shadow: 0 1px 0 oklch(0.3 0.02 260);
+  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'Space Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font);
+  background: var(--cinza-claro);
+  color: var(--texto);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+.header {
+  background: oklch(0.14 0.02 260);
+  border-top: 3px solid var(--ouro);
+  padding: 12px 20px;
+  position: sticky; top: 0; z-index: 100;
+}
+.header-inner {
+  max-width: 760px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.header h1 { font-size: 1.05rem; font-weight: 700; }
+.header .badge {
+  background: var(--azul); color: oklch(0.15 0.02 260);
+  padding: 3px 10px; border-radius: 20px;
+  font-size: .7rem; font-weight: 700; text-transform: uppercase;
+}
+.header-sub {
+  max-width: 760px; margin: 4px auto 0;
+  font-size: .72rem; color: var(--cinza);
+}
+
+/* PROGRESS BAR */
+.progress-bar {
+  max-width: 760px; margin: 6px auto 0;
+  display: flex; gap: 3px; height: 4px;
+}
+.progress-seg {
+  flex: 1; background: var(--cinza-borda); transition: background .3s;
+}
+.progress-seg.done { background: var(--verde); }
+.progress-seg.active { background: var(--azul); }
+
+main { max-width: 760px; margin: 0 auto; padding: 16px; }
+
+/* ID */
+.id-card {
+  background: var(--superficie);
+  border-left: 3px solid var(--azul);
+  padding: 14px 18px;
+  margin-bottom: 16px;
+}
+.id-titulo {
+  font-size: .75rem; font-weight: 700; color: var(--azul);
+  text-transform: uppercase; letter-spacing: .5px;
+  margin-bottom: 10px;
+}
+.id-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 8px;
+}
+.id-field label {
+  font-size: .65rem; color: var(--cinza);
+  text-transform: uppercase; display: block; margin-bottom: 3px;
+}
+.id-field input, .id-field select {
+  width: 100%;
+  background: var(--input-bg);
+  border: 1px solid var(--cinza-borda);
+  color: var(--texto);
+  padding: 8px 10px;
+  font-family: var(--font);
+  font-size: .82rem;
+}
+.id-field input:focus, .id-field select:focus {
+  outline: none; border-color: var(--azul);
+}
+.id-field select { cursor: pointer; }
+
+/* INTRO */
+.intro {
+  background: var(--superficie);
+  border-left: 3px solid var(--ouro);
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  font-size: .85rem;
+}
+.intro strong { color: var(--ouro); }
+
+/* SECAO */
+.secao {
+  margin-bottom: 20px;
+}
+.secao-header {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 12px;
+}
+.secao-num {
+  background: var(--azul);
+  color: oklch(0.15 0.02 260);
+  width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .75rem; font-weight: 700;
+}
+.secao-titulo {
+  font-size: .9rem; font-weight: 700; color: var(--azul);
+  text-transform: uppercase; letter-spacing: .3px;
+}
+.secao-pts {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: .7rem; color: var(--cinza);
+}
+
+/* CASO (cenario de erro) */
+.caso {
+  background: var(--superficie);
+  border-left: 3px solid var(--cinza-borda);
+  padding: 14px 18px;
+  margin-bottom: 10px;
+  transition: border-color .3s;
+}
+.caso.respondido { border-left-color: var(--verde); }
+.caso.errado { border-left-color: var(--erro); }
+
+.caso-header {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 8px;
+}
+.caso-badge {
+  font-size: .6rem; font-weight: 700;
+  padding: 2px 8px; border-radius: 10px;
+  text-transform: uppercase;
+  background: var(--ouro-claro); color: var(--ouro);
+}
+.caso-titulo {
+  font-size: .78rem; font-weight: 600; color: var(--texto);
+}
+
+.caso-cenario {
+  background: var(--input-bg);
+  padding: 10px 14px;
+  font-size: .82rem;
+  margin-bottom: 10px;
+  border-left: 2px solid var(--ouro);
+  font-style: italic;
+}
+.caso-cenario .nome { color: var(--azul); font-weight: 600; font-style: normal; }
+.caso-cenario .dado { font-family: var(--mono); color: var(--ouro); font-style: normal; }
+
+.caso-opcoes {
+  display: flex; flex-direction: column; gap: 5px;
+}
+.caso-opt {
+  background: var(--input-bg);
+  border: 1px solid var(--cinza-borda);
+  padding: 8px 12px;
+  font-size: .78rem;
+  cursor: pointer;
+  transition: border-color .2s, background .2s;
+}
+.caso-opt:hover { border-color: var(--azul); background: var(--hover-bg); }
+.caso-opt.selecionada { border-color: var(--azul); background: var(--azul-bg); }
+.caso-opt.correta-rev { border-color: var(--verde); background: var(--verde-claro); color: var(--verde); }
+.caso-opt.errada-rev { border-color: var(--erro); background: var(--erro-claro); color: var(--erro); }
+.caso-opt.bloqueada { pointer-events: none; opacity: .7; }
+
+.caso-feedback {
+  margin-top: 8px;
+  padding: 8px 12px;
+  font-size: .78rem;
+  display: none;
+}
+.caso-feedback.visivel { display: block; }
+.caso-feedback.ok { background: var(--verde-claro); color: var(--verde); }
+.caso-feedback.nok { background: var(--erro-claro); color: var(--erro); }
+
+/* ORDENACAO C5 */
+.c5-lista {
+  display: flex; flex-direction: column; gap: 4px;
+}
+.c5-item {
+  background: var(--superficie);
+  border: 1px solid var(--cinza-borda);
+  padding: 10px 14px;
+  display: flex; align-items: center; gap: 10px;
+  transition: border-color .2s;
+}
+.c5-item.correto { border-color: var(--verde); }
+.c5-item.incorreto { border-color: var(--erro); }
+.c5-item.bloqueado { pointer-events: none; opacity: .8; }
+
+.c5-pos {
+  font-family: var(--mono);
+  font-size: .75rem; font-weight: 700;
+  color: var(--cinza);
+  min-width: 20px; text-align: center;
+}
+.c5-texto {
+  flex: 1;
+  font-size: .82rem;
+}
+.c5-btns {
+  display: flex; gap: 4px;
+}
+.c5-btn {
+  background: var(--input-bg);
+  border: 1px solid var(--cinza-borda);
+  color: var(--texto);
+  width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  font-size: .8rem;
+  transition: border-color .2s;
+}
+.c5-btn:hover { border-color: var(--azul); }
+
+.c5-confirmar {
+  background: var(--azul-bg);
+  border: 1px solid var(--azul);
+  color: var(--azul);
+  padding: 10px 20px;
+  font-family: var(--font);
+  font-size: .8rem; font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  width: 100%;
+  transition: background .2s;
+}
+.c5-confirmar:hover { background: var(--azul); color: oklch(0.15 0.02 260); }
+.c5-confirmar:disabled { opacity: .4; cursor: not-allowed; }
+
+.c5-feedback {
+  margin-top: 8px;
+  padding: 10px 14px;
+  font-size: .8rem;
+  display: none;
+}
+.c5-feedback.visivel { display: block; }
+.c5-feedback.ok { background: var(--verde-claro); color: var(--verde); }
+.c5-feedback.parcial { background: var(--ouro-claro); color: var(--ouro); }
+
+/* PLACAR */
+.placar-card {
+  background: var(--superficie);
+  border: 2px solid var(--azul);
+  padding: 18px;
+  margin: 20px 0;
+  text-align: center;
+  display: none;
+}
+.placar-card.visivel { display: block; }
+.placar-label {
+  font-size: .7rem; color: var(--cinza);
+  text-transform: uppercase; letter-spacing: .5px;
+  margin-bottom: 4px;
+}
+.placar-nota {
+  font-family: var(--mono);
+  font-size: 2.2rem; font-weight: 700;
+  color: var(--azul);
+}
+.placar-detalhe {
+  font-size: .78rem; color: var(--cinza);
+  margin-top: 4px;
+}
+.placar-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 12px;
+  text-align: center;
+}
+.placar-item {
+  background: var(--input-bg);
+  padding: 8px;
+}
+.placar-item-label {
+  font-size: .6rem; color: var(--cinza);
+  text-transform: uppercase;
+}
+.placar-item-valor {
+  font-family: var(--mono);
+  font-size: 1rem; font-weight: 700;
+  color: var(--verde);
+}
+
+/* ACOES */
+.acoes {
+  display: flex; gap: 10px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+.btn {
+  flex: 1; min-width: 140px;
+  padding: 12px 16px;
+  font-family: var(--font);
+  font-size: .82rem; font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  border: 1px solid;
+  transition: background .2s;
+}
+.btn-primary {
+  background: var(--azul);
+  border-color: var(--azul);
+  color: oklch(0.15 0.02 260);
+}
+.btn-primary:hover { background: var(--azul-claro); }
+.btn-primary:disabled { opacity: .4; cursor: not-allowed; }
+.btn-secondary {
+  background: var(--input-bg);
+  border-color: var(--cinza-borda);
+  color: var(--texto);
+}
+.btn-secondary:hover { border-color: var(--azul); }
+
+/* TOAST */
+.toast {
+  position: fixed; bottom: 20px; right: 20px;
+  background: var(--verde);
+  color: oklch(0.15 0.02 260);
+  padding: 10px 18px;
+  font-size: .8rem; font-weight: 600;
+  z-index: 200;
+  opacity: 0; transform: translateY(10px);
+  transition: opacity .3s, transform .3s;
+  pointer-events: none;
+}
+.toast.visivel { opacity: 1; transform: translateY(0); }
+
+.footer {
+  text-align: center; padding: 16px;
+  font-size: .65rem; color: var(--cinza);
+  margin-top: 16px; border-top: 1px solid var(--cinza-borda);
+}
+
+@media (max-width: 600px) {
+  .id-grid { grid-template-columns: 1fr; }
+  .placar-grid { grid-template-columns: 1fr; }
+}
+
+@media print {
+  body { background: white !important; color: #1A1A1A !important; }
+  .header { position: static; background: none !important; border-top: 2px solid #C8922A; }
+  .btn, .toast, .progress-bar { display: none !important; }
+  .caso, .id-card, .intro { background: white !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <h1>DX &middot; Detetive do Lab</h1>
+    <span class="badge">Desafio pedagogico</span>
+  </div>
+  <div class="header-sub">FE-T0A &middot; Metodologia Experimental &middot; Lab de Mecanica &middot; IFMG-OP</div>
+  <div class="progress-bar">
+    <div class="progress-seg" id="pg-id"></div>
+    <div class="progress-seg" id="pg-casos"></div>
+    <div class="progress-seg" id="pg-c5"></div>
+  </div>
+</header>
+
+<main>
+
+<!-- IDENTIFICACAO -->
+<div class="id-card">
+  <div class="id-titulo">Identificacao</div>
+  <div class="id-grid">
+    <div class="id-field">
+      <label>Nome completo</label>
+      <input type="text" id="nome" placeholder="Seu nome" oninput="salvar()">
+    </div>
+    <div class="id-field">
+      <label>Turma</label>
+      <select id="turma" onchange="salvar()">
+        <option value="">--</option>
+        <option>MIN1A</option><option>MIN1B</option><option>MIN1C</option>
+      </select>
+    </div>
+    <div class="id-field">
+      <label>Grupo</label>
+      <select id="grupo" onchange="salvar()">
+        <option value="">--</option>
+        <option>A</option><option>B</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- INTRO -->
+<div class="intro">
+  <strong>Missao: encontrar o erro.</strong> Seis estudantes cometeram erros de medicao no laboratorio. Leia cada cenario, identifique o tipo de erro e, no final, coloque os 8 passos do Protocolo C5 na ordem correta.
+</div>
+
+<!-- SECAO 1: CACA-ERROS -->
+<div class="secao">
+  <div class="secao-header">
+    <div class="secao-num">1</div>
+    <div class="secao-titulo">Caca-erros</div>
+    <div class="secao-pts" id="pts-casos">0/6 pts</div>
+  </div>
+
+  <!-- CASO 1 -->
+  <div class="caso" id="caso-1">
+    <div class="caso-header">
+      <span class="caso-badge">Caso 1</span>
+      <span class="caso-titulo">Algarismos demais</span>
+    </div>
+    <div class="caso-cenario">
+      <span class="nome">Pedro</span> mediu sua altura na <span class="dado">Escala #2 (menor divisao 0,1 m)</span> e registrou: <span class="dado">h = 1,7345 m</span>.
+    </div>
+    <div class="caso-opcoes" id="opts-1">
+      <div class="caso-opt" onclick="responderCaso(1,'a',this)"><strong>a)</strong> Erro de paralaxe — Pedro olhou de lado</div>
+      <div class="caso-opt" onclick="responderCaso(1,'b',this)"><strong>b)</strong> Algarismos significativos incompativeis com a escala</div>
+      <div class="caso-opt" onclick="responderCaso(1,'c',this)"><strong>c)</strong> Falta a incerteza no resultado</div>
+      <div class="caso-opt" onclick="responderCaso(1,'d',this)"><strong>d)</strong> A unidade esta errada</div>
+    </div>
+    <div class="caso-feedback" id="fb-1"></div>
+  </div>
+
+  <!-- CASO 2 -->
+  <div class="caso" id="caso-2">
+    <div class="caso-header">
+      <span class="caso-badge">Caso 2</span>
+      <span class="caso-titulo">Registro incompleto</span>
+    </div>
+    <div class="caso-cenario">
+      <span class="nome">Sofia</span> anotou no caderno: <span class="dado">"minha altura e 2"</span>. Nao escreveu mais nada.
+    </div>
+    <div class="caso-opcoes" id="opts-2">
+      <div class="caso-opt" onclick="responderCaso(2,'a',this)"><strong>a)</strong> Erro de paralaxe</div>
+      <div class="caso-opt" onclick="responderCaso(2,'b',this)"><strong>b)</strong> Excesso de algarismos significativos</div>
+      <div class="caso-opt" onclick="responderCaso(2,'c',this)"><strong>c)</strong> Falta a unidade de medida</div>
+      <div class="caso-opt" onclick="responderCaso(2,'d',this)"><strong>d)</strong> A media foi calculada errada</div>
+    </div>
+    <div class="caso-feedback" id="fb-2"></div>
+  </div>
+
+  <!-- CASO 3 -->
+  <div class="caso" id="caso-3">
+    <div class="caso-header">
+      <span class="caso-badge">Caso 3</span>
+      <span class="caso-titulo">Olhar enviesado</span>
+    </div>
+    <div class="caso-cenario">
+      <span class="nome">Lucas</span> leu a regua olhando de baixo para cima, com os olhos abaixo do nivel da marca. Obteve <span class="dado">5,3 cm</span> onde o valor real era <span class="dado">5,0 cm</span>.
+    </div>
+    <div class="caso-opcoes" id="opts-3">
+      <div class="caso-opt" onclick="responderCaso(3,'a',this)"><strong>a)</strong> Erro de paralaxe — olhos fora da perpendicular</div>
+      <div class="caso-opt" onclick="responderCaso(3,'b',this)"><strong>b)</strong> Incerteza experimental natural</div>
+      <div class="caso-opt" onclick="responderCaso(3,'c',this)"><strong>c)</strong> Erro de calculo da media</div>
+      <div class="caso-opt" onclick="responderCaso(3,'d',this)"><strong>d)</strong> Escala descalibrada</div>
+    </div>
+    <div class="caso-feedback" id="fb-3"></div>
+  </div>
+
+  <!-- CASO 4 -->
+  <div class="caso" id="caso-4">
+    <div class="caso-header">
+      <span class="caso-badge">Caso 4</span>
+      <span class="caso-titulo">Confusao conceitual</span>
+    </div>
+    <div class="caso-cenario">
+      <span class="nome">Pedro</span> obteve <span class="dado">h = (1,68 &plusmn; 0,01) m</span> e concluiu: <span class="dado">"Errei por 0,01 m, entao minha medida e imprecisa."</span>
+    </div>
+    <div class="caso-opcoes" id="opts-4">
+      <div class="caso-opt" onclick="responderCaso(4,'a',this)"><strong>a)</strong> Erro de paralaxe</div>
+      <div class="caso-opt" onclick="responderCaso(4,'b',this)"><strong>b)</strong> A incerteza nao e um erro — e informacao sobre a qualidade da medida</div>
+      <div class="caso-opt" onclick="responderCaso(4,'c',this)"><strong>c)</strong> Falta a unidade de medida</div>
+      <div class="caso-opt" onclick="responderCaso(4,'d',this)"><strong>d)</strong> Resultado com algarismos significativos demais</div>
+    </div>
+    <div class="caso-feedback" id="fb-4"></div>
+  </div>
+
+  <!-- CASO 5 -->
+  <div class="caso" id="caso-5">
+    <div class="caso-header">
+      <span class="caso-badge">Caso 5</span>
+      <span class="caso-titulo">Arredondamento selvagem</span>
+    </div>
+    <div class="caso-cenario">
+      <span class="nome">Sofia</span> calculou: <span class="dado">media = (2 + 1,7 + 1,68 + 1,683)/4 = 1,765750 m</span> e registrou todos os decimais como resultado final.
+    </div>
+    <div class="caso-opcoes" id="opts-5">
+      <div class="caso-opt" onclick="responderCaso(5,'a',this)"><strong>a)</strong> Erro de paralaxe</div>
+      <div class="caso-opt" onclick="responderCaso(5,'b',this)"><strong>b)</strong> Falta a unidade</div>
+      <div class="caso-opt" onclick="responderCaso(5,'c',this)"><strong>c)</strong> Resultado com precisao falsa — decimais alem do que a incerteza permite</div>
+      <div class="caso-opt" onclick="responderCaso(5,'d',this)"><strong>d)</strong> A formula da media esta errada</div>
+    </div>
+    <div class="caso-feedback" id="fb-5"></div>
+  </div>
+
+  <!-- CASO 6 -->
+  <div class="caso" id="caso-6">
+    <div class="caso-header">
+      <span class="caso-badge">Caso 6</span>
+      <span class="caso-titulo">Seguranca ignorada</span>
+    </div>
+    <div class="caso-cenario">
+      <span class="nome">Lucas</span> entrou no Lab de Mecanica de chinelo e comecou a trabalhar diretamente, sem verificar a <span class="dado">Checklist de Seguranca</span> nem assina-la.
+    </div>
+    <div class="caso-opcoes" id="opts-6">
+      <div class="caso-opt" onclick="responderCaso(6,'a',this)"><strong>a)</strong> Erro de paralaxe</div>
+      <div class="caso-opt" onclick="responderCaso(6,'b',this)"><strong>b)</strong> Algarismos significativos incorretos</div>
+      <div class="caso-opt" onclick="responderCaso(6,'c',this)"><strong>c)</strong> Violacao das normas de seguranca — NR-22 exige calcado fechado e checklist assinada</div>
+      <div class="caso-opt" onclick="responderCaso(6,'d',this)"><strong>d)</strong> Falta a incerteza no resultado</div>
+    </div>
+    <div class="caso-feedback" id="fb-6"></div>
+  </div>
+</div>
+
+<!-- SECAO 2: PROTOCOLO C5 -->
+<div class="secao">
+  <div class="secao-header">
+    <div class="secao-num">2</div>
+    <div class="secao-titulo">Protocolo C5 — ordene os 8 passos</div>
+    <div class="secao-pts" id="pts-c5">0/4 pts</div>
+  </div>
+
+  <div class="c5-lista" id="c5-lista"></div>
+  <button class="c5-confirmar" id="c5-confirmar" onclick="confirmarC5()">Confirmar ordem</button>
+  <div class="c5-feedback" id="c5-feedback"></div>
+</div>
+
+<!-- PLACAR -->
+<div class="placar-card" id="placar-card">
+  <div class="placar-label">Sua pontuacao</div>
+  <div class="placar-nota" id="placar-nota">—</div>
+  <div class="placar-detalhe" id="placar-detalhe">—</div>
+  <div class="placar-grid">
+    <div class="placar-item">
+      <div class="placar-item-label">Caca-erros</div>
+      <div class="placar-item-valor" id="pl-casos">—</div>
+    </div>
+    <div class="placar-item">
+      <div class="placar-item-label">Protocolo C5</div>
+      <div class="placar-item-valor" id="pl-c5">—</div>
+    </div>
+  </div>
+</div>
+
+<!-- ACOES -->
+<div class="acoes" id="acoes" style="display:none">
+  <button class="btn btn-primary" id="btn-exportar" onclick="exportarJSON()" disabled>Exportar submissao</button>
+  <button class="btn btn-secondary" onclick="limpar()">Recomecar</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+</main>
+
+<div class="footer">
+  FE-T0A &middot; DX Detetive do Lab v1 &middot; Fisica Experimental 1 &middot; IFMG &mdash; Campus Ouro Preto &middot; 2026
+</div>
+
+<script>
+const LS_PREFIX = 'ifmg_fe_t0a_dx_';
+
+const GABARITO_CASOS = {
+  1: { correta: 'b', fb_ok: 'A Escala #2 tem menor divisao 0,1 m — permite no maximo 2 algarismos significativos (ex: 1,7 m). Pedro registrou 4 AS.', fb: { a: 'Paralaxe causa desvio sistematico, nao excesso de digitos.', c: 'A incerteza e importante, mas o erro principal aqui sao os AS.', d: 'A unidade (metros) esta correta.' } },
+  2: { correta: 'c', fb_ok: 'Toda medida deve incluir a unidade. "2" sozinho nao diz nada — 2 metros? 2 centimetros?', fb: { a: 'Nao ha indicios de paralaxe neste cenario.', b: '"2" tem 1 AS, compativel com a Escala #1. O problema e a unidade.', d: 'Nao ha calculo de media neste cenario.' } },
+  3: { correta: 'a', fb_ok: 'Olhos fora da perpendicular causam erro de paralaxe — um erro sistematico que desloca a leitura. A correcao e posicionar-se a 90° da escala.', fb: { b: 'Incerteza aleatorio varia para mais e para menos; este erro e sempre no mesmo sentido.', c: 'Nao ha calculo de media neste cenario.', d: 'A escala pode estar calibrada; o problema e a posicao do observador.' } },
+  4: { correta: 'b', fb_ok: 'A incerteza +-0,01 m nao e "erro" — e uma informacao sobre a dispersao das medidas. Significa que a altura real esta entre 1,67 e 1,69 m.', fb: { a: 'Nao ha indicios de paralaxe.', c: 'A unidade (m) esta presente.', d: '3 AS para escala de 0,01 m esta correto.' } },
+  5: { correta: 'c', fb_ok: 'A media tem mais decimais que a incerteza permite. Se delta h ~ 0,2 m, a media deve ser arredondada para 1,8 m — nao 1,765750 m.', fb: { a: 'Nao ha indicios de paralaxe.', b: 'A unidade (m) esta presente.', d: 'A formula esta correta; o problema e o arredondamento.' } },
+  6: { correta: 'c', fb_ok: 'A NR-22 (mineracao) exige calcado fechado, EPI, e checklist assinada antes de iniciar qualquer atividade no laboratorio.', fb: { a: 'Nao ha medicao envolvida.', b: 'Nao ha medicao envolvida.', d: 'Nao ha medicao envolvida.' } }
+};
+
+const C5_PASSOS_CORRETOS = [
+  'Definir o problema de medicao',
+  'Coletar dados experimentais',
+  'Formular hipotese',
+  'Planejar o procedimento',
+  'Executar calculos (media, incerteza)',
+  'Analisar os resultados',
+  'Concluir (aceitar ou rejeitar hipotese)',
+  'Comunicar o resultado: (valor +- incerteza) unidade'
+];
+
+const C5_EMBARALHADO = [5, 2, 7, 0, 3, 6, 1, 4];
+let c5Ordem = [...C5_EMBARALHADO];
+let respostasCasos = {};
+let c5Respondido = false;
+
+function init() {
+  renderC5();
+  restaurar();
+  atualizarProgress();
+}
+
+function renderC5() {
+  const lista = document.getElementById('c5-lista');
+  lista.innerHTML = '';
+  c5Ordem.forEach((idx, pos) => {
+    const div = document.createElement('div');
+    div.className = 'c5-item';
+    div.id = 'c5-item-' + pos;
+    div.innerHTML = `
+      <div class="c5-pos">${pos + 1}.</div>
+      <div class="c5-texto">${C5_PASSOS_CORRETOS[idx]}</div>
+      <div class="c5-btns">
+        <div class="c5-btn" onclick="moverC5(${pos},-1)" title="Subir">&#9650;</div>
+        <div class="c5-btn" onclick="moverC5(${pos},1)" title="Descer">&#9660;</div>
+      </div>
+    `;
+    lista.appendChild(div);
+  });
+}
+
+function moverC5(pos, dir) {
+  if (c5Respondido) return;
+  const newPos = pos + dir;
+  if (newPos < 0 || newPos >= c5Ordem.length) return;
+  [c5Ordem[pos], c5Ordem[newPos]] = [c5Ordem[newPos], c5Ordem[pos]];
+  renderC5();
+  salvar();
+}
+
+function responderCaso(n, letra, el) {
+  if (respostasCasos[n]) return;
+
+  const gab = GABARITO_CASOS[n];
+  const caso = document.getElementById('caso-' + n);
+  const opts = document.querySelectorAll('#opts-' + n + ' .caso-opt');
+  const fb = document.getElementById('fb-' + n);
+
+  respostasCasos[n] = letra;
+
+  opts.forEach(o => { o.classList.add('bloqueada'); o.classList.remove('selecionada'); });
+
+  if (letra === gab.correta) {
+    el.classList.add('correta-rev');
+    caso.classList.add('respondido');
+    fb.className = 'caso-feedback visivel ok';
+    fb.textContent = gab.fb_ok;
+  } else {
+    el.classList.add('errada-rev');
+    caso.classList.add('errado');
+    opts.forEach(o => {
+      const l = o.querySelector('strong').textContent.trim().charAt(0);
+      if (l === gab.correta) o.classList.add('correta-rev');
+    });
+    fb.className = 'caso-feedback visivel nok';
+    fb.textContent = gab.fb[letra] || gab.fb_ok;
+  }
+
+  document.getElementById('pts-casos').textContent = calcPtsCasos() + '/6 pts';
+  salvar();
+  atualizarProgress();
+  verificarFim();
+}
+
+function confirmarC5() {
+  if (c5Respondido) return;
+  c5Respondido = true;
+
+  let corretos = 0;
+  c5Ordem.forEach((idx, pos) => {
+    const item = document.getElementById('c5-item-' + pos);
+    if (idx === pos) {
+      item.classList.add('correto');
+      corretos++;
+    } else {
+      item.classList.add('incorreto');
+    }
+    item.classList.add('bloqueado');
+  });
+
+  document.getElementById('c5-confirmar').disabled = true;
+  const pts = calcPtsC5();
+  document.getElementById('pts-c5').textContent = pts + '/4 pts';
+
+  const fb = document.getElementById('c5-feedback');
+  if (corretos === 8) {
+    fb.className = 'c5-feedback visivel ok';
+    fb.textContent = 'Perfeito! Todos os 8 passos na ordem correta do Protocolo C5.';
+  } else {
+    fb.className = 'c5-feedback visivel parcial';
+    fb.textContent = corretos + '/8 passos na posicao correta. A ordem canonica e: 1) Definir problema → 2) Coletar dados → 3) Hipotese → 4) Planejar → 5) Calculos → 6) Analisar → 7) Concluir → 8) Comunicar.';
+  }
+
+  salvar();
+  atualizarProgress();
+  verificarFim();
+}
+
+function calcPtsCasos() {
+  let pts = 0;
+  for (let i = 1; i <= 6; i++) {
+    if (respostasCasos[i] === GABARITO_CASOS[i].correta) pts++;
+  }
+  return pts;
+}
+
+function calcPtsC5() {
+  if (!c5Respondido) return 0;
+  let corretos = 0;
+  c5Ordem.forEach((idx, pos) => { if (idx === pos) corretos++; });
+  if (corretos === 8) return 4;
+  if (corretos >= 6) return 3;
+  if (corretos >= 4) return 2;
+  if (corretos >= 2) return 1;
+  return 0;
+}
+
+function verificarFim() {
+  const todosRespondidos = Object.keys(respostasCasos).length === 6 && c5Respondido;
+  if (!todosRespondidos) return;
+
+  const ptsCasos = calcPtsCasos();
+  const ptsC5 = calcPtsC5();
+  const total = ptsCasos + ptsC5;
+  const nota = (total / 10 * 10).toFixed(1).replace('.', ',');
+
+  const placar = document.getElementById('placar-card');
+  placar.classList.add('visivel');
+  document.getElementById('placar-nota').textContent = total + '/10';
+  document.getElementById('placar-detalhe').textContent = ptsCasos + ' pts caca-erros + ' + ptsC5 + ' pts C5';
+  document.getElementById('pl-casos').textContent = ptsCasos + '/6';
+  document.getElementById('pl-c5').textContent = ptsC5 + '/4';
+
+  document.getElementById('acoes').style.display = 'flex';
+
+  const nome = document.getElementById('nome').value.trim();
+  const turma = document.getElementById('turma').value;
+  document.getElementById('btn-exportar').disabled = !(nome && turma);
+}
+
+function atualizarProgress() {
+  const nome = document.getElementById('nome').value.trim();
+  const turma = document.getElementById('turma').value;
+  document.getElementById('pg-id').className = 'progress-seg ' + ((nome && turma) ? 'done' : 'active');
+
+  const nCasos = Object.keys(respostasCasos).length;
+  document.getElementById('pg-casos').className = 'progress-seg ' + (nCasos === 6 ? 'done' : (nCasos > 0 ? 'active' : ''));
+
+  document.getElementById('pg-c5').className = 'progress-seg ' + (c5Respondido ? 'done' : '');
+}
+
+function exportarJSON() {
+  const nome = document.getElementById('nome').value.trim();
+  const turma = document.getElementById('turma').value;
+  const grupo = document.getElementById('grupo').value;
+  if (!nome || !turma) return;
+
+  const ptsCasos = calcPtsCasos();
+  const ptsC5 = calcPtsC5();
+
+  const dados = {
+    meta: {
+      versao_schema: '1.0',
+      trilha: 'FE-T0A',
+      tipo_oa: 'DX',
+      subtipo: 'detetive-do-lab',
+      timestamp: new Date().toISOString()
+    },
+    identificacao: { nome, turma, grupo },
+    casos: {},
+    c5: {
+      ordem_submetida: c5Ordem.map(i => C5_PASSOS_CORRETOS[i]),
+      corretos: c5Ordem.filter((idx, pos) => idx === pos).length,
+      pontos: ptsC5
+    },
+    pontuacao: {
+      casos: ptsCasos,
+      c5: ptsC5,
+      total: ptsCasos + ptsC5,
+      maximo: 10
+    }
+  };
+
+  for (let i = 1; i <= 6; i++) {
+    dados.casos['caso_' + i] = {
+      resposta: respostasCasos[i] || null,
+      correta: GABARITO_CASOS[i].correta,
+      acertou: respostasCasos[i] === GABARITO_CASOS[i].correta
+    };
+  }
+
+  const blob = new Blob([JSON.stringify(dados, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const nomeArq = 'FE-T0A-DX_' + turma + '_' + (grupo || 'X') + '_' + nome.replace(/\s+/g, '_') + '.json';
+  a.href = url;
+  a.download = nomeArq;
+  a.click();
+  URL.revokeObjectURL(url);
+  mostrarToast('Exportado: ' + nomeArq);
+}
+
+function salvar() {
+  const dados = {
+    nome: document.getElementById('nome').value,
+    turma: document.getElementById('turma').value,
+    grupo: document.getElementById('grupo').value,
+    respostasCasos,
+    c5Ordem,
+    c5Respondido
+  };
+  try { localStorage.setItem(LS_PREFIX + 'dados', JSON.stringify(dados)); } catch(e) {}
+  atualizarProgress();
+  const nome = document.getElementById('nome').value.trim();
+  const turma = document.getElementById('turma').value;
+  const btn = document.getElementById('btn-exportar');
+  if (btn) btn.disabled = !(nome && turma && Object.keys(respostasCasos).length === 6 && c5Respondido);
+}
+
+function restaurar() {
+  try {
+    const raw = localStorage.getItem(LS_PREFIX + 'dados');
+    if (!raw) return;
+    const d = JSON.parse(raw);
+    if (d.nome) document.getElementById('nome').value = d.nome;
+    if (d.turma) document.getElementById('turma').value = d.turma;
+    if (d.grupo) document.getElementById('grupo').value = d.grupo;
+    if (d.c5Ordem) { c5Ordem = d.c5Ordem; renderC5(); }
+    if (d.respostasCasos) {
+      for (const [k, v] of Object.entries(d.respostasCasos)) {
+        const n = parseInt(k);
+        const opts = document.querySelectorAll('#opts-' + n + ' .caso-opt');
+        const el = Array.from(opts).find(o => o.querySelector('strong').textContent.trim().charAt(0) === v);
+        if (el) responderCaso(n, v, el);
+      }
+    }
+    if (d.c5Respondido) confirmarC5();
+  } catch(e) {}
+}
+
+function limpar() {
+  localStorage.removeItem(LS_PREFIX + 'dados');
+  location.reload();
+}
+
+function mostrarToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('visivel');
+  setTimeout(() => t.classList.remove('visivel'), 2500);
+}
+
+init();
+</script>
+
+</body>
+</html>

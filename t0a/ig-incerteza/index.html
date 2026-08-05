@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FE-T0A · IG-03 · Media e Incerteza</title>
+<style>
+:root {
+  --azul: oklch(0.65 0.22 45);
+  --azul-claro: oklch(0.72 0.19 45);
+  --azul-bg: oklch(0.28 0.05 45);
+  --ouro: oklch(0.85 0.18 95);
+  --ouro-claro: oklch(0.25 0.04 95);
+  --verde: oklch(0.7 0.15 150);
+  --verde-claro: oklch(0.25 0.04 150);
+  --erro: oklch(0.6 0.22 25);
+  --erro-claro: oklch(0.22 0.05 25);
+  --cinza: oklch(0.55 0.02 260);
+  --cinza-claro: oklch(0.18 0.02 260);
+  --cinza-borda: oklch(0.38 0.02 260);
+  --texto: oklch(0.93 0 0);
+  --branco: oklch(0.93 0 0);
+  --superficie: oklch(0.24 0.02 260);
+  --input-bg: oklch(0.2 0.02 260);
+  --hover-bg: oklch(0.22 0.02 260);
+  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'Space Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font);
+  background: var(--cinza-claro);
+  color: var(--texto);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+.header {
+  background: oklch(0.14 0.02 260);
+  border-top: 3px solid var(--ouro);
+  padding: 12px 20px;
+}
+.header-inner {
+  max-width: 760px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.header h1 { font-size: 1.05rem; font-weight: 700; }
+.header .badge {
+  background: var(--ouro); color: oklch(0.15 0.02 260);
+  padding: 3px 10px; border-radius: 20px;
+  font-size: .7rem; font-weight: 700; text-transform: uppercase;
+}
+.header-sub {
+  max-width: 760px; margin: 4px auto 0;
+  font-size: .72rem; color: var(--cinza);
+}
+main { max-width: 760px; margin: 0 auto; padding: 16px; }
+
+.intro {
+  background: var(--superficie);
+  border-left: 3px solid var(--ouro);
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  font-size: .85rem;
+}
+.intro strong { color: var(--ouro); }
+
+/* ENTRADA DE DADOS */
+.entrada-card {
+  background: var(--superficie);
+  padding: 18px;
+  margin-bottom: 16px;
+}
+.entrada-titulo {
+  font-size: .9rem; font-weight: 700; color: var(--azul);
+  margin-bottom: 12px;
+  text-transform: uppercase; letter-spacing: .5px;
+}
+
+.medidas-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+.medida-item {
+  background: var(--input-bg);
+  padding: 10px;
+  text-align: center;
+}
+.medida-label {
+  font-size: .65rem; color: var(--cinza);
+  text-transform: uppercase; margin-bottom: 4px;
+}
+.medida-escala {
+  font-size: .6rem; color: var(--azul);
+  margin-bottom: 6px;
+}
+.medida-input {
+  width: 100%;
+  background: var(--cinza-claro);
+  border: 1px solid var(--cinza-borda);
+  color: var(--texto);
+  padding: 8px 6px;
+  font-family: var(--mono);
+  font-size: .95rem;
+  text-align: center;
+}
+.medida-input:focus { outline: none; border-color: var(--azul); }
+.medida-input.preenchido { border-color: var(--verde); }
+.medida-unit {
+  font-size: .65rem; color: var(--cinza);
+  margin-top: 4px;
+}
+
+.btn-exemplo {
+  background: var(--input-bg);
+  border: 1px solid var(--cinza-borda);
+  color: var(--azul);
+  padding: 8px 16px;
+  font-family: var(--font);
+  font-size: .75rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 12px;
+  transition: border-color .2s;
+}
+.btn-exemplo:hover { border-color: var(--azul); }
+
+/* CALCULO PASSO A PASSO */
+.calc-card {
+  background: var(--superficie);
+  padding: 18px;
+  margin-bottom: 16px;
+  display: none;
+}
+.calc-card.visivel { display: block; }
+.calc-titulo {
+  font-size: .85rem; font-weight: 700; color: var(--verde);
+  margin-bottom: 14px;
+  text-transform: uppercase; letter-spacing: .5px;
+}
+
+.passo {
+  background: var(--input-bg);
+  border-left: 3px solid var(--cinza-borda);
+  padding: 12px 16px;
+  margin-bottom: 10px;
+  transition: border-color .3s;
+}
+.passo.ativo { border-left-color: var(--verde); }
+.passo-num {
+  font-size: .65rem; font-weight: 700; color: var(--cinza);
+  text-transform: uppercase; letter-spacing: .5px;
+  margin-bottom: 4px;
+}
+.passo.ativo .passo-num { color: var(--verde); }
+.passo-formula {
+  font-family: var(--mono);
+  font-size: .85rem;
+  color: var(--texto);
+  margin-bottom: 4px;
+}
+.passo-resultado {
+  font-family: var(--mono);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--azul);
+}
+
+/* RESULTADO FINAL */
+.resultado-card {
+  background: var(--azul-bg);
+  border: 2px solid var(--azul);
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 16px;
+  display: none;
+}
+.resultado-card.visivel { display: block; }
+.resultado-label {
+  font-size: .7rem; color: var(--cinza);
+  text-transform: uppercase; letter-spacing: .5px;
+  margin-bottom: 6px;
+}
+.resultado-valor {
+  font-family: var(--mono);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--azul);
+}
+.resultado-descricao {
+  font-size: .78rem;
+  color: var(--cinza);
+  margin-top: 8px;
+}
+
+/* GRAFICO VISUAL */
+.grafico-card {
+  background: var(--superficie);
+  padding: 18px;
+  margin-bottom: 16px;
+  display: none;
+}
+.grafico-card.visivel { display: block; }
+.grafico-titulo {
+  font-size: .85rem; font-weight: 700; color: var(--ouro);
+  margin-bottom: 14px;
+  text-transform: uppercase; letter-spacing: .5px;
+}
+.grafico-svg {
+  width: 100%;
+  height: 180px;
+}
+.grafico-legenda {
+  display: flex; gap: 16px; justify-content: center;
+  margin-top: 10px; flex-wrap: wrap;
+}
+.legenda-item {
+  display: flex; align-items: center; gap: 6px;
+  font-size: .7rem; color: var(--cinza);
+}
+.legenda-cor {
+  width: 14px; height: 14px;
+}
+
+/* INTERPRETACAO */
+.interp-card {
+  background: var(--superficie);
+  border-left: 3px solid var(--ouro);
+  padding: 16px 18px;
+  margin-bottom: 16px;
+  display: none;
+}
+.interp-card.visivel { display: block; }
+.interp-card h3 {
+  font-size: .85rem; font-weight: 700; color: var(--ouro);
+  margin-bottom: 8px;
+}
+.interp-card p {
+  font-size: .82rem; margin-bottom: 8px;
+}
+.interp-destaque {
+  background: var(--ouro-claro);
+  padding: 10px 14px;
+  font-size: .82rem;
+  margin-top: 8px;
+}
+.interp-destaque strong { color: var(--ouro); }
+
+/* MODO LIVRE */
+.livre-card {
+  background: var(--superficie);
+  border-left: 3px solid var(--verde);
+  padding: 16px 18px;
+  margin-bottom: 16px;
+}
+.livre-card h3 {
+  font-size: .85rem; font-weight: 700; color: var(--verde);
+  margin-bottom: 10px;
+}
+.livre-inputs {
+  display: flex; gap: 8px; align-items: center;
+  flex-wrap: wrap; margin-bottom: 10px;
+}
+.livre-input {
+  background: var(--input-bg);
+  border: 1px solid var(--cinza-borda);
+  color: var(--texto);
+  padding: 8px 10px;
+  font-family: var(--mono);
+  font-size: .85rem;
+  width: 80px;
+  text-align: center;
+}
+.livre-input:focus { outline: none; border-color: var(--verde); }
+.livre-btn {
+  background: var(--verde-claro);
+  border: 1px solid var(--verde);
+  color: var(--verde);
+  padding: 8px 14px;
+  font-family: var(--font);
+  font-size: .75rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.livre-btn:hover { background: var(--verde); color: var(--cinza-claro); }
+.livre-resultado {
+  font-family: var(--mono);
+  font-size: 1rem;
+  color: var(--verde);
+  padding: 10px;
+  background: var(--input-bg);
+  display: none;
+}
+.livre-resultado.visivel { display: block; }
+
+.nota-final {
+  background: var(--ouro-claro);
+  border: 1px solid var(--ouro);
+  padding: 12px 16px;
+  margin-top: 16px;
+  font-size: .82rem;
+}
+.nota-final strong { color: var(--ouro); }
+
+.footer {
+  text-align: center; padding: 16px;
+  font-size: .65rem; color: var(--cinza);
+  margin-top: 16px; border-top: 1px solid var(--cinza-borda);
+}
+
+@media (max-width: 600px) {
+  .medidas-grid { grid-template-columns: repeat(2, 1fr); }
+  .livre-inputs { flex-direction: column; }
+  .livre-input { width: 100%; }
+}
+
+@media print {
+  body { background: white !important; color: #1A1A1A !important; }
+  .header { background: none !important; border-top: 2px solid #C8922A; }
+  .entrada-card, .calc-card, .resultado-card, .grafico-card, .interp-card, .livre-card { background: white !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <h1>IG-03 &middot; Media e Incerteza</h1>
+    <span class="badge">Infografico interativo</span>
+  </div>
+  <div class="header-sub">FE-T0A &middot; Metodologia Experimental &middot; TT-v8, Topico 4 &middot; Lab de Mecanica</div>
+</header>
+
+<main>
+
+<div class="intro">
+  <strong>Nenhuma medida e exata.</strong> Quando voce mede a mesma grandeza com escalas diferentes, obtem valores diferentes. A <strong>media</strong> e a melhor estimativa, e a <strong>incerteza</strong> diz o quanto os valores podem variar. Insira suas 4 medidas para ver o calculo passo a passo.
+</div>
+
+<!-- ENTRADA -->
+<div class="entrada-card">
+  <div class="entrada-titulo">Suas 4 medidas de altura</div>
+  <div class="medidas-grid">
+    <div class="medida-item">
+      <div class="medida-label">Escala #1</div>
+      <div class="medida-escala">Menor div: 1,0 m</div>
+      <input type="text" class="medida-input" id="h1" placeholder="ex: 2" oninput="calcular()">
+      <div class="medida-unit">metros</div>
+    </div>
+    <div class="medida-item">
+      <div class="medida-label">Escala #2</div>
+      <div class="medida-escala">Menor div: 0,1 m</div>
+      <input type="text" class="medida-input" id="h2" placeholder="ex: 1,7" oninput="calcular()">
+      <div class="medida-unit">metros</div>
+    </div>
+    <div class="medida-item">
+      <div class="medida-label">Escala #3</div>
+      <div class="medida-escala">Menor div: 0,01 m</div>
+      <input type="text" class="medida-input" id="h3" placeholder="ex: 1,68" oninput="calcular()">
+      <div class="medida-unit">metros</div>
+    </div>
+    <div class="medida-item">
+      <div class="medida-label">Fita metrica</div>
+      <div class="medida-escala">Menor div: 0,001 m</div>
+      <input type="text" class="medida-input" id="h4" placeholder="ex: 1,683" oninput="calcular()">
+      <div class="medida-unit">metros</div>
+    </div>
+  </div>
+  <button class="btn-exemplo" onclick="carregarExemplo()">Usar dados da Sofia (exemplo)</button>
+</div>
+
+<!-- CALCULO PASSO A PASSO -->
+<div class="calc-card" id="calc-card">
+  <div class="calc-titulo">Calculo passo a passo</div>
+
+  <div class="passo ativo" id="p1">
+    <div class="passo-num">Passo 1 — Identificar valores</div>
+    <div class="passo-formula" id="p1-formula">h1 = ? &nbsp; h2 = ? &nbsp; h3 = ? &nbsp; h4 = ?</div>
+  </div>
+
+  <div class="passo" id="p2">
+    <div class="passo-num">Passo 2 — Calcular a media aritmetica</div>
+    <div class="passo-formula">h&#772; = (h1 + h2 + h3 + h4) / 4</div>
+    <div class="passo-resultado" id="p2-res">—</div>
+  </div>
+
+  <div class="passo" id="p3">
+    <div class="passo-num">Passo 3 — Identificar h_max e h_min</div>
+    <div class="passo-formula" id="p3-formula">h_max = ? &nbsp;&nbsp; h_min = ?</div>
+  </div>
+
+  <div class="passo" id="p4">
+    <div class="passo-num">Passo 4 — Calcular a incerteza</div>
+    <div class="passo-formula">&delta;h = (h_max &minus; h_min) / 2</div>
+    <div class="passo-resultado" id="p4-res">—</div>
+  </div>
+
+  <div class="passo" id="p5">
+    <div class="passo-num">Passo 5 — Arredondar (algarismos significativos)</div>
+    <div class="passo-formula" id="p5-formula">A incerteza determina o arredondamento da media.</div>
+    <div class="passo-resultado" id="p5-res">—</div>
+  </div>
+</div>
+
+<!-- RESULTADO -->
+<div class="resultado-card" id="resultado-card">
+  <div class="resultado-label">Resultado final</div>
+  <div class="resultado-valor" id="resultado-valor">—</div>
+  <div class="resultado-descricao" id="resultado-desc">—</div>
+</div>
+
+<!-- GRAFICO -->
+<div class="grafico-card" id="grafico-card">
+  <div class="grafico-titulo">Visualizacao na reta numerica</div>
+  <svg class="grafico-svg" id="grafico-svg" viewBox="0 0 700 170" preserveAspectRatio="xMidYMid meet"></svg>
+  <div class="grafico-legenda">
+    <div class="legenda-item">
+      <div class="legenda-cor" style="background: oklch(0.65 0.22 45);"></div>
+      Medidas individuais
+    </div>
+    <div class="legenda-item">
+      <div class="legenda-cor" style="background: oklch(0.7 0.15 150);"></div>
+      Media (melhor estimativa)
+    </div>
+    <div class="legenda-item">
+      <div class="legenda-cor" style="background: oklch(0.85 0.18 95); opacity: 0.3;"></div>
+      Faixa de incerteza
+    </div>
+  </div>
+</div>
+
+<!-- INTERPRETACAO -->
+<div class="interp-card" id="interp-card">
+  <h3>O que isso significa?</h3>
+  <p id="interp-texto">—</p>
+  <div class="interp-destaque">
+    <strong>Formato cientifico:</strong> o resultado e sempre escrito como <strong>h = (valor &plusmn; incerteza) unidade</strong>. A incerteza nao e um erro — e uma informacao sobre a qualidade da medida.
+  </div>
+</div>
+
+<!-- MODO LIVRE -->
+<div class="livre-card">
+  <h3>Calculadora livre</h3>
+  <p style="font-size:.8rem; color:var(--cinza); margin-bottom:10px;">Insira qualquer conjunto de valores (2 a 10) separados por virgula ou espaco e veja a media e incerteza.</p>
+  <div class="livre-inputs">
+    <input type="text" class="livre-input" id="livre-input" placeholder="1,68  1,7  2  1,683" style="width:100%;max-width:400px;">
+    <button class="livre-btn" onclick="calcularLivre()">Calcular</button>
+  </div>
+  <div class="livre-resultado" id="livre-resultado"></div>
+</div>
+
+<div class="nota-final">
+  <strong>Regra pratica:</strong> a incerteza pelo metodo h_max&minus;h_min/2 e uma estimativa conservadora. Em cursos avancados, voce aprendera o desvio padrao — mais preciso, mas baseado no mesmo principio: medir a dispersao dos valores em torno da media.
+</div>
+
+</main>
+
+<div class="footer">
+  FE-T0A &middot; IG-03 Media e Incerteza v1 &middot; Fisica Experimental 1 &middot; IFMG &mdash; Campus Ouro Preto &middot; 2026
+</div>
+
+<script>
+function parseNum(s) {
+  if (!s) return NaN;
+  return parseFloat(s.replace(',', '.'));
+}
+
+function fmt(n, casas) {
+  return n.toFixed(casas).replace('.', ',');
+}
+
+function calcular() {
+  const ids = ['h1','h2','h3','h4'];
+  const vals = ids.map(id => {
+    const el = document.getElementById(id);
+    const v = parseNum(el.value);
+    if (!isNaN(v) && v > 0) { el.classList.add('preenchido'); }
+    else { el.classList.remove('preenchido'); }
+    return v;
+  });
+
+  const validos = vals.filter(v => !isNaN(v) && v > 0);
+  const calcCard = document.getElementById('calc-card');
+  const resultCard = document.getElementById('resultado-card');
+  const grafCard = document.getElementById('grafico-card');
+  const interpCard = document.getElementById('interp-card');
+
+  if (validos.length < 2) {
+    calcCard.classList.remove('visivel');
+    resultCard.classList.remove('visivel');
+    grafCard.classList.remove('visivel');
+    interpCard.classList.remove('visivel');
+    return;
+  }
+
+  calcCard.classList.add('visivel');
+
+  // Passo 1
+  const p1 = document.getElementById('p1-formula');
+  p1.textContent = ids.map((id, i) => 'h' + (i+1) + ' = ' + (isNaN(vals[i]) ? '?' : fmt(vals[i], 3))).join('   ');
+  document.getElementById('p1').classList.add('ativo');
+
+  if (validos.length < 4) {
+    ['p2','p3','p4','p5'].forEach(id => document.getElementById(id).classList.remove('ativo'));
+    document.getElementById('p2-res').textContent = 'Preencha as 4 medidas...';
+    resultCard.classList.remove('visivel');
+    grafCard.classList.remove('visivel');
+    interpCard.classList.remove('visivel');
+    return;
+  }
+
+  // Passo 2
+  const media = vals.reduce((a,b) => a+b, 0) / 4;
+  document.getElementById('p2').classList.add('ativo');
+  document.getElementById('p2-res').textContent = 'h̄ = (' + vals.map(v => fmt(v,3)).join(' + ') + ') / 4 = ' + fmt(media, 4) + ' m';
+
+  // Passo 3
+  const hmax = Math.max(...vals);
+  const hmin = Math.min(...vals);
+  document.getElementById('p3').classList.add('ativo');
+  document.getElementById('p3-formula').textContent = 'h_max = ' + fmt(hmax, 3) + ' m     h_min = ' + fmt(hmin, 3) + ' m';
+
+  // Passo 4
+  const delta = (hmax - hmin) / 2;
+  document.getElementById('p4').classList.add('ativo');
+  document.getElementById('p4-res').textContent = 'δh = (' + fmt(hmax, 3) + ' − ' + fmt(hmin, 3) + ') / 2 = ' + fmt(delta, 4) + ' m';
+
+  // Passo 5 — arredondamento
+  let casasDelta = 1;
+  if (delta < 0.01) casasDelta = 3;
+  else if (delta < 0.1) casasDelta = 2;
+  else if (delta < 1) casasDelta = 1; // fixed to 1 for this range
+
+  const deltaR = parseFloat(delta.toFixed(casasDelta));
+  const mediaR = parseFloat(media.toFixed(casasDelta));
+  document.getElementById('p5').classList.add('ativo');
+  document.getElementById('p5-formula').textContent = 'Incerteza tem ' + casasDelta + ' casa(s) decimal(is) significativa(s) → media arredondada para combinar.';
+  document.getElementById('p5-res').textContent = 'h̄ = ' + fmt(mediaR, casasDelta) + ' m   δh = ' + fmt(deltaR, casasDelta) + ' m';
+
+  // Resultado
+  resultCard.classList.add('visivel');
+  const resultado = 'h = (' + fmt(mediaR, casasDelta) + ' ± ' + fmt(deltaR, casasDelta) + ') m';
+  document.getElementById('resultado-valor').textContent = resultado;
+  document.getElementById('resultado-desc').textContent = 'A altura esta entre ' + fmt(mediaR - deltaR, casasDelta) + ' m e ' + fmt(mediaR + deltaR, casasDelta) + ' m';
+
+  // Grafico
+  grafCard.classList.add('visivel');
+  desenharGrafico(vals, media, delta, mediaR, deltaR, casasDelta);
+
+  // Interpretacao
+  interpCard.classList.add('visivel');
+  const spread = ((delta / media) * 100).toFixed(1).replace('.', ',');
+  document.getElementById('interp-texto').textContent =
+    'As 4 escalas mediram a mesma altura e obtiveram valores de ' + fmt(hmin, 3) + ' m a ' + fmt(hmax, 3) + ' m. ' +
+    'A media ' + fmt(mediaR, casasDelta) + ' m e a melhor estimativa. ' +
+    'A incerteza de ±' + fmt(deltaR, casasDelta) + ' m (' + spread + '% da media) indica a dispersao entre as escalas. ' +
+    'Escalas com menor divisao grande (como 1,0 m) geram medidas mais grosseiras e aumentam a incerteza.';
+}
+
+function desenharGrafico(vals, media, delta, mediaR, deltaR, casas) {
+  const svg = document.getElementById('grafico-svg');
+  const allVals = [...vals, media - delta, media + delta];
+  const vmin = Math.min(...allVals) - 0.05;
+  const vmax = Math.max(...allVals) + 0.05;
+  const range = vmax - vmin;
+
+  const left = 50, right = 650, y = 90, w = right - left;
+
+  function xPos(v) { return left + ((v - vmin) / range) * w; }
+
+  let html = '';
+
+  // Eixo
+  html += '<line x1="' + left + '" y1="' + y + '" x2="' + right + '" y2="' + y + '" stroke="oklch(0.38 0.02 260)" stroke-width="2"/>';
+
+  // Ticks
+  const step = range > 0.5 ? 0.1 : (range > 0.1 ? 0.05 : 0.01);
+  let tick = Math.ceil(vmin / step) * step;
+  while (tick <= vmax) {
+    const tx = xPos(tick);
+    html += '<line x1="' + tx + '" y1="' + (y - 6) + '" x2="' + tx + '" y2="' + (y + 6) + '" stroke="oklch(0.38 0.02 260)" stroke-width="1"/>';
+    html += '<text x="' + tx + '" y="' + (y + 22) + '" fill="oklch(0.55 0.02 260)" font-size="10" text-anchor="middle" font-family="var(--mono)">' + fmt(tick, 2) + '</text>';
+    tick += step;
+  }
+
+  // Faixa de incerteza
+  const x1 = xPos(mediaR - deltaR);
+  const x2 = xPos(mediaR + deltaR);
+  html += '<rect x="' + x1 + '" y="' + (y - 35) + '" width="' + (x2 - x1) + '" height="70" fill="oklch(0.85 0.18 95)" opacity="0.15"/>';
+  html += '<line x1="' + x1 + '" y1="' + (y - 35) + '" x2="' + x1 + '" y2="' + (y + 35) + '" stroke="oklch(0.85 0.18 95)" stroke-width="1" stroke-dasharray="4 3"/>';
+  html += '<line x1="' + x2 + '" y1="' + (y - 35) + '" x2="' + x2 + '" y2="' + (y + 35) + '" stroke="oklch(0.85 0.18 95)" stroke-width="1" stroke-dasharray="4 3"/>';
+
+  // Medidas individuais
+  const labels = ['h1','h2','h3','h4'];
+  const offsets = [-50, -36, -22, -8];
+  vals.forEach((v, i) => {
+    const cx = xPos(v);
+    html += '<circle cx="' + cx + '" cy="' + y + '" r="6" fill="oklch(0.65 0.22 45)" opacity="0.9"/>';
+    html += '<text x="' + cx + '" y="' + (y + offsets[i]) + '" fill="oklch(0.65 0.22 45)" font-size="9" text-anchor="middle" font-family="var(--mono)">' + labels[i] + '=' + fmt(v, 3) + '</text>';
+  });
+
+  // Media
+  const mx = xPos(media);
+  html += '<line x1="' + mx + '" y1="' + (y - 40) + '" x2="' + mx + '" y2="' + (y + 40) + '" stroke="oklch(0.7 0.15 150)" stroke-width="2"/>';
+  html += '<polygon points="' + (mx - 6) + ',' + (y + 40) + ' ' + (mx + 6) + ',' + (y + 40) + ' ' + mx + ',' + (y + 48) + '" fill="oklch(0.7 0.15 150)"/>';
+  html += '<text x="' + mx + '" y="' + (y + 62) + '" fill="oklch(0.7 0.15 150)" font-size="10" font-weight="700" text-anchor="middle" font-family="var(--mono)">h̄=' + fmt(mediaR, casas) + '</text>';
+
+  // Setas de incerteza
+  html += '<line x1="' + x1 + '" y1="' + (y - 42) + '" x2="' + x2 + '" y2="' + (y - 42) + '" stroke="oklch(0.85 0.18 95)" stroke-width="1.5" marker-start="url(#arrow-left)" marker-end="url(#arrow-right)"/>';
+  html += '<text x="' + ((x1 + x2) / 2) + '" y="' + (y - 48) + '" fill="oklch(0.85 0.18 95)" font-size="9" font-weight="700" text-anchor="middle" font-family="var(--mono)">±' + fmt(deltaR, casas) + ' m</text>';
+
+  // Definicoes de setas
+  html = '<defs><marker id="arrow-left" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M8,0 L0,3 L8,6" fill="oklch(0.85 0.18 95)"/></marker>' +
+         '<marker id="arrow-right" markerWidth="8" markerHeight="6" refX="0" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="oklch(0.85 0.18 95)"/></marker></defs>' + html;
+
+  svg.innerHTML = html;
+}
+
+function carregarExemplo() {
+  document.getElementById('h1').value = '2';
+  document.getElementById('h2').value = '1,7';
+  document.getElementById('h3').value = '1,68';
+  document.getElementById('h4').value = '1,683';
+  calcular();
+}
+
+function calcularLivre() {
+  const raw = document.getElementById('livre-input').value;
+  if (!raw.trim()) return;
+
+  const tokens = raw.replace(/;/g, ' ').replace(/,(\d)/g, '.$1').split(/[\s,]+/).filter(Boolean);
+  const vals = tokens.map(t => parseFloat(t.replace(',', '.'))).filter(v => !isNaN(v) && v > 0);
+
+  const res = document.getElementById('livre-resultado');
+  if (vals.length < 2) {
+    res.className = 'livre-resultado visivel';
+    res.textContent = 'Insira ao menos 2 valores validos.';
+    return;
+  }
+
+  const n = vals.length;
+  const media = vals.reduce((a, b) => a + b, 0) / n;
+  const hmax = Math.max(...vals);
+  const hmin = Math.min(...vals);
+  const delta = (hmax - hmin) / 2;
+
+  let casas = 1;
+  if (delta < 0.01) casas = 3;
+  else if (delta < 0.1) casas = 2;
+
+  const mediaR = media.toFixed(casas).replace('.', ',');
+  const deltaR = delta.toFixed(casas).replace('.', ',');
+
+  res.className = 'livre-resultado visivel';
+  res.innerHTML = '<strong>' + n + ' valores</strong> &rarr; Media = ' + mediaR + ' | Incerteza = ±' + deltaR + ' &rarr; <strong>(' + mediaR + ' ± ' + deltaR + ')</strong>';
+}
+</script>
+
+</body>
+</html>

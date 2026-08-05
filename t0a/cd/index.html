@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FE-T0A · Cartões Didáticos</title>
+<style>
+:root {
+  --azul: oklch(0.65 0.22 45);
+  --azul-claro: oklch(0.72 0.19 45);
+  --azul-bg: oklch(0.28 0.05 45);
+  --ouro: oklch(0.85 0.18 95);
+  --ouro-claro: oklch(0.25 0.04 95);
+  --verde: oklch(0.7 0.15 150);
+  --verde-claro: oklch(0.25 0.04 150);
+  --erro: oklch(0.6 0.22 25);
+  --erro-claro: oklch(0.22 0.05 25);
+  --cinza: oklch(0.55 0.02 260);
+  --cinza-claro: oklch(0.18 0.02 260);
+  --cinza-borda: oklch(0.38 0.02 260);
+  --texto: oklch(0.93 0 0);
+  --branco: oklch(0.93 0 0);
+  --superficie: oklch(0.24 0.02 260);
+  --input-bg: oklch(0.2 0.02 260);
+  --hover-bg: oklch(0.22 0.02 260);
+  --r: 0px;
+  --r-sm: 0px;
+  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'Space Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font);
+  background: var(--cinza-claro);
+  color: var(--texto);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+.header {
+  background: oklch(0.14 0.02 260);
+  border-top: 3px solid var(--azul);
+  padding: 12px 20px;
+}
+.header-inner {
+  max-width: 900px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.header h1 { font-size: 1.05rem; font-weight: 700; letter-spacing: .3px; }
+.header .badge {
+  background: var(--ouro);
+  color: oklch(0.15 0.02 260);
+  padding: 3px 10px; border-radius: 20px;
+  font-size: .7rem; font-weight: 700;
+  text-transform: uppercase;
+}
+.header-sub {
+  max-width: 900px; margin: 4px auto 0;
+  font-size: .72rem; color: var(--cinza);
+}
+
+.progresso {
+  max-width: 900px; margin: 12px auto 0;
+  display: flex; gap: 4px; height: 6px;
+}
+.progresso .seg {
+  flex: 1; background: var(--cinza-borda);
+  transition: background .3s;
+}
+.progresso .seg.pareado { background: var(--azul); }
+.progresso .seg.certo { background: var(--verde); }
+.progresso .seg.errado { background: var(--erro); }
+
+main { max-width: 900px; margin: 0 auto; padding: 16px; }
+
+.id-box {
+  background: var(--superficie);
+  padding: 14px 18px;
+  margin-bottom: 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 14px;
+}
+.id-box .campo { display: flex; flex-direction: column; gap: 3px; }
+.id-box .campo.full { grid-column: 1 / -1; }
+.id-box label {
+  font-size: .68rem; font-weight: 600; color: var(--azul);
+  text-transform: uppercase; letter-spacing: .3px;
+}
+.id-box input, .id-box select {
+  background: var(--input-bg);
+  border: 1px solid var(--cinza-borda);
+  color: var(--texto);
+  padding: 7px 10px;
+  font-family: var(--font);
+  font-size: .82rem;
+  border-radius: var(--r);
+  min-height: 36px;
+}
+.id-box input:focus, .id-box select:focus {
+  outline: none; border-color: var(--azul);
+  box-shadow: 0 0 0 2px var(--azul-bg);
+}
+
+.instrucao {
+  background: var(--azul-bg);
+  border-left: 3px solid var(--azul);
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  font-size: .82rem;
+}
+.instrucao strong { color: var(--azul); }
+
+.match-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.col-titulo {
+  font-size: .68rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .4px;
+  color: var(--cinza);
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.card-equip, .card-funcao {
+  padding: 12px 14px;
+  background: var(--superficie);
+  border: 2px solid var(--cinza-borda);
+  cursor: pointer;
+  transition: border-color .2s, background .2s, transform .1s;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.card-equip:hover, .card-funcao:hover {
+  border-color: var(--azul);
+  background: var(--hover-bg);
+}
+.card-equip.selecionado {
+  border-color: var(--ouro);
+  background: var(--ouro-claro);
+  transform: scale(1.02);
+}
+.card-equip.pareado, .card-funcao.pareado {
+  border-style: solid;
+}
+.card-equip.bloqueado, .card-funcao.bloqueado {
+  pointer-events: none;
+}
+.card-equip.certo, .card-funcao.certo {
+  border-color: var(--verde);
+  background: var(--verde-claro);
+}
+.card-equip.errado, .card-funcao.errado {
+  border-color: var(--erro);
+  background: var(--erro-claro);
+}
+
+.card-badge {
+  width: 26px; height: 26px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  font-size: .7rem; font-weight: 700;
+  flex-shrink: 0;
+  background: var(--cinza-borda);
+  color: var(--cinza);
+}
+.card-badge.ativo {
+  color: var(--branco);
+}
+.card-nome {
+  font-size: .82rem;
+  font-weight: 600;
+}
+.card-desc {
+  font-size: .78rem;
+  line-height: 1.4;
+}
+.card-correcao {
+  display: none;
+  font-size: .65rem;
+  margin-top: 4px;
+  font-weight: 600;
+}
+.card-equip.errado .card-correcao {
+  display: block;
+  color: var(--verde);
+}
+
+.resultado-box {
+  display: none;
+  background: var(--superficie);
+  border: 2px solid var(--azul);
+  padding: 20px 24px;
+  margin: 16px 0;
+  text-align: center;
+}
+.resultado-box.visivel { display: block; }
+.resultado-box .nota-grande {
+  font-family: var(--mono);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--azul);
+}
+.resultado-box .nota-label {
+  font-size: .75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--cinza);
+  margin-top: 4px;
+}
+.resultado-box .nota-detalhe {
+  font-size: .82rem;
+  margin-top: 10px;
+}
+
+.acoes {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  margin-top: 14px;
+}
+.btn {
+  padding: 10px 20px; border: none;
+  font-family: var(--font); font-size: .82rem; font-weight: 600;
+  cursor: pointer; min-height: 44px;
+  transition: background .15s;
+}
+.btn-primario { background: var(--azul); color: var(--branco); }
+.btn-primario:hover { background: var(--azul-claro); }
+.btn-primario:disabled { background: var(--cinza-borda); cursor: not-allowed; color: var(--cinza); }
+.btn-secundario { background: var(--superficie); color: var(--texto); border: 1px solid var(--cinza-borda); }
+.btn-secundario:hover { background: var(--hover-bg); }
+.btn-secundario:disabled { opacity: .5; cursor: not-allowed; }
+
+.toast {
+  position: fixed; bottom: 20px; right: 20px;
+  background: var(--superficie);
+  border: 1px solid var(--verde);
+  border-left: 4px solid var(--verde);
+  color: var(--texto);
+  padding: 12px 18px;
+  font-size: .82rem;
+  z-index: 999;
+  opacity: 0; transform: translateY(10px);
+  transition: opacity .3s, transform .3s;
+  pointer-events: none;
+}
+.toast.visivel { opacity: 1; transform: translateY(0); }
+
+.footer {
+  text-align: center; padding: 16px;
+  font-size: .65rem; color: var(--cinza);
+  margin-top: 16px; border-top: 1px solid var(--cinza-borda);
+}
+
+@media (max-width: 600px) {
+  .match-container { grid-template-columns: 1fr; }
+  .header h1 { font-size: .95rem; }
+  main { padding: 10px; }
+  .id-box { grid-template-columns: 1fr; }
+}
+
+@media print {
+  body { background: white !important; color: #1A1A1A !important; font-size: 9pt; }
+  .header { background: none !important; border-top: 2px solid #1F3864; }
+  .header .badge { background: #C8922A !important; color: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .progresso { display: none; }
+  .id-box { background: #F8F8F8 !important; border: 1px solid #D0D0D0; }
+  .card-equip, .card-funcao { background: #F8F8F8 !important; border-color: #D0D0D0 !important; }
+  .card-equip.certo, .card-funcao.certo { background: #E8F8EE !important; border-color: #27AE60 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .card-equip.errado, .card-funcao.errado { background: #FDEDEC !important; border-color: #C0392B !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .resultado-box { background: #F4F4F4 !important; border-color: #1F3864 !important; }
+  .resultado-box .nota-grande { color: #1F3864 !important; }
+  .acoes { display: none; }
+  .footer { color: #808080 !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <h1>FE-T0A &middot; Cartoes Didaticos</h1>
+    <span class="badge">8 pontos &middot; Pre-Lab</span>
+  </div>
+  <div class="header-sub">Metodologia Experimental &middot; Equipamento → Funcao &middot; Pareie os 8 equipamentos com suas funcoes</div>
+  <div class="progresso" id="progresso"></div>
+</header>
+
+<main>
+
+<div class="id-box">
+  <div class="campo full">
+    <label for="nome">Nome completo</label>
+    <input type="text" id="nome" placeholder="Seu nome">
+  </div>
+  <div class="campo">
+    <label for="turma">Turma</label>
+    <select id="turma">
+      <option value="">Selecione</option>
+      <option value="MIN1A">MIN1A</option>
+      <option value="MIN1B">MIN1B</option>
+      <option value="MIN1C">MIN1C</option>
+    </select>
+  </div>
+  <div class="campo">
+    <label for="grupo">Grupo</label>
+    <select id="grupo">
+      <option value="">Selecione</option>
+      <option value="A">Grupo A</option>
+      <option value="B">Grupo B</option>
+    </select>
+  </div>
+</div>
+
+<div class="instrucao">
+  <strong>Como jogar:</strong> Clique em um equipamento (esquerda), depois clique na funcao correspondente (direita). Para desfazer, clique novamente no equipamento pareado. Pareie todos os 8 e envie.
+</div>
+
+<div class="match-container">
+  <div>
+    <div class="col-titulo">Equipamento</div>
+    <div id="colEquip"></div>
+  </div>
+  <div>
+    <div class="col-titulo">Funcao no laboratorio</div>
+    <div id="colFuncao"></div>
+  </div>
+</div>
+
+<div class="resultado-box" id="resultado">
+  <div class="nota-grande" id="nota-valor"></div>
+  <div class="nota-label">de 8,0 pontos</div>
+  <div class="nota-detalhe" id="nota-detalhe"></div>
+</div>
+
+<div class="acoes">
+  <button class="btn btn-primario" id="btn-enviar" disabled>Enviar pareamento</button>
+  <button class="btn btn-secundario" id="btn-exportar" disabled>Exportar JSON</button>
+</div>
+
+</main>
+
+<div class="footer">
+  FE-T0A &middot; Cartoes Didaticos v1 &middot; Fisica Experimental 1 &middot; IFMG &mdash; Campus Ouro Preto &middot; 2026
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const PARES = [
+  { equip: 'Regua de parede — Escala #1', funcao: 'Menor divisao 1 m — leitura grosseira, 1 algarismo significativo' },
+  { equip: 'Regua de parede — Escala #2', funcao: 'Menor divisao 0,1 m — leitura intermediaria, 2 algarismos significativos' },
+  { equip: 'Regua de parede — Escala #3', funcao: 'Menor divisao 0,01 m — leitura refinada, 3 algarismos significativos' },
+  { equip: 'Fita metrica', funcao: 'Menor divisao 0,001 m — leitura mais precisa, 4 algarismos significativos' },
+  { equip: 'Esquadro de carpinteiro', funcao: 'Garantir angulo de 90 entre parede e regua, evitar erro de inclinacao' },
+  { equip: 'Caderno de Laboratorio', funcao: 'Registrar dados, calculos e observacoes de forma rastreavel e permanente' },
+  { equip: 'Oculos de seguranca', funcao: 'EPI obrigatorio — proteger os olhos contra particulas e respingos (NR-22)' },
+  { equip: 'Calcado fechado', funcao: 'EPI obrigatorio — proteger os pes contra queda de objetos e produtos (NR-22)' }
+];
+
+const CORES_PAR = [
+  'oklch(0.65 0.22 45)',
+  'oklch(0.7 0.15 150)',
+  'oklch(0.75 0.18 95)',
+  'oklch(0.6 0.22 25)',
+  'oklch(0.6 0.15 300)',
+  'oklch(0.65 0.15 200)',
+  'oklch(0.7 0.18 70)',
+  'oklch(0.6 0.15 340)'
+];
+
+const TOTAL = PARES.length;
+const LS_PREFIX = 'ifmg_fe_t0a_cd_';
+let ordemFuncoes = [];
+let pareamentos = {};
+let selecionado = null;
+let enviado = false;
+let debounceTimer = null;
+
+function embaralhar(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function init() {
+  const prog = document.getElementById('progresso');
+  for (let i = 0; i < TOTAL; i++) {
+    const seg = document.createElement('div');
+    seg.className = 'seg'; seg.dataset.p = i;
+    prog.appendChild(seg);
+  }
+
+  ordemFuncoes = embaralhar(Array.from({length: TOTAL}, (_, i) => i));
+  renderColunas();
+
+  document.getElementById('btn-enviar').addEventListener('click', enviar);
+  document.getElementById('btn-exportar').addEventListener('click', exportarJSON);
+  ['nome','turma','grupo'].forEach(id => {
+    document.getElementById(id).addEventListener('input', () => { salvarLS(); atualizarBotao(); });
+  });
+
+  restaurarLS();
+}
+
+function renderColunas() {
+  const colE = document.getElementById('colEquip');
+  const colF = document.getElementById('colFuncao');
+  colE.innerHTML = '';
+  colF.innerHTML = '';
+
+  PARES.forEach((p, i) => {
+    const parIdx = pareamentos[i];
+    const temPar = parIdx !== undefined;
+    const cor = temPar ? CORES_PAR[i] : null;
+
+    const div = document.createElement('div');
+    div.className = 'card-equip' + (selecionado === i ? ' selecionado' : '') + (temPar ? ' pareado' : '');
+    if (temPar) div.style.borderColor = cor;
+    div.innerHTML = `
+      <div class="card-badge${temPar ? ' ativo' : ''}" style="${temPar ? 'background:'+cor : ''}">${i + 1}</div>
+      <div>
+        <div class="card-nome">${p.equip}</div>
+        <div class="card-correcao"></div>
+      </div>
+    `;
+    div.addEventListener('click', () => clicarEquip(i));
+    colE.appendChild(div);
+  });
+
+  ordemFuncoes.forEach(fi => {
+    const pareado = Object.entries(pareamentos).find(([_, v]) => v === fi);
+    const temPar = !!pareado;
+    const equipIdx = temPar ? parseInt(pareado[0]) : null;
+    const cor = temPar ? CORES_PAR[equipIdx] : null;
+
+    const div = document.createElement('div');
+    div.className = 'card-funcao' + (temPar ? ' pareado' : '');
+    if (temPar) div.style.borderColor = cor;
+    div.innerHTML = `
+      <div class="card-badge${temPar ? ' ativo' : ''}" style="${temPar ? 'background:'+cor : ''}">${temPar ? equipIdx + 1 : '?'}</div>
+      <div class="card-desc">${PARES[fi].funcao}</div>
+    `;
+    div.addEventListener('click', () => clicarFuncao(fi));
+    colF.appendChild(div);
+  });
+}
+
+function clicarEquip(i) {
+  if (enviado) return;
+  if (pareamentos[i] !== undefined) {
+    delete pareamentos[i];
+    selecionado = null;
+    renderColunas();
+    atualizarProgresso();
+    atualizarBotao();
+    salvarLS();
+    return;
+  }
+  selecionado = (selecionado === i) ? null : i;
+  renderColunas();
+}
+
+function clicarFuncao(fi) {
+  if (enviado || selecionado === null) return;
+  const jaUsada = Object.entries(pareamentos).find(([_, v]) => v === fi);
+  if (jaUsada) return;
+
+  pareamentos[selecionado] = fi;
+  selecionado = null;
+  renderColunas();
+  atualizarProgresso();
+  atualizarBotao();
+  salvarLS();
+}
+
+function atualizarProgresso() {
+  for (let i = 0; i < TOTAL; i++) {
+    const seg = document.querySelector(`.seg[data-p="${i}"]`);
+    seg.className = 'seg';
+    if (enviado) {
+      seg.classList.add(pareamentos[i] === i ? 'certo' : (pareamentos[i] !== undefined ? 'errado' : ''));
+    } else if (pareamentos[i] !== undefined) {
+      seg.classList.add('pareado');
+    }
+  }
+}
+
+function atualizarBotao() {
+  const todos = Object.keys(pareamentos).length === TOTAL;
+  const nome = document.getElementById('nome').value.trim();
+  const turma = document.getElementById('turma').value;
+  document.getElementById('btn-enviar').disabled = !todos || !nome || !turma || enviado;
+}
+
+function enviar() {
+  if (enviado) return;
+  enviado = true;
+
+  let acertos = 0;
+  for (let i = 0; i < TOTAL; i++) {
+    if (pareamentos[i] === i) acertos++;
+  }
+
+  document.querySelectorAll('.card-equip').forEach((el, i) => {
+    el.classList.add('bloqueado');
+    const correto = pareamentos[i] === i;
+    el.classList.add(correto ? 'certo' : 'errado');
+    if (!correto) {
+      const correcao = el.querySelector('.card-correcao');
+      if (correcao) correcao.textContent = '→ ' + PARES[i].funcao;
+    }
+  });
+
+  document.querySelectorAll('.card-funcao').forEach(el => {
+    el.classList.add('bloqueado');
+    const pareado = Object.entries(pareamentos).find(([_, v]) => v === ordemFuncoes[Array.from(el.parentNode.children).indexOf(el)]);
+    if (pareado) {
+      const ei = parseInt(pareado[0]);
+      const fi = pareado[1];
+      el.classList.add(fi === ei ? 'certo' : 'errado');
+    }
+  });
+
+  atualizarProgresso();
+
+  const res = document.getElementById('resultado');
+  res.classList.add('visivel');
+  document.getElementById('nota-valor').textContent = acertos + ',0';
+  document.getElementById('nota-detalhe').textContent = acertos + ' de 8 pares corretos (' + Math.round(acertos / 8 * 100) + '%)';
+
+  document.getElementById('btn-enviar').disabled = true;
+  document.getElementById('btn-exportar').disabled = false;
+  ['nome','turma','grupo'].forEach(id => document.getElementById(id).disabled = true);
+
+  salvarLS();
+  toast('Cartoes enviados — ' + acertos + '/8 pares corretos');
+}
+
+function exportarJSON() {
+  const nome = document.getElementById('nome').value.trim();
+  const turma = document.getElementById('turma').value;
+  const grupo = document.getElementById('grupo').value;
+
+  let acertos = 0;
+  const detalhes = [];
+  for (let i = 0; i < TOTAL; i++) {
+    const fi = pareamentos[i];
+    const ok = fi === i;
+    if (ok) acertos++;
+    detalhes.push({
+      equipamento: PARES[i].equip,
+      funcao_correta: PARES[i].funcao,
+      funcao_aluno: fi !== undefined ? PARES[fi].funcao : '',
+      acertou: ok
+    });
+  }
+
+  const dados = {
+    meta: { versao_schema: '1.0', trilha: 'FE-T0A', tipo_oa: 'CD', versao_cd: 'v1', timestamp: new Date().toISOString() },
+    identificacao: { nome, turma, grupo },
+    resultado: { acertos, total: 8, nota: acertos, percentual: Math.round(acertos / 8 * 100) },
+    pares: detalhes
+  };
+
+  const nomeArq = 'FE-T0A-CD_' + turma + '_' + grupo + '_' + nome.replace(/\s+/g, '-') + '.json';
+  const blob = new Blob([JSON.stringify(dados, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = nomeArq; a.click();
+  URL.revokeObjectURL(url);
+  toast('JSON exportado: ' + nomeArq);
+}
+
+function salvarLS() {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => {
+    const dados = {
+      nome: document.getElementById('nome').value,
+      turma: document.getElementById('turma').value,
+      grupo: document.getElementById('grupo').value,
+      pareamentos, ordemFuncoes, enviado,
+      timestamp: new Date().toISOString()
+    };
+    try { localStorage.setItem(LS_PREFIX + 'dados', JSON.stringify(dados)); } catch(e) {}
+  }, 1500);
+}
+
+function restaurarLS() {
+  try {
+    const raw = localStorage.getItem(LS_PREFIX + 'dados');
+    if (!raw) return;
+    const dados = JSON.parse(raw);
+    if (dados.nome) document.getElementById('nome').value = dados.nome;
+    if (dados.turma) document.getElementById('turma').value = dados.turma;
+    if (dados.grupo) document.getElementById('grupo').value = dados.grupo;
+    if (dados.ordemFuncoes) ordemFuncoes = dados.ordemFuncoes;
+    if (dados.pareamentos) pareamentos = dados.pareamentos;
+    renderColunas();
+    atualizarProgresso();
+    if (dados.enviado) enviar();
+    atualizarBotao();
+  } catch(e) {}
+}
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('visivel');
+  setTimeout(() => t.classList.remove('visivel'), 3000);
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

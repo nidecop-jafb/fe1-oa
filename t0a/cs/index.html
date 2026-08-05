@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FE-T0A · Checklist de Seguranca</title>
+<style>
+:root {
+  --azul: oklch(0.65 0.22 45);
+  --azul-claro: oklch(0.72 0.19 45);
+  --azul-bg: oklch(0.28 0.05 45);
+  --ouro: oklch(0.85 0.18 95);
+  --ouro-claro: oklch(0.25 0.04 95);
+  --verde: oklch(0.7 0.15 150);
+  --verde-claro: oklch(0.25 0.04 150);
+  --erro: oklch(0.6 0.22 25);
+  --erro-claro: oklch(0.22 0.05 25);
+  --cinza: oklch(0.55 0.02 260);
+  --cinza-claro: oklch(0.18 0.02 260);
+  --cinza-borda: oklch(0.38 0.02 260);
+  --texto: oklch(0.93 0 0);
+  --branco: oklch(0.93 0 0);
+  --superficie: oklch(0.24 0.02 260);
+  --input-bg: oklch(0.2 0.02 260);
+  --hover-bg: oklch(0.22 0.02 260);
+  --r: 0px;
+  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'Space Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font);
+  background: var(--cinza-claro);
+  color: var(--texto);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+.header {
+  background: oklch(0.14 0.02 260);
+  border-top: 3px solid var(--erro);
+  padding: 12px 20px;
+}
+.header-inner {
+  max-width: 700px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.header h1 { font-size: 1.05rem; font-weight: 700; letter-spacing: .3px; }
+.header .badge {
+  background: var(--erro);
+  padding: 3px 10px; border-radius: 20px;
+  font-size: .7rem; font-weight: 700;
+  text-transform: uppercase;
+}
+.header-sub {
+  max-width: 700px; margin: 4px auto 0;
+  font-size: .72rem; color: var(--cinza);
+}
+
+.progresso {
+  max-width: 700px; margin: 10px auto 0;
+  display: flex; gap: 4px; height: 6px;
+}
+.progresso .seg {
+  flex: 1;
+  background: var(--cinza-borda);
+  transition: background .3s;
+}
+.progresso .seg.ok { background: var(--verde); }
+
+main { max-width: 700px; margin: 0 auto; padding: 16px; }
+
+/* ID */
+.id-box {
+  background: var(--superficie);
+  padding: 14px 18px;
+  margin-bottom: 14px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 14px;
+}
+.id-box .campo { display: flex; flex-direction: column; gap: 3px; }
+.id-box .campo.full { grid-column: 1 / -1; }
+.id-box label {
+  font-size: .68rem; font-weight: 600; color: var(--azul);
+  text-transform: uppercase; letter-spacing: .3px;
+}
+.id-box input, .id-box select {
+  background: var(--input-bg);
+  border: 1px solid var(--cinza-borda);
+  color: var(--texto);
+  padding: 7px 10px;
+  font-family: var(--font);
+  font-size: .82rem;
+  min-height: 36px;
+}
+.id-box input:focus, .id-box select:focus {
+  outline: none; border-color: var(--azul);
+}
+
+/* SECAO NORMAS */
+.secao {
+  background: var(--superficie);
+  margin-bottom: 12px;
+  padding: 16px 18px;
+  border-left: 3px solid var(--cinza-borda);
+}
+.secao.epi { border-left-color: var(--erro); }
+.secao.comp { border-left-color: var(--ouro); }
+.secao.equip { border-left-color: var(--azul); }
+.secao.emerg { border-left-color: var(--erro); }
+.secao.propostas { border-left-color: var(--verde); }
+.secao.nr22 { border-left-color: var(--cinza); }
+.secao.assinatura { border-left-color: var(--erro); }
+
+.secao-titulo {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 10px;
+}
+.secao-titulo .icone {
+  width: 26px; height: 26px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .85rem; flex-shrink: 0;
+}
+.secao-titulo h2 {
+  font-size: .82rem; font-weight: 700;
+  color: var(--azul);
+  text-transform: uppercase; letter-spacing: .3px;
+}
+
+.norma-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--cinza-borda);
+}
+.norma-item:last-child { border-bottom: none; }
+
+.norma-check {
+  width: 20px; height: 20px;
+  border: 2px solid var(--cinza-borda);
+  flex-shrink: 0;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color .2s, background .2s;
+  margin-top: 1px;
+}
+.norma-check:hover { border-color: var(--azul); }
+.norma-check.marcado {
+  border-color: var(--verde);
+  background: var(--verde);
+}
+.norma-check.marcado::after {
+  content: '\2713';
+  color: oklch(0.15 0.02 260);
+  font-size: .75rem;
+  font-weight: 700;
+}
+
+.norma-num {
+  font-family: var(--mono);
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--cinza);
+  min-width: 22px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.norma-texto {
+  font-size: .82rem;
+  flex: 1;
+}
+.norma-texto strong { color: var(--azul); }
+.norma-ref {
+  font-size: .65rem;
+  color: var(--cinza);
+  font-style: italic;
+  margin-top: 2px;
+}
+
+/* PROPOSTAS */
+.proposta-row {
+  display: flex; gap: 8px;
+  margin-bottom: 8px;
+  align-items: flex-start;
+}
+.proposta-num {
+  font-family: var(--mono);
+  font-size: .72rem; font-weight: 700;
+  color: var(--verde);
+  min-width: 22px; margin-top: 10px;
+}
+.proposta-input {
+  flex: 1;
+  background: var(--input-bg);
+  border: 1px solid var(--cinza-borda);
+  color: var(--texto);
+  padding: 8px 10px;
+  font-family: var(--font);
+  font-size: .82rem;
+  resize: vertical;
+  min-height: 36px;
+}
+.proposta-input:focus { outline: none; border-color: var(--verde); }
+.proposta-tema {
+  width: 110px;
+  background: var(--input-bg);
+  border: 1px solid var(--cinza-borda);
+  color: var(--texto);
+  padding: 8px 6px;
+  font-family: var(--font);
+  font-size: .75rem;
+  min-height: 36px;
+}
+
+/* NR-22 */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .78rem;
+  margin: 6px 0;
+}
+th {
+  background: var(--azul);
+  color: var(--branco);
+  padding: 6px 10px;
+  text-align: left;
+  font-size: .65rem;
+  text-transform: uppercase;
+  letter-spacing: .2px;
+  font-weight: 600;
+}
+td {
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--cinza-borda);
+  vertical-align: top;
+}
+td:first-child {
+  font-family: var(--mono);
+  font-weight: 600;
+  color: var(--azul);
+  white-space: nowrap;
+  width: 80px;
+}
+
+/* ASSINATURA */
+.ass-box {
+  background: var(--erro-claro);
+  border: 1px solid var(--erro);
+  padding: 14px 18px;
+  margin-top: 10px;
+}
+.ass-box.assinado {
+  background: var(--verde-claro);
+  border-color: var(--verde);
+}
+.ass-label {
+  font-size: .75rem; font-weight: 600;
+  color: var(--erro);
+  margin-bottom: 8px;
+}
+.ass-box.assinado .ass-label { color: var(--verde); }
+.ass-input {
+  width: 100%;
+  background: var(--input-bg);
+  border: 1px solid var(--cinza-borda);
+  color: var(--texto);
+  padding: 10px 12px;
+  font-family: var(--font);
+  font-size: .9rem;
+  text-align: center;
+  min-height: 44px;
+}
+.ass-input:focus { outline: none; border-color: var(--erro); }
+
+.contador-normas {
+  text-align: center;
+  margin: 12px 0;
+  font-size: .85rem;
+  font-weight: 600;
+}
+.contador-normas .num {
+  font-family: var(--mono);
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+/* ACOES */
+.acoes {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  margin-top: 14px;
+}
+.btn {
+  padding: 10px 20px; border: none;
+  font-family: var(--font); font-size: .82rem;
+  font-weight: 600; cursor: pointer; min-height: 44px;
+}
+.btn-primario { background: var(--azul); color: var(--branco); }
+.btn-primario:hover { background: var(--azul-claro); }
+.btn-primario:disabled { background: var(--cinza-borda); color: var(--cinza); cursor: not-allowed; }
+.btn-secundario {
+  background: var(--superficie); color: var(--texto);
+  border: 1px solid var(--cinza-borda);
+}
+.btn-secundario:hover { background: var(--hover-bg); }
+.btn-secundario:disabled { opacity: .5; cursor: not-allowed; }
+
+.toast {
+  position: fixed; bottom: 20px; right: 20px;
+  background: var(--superficie);
+  border: 1px solid var(--verde);
+  border-left: 4px solid var(--verde);
+  color: var(--texto);
+  padding: 12px 18px; font-size: .82rem;
+  z-index: 999; opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .3s, transform .3s;
+  pointer-events: none;
+}
+.toast.visivel { opacity: 1; transform: translateY(0); }
+
+.footer {
+  text-align: center; padding: 16px;
+  font-size: .65rem; color: var(--cinza);
+  margin-top: 16px;
+  border-top: 1px solid var(--cinza-borda);
+}
+
+@media (max-width: 600px) {
+  .id-box { grid-template-columns: 1fr; }
+  .proposta-row { flex-wrap: wrap; }
+  .proposta-tema { width: 100%; }
+}
+
+@media print {
+  body { background: white !important; color: #1A1A1A !important; font-size: 10pt; }
+  .header { background: none !important; border-top: 2px solid #C0392B; }
+  .header h1 { color: #1F3864 !important; }
+  .header .badge { background: #C0392B !important; color: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  main { max-width: none; padding: 0; }
+  .secao { background: white !important; }
+  .secao.epi, .secao.emerg { border-left-color: #C0392B !important; }
+  .secao.comp { border-left-color: #C8922A !important; }
+  .secao.equip { border-left-color: #1F3864 !important; }
+  .secao.propostas { border-left-color: #27AE60 !important; }
+  .secao-titulo h2 { color: #1F3864 !important; }
+  .norma-check.marcado { background: #27AE60 !important; border-color: #27AE60 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  th { background: #F0F0F0 !important; color: #1A1A1A !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  td { border-color: #D0D0D0 !important; }
+  .ass-box { background: #E8F8EE !important; border-color: #27AE60 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .acoes { display: none; }
+  .progresso { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <h1>FE-T0A &middot; Checklist de Seguranca</h1>
+    <span class="badge">Obrigatorio</span>
+  </div>
+  <div class="header-sub">Normas do Lab de Mecanica &middot; IFMG-OP &middot; Fundadas na NR-22 &middot; Ancorado em TT-v8 (Topico 5)</div>
+  <div class="progresso" id="progresso">
+    <div class="seg" data-s="1"></div>
+    <div class="seg" data-s="2"></div>
+    <div class="seg" data-s="3"></div>
+  </div>
+</header>
+
+<main>
+
+<div class="id-box" id="identificacao">
+  <div class="campo full">
+    <label for="nome">Nome completo</label>
+    <input type="text" id="nome" placeholder="Seu nome">
+  </div>
+  <div class="campo">
+    <label for="turma">Turma</label>
+    <select id="turma">
+      <option value="">Selecione</option>
+      <option value="MIN1A">MIN1A</option>
+      <option value="MIN1B">MIN1B</option>
+      <option value="MIN1C">MIN1C</option>
+    </select>
+  </div>
+  <div class="campo">
+    <label for="grupo">Grupo</label>
+    <select id="grupo">
+      <option value="">Selecione</option>
+      <option value="A">Grupo A</option>
+      <option value="B">Grupo B</option>
+    </select>
+  </div>
+</div>
+
+<!-- 1. EPI -->
+<div class="secao epi" id="sec-epi">
+  <div class="secao-titulo">
+    <div class="icone">&#9888;</div>
+    <h2>1 &middot; EPI e Apresentacao</h2>
+  </div>
+  <div class="norma-item">
+    <div class="norma-check" data-n="1" onclick="toggleNorma(this)"></div>
+    <div class="norma-num">01</div>
+    <div><div class="norma-texto"><strong>Sapato fechado</strong> em toda pratica (obrigatorio a partir da T01).</div></div>
+  </div>
+  <div class="norma-item">
+    <div class="norma-check" data-n="2" onclick="toggleNorma(this)"></div>
+    <div class="norma-num">02</div>
+    <div><div class="norma-texto"><strong>Cabelo preso</strong> sempre que houver chama ou peca em movimento.</div></div>
+  </div>
+  <div class="norma-item">
+    <div class="norma-check" data-n="3" onclick="toggleNorma(this)"></div>
+    <div class="norma-num">03</div>
+    <div><div class="norma-texto"><strong>Oculos de seguranca</strong> nas trilhas com risco de projecao (ex.: Atrito, Colisoes).</div></div>
+  </div>
+</div>
+
+<!-- 2. COMPORTAMENTO -->
+<div class="secao comp" id="sec-comp">
+  <div class="secao-titulo">
+    <div class="icone">&#128214;</div>
+    <h2>2 &middot; Comportamento na Bancada</h2>
+  </div>
+  <div class="norma-item">
+    <div class="norma-check" data-n="4" onclick="toggleNorma(this)"></div>
+    <div class="norma-num">04</div>
+    <div>
+      <div class="norma-texto"><strong>Toda aula comeca lendo o Roteiro de Bancada</strong> — e a nossa "ordem de servico".</div>
+      <div class="norma-ref">NR-22, item 22.1</div>
+    </div>
+  </div>
+  <div class="norma-item">
+    <div class="norma-check" data-n="5" onclick="toggleNorma(this)"></div>
+    <div class="norma-num">05</div>
+    <div><div class="norma-texto"><strong>Mochilas so na bancada do fundo</strong> — nunca nas bancadas de experimento.</div></div>
+  </div>
+  <div class="norma-item">
+    <div class="norma-check" data-n="6" onclick="toggleNorma(this)"></div>
+    <div class="norma-num">06</div>
+    <div><div class="norma-texto"><strong>Sem correr e sem brincadeira</strong> perto de instrumentos de medida.</div></div>
+  </div>
+</div>
+
+<!-- 3. EQUIPAMENTO -->
+<div class="secao equip" id="sec-equip">
+  <div class="secao-titulo">
+    <div class="icone">&#128295;</div>
+    <h2>3 &middot; Equipamento</h2>
+  </div>
+  <div class="norma-item">
+    <div class="norma-check" data-n="7" onclick="toggleNorma(this)"></div>
+    <div class="norma-num">07</div>
+    <div><div class="norma-texto"><strong>Quem usa, devolve no lugar.</strong> Quem quebra, <strong>comunica</strong> — sem medo, sem punicao.</div></div>
+  </div>
+  <div class="norma-item">
+    <div class="norma-check" data-n="8" onclick="toggleNorma(this)"></div>
+    <div class="norma-num">08</div>
+    <div><div class="norma-texto"><strong>Instrumento de medida exige respeito:</strong> manuseio com as duas maos, no centro da mesa.</div></div>
+  </div>
+</div>
+
+<!-- 4. EMERGENCIA -->
+<div class="secao emerg" id="sec-emerg">
+  <div class="secao-titulo">
+    <div class="icone">&#128680;</div>
+    <h2>4 &middot; Emergencia e Comunicacao</h2>
+  </div>
+  <div class="norma-item">
+    <div class="norma-check" data-n="9" onclick="toggleNorma(this)"></div>
+    <div class="norma-num">09</div>
+    <div>
+      <div class="norma-texto"><strong>Quem ve um risco ou quase-acidente, fala</strong> — comunicacao imediata ao professor.</div>
+      <div class="norma-ref">NR-22, item 22.21</div>
+    </div>
+  </div>
+  <div class="norma-item">
+    <div class="norma-check" data-n="10" onclick="toggleNorma(this)"></div>
+    <div class="norma-num">10</div>
+    <div><div class="norma-texto"><strong>Extintor:</strong> corredor de entrada do Pavilhao de Fisica.</div></div>
+  </div>
+  <div class="norma-item">
+    <div class="norma-check" data-n="11" onclick="toggleNorma(this)"></div>
+    <div class="norma-num">11</div>
+    <div><div class="norma-texto"><strong>Em acidente:</strong> comunicar o professor, afastar-se do equipamento, <strong>nao resolver sozinho</strong>.</div></div>
+  </div>
+</div>
+
+<div class="contador-normas">
+  <span class="num" id="contador">0</span> / 11 normas reconhecidas
+</div>
+
+<!-- PROPOSTAS -->
+<div class="secao propostas" id="sec-propostas">
+  <div class="secao-titulo">
+    <div class="icone">&#9998;</div>
+    <h2>Regras adicionais da turma</h2>
+  </div>
+  <p style="font-size:.75rem;color:var(--cinza);margin-bottom:10px">Proponha pelo menos 1 regra. As melhores entram no cartaz oficial do Lab.</p>
+  <div id="propostas-container">
+    <div class="proposta-row">
+      <div class="proposta-num">12</div>
+      <input type="text" class="proposta-input" data-p="0" placeholder="Sua proposta de regra..." oninput="salvarLS()">
+      <select class="proposta-tema" data-pt="0" onchange="salvarLS()">
+        <option value="">Tema</option>
+        <option value="EPI">EPI</option>
+        <option value="Comportamento">Comportamento</option>
+        <option value="Equipamento">Equipamento</option>
+        <option value="Emergencia">Emergencia</option>
+      </select>
+    </div>
+    <div class="proposta-row">
+      <div class="proposta-num">13</div>
+      <input type="text" class="proposta-input" data-p="1" placeholder="Outra proposta (opcional)..." oninput="salvarLS()">
+      <select class="proposta-tema" data-pt="1" onchange="salvarLS()">
+        <option value="">Tema</option>
+        <option value="EPI">EPI</option>
+        <option value="Comportamento">Comportamento</option>
+        <option value="Equipamento">Equipamento</option>
+        <option value="Emergencia">Emergencia</option>
+      </select>
+    </div>
+    <div class="proposta-row">
+      <div class="proposta-num">14</div>
+      <input type="text" class="proposta-input" data-p="2" placeholder="Outra proposta (opcional)..." oninput="salvarLS()">
+      <select class="proposta-tema" data-pt="2" onchange="salvarLS()">
+        <option value="">Tema</option>
+        <option value="EPI">EPI</option>
+        <option value="Comportamento">Comportamento</option>
+        <option value="Equipamento">Equipamento</option>
+        <option value="Emergencia">Emergencia</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- NR-22 -->
+<div class="secao nr22">
+  <div class="secao-titulo">
+    <h2>Ancoragem na NR-22</h2>
+  </div>
+  <table>
+    <thead><tr><th>NR-22</th><th>Como aparece aqui</th></tr></thead>
+    <tbody>
+      <tr><td>22.1</td><td>Ler o Roteiro de Bancada no inicio de cada aula (regra 4)</td></tr>
+      <tr><td>22.6</td><td>Sapato fechado; oculos em trilhas de risco (regras 1-3)</td></tr>
+      <tr><td>22.13</td><td>Posicao do extintor, voltagem e saidas (a afixar pela CODAFIS)</td></tr>
+      <tr><td>22.21</td><td>Quem ve, fala (regras 9 e 11)</td></tr>
+      <tr><td>22.36</td><td>A T0A E o treinamento basico da disciplina</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ASSINATURA -->
+<div class="secao assinatura">
+  <div class="secao-titulo">
+    <h2>Reconhecimento</h2>
+  </div>
+  <div class="ass-box" id="assBox">
+    <div class="ass-label" id="assLabel">Li e compreendi todas as 11 normas do Lab de Mecanica. Assinatura:</div>
+    <input type="text" class="ass-input" id="assinatura" placeholder="Seu nome completo (assinatura)" oninput="verificarAssinatura()">
+  </div>
+</div>
+
+<div class="acoes">
+  <button class="btn btn-primario" id="btn-exportar" disabled onclick="exportarJSON()">Exportar JSON</button>
+</div>
+
+</main>
+
+<div class="footer">
+  FE-T0A &middot; Checklist de Seguranca v1 &middot; Fisica Experimental 1 &middot; IFMG &mdash; Campus Ouro Preto &middot; 2026
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const LS_PREFIX = 'ifmg_fe_t0a_cs_';
+let normasMarcadas = {};
+let debounceTimer = null;
+
+function toggleNorma(el) {
+  const n = el.dataset.n;
+  if (el.classList.contains('marcado')) {
+    el.classList.remove('marcado');
+    delete normasMarcadas[n];
+  } else {
+    el.classList.add('marcado');
+    normasMarcadas[n] = true;
+  }
+  atualizarContador();
+  atualizarProgresso();
+  atualizarBotao();
+  salvarLS();
+}
+
+function atualizarContador() {
+  const total = Object.keys(normasMarcadas).length;
+  document.getElementById('contador').textContent = total;
+  const el = document.querySelector('.contador-normas');
+  el.style.color = total === 11 ? 'var(--verde)' : total >= 6 ? 'var(--ouro)' : 'var(--texto)';
+}
+
+function atualizarProgresso() {
+  const marcadas = Object.keys(normasMarcadas).length;
+  const assinado = document.getElementById('assinatura').value.trim().length >= 3;
+  const proposta = document.querySelector('.proposta-input').value.trim().length > 0;
+  document.querySelector('[data-s="1"]').className = 'seg' + (marcadas === 11 ? ' ok' : '');
+  document.querySelector('[data-s="2"]').className = 'seg' + (proposta ? ' ok' : '');
+  document.querySelector('[data-s="3"]').className = 'seg' + (assinado ? ' ok' : '');
+}
+
+function verificarAssinatura() {
+  const val = document.getElementById('assinatura').value.trim();
+  const box = document.getElementById('assBox');
+  const label = document.getElementById('assLabel');
+  if (val.length >= 3) {
+    box.classList.add('assinado');
+    label.textContent = 'Reconhecimento registrado:';
+  } else {
+    box.classList.remove('assinado');
+    label.textContent = 'Li e compreendi todas as 11 normas do Lab de Mecanica. Assinatura:';
+  }
+  atualizarProgresso();
+  atualizarBotao();
+  salvarLS();
+}
+
+function atualizarBotao() {
+  const nome = document.getElementById('nome').value.trim();
+  const turma = document.getElementById('turma').value;
+  const marcadas = Object.keys(normasMarcadas).length;
+  const assinado = document.getElementById('assinatura').value.trim().length >= 3;
+  document.getElementById('btn-exportar').disabled = !(nome && turma && marcadas === 11 && assinado);
+}
+
+function exportarJSON() {
+  const nome = document.getElementById('nome').value.trim();
+  const turma = document.getElementById('turma').value;
+  const grupo = document.getElementById('grupo').value;
+
+  const propostas = [];
+  document.querySelectorAll('.proposta-input').forEach((inp, i) => {
+    const texto = inp.value.trim();
+    if (texto) {
+      const tema = document.querySelector(`[data-pt="${i}"]`).value || '';
+      propostas.push({ numero: 12 + i, texto: texto, tema: tema });
+    }
+  });
+
+  const dados = {
+    meta: {
+      versao_schema: '1.0',
+      trilha: 'FE-T0A',
+      tipo_oa: 'CS',
+      versao_cs: 'v1',
+      timestamp: new Date().toISOString()
+    },
+    identificacao: {
+      nome: nome,
+      turma: turma,
+      grupo: grupo
+    },
+    normas: {
+      total_canonicas: 11,
+      reconhecidas: Object.keys(normasMarcadas).length,
+      todas_reconhecidas: Object.keys(normasMarcadas).length === 11,
+      assinatura: document.getElementById('assinatura').value.trim()
+    },
+    propostas: propostas
+  };
+
+  const nomeArq = 'FE-T0A-CS_' + turma + '_' + grupo + '_' + nome.replace(/\s+/g, '-') + '.json';
+  const blob = new Blob([JSON.stringify(dados, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = nomeArq; a.click();
+  URL.revokeObjectURL(url);
+  toast('JSON exportado: ' + nomeArq);
+}
+
+function salvarLS() {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => {
+    const propostas = [];
+    document.querySelectorAll('.proposta-input').forEach((inp, i) => {
+      propostas.push({
+        texto: inp.value,
+        tema: document.querySelector(`[data-pt="${i}"]`).value
+      });
+    });
+    const dados = {
+      nome: document.getElementById('nome').value,
+      turma: document.getElementById('turma').value,
+      grupo: document.getElementById('grupo').value,
+      normas: normasMarcadas,
+      assinatura: document.getElementById('assinatura').value,
+      propostas: propostas
+    };
+    try { localStorage.setItem(LS_PREFIX + 'dados', JSON.stringify(dados)); } catch(e) {}
+  }, 1500);
+}
+
+function restaurarLS() {
+  try {
+    const raw = localStorage.getItem(LS_PREFIX + 'dados');
+    if (!raw) return;
+    const d = JSON.parse(raw);
+    if (d.nome) document.getElementById('nome').value = d.nome;
+    if (d.turma) document.getElementById('turma').value = d.turma;
+    if (d.grupo) document.getElementById('grupo').value = d.grupo;
+    if (d.assinatura) document.getElementById('assinatura').value = d.assinatura;
+    if (d.normas) {
+      normasMarcadas = d.normas;
+      Object.keys(d.normas).forEach(n => {
+        const el = document.querySelector(`[data-n="${n}"]`);
+        if (el) el.classList.add('marcado');
+      });
+    }
+    if (d.propostas) {
+      d.propostas.forEach((p, i) => {
+        const inp = document.querySelector(`[data-p="${i}"]`);
+        const sel = document.querySelector(`[data-pt="${i}"]`);
+        if (inp && p.texto) inp.value = p.texto;
+        if (sel && p.tema) sel.value = p.tema;
+      });
+    }
+    atualizarContador();
+    atualizarProgresso();
+    verificarAssinatura();
+    atualizarBotao();
+  } catch(e) {}
+}
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('visivel');
+  setTimeout(() => t.classList.remove('visivel'), 3000);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  ['nome', 'turma', 'grupo'].forEach(id => {
+    document.getElementById(id).addEventListener('input', () => { atualizarBotao(); salvarLS(); });
+    document.getElementById(id).addEventListener('change', () => { atualizarBotao(); salvarLS(); });
+  });
+  restaurarLS();
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FE-T0A · IG-02 · Erro de Paralaxe</title>
+<style>
+:root {
+  --azul: oklch(0.65 0.22 45);
+  --azul-claro: oklch(0.72 0.19 45);
+  --azul-bg: oklch(0.28 0.05 45);
+  --ouro: oklch(0.85 0.18 95);
+  --ouro-claro: oklch(0.25 0.04 95);
+  --verde: oklch(0.7 0.15 150);
+  --verde-claro: oklch(0.25 0.04 150);
+  --erro: oklch(0.6 0.22 25);
+  --erro-claro: oklch(0.22 0.05 25);
+  --cinza: oklch(0.55 0.02 260);
+  --cinza-claro: oklch(0.18 0.02 260);
+  --cinza-borda: oklch(0.38 0.02 260);
+  --texto: oklch(0.93 0 0);
+  --branco: oklch(0.93 0 0);
+  --superficie: oklch(0.24 0.02 260);
+  --input-bg: oklch(0.2 0.02 260);
+  --hover-bg: oklch(0.22 0.02 260);
+  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'Space Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font);
+  background: var(--cinza-claro);
+  color: var(--texto);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+.header {
+  background: oklch(0.14 0.02 260);
+  border-top: 3px solid var(--ouro);
+  padding: 12px 20px;
+}
+.header-inner {
+  max-width: 760px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.header h1 { font-size: 1.05rem; font-weight: 700; }
+.header .badge {
+  background: var(--ouro); color: oklch(0.15 0.02 260);
+  padding: 3px 10px; border-radius: 20px;
+  font-size: .7rem; font-weight: 700; text-transform: uppercase;
+}
+.header-sub {
+  max-width: 760px; margin: 4px auto 0;
+  font-size: .72rem; color: var(--cinza);
+}
+main { max-width: 760px; margin: 0 auto; padding: 16px; }
+
+.intro {
+  background: var(--superficie);
+  border-left: 3px solid var(--ouro);
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  font-size: .85rem;
+}
+.intro strong { color: var(--ouro); }
+
+/* SIMULADOR PRINCIPAL */
+.sim-card {
+  background: var(--superficie);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.sim-titulo {
+  font-size: .9rem; font-weight: 700; color: var(--azul);
+  margin-bottom: 14px;
+  text-transform: uppercase; letter-spacing: .5px;
+}
+
+.sim-canvas {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  background: var(--input-bg);
+  border: 1px solid var(--cinza-borda);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+/* REGUA dentro do canvas */
+.regua-line {
+  position: absolute;
+  bottom: 60px;
+  left: 40px;
+  right: 40px;
+  height: 3px;
+  background: var(--cinza-borda);
+}
+.regua-tick {
+  position: absolute;
+  bottom: 56px;
+  width: 2px;
+  background: var(--cinza);
+}
+.regua-tick.major { height: 18px; background: var(--azul); }
+.regua-tick.minor { height: 10px; }
+.regua-label {
+  position: absolute;
+  bottom: 36px;
+  font-family: var(--mono);
+  font-size: .65rem;
+  color: var(--cinza);
+  transform: translateX(-50%);
+}
+
+/* PONTEIRO (objeto medido) */
+.ponteiro {
+  position: absolute;
+  bottom: 63px;
+  width: 4px;
+  height: 40px;
+  background: var(--ouro);
+  transform: translateX(-50%);
+  transition: left .3s ease;
+}
+.ponteiro-topo {
+  position: absolute;
+  top: -6px; left: -6px;
+  width: 16px; height: 16px;
+  background: var(--ouro);
+  border-radius: 50%;
+}
+.ponteiro-label {
+  position: absolute;
+  top: -28px; left: 50%;
+  transform: translateX(-50%);
+  font-size: .6rem; font-weight: 700;
+  color: var(--ouro);
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+/* OLHO do observador */
+.olho {
+  position: absolute;
+  top: 30px;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 3px solid var(--azul);
+  background: var(--azul-bg);
+  display: flex; align-items: center; justify-content: center;
+  transition: left .4s ease;
+  z-index: 5;
+}
+.olho-pupila {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--azul);
+}
+
+/* LINHA DE VISADA */
+.visada {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* LEITURA APARENTE */
+.leitura-aparente {
+  position: absolute;
+  bottom: 78px;
+  width: 2px; height: 30px;
+  background: var(--erro);
+  opacity: .8;
+  transition: left .4s ease;
+  z-index: 4;
+}
+.la-label {
+  position: absolute;
+  top: -20px; left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--mono);
+  font-size: .65rem; font-weight: 700;
+  color: var(--erro);
+  white-space: nowrap;
+}
+
+/* CONTROLES */
+.controles {
+  display: flex; gap: 16px; align-items: center;
+  flex-wrap: wrap;
+}
+.ctrl-group {
+  flex: 1; min-width: 200px;
+}
+.ctrl-label {
+  font-size: .7rem; font-weight: 600; color: var(--cinza);
+  text-transform: uppercase; letter-spacing: .3px;
+  margin-bottom: 4px;
+}
+.ctrl-slider {
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  background: var(--cinza-borda);
+  outline: none;
+}
+.ctrl-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px; height: 18px;
+  background: var(--azul);
+  cursor: pointer;
+}
+.ctrl-valor {
+  font-family: var(--mono);
+  font-size: .82rem; font-weight: 700;
+  color: var(--azul);
+  margin-top: 2px;
+}
+
+/* PAINEL DE DADOS */
+.dados-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 16px;
+}
+.dado-card {
+  background: var(--input-bg);
+  padding: 10px;
+  text-align: center;
+}
+.dado-label {
+  font-size: .6rem; color: var(--cinza);
+  text-transform: uppercase;
+}
+.dado-valor {
+  font-family: var(--mono);
+  font-size: 1rem; font-weight: 700;
+}
+.dado-valor.correto { color: var(--verde); }
+.dado-valor.aparente { color: var(--erro); }
+.dado-valor.erro-val { color: var(--ouro); }
+
+/* BOTOES POSICAO */
+.pos-btns {
+  display: flex; gap: 8px; margin-top: 16px;
+}
+.pos-btn {
+  flex: 1;
+  background: var(--input-bg);
+  border: 1px solid var(--cinza-borda);
+  color: var(--texto);
+  padding: 10px;
+  font-family: var(--font);
+  font-size: .78rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  transition: border-color .2s, background .2s;
+}
+.pos-btn:hover { border-color: var(--azul); background: var(--hover-bg); }
+.pos-btn.ativo { border-color: var(--azul); background: var(--azul-bg); color: var(--azul); }
+
+/* EXPLICACAO */
+.explicacao {
+  background: var(--superficie);
+  border-left: 3px solid var(--verde);
+  padding: 16px 18px;
+  margin-top: 16px;
+}
+.explicacao h3 {
+  font-size: .85rem; font-weight: 700; color: var(--verde);
+  margin-bottom: 8px;
+}
+.explicacao p {
+  font-size: .82rem; margin-bottom: 8px;
+}
+.explicacao .destaque {
+  background: var(--verde-claro);
+  padding: 8px 12px;
+  font-size: .82rem;
+  margin-top: 8px;
+}
+.explicacao .destaque strong { color: var(--verde); }
+
+/* QUIZ */
+.quiz-box {
+  background: var(--superficie);
+  border-left: 3px solid var(--ouro);
+  padding: 16px 18px;
+  margin-top: 16px;
+}
+.quiz-box h3 {
+  font-size: .85rem; font-weight: 700; color: var(--ouro);
+  margin-bottom: 10px;
+}
+.quiz-q {
+  font-size: .82rem; margin-bottom: 10px;
+}
+.quiz-opts { display: flex; flex-direction: column; gap: 6px; }
+.quiz-opt {
+  background: var(--input-bg);
+  border: 1px solid var(--cinza-borda);
+  padding: 8px 12px;
+  font-size: .8rem;
+  cursor: pointer;
+  transition: border-color .2s, background .2s;
+}
+.quiz-opt:hover { border-color: var(--azul); background: var(--hover-bg); }
+.quiz-opt.selecionada { border-color: var(--azul); background: var(--azul-bg); }
+.quiz-opt.correta { border-color: var(--verde); background: var(--verde-claro); color: var(--verde); }
+.quiz-opt.errada { border-color: var(--erro); background: var(--erro-claro); color: var(--erro); }
+.quiz-feedback {
+  margin-top: 10px;
+  padding: 10px 12px;
+  font-size: .8rem;
+  display: none;
+}
+.quiz-feedback.visivel { display: block; }
+.quiz-feedback.ok { background: var(--verde-claro); color: var(--verde); }
+.quiz-feedback.nok { background: var(--erro-claro); color: var(--erro); }
+
+.nota-final {
+  background: var(--ouro-claro);
+  border: 1px solid var(--ouro);
+  padding: 12px 16px;
+  margin-top: 16px;
+  font-size: .82rem;
+}
+.nota-final strong { color: var(--ouro); }
+
+.footer {
+  text-align: center; padding: 16px;
+  font-size: .65rem; color: var(--cinza);
+  margin-top: 16px; border-top: 1px solid var(--cinza-borda);
+}
+
+@media (max-width: 600px) {
+  .dados-grid { grid-template-columns: 1fr; }
+  .pos-btns { flex-direction: column; }
+  .controles { flex-direction: column; }
+}
+
+@media print {
+  body { background: white !important; color: #1A1A1A !important; }
+  .header { background: none !important; border-top: 2px solid #C8922A; }
+  .sim-card, .explicacao, .quiz-box { background: white !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <h1>IG-02 &middot; Erro de Paralaxe</h1>
+    <span class="badge">Infografico interativo</span>
+  </div>
+  <div class="header-sub">FE-T0A &middot; Metodologia Experimental &middot; TT-v8, Topico 3 &middot; Lab de Mecanica</div>
+</header>
+
+<main>
+
+<div class="intro">
+  <strong>O mesmo objeto, leituras diferentes.</strong> Quando voce olha uma escala de lado, a linha de visada cruza a regua em posicao diferente do valor real. Esse desvio e o <strong>erro de paralaxe</strong>. Mova o observador para ver como a leitura muda.
+</div>
+
+<div class="sim-card">
+  <div class="sim-titulo">Simulador de paralaxe</div>
+
+  <div class="sim-canvas" id="canvas">
+    <!-- Olho -->
+    <div class="olho" id="olho">
+      <div class="olho-pupila"></div>
+    </div>
+
+    <!-- Linha de visada (SVG) -->
+    <svg class="visada" id="visada-svg"></svg>
+
+    <!-- Ponteiro (objeto real) -->
+    <div class="ponteiro" id="ponteiro">
+      <div class="ponteiro-topo"></div>
+      <div class="ponteiro-label">Valor real</div>
+    </div>
+
+    <!-- Leitura aparente -->
+    <div class="leitura-aparente" id="leitura-ap">
+      <div class="la-label" id="la-label">?</div>
+    </div>
+
+    <!-- Regua -->
+    <div class="regua-line"></div>
+  </div>
+
+  <div class="controles">
+    <div class="ctrl-group">
+      <div class="ctrl-label">Posicao do observador (horizontal)</div>
+      <input type="range" class="ctrl-slider" id="slider-obs" min="0" max="100" value="50" oninput="atualizar()">
+      <div class="ctrl-valor" id="obs-valor">Centro (frontal)</div>
+    </div>
+  </div>
+
+  <div class="pos-btns">
+    <button class="pos-btn" onclick="setPosicao(15)">Esquerda</button>
+    <button class="pos-btn ativo" onclick="setPosicao(50)">Centro (correto)</button>
+    <button class="pos-btn" onclick="setPosicao(85)">Direita</button>
+  </div>
+
+  <div class="dados-grid">
+    <div class="dado-card">
+      <div class="dado-label">Valor real</div>
+      <div class="dado-valor correto" id="d-real">5,0 cm</div>
+    </div>
+    <div class="dado-card">
+      <div class="dado-label">Leitura aparente</div>
+      <div class="dado-valor aparente" id="d-aparente">5,0 cm</div>
+    </div>
+    <div class="dado-card">
+      <div class="dado-label">Erro de paralaxe</div>
+      <div class="dado-valor erro-val" id="d-erro">0,0 cm</div>
+    </div>
+  </div>
+</div>
+
+<!-- EXPLICACAO -->
+<div class="explicacao">
+  <h3>Por que isso acontece?</h3>
+  <p>A escala (regua) e o objeto medido estao em planos diferentes — a regua esta encostada na parede, e o objeto esta alguns milimetros a frente. Quando o olho nao esta perpendicular ao plano de leitura, a projecao visual desloca o ponto de coincidencia.</p>
+  <p>Na mineracao, o mesmo fenomeno ocorre ao ler manometros de pressao, reguas de nivel de barragem, e paquimetros analógicos.</p>
+  <div class="destaque">
+    <strong>Regra:</strong> sempre posicione seus olhos perpendiculares (a 90°) ao plano da escala. No laboratorio, isso significa abaixar ou levantar ate que a marca da escala e o topo do objeto estejam alinhados sem angulacao.
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="quiz-box">
+  <h3>Teste rapido</h3>
+
+  <div class="quiz-q" id="qq1">
+    <strong>Q1.</strong> Voce esta lendo a altura de Sofia na escala #3 (menor divisao 1 cm). Seu olho esta ligeiramente a esquerda. A leitura aparente sera:
+  </div>
+  <div class="quiz-opts" id="qo1">
+    <div class="quiz-opt" onclick="responder(1,'a',this)"><strong>a)</strong> Igual ao valor real — a posicao do olho nao importa</div>
+    <div class="quiz-opt" onclick="responder(1,'b',this)"><strong>b)</strong> Menor que o valor real</div>
+    <div class="quiz-opt" onclick="responder(1,'c',this)"><strong>c)</strong> Maior ou menor, depende do lado</div>
+    <div class="quiz-opt" onclick="responder(1,'d',this)"><strong>d)</strong> Sempre maior que o valor real</div>
+  </div>
+  <div class="quiz-feedback" id="qf1"></div>
+
+  <div class="quiz-q" id="qq2" style="margin-top:16px">
+    <strong>Q2.</strong> Como minimizar o erro de paralaxe?
+  </div>
+  <div class="quiz-opts" id="qo2">
+    <div class="quiz-opt" onclick="responder(2,'a',this)"><strong>a)</strong> Usar uma escala com menor divisao maior</div>
+    <div class="quiz-opt" onclick="responder(2,'b',this)"><strong>b)</strong> Posicionar os olhos perpendiculares ao plano da escala</div>
+    <div class="quiz-opt" onclick="responder(2,'c',this)"><strong>c)</strong> Medir mais rapido para nao tremere a mao</div>
+    <div class="quiz-opt" onclick="responder(2,'d',this)"><strong>d)</strong> Fechar um olho durante a leitura</div>
+  </div>
+  <div class="quiz-feedback" id="qf2"></div>
+</div>
+
+<div class="nota-final">
+  <strong>Lembre-se:</strong> o erro de paralaxe e um erro <em>sistematico</em> — ele desloca todas as leituras na mesma direcao. Diferente do erro aleatorio (que varia para mais e para menos), o paralaxe pode ser eliminado com tecnica correta.
+</div>
+
+</main>
+
+<div class="footer">
+  FE-T0A &middot; IG-02 Erro de Paralaxe v1 &middot; Fisica Experimental 1 &middot; IFMG &mdash; Campus Ouro Preto &middot; 2026
+</div>
+
+<script>
+const canvas = document.getElementById('canvas');
+const olho = document.getElementById('olho');
+const ponteiro = document.getElementById('ponteiro');
+const leituraAp = document.getElementById('leitura-ap');
+const laLabel = document.getElementById('la-label');
+const svgVisada = document.getElementById('visada-svg');
+const slider = document.getElementById('slider-obs');
+
+const REAL_POS = 50;
+const REGUA_LEFT = 40;
+const REGUA_RIGHT = 40;
+const TICKS = 11;
+
+function buildRegua() {
+  const cw = canvas.clientWidth;
+  const rLeft = REGUA_LEFT;
+  const rRight = cw - REGUA_RIGHT;
+  const span = rRight - rLeft;
+
+  const existing = canvas.querySelectorAll('.regua-tick, .regua-label');
+  existing.forEach(e => e.remove());
+
+  for (let i = 0; i < TICKS; i++) {
+    const x = rLeft + (span * i / (TICKS - 1));
+    const tick = document.createElement('div');
+    tick.className = 'regua-tick ' + (i % 5 === 0 ? 'major' : 'minor');
+    tick.style.left = x + 'px';
+    canvas.appendChild(tick);
+
+    if (i % 5 === 0 || i === TICKS - 1) {
+      const lbl = document.createElement('div');
+      lbl.className = 'regua-label';
+      lbl.style.left = x + 'px';
+      lbl.textContent = i + ',0';
+      canvas.appendChild(lbl);
+    }
+  }
+}
+
+function atualizar() {
+  const cw = canvas.clientWidth;
+  const ch = canvas.clientHeight;
+  const rLeft = REGUA_LEFT;
+  const rRight = cw - REGUA_RIGHT;
+  const span = rRight - rLeft;
+
+  const pct = parseInt(slider.value);
+
+  const realX = rLeft + span * REAL_POS / 100;
+  ponteiro.style.left = realX + 'px';
+
+  const obsX = rLeft + span * pct / 100;
+  olho.style.left = (obsX - 20) + 'px';
+
+  const olhoY = 50;
+  const topoY = ch - 63 - 40;
+  const reguaY = ch - 60;
+
+  const dx = realX - obsX;
+  const dyTop = topoY - olhoY;
+  const dyRegua = reguaY - olhoY;
+
+  let aparenteX;
+  if (Math.abs(dx) < 0.5) {
+    aparenteX = realX;
+  } else {
+    const slope = dx / dyTop;
+    aparenteX = obsX + slope * dyRegua;
+  }
+
+  aparenteX = Math.max(rLeft, Math.min(rRight, aparenteX));
+  leituraAp.style.left = aparenteX + 'px';
+
+  const realCm = (REAL_POS / 100) * (TICKS - 1);
+  const aparenteCm = ((aparenteX - rLeft) / span) * (TICKS - 1);
+  const erroCm = aparenteCm - realCm;
+
+  document.getElementById('d-real').textContent = realCm.toFixed(1).replace('.', ',') + ' cm';
+  document.getElementById('d-aparente').textContent = aparenteCm.toFixed(1).replace('.', ',') + ' cm';
+
+  const erroAbs = Math.abs(erroCm);
+  const sinal = erroCm >= 0 ? '+' : '';
+  document.getElementById('d-erro').textContent = sinal + erroCm.toFixed(1).replace('.', ',') + ' cm';
+  laLabel.textContent = aparenteCm.toFixed(1).replace('.', ',');
+
+  let posText = 'Centro (frontal)';
+  if (pct < 40) posText = 'Esquerda (' + (50 - pct) + '% deslocado)';
+  else if (pct > 60) posText = 'Direita (' + (pct - 50) + '% deslocado)';
+  document.getElementById('obs-valor').textContent = posText;
+
+  document.querySelectorAll('.pos-btn').forEach(b => b.classList.remove('ativo'));
+  if (pct <= 20) document.querySelectorAll('.pos-btn')[0].classList.add('ativo');
+  else if (pct >= 40 && pct <= 60) document.querySelectorAll('.pos-btn')[1].classList.add('ativo');
+  else if (pct >= 80) document.querySelectorAll('.pos-btn')[2].classList.add('ativo');
+
+  const olhoCx = obsX;
+  const olhoCy = olhoY + 20;
+  const ponteiroTopX = realX;
+  const ponteiroTopY = topoY;
+  const reguaHitX = aparenteX;
+  const reguaHitY = reguaY;
+
+  svgVisada.innerHTML = `
+    <line x1="${olhoCx}" y1="${olhoCy}" x2="${ponteiroTopX}" y2="${ponteiroTopY}"
+      stroke="oklch(0.65 0.22 45)" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.6"/>
+    <line x1="${olhoCx}" y1="${olhoCy}" x2="${reguaHitX}" y2="${reguaHitY}"
+      stroke="oklch(0.6 0.22 25)" stroke-width="1" stroke-dasharray="4 3" opacity="0.5"/>
+  `;
+}
+
+function setPosicao(val) {
+  slider.value = val;
+  atualizar();
+}
+
+const GABARITO = { 1: 'c', 2: 'b' };
+const FEEDBACK = {
+  1: {
+    c: { ok: true, texto: 'Correto! O sentido do desvio depende do lado em que o observador esta. Por isso o erro de paralaxe pode ser positivo ou negativo.' },
+    a: { ok: false, texto: 'Incorreto. A posicao do olho importa sempre que o objeto e a escala estao em planos diferentes.' },
+    b: { ok: false, texto: 'Nao necessariamente. O desvio depende do lado — pode ser para mais ou para menos.' },
+    d: { ok: false, texto: 'Nao. Se o observador estiver do lado oposto, a leitura sera menor que o real.' }
+  },
+  2: {
+    b: { ok: true, texto: 'Correto! Olhos perpendiculares eliminam o angulo que causa o desvio.' },
+    a: { ok: false, texto: 'Incorreto. A menor divisao afeta a precisao, nao a paralaxe.' },
+    c: { ok: false, texto: 'Incorreto. A velocidade da leitura nao tem relacao com o erro de paralaxe.' },
+    d: { ok: false, texto: 'Fechar um olho pode ajudar no alinhamento, mas a correcao real e posicionar-se perpendicularmente.' }
+  }
+};
+
+function responder(q, letra, el) {
+  const opts = document.querySelectorAll('#qo' + q + ' .quiz-opt');
+  const jRespondeu = Array.from(opts).some(o => o.classList.contains('correta') || o.classList.contains('errada'));
+  if (jRespondeu) return;
+
+  const fb = FEEDBACK[q][letra];
+  const fbDiv = document.getElementById('qf' + q);
+
+  opts.forEach(o => o.classList.add('selecionada'));
+  opts.forEach(o => o.style.pointerEvents = 'none');
+
+  if (fb.ok) {
+    el.classList.remove('selecionada');
+    el.classList.add('correta');
+    fbDiv.className = 'quiz-feedback visivel ok';
+  } else {
+    el.classList.remove('selecionada');
+    el.classList.add('errada');
+    const correto = GABARITO[q];
+    opts.forEach(o => {
+      if (o.querySelector('strong').textContent.trim().startsWith(correto + ')')) {
+        o.classList.remove('selecionada');
+        o.classList.add('correta');
+      }
+    });
+    fbDiv.className = 'quiz-feedback visivel nok';
+  }
+  fbDiv.textContent = fb.texto;
+}
+
+buildRegua();
+atualizar();
+
+window.addEventListener('resize', () => { buildRegua(); atualizar(); });
+</script>
+
+</body>
+</html>

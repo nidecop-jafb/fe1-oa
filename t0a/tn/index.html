@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FE-T0A · Testinho</title>
+<style>
+:root {
+  --azul: oklch(0.65 0.22 45);
+  --azul-claro: oklch(0.72 0.19 45);
+  --azul-bg: oklch(0.28 0.05 45);
+  --ouro: oklch(0.85 0.18 95);
+  --ouro-claro: oklch(0.25 0.04 95);
+  --verde: oklch(0.7 0.15 150);
+  --verde-claro: oklch(0.25 0.04 150);
+  --erro: oklch(0.6 0.22 25);
+  --erro-claro: oklch(0.22 0.05 25);
+  --cinza: oklch(0.55 0.02 260);
+  --cinza-claro: oklch(0.18 0.02 260);
+  --cinza-borda: oklch(0.38 0.02 260);
+  --texto: oklch(0.93 0 0);
+  --branco: oklch(0.93 0 0);
+  --superficie: oklch(0.24 0.02 260);
+  --input-bg: oklch(0.2 0.02 260);
+  --hover-bg: oklch(0.22 0.02 260);
+  --r: 0px;
+  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'Space Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font); background: var(--cinza-claro); color: var(--texto); line-height: 1.5; min-height: 100vh; }
+
+.header { background: oklch(0.14 0.02 260); border-top: 3px solid var(--azul); padding: 12px 20px; }
+.header-inner { max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+.header h1 { font-size: 1.05rem; font-weight: 700; }
+.header .badge { background: var(--azul); color: var(--branco); padding: 3px 10px; border-radius: 20px; font-size: .7rem; font-weight: 700; text-transform: uppercase; }
+.header-sub { max-width: 800px; margin: 4px auto 0; font-size: .72rem; color: var(--cinza); }
+
+.progresso { max-width: 800px; margin: 12px auto 0; display: flex; gap: 4px; height: 6px; }
+.progresso .seg { flex: 1; background: var(--cinza-borda); transition: background .3s; }
+.progresso .seg.respondido { background: var(--azul); }
+.progresso .seg.certo { background: var(--verde); }
+.progresso .seg.errado { background: var(--erro); }
+
+main { max-width: 800px; margin: 0 auto; padding: 16px; }
+
+.id-box { background: var(--superficie); padding: 14px 18px; margin-bottom: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 14px; }
+.id-box .campo { display: flex; flex-direction: column; gap: 3px; }
+.id-box .campo.full { grid-column: 1 / -1; }
+.id-box label { font-size: .68rem; font-weight: 600; color: var(--azul); text-transform: uppercase; letter-spacing: .3px; }
+.id-box input, .id-box select { background: var(--input-bg); border: 1px solid var(--cinza-borda); color: var(--texto); padding: 7px 10px; font-family: var(--font); font-size: .82rem; border-radius: var(--r); min-height: 36px; }
+.id-box input:focus, .id-box select:focus { outline: none; border-color: var(--azul); box-shadow: 0 0 0 2px var(--azul-bg); }
+
+.questao { background: var(--superficie); padding: 16px 18px; margin-bottom: 12px; border-left: 3px solid var(--cinza-borda); transition: border-color .3s; }
+.questao.respondida { border-left-color: var(--azul); }
+.questao.certa { border-left-color: var(--verde); }
+.questao.errada { border-left-color: var(--erro); }
+
+.q-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.q-num { font-family: var(--mono); font-size: .72rem; font-weight: 700; color: var(--azul); }
+.q-bloom { font-size: .6rem; color: var(--cinza); margin-left: auto; }
+.q-tema { font-size: .62rem; color: var(--ouro); font-weight: 600; }
+
+.q-enunciado { font-size: .85rem; margin-bottom: 12px; line-height: 1.6; }
+.q-enunciado strong { color: var(--ouro); }
+
+.opcoes { display: flex; flex-direction: column; gap: 6px; }
+.opcao { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; background: var(--input-bg); cursor: pointer; transition: background .15s, border-color .15s; border: 1px solid transparent; min-height: 44px; }
+.opcao:hover { background: var(--hover-bg); }
+.opcao.selecionada { border-color: var(--azul); background: var(--azul-bg); }
+.opcao.certa-vis { border-color: var(--verde); background: var(--verde-claro); }
+.opcao.errada-vis { border-color: var(--erro); background: var(--erro-claro); }
+.opcao.bloqueada { pointer-events: none; }
+.opcao input[type="radio"] { margin-top: 3px; accent-color: var(--azul); flex-shrink: 0; }
+.opcao-texto { font-size: .82rem; }
+
+.feedback { display: none; margin-top: 10px; padding: 10px 14px; font-size: .78rem; line-height: 1.5; border-left: 3px solid; }
+.feedback.visivel { display: block; }
+.feedback.fb-certo { border-color: var(--verde); background: var(--verde-claro); color: var(--verde); }
+.feedback.fb-errado { border-color: var(--erro); background: var(--erro-claro); }
+.feedback .fb-titulo { font-weight: 700; margin-bottom: 4px; }
+.feedback .fb-detalhe { color: var(--texto); font-size: .75rem; }
+
+.resultado-box { display: none; background: var(--superficie); border: 2px solid var(--azul); padding: 20px 24px; margin: 16px 0; text-align: center; }
+.resultado-box.visivel { display: block; }
+.resultado-box .nota-grande { font-family: var(--mono); font-size: 2.5rem; font-weight: 700; color: var(--azul); }
+.resultado-box .nota-label { font-size: .72rem; text-transform: uppercase; letter-spacing: 1px; color: var(--cinza); margin-top: 4px; }
+.resultado-box .nota-detalhe { font-size: .82rem; margin-top: 10px; }
+
+.acoes { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+.btn { padding: 10px 20px; border: none; font-family: var(--font); font-size: .82rem; font-weight: 600; cursor: pointer; min-height: 44px; transition: background .15s; }
+.btn-primario { background: var(--azul); color: var(--branco); }
+.btn-primario:hover { background: var(--azul-claro); }
+.btn-primario:disabled { background: var(--cinza-borda); cursor: not-allowed; color: var(--cinza); }
+.btn-secundario { background: var(--superficie); color: var(--texto); border: 1px solid var(--cinza-borda); }
+.btn-secundario:hover { background: var(--hover-bg); }
+.btn-secundario:disabled { opacity: .5; cursor: not-allowed; }
+
+.toast { position: fixed; bottom: 20px; right: 20px; background: var(--superficie); border: 1px solid var(--verde); border-left: 4px solid var(--verde); color: var(--texto); padding: 12px 18px; font-size: .82rem; z-index: 999; opacity: 0; transform: translateY(10px); transition: opacity .3s, transform .3s; pointer-events: none; }
+.toast.visivel { opacity: 1; transform: translateY(0); }
+
+.footer { text-align: center; padding: 16px; font-size: .65rem; color: var(--cinza); margin-top: 16px; border-top: 1px solid var(--cinza-borda); }
+
+@media (max-width: 600px) { main { padding: 10px; } .id-box { grid-template-columns: 1fr; } }
+@media print {
+  body { background: white !important; color: #1A1A1A !important; font-size: 9pt; }
+  .header { background: none !important; border-top: 2px solid #1F3864; }
+  .questao { background: #F8F8F8 !important; }
+  .questao.certa { border-left-color: #27AE60 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .questao.errada { border-left-color: #C0392B !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .opcao.certa-vis { background: #E8F8EE !important; border-color: #27AE60 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .opcao.errada-vis { background: #FDEDEC !important; border-color: #C0392B !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .acoes, .progresso { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <h1>FE-T0A &middot; Testinho</h1>
+    <span class="badge">5 pts &middot; Pre-Lab &middot; 10 min</span>
+  </div>
+  <div class="header-sub">Metodologia Experimental &middot; 5 questoes MC &middot; Tentativa unica &middot; Conta nota</div>
+  <div class="progresso" id="progresso"></div>
+</header>
+
+<main>
+
+<div class="id-box">
+  <div class="campo full"><label for="nome">Nome completo</label><input type="text" id="nome" placeholder="Seu nome"></div>
+  <div class="campo"><label for="turma">Turma</label><select id="turma"><option value="">Selecione</option><option value="MIN1A">MIN1A</option><option value="MIN1B">MIN1B</option><option value="MIN1C">MIN1C</option></select></div>
+  <div class="campo"><label for="grupo">Grupo</label><select id="grupo"><option value="">Selecione</option><option value="A">Grupo A</option><option value="B">Grupo B</option></select></div>
+</div>
+
+<div id="questoes"></div>
+
+<div class="resultado-box" id="resultado">
+  <div class="nota-grande" id="nota-valor"></div>
+  <div class="nota-label">de 5,0 pontos</div>
+  <div class="nota-detalhe" id="nota-detalhe"></div>
+</div>
+
+<div class="acoes">
+  <button class="btn btn-primario" id="btn-enviar" disabled>Enviar testinho</button>
+  <button class="btn btn-secundario" id="btn-exportar" disabled>Exportar JSON</button>
+</div>
+
+</main>
+
+<div class="footer">FE-T0A &middot; Testinho v1 &middot; Fisica Experimental 1 &middot; IFMG &mdash; Campus Ouro Preto &middot; 2026</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const QUESTOES = [
+  { id:'Q1', tema:'Topico 1 — Medicao e Medida', bloom:'L1-L2',
+    enunciado:'Durante a T0A, Pedro posiciona Sofia de costas na parede, alinha o esquadro no topo da cabeca dela e le o valor na escala, obtendo <strong>"1,68 m"</strong>. Sobre esse episodio, <strong>qual afirmacao usa corretamente os termos da metodologia experimental?</strong>',
+    opcoes:[
+      'O conjunto de procedimentos (posicionar, alinhar, ler) e a "medida", e o numero 1,68 m e a "medicao".',
+      'O conjunto de procedimentos (posicionar, alinhar, ler) e a "medicao", e o numero 1,68 m e a "medida".',
+      'Tanto o procedimento quanto o numero 1,68 m chamam-se "medida", sem distincao.',
+      'O numero 1,68 m e a "incerteza" da medicao.'
+    ],
+    gabarito: 1,
+    feedbacks: [
+      'Incorreto. Os termos estao trocados. A medicao e o processo; a medida e o resultado.',
+      'Correto! Medicao = o ato/processo (posicionar, alinhar, ler). Medida = o resultado obtido (1,68 m, com unidade).',
+      'Incorreto. Ha sim distincao: o processo e a medicao; o resultado e a medida.',
+      'Incorreto. A incerteza e a margem de erro (o "± 0,01 m"), nao o valor 1,68 m.'
+    ],
+    general: 'A medicao e o que voce FAZ (o conjunto de procedimentos); a medida e o que voce OBTEM (o numero com unidade).' },
+  { id:'Q2', tema:'Topico 2 — Escala e Algarismos Significativos', bloom:'L2',
+    enunciado:'Considere a medida de altura <strong>1,68 m</strong>, obtida em uma escala cuja menor divisao e o centimetro. Lembrando que algarismos significativos = <strong>algarismos corretos + 1 algarismo duvidoso</strong>, <strong>qual analise esta correta?</strong>',
+    opcoes:[
+      'Tem 2 algarismos significativos; o duvidoso e o "6".',
+      'Tem 3 algarismos significativos; o duvidoso e o "8".',
+      'Tem 4 algarismos significativos; todos sao corretos.',
+      'Tem 3 algarismos significativos; o duvidoso e o "1".'
+    ],
+    gabarito: 1,
+    feedbacks: [
+      'Incorreto. "1,68" tem 3 algarismos significativos, nao 2. O duvidoso e o ultimo (8).',
+      'Correto! Tres algarismos significativos: "1" e "6" sao corretos; "8" e o duvidoso (estimado entre as marcas).',
+      'Incorreto. Sao 3 algarismos, e nem todos sao corretos — o ultimo (8) e sempre o duvidoso.',
+      'Incorreto. O duvidoso e o ULTIMO (8), nao o primeiro (1). O 1 e um algarismo correto.'
+    ],
+    general: 'Em "1,68 m", o "1" e o "6" sao lidos direto na escala (corretos) e o "8" e estimado (duvidoso). Total: 3 AS.' },
+  { id:'Q3', tema:'Topico 3 — Incerteza', bloom:'L3',
+    enunciado:'Uma regua tem <strong>menor divisao de 1 mm</strong>. Usando a estimativa simples adotada em FE1 (<strong>incerteza = menor divisao / 2</strong>), <strong>qual e a incerteza instrumental de uma medida feita com essa regua?</strong>',
+    opcoes:['1 mm','2 mm','0,5 mm','0,25 mm'],
+    gabarito: 2,
+    feedbacks: [
+      'Incorreto. 1 mm e a menor divisao, nao a incerteza. Falta dividir por 2.',
+      'Incorreto. Multiplicou por 2 em vez de dividir. A incerteza e menor que a divisao.',
+      'Correto! 1 mm / 2 = 0,5 mm. Metade da menor divisao.',
+      'Incorreto. Dividiu por 4. A regra de FE1 e dividir por 2, nao por 4.'
+    ],
+    general: 'Incerteza = menor divisao / 2 = 1 mm / 2 = 0,5 mm (= 0,05 cm).' },
+  { id:'Q4', tema:'Topico 3 + 4 — Media e Incerteza Experimental', bloom:'L3-L4',
+    enunciado:'Lucas mediu a propria altura <strong>4 vezes</strong>: <strong>1,72 m; 1,73 m; 1,71 m; 1,72 m</strong>. Sabendo que &delta;h = (h<sub>max</sub> &minus; h<sub>min</sub>) / 2, <strong>qual e o resultado final no formato (valor ± incerteza)?</strong>',
+    opcoes:['(1,72 ± 0,01) m','(1,72 ± 0,02) m','(1,72 ± 0,005) m','(1,82 ± 0,01) m'],
+    gabarito: 0,
+    feedbacks: [
+      'Correto! Media = 6,88/4 = 1,72 m. &delta;h = (1,73&minus;1,71)/2 = 0,01 m.',
+      'Incorreto. Usou &delta;h = (max&minus;min) = 0,02 m sem dividir por 2.',
+      'Incorreto. 0,005 m e a incerteza instrumental, nao a experimental dos 4 valores.',
+      'Incorreto. A media esta errada: 6,88/4 = 1,72 m, nao 1,82 m.'
+    ],
+    general: 'Media = (1,72+1,73+1,71+1,72)/4 = 1,72 m. &delta;h = (1,73&minus;1,71)/2 = 0,01 m. Resultado: (1,72 ± 0,01) m.' },
+  { id:'Q5', tema:'Topico 4 — C5 Passo 7 (Analise)', bloom:'L4',
+    enunciado:'Sofia obteve experimentalmente <strong>(1,68 ± 0,01) m</strong>, mas afirmava ter <strong>1,72 m</strong>. A diferenca e 0,04 m. <strong>Como interpretar essa diferenca?</strong>',
+    opcoes:[
+      'Nao ha problema: 0,04 m esta dentro da incerteza de 0,01 m.',
+      'A diferenca vale 4 vezes a incerteza (0,04 / 0,01 = 4); acima de ~2-3x, e uma discrepancia significativa que exige investigacao.',
+      'Basta arredondar 1,72 m para 1,68 m e os valores passam a concordar.',
+      'Qualquer diferenca, por menor que seja, e sempre uma discrepancia significativa.'
+    ],
+    gabarito: 1,
+    feedbacks: [
+      'Incorreto. 0,04 m e 4 vezes maior que a incerteza — esta bem FORA dela, nao dentro.',
+      'Correto! 0,04 / 0,01 = 4x a incerteza. Acima de ~2-3x ja e discrepancia significativa.',
+      'Incorreto. Arredondar nao resolve uma discrepancia real — apenas esconde o problema.',
+      'Incorreto. Diferencas DENTRO de 1-2x a incerteza sao esperadas e NAO significativas.'
+    ],
+    general: 'Uma diferenca acima de 2-3x a incerteza e discrepancia significativa. Aqui sao 4x: investigar.' }
+];
+
+const LS_PREFIX = 'ifmg_fe_t0a_tn_';
+let respostas = {};
+let enviado = false;
+
+function init() {
+  const prog = document.getElementById('progresso');
+  for (let i = 0; i < 5; i++) { const s = document.createElement('div'); s.className = 'seg'; s.dataset.q = i; prog.appendChild(s); }
+
+  const container = document.getElementById('questoes');
+  QUESTOES.forEach((q, i) => {
+    const div = document.createElement('div');
+    div.className = 'questao'; div.id = 'q-' + i;
+    div.innerHTML = `
+      <div class="q-header">
+        <span class="q-num">${q.id}</span>
+        <span class="q-tema">${q.tema}</span>
+        <span class="q-bloom">Bloom ${q.bloom} &middot; 1 pt</span>
+      </div>
+      <div class="q-enunciado">${q.enunciado}</div>
+      <div class="opcoes">
+        ${q.opcoes.map((op, j) => `<label class="opcao" data-q="${i}" data-op="${j}">
+          <input type="radio" name="q${i}" value="${j}">
+          <span class="opcao-texto">${op}</span>
+        </label>`).join('')}
+      </div>
+      <div class="feedback" id="fb-${i}"></div>`;
+    container.appendChild(div);
+  });
+
+  container.querySelectorAll('input[type="radio"]').forEach(r => {
+    r.addEventListener('change', e => {
+      const qi = parseInt(e.target.name.replace('q', ''));
+      respostas[qi] = parseInt(e.target.value);
+      document.getElementById('q-' + qi).classList.add('respondida');
+      document.querySelector(`.seg[data-q="${qi}"]`).classList.add('respondido');
+      atualizarBotao();
+      salvarLS();
+    });
+  });
+
+  document.getElementById('btn-enviar').addEventListener('click', enviar);
+  document.getElementById('btn-exportar').addEventListener('click', exportarJSON);
+  ['nome','turma','grupo'].forEach(id => document.getElementById(id).addEventListener('input', () => { salvarLS(); atualizarBotao(); }));
+  restaurarLS();
+}
+
+function atualizarBotao() {
+  const nome = document.getElementById('nome').value.trim();
+  const turma = document.getElementById('turma').value;
+  document.getElementById('btn-enviar').disabled = Object.keys(respostas).length < 5 || !nome || !turma || enviado;
+}
+
+function enviar() {
+  if (enviado) return;
+  enviado = true;
+  let acertos = 0;
+
+  QUESTOES.forEach((q, i) => {
+    const resp = respostas[i];
+    const ok = resp === q.gabarito;
+    if (ok) acertos++;
+    const div = document.getElementById('q-' + i);
+    div.className = 'questao ' + (ok ? 'certa' : 'errada');
+    const seg = document.querySelector(`.seg[data-q="${i}"]`);
+    seg.className = 'seg ' + (ok ? 'certo' : 'errado');
+
+    div.querySelectorAll('.opcao').forEach((op, j) => {
+      op.classList.add('bloqueada');
+      if (j === q.gabarito) op.classList.add('certa-vis');
+      else if (j === resp && !ok) op.classList.add('errada-vis');
+    });
+
+    const fb = document.getElementById('fb-' + i);
+    fb.className = 'feedback visivel ' + (ok ? 'fb-certo' : 'fb-errado');
+    fb.innerHTML = `<div class="fb-titulo">${ok ? 'Correto!' : 'Incorreto'}</div>
+      <div class="fb-detalhe">${q.feedbacks[resp]}</div>
+      ${!ok ? '<div class="fb-detalhe" style="margin-top:6px;color:var(--cinza)">' + q.general + '</div>' : ''}`;
+  });
+
+  const res = document.getElementById('resultado');
+  res.classList.add('visivel');
+  document.getElementById('nota-valor').textContent = acertos + ',0';
+  document.getElementById('nota-detalhe').textContent = acertos + ' de 5 questoes corretas (' + (acertos * 20) + '%)';
+
+  document.getElementById('btn-enviar').disabled = true;
+  document.getElementById('btn-exportar').disabled = false;
+  ['nome','turma','grupo'].forEach(id => document.getElementById(id).disabled = true);
+  salvarLS();
+  toast('Testinho enviado — ' + acertos + '/5');
+}
+
+function exportarJSON() {
+  const nome = document.getElementById('nome').value.trim();
+  const turma = document.getElementById('turma').value;
+  const grupo = document.getElementById('grupo').value;
+  let acertos = 0;
+  const qs = QUESTOES.map((q, i) => {
+    const r = respostas[i];
+    const ok = r === q.gabarito;
+    if (ok) acertos++;
+    return { id: q.id, tema: q.tema, bloom: q.bloom, resposta: r, resposta_texto: q.opcoes[r], gabarito: q.gabarito, acertou: ok, pontos: ok ? 1.0 : 0.0 };
+  });
+
+  const dados = {
+    meta: { versao_schema: '1.0', trilha: 'FE-T0A', tipo_oa: 'TN', versao_tn: 'v1', timestamp: new Date().toISOString() },
+    identificacao: { nome, turma, grupo },
+    resultado: { acertos, total: 5, nota: acertos, percentual: acertos * 20 },
+    questoes: qs
+  };
+
+  const nomeArq = 'FE-T0A-TN_' + turma + '_' + grupo + '_' + nome.replace(/\s+/g, '-') + '.json';
+  const blob = new Blob([JSON.stringify(dados, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = nomeArq; a.click();
+  URL.revokeObjectURL(url);
+  toast('JSON exportado: ' + nomeArq);
+}
+
+function salvarLS() {
+  try { localStorage.setItem(LS_PREFIX + 'dados', JSON.stringify({ nome: document.getElementById('nome').value, turma: document.getElementById('turma').value, grupo: document.getElementById('grupo').value, respostas, enviado })); } catch(e) {}
+}
+
+function restaurarLS() {
+  try {
+    const raw = localStorage.getItem(LS_PREFIX + 'dados');
+    if (!raw) return;
+    const d = JSON.parse(raw);
+    if (d.nome) document.getElementById('nome').value = d.nome;
+    if (d.turma) document.getElementById('turma').value = d.turma;
+    if (d.grupo) document.getElementById('grupo').value = d.grupo;
+    if (d.respostas) {
+      respostas = d.respostas;
+      Object.entries(respostas).forEach(([qi, v]) => {
+        const radio = document.querySelector(`input[name="q${qi}"][value="${v}"]`);
+        if (radio) radio.checked = true;
+      });
+    }
+    if (d.enviado) enviar();
+    else { Object.keys(respostas).forEach(qi => { document.getElementById('q-'+qi).classList.add('respondida'); document.querySelector(`.seg[data-q="${qi}"]`).classList.add('respondido'); }); }
+    atualizarBotao();
+  } catch(e) {}
+}
+
+function toast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('visivel'); setTimeout(() => t.classList.remove('visivel'), 3000); }
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

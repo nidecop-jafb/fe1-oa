@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FE-T0A · Inventario de Equipamento</title>
+<style>
+:root {
+  --azul: oklch(0.65 0.22 45);
+  --azul-claro: oklch(0.72 0.19 45);
+  --azul-bg: oklch(0.28 0.05 45);
+  --ouro: oklch(0.85 0.18 95);
+  --ouro-claro: oklch(0.25 0.04 95);
+  --verde: oklch(0.7 0.15 150);
+  --verde-claro: oklch(0.25 0.04 150);
+  --erro: oklch(0.6 0.22 25);
+  --erro-claro: oklch(0.22 0.05 25);
+  --cinza: oklch(0.55 0.02 260);
+  --cinza-claro: oklch(0.18 0.02 260);
+  --cinza-borda: oklch(0.38 0.02 260);
+  --texto: oklch(0.93 0 0);
+  --branco: oklch(0.93 0 0);
+  --superficie: oklch(0.24 0.02 260);
+  --input-bg: oklch(0.2 0.02 260);
+  --hover-bg: oklch(0.22 0.02 260);
+  --r: 0px;
+  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'Space Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font); background: var(--cinza-claro); color: var(--texto); line-height: 1.5; min-height: 100vh; }
+
+.header { background: oklch(0.14 0.02 260); border-top: 3px solid var(--azul); padding: 12px 20px; }
+.header-inner { max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+.header h1 { font-size: 1.05rem; font-weight: 700; }
+.header .badge { background: var(--azul); color: var(--branco); padding: 3px 10px; border-radius: 20px; font-size: .7rem; font-weight: 700; text-transform: uppercase; }
+
+.progresso-bar { max-width: 800px; margin: 10px auto 0; display: flex; align-items: center; gap: 8px; }
+.progresso-bar .track { flex: 1; height: 6px; background: var(--cinza-borda); }
+.progresso-bar .fill { height: 100%; background: var(--verde); transition: width .3s; }
+.progresso-bar .pct { font-family: var(--mono); font-size: .68rem; color: var(--cinza); min-width: 36px; text-align: right; }
+
+main { max-width: 800px; margin: 0 auto; padding: 16px; }
+
+.id-box { background: var(--superficie); padding: 14px 18px; margin-bottom: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 14px; }
+.id-box .campo { display: flex; flex-direction: column; gap: 3px; }
+.id-box .campo.full { grid-column: 1 / -1; }
+.id-box label { font-size: .68rem; font-weight: 600; color: var(--azul); text-transform: uppercase; letter-spacing: .3px; }
+.id-box input, .id-box select { background: var(--input-bg); border: 1px solid var(--cinza-borda); color: var(--texto); padding: 7px 10px; font-family: var(--font); font-size: .82rem; border-radius: var(--r); min-height: 36px; }
+.id-box input:focus, .id-box select:focus { outline: none; border-color: var(--azul); box-shadow: 0 0 0 2px var(--azul-bg); }
+
+.instrucao { background: var(--azul-bg); border-left: 3px solid var(--azul); padding: 12px 16px; margin-bottom: 16px; font-size: .82rem; }
+
+.categoria { margin-bottom: 16px; }
+.cat-header { background: var(--superficie); padding: 10px 16px; display: flex; align-items: center; gap: 10px; border-left: 3px solid var(--azul); }
+.cat-icon { font-size: 1.1rem; }
+.cat-titulo { font-size: .82rem; font-weight: 700; flex: 1; }
+.cat-count { font-family: var(--mono); font-size: .68rem; color: var(--cinza); }
+
+.item-eq { display: grid; grid-template-columns: 36px 1fr auto; align-items: center; gap: 10px; padding: 10px 16px; background: var(--input-bg); border-bottom: 1px solid oklch(0.22 0.02 260); transition: background .15s; }
+.item-eq:hover { background: var(--hover-bg); }
+.item-eq.ok { border-left: 3px solid var(--verde); }
+.item-eq.problema { border-left: 3px solid var(--erro); }
+.item-eq input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--verde); }
+.item-info { display: flex; flex-direction: column; gap: 2px; }
+.item-nome { font-size: .82rem; font-weight: 600; }
+.item-detalhe { font-size: .68rem; color: var(--cinza); }
+.item-qty { font-family: var(--mono); font-size: .72rem; color: var(--ouro); background: var(--ouro-claro); padding: 2px 8px; white-space: nowrap; }
+
+.obs-campo { display: none; padding: 6px 16px 10px 62px; background: var(--input-bg); }
+.obs-campo.visivel { display: block; }
+.obs-campo select { background: var(--superficie); border: 1px solid var(--cinza-borda); color: var(--texto); padding: 5px 8px; font-family: var(--font); font-size: .72rem; border-radius: var(--r); width: 100%; }
+
+.resumo { background: var(--superficie); padding: 16px 20px; margin: 16px 0; display: none; border: 2px solid var(--verde); }
+.resumo.visivel { display: block; }
+.resumo-titulo { font-size: .82rem; font-weight: 700; color: var(--verde); margin-bottom: 8px; text-transform: uppercase; }
+.resumo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.resumo-card { text-align: center; padding: 8px; }
+.resumo-card .val { font-family: var(--mono); font-size: 1.4rem; font-weight: 700; }
+.resumo-card .lbl { font-size: .62rem; text-transform: uppercase; color: var(--cinza); }
+.resumo-card:nth-child(1) .val { color: var(--verde); }
+.resumo-card:nth-child(2) .val { color: var(--erro); }
+.resumo-card:nth-child(3) .val { color: var(--azul); }
+
+.acoes { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+.btn { padding: 10px 20px; border: none; font-family: var(--font); font-size: .82rem; font-weight: 600; cursor: pointer; min-height: 44px; transition: background .15s; }
+.btn-primario { background: var(--azul); color: var(--branco); }
+.btn-primario:hover { background: var(--azul-claro); }
+.btn-primario:disabled { background: var(--cinza-borda); cursor: not-allowed; color: var(--cinza); }
+.btn-secundario { background: var(--superficie); color: var(--texto); border: 1px solid var(--cinza-borda); }
+.btn-secundario:hover { background: var(--hover-bg); }
+.btn-secundario:disabled { opacity: .5; cursor: not-allowed; }
+
+.toast { position: fixed; bottom: 20px; right: 20px; background: var(--superficie); border: 1px solid var(--verde); border-left: 4px solid var(--verde); color: var(--texto); padding: 12px 18px; font-size: .82rem; z-index: 999; opacity: 0; transform: translateY(10px); transition: opacity .3s, transform .3s; pointer-events: none; }
+.toast.visivel { opacity: 1; transform: translateY(0); }
+.footer { text-align: center; padding: 16px; font-size: .65rem; color: var(--cinza); margin-top: 16px; border-top: 1px solid var(--cinza-borda); }
+
+@media (max-width: 600px) { main { padding: 10px; } .id-box { grid-template-columns: 1fr; } .resumo-grid { grid-template-columns: 1fr; } }
+@media print {
+  body { background: white !important; color: #1A1A1A !important; }
+  .header { background: none !important; border-top: 2px solid #1F3864 !important; }
+  .item-eq { background: #F8F8F8 !important; border-left-color: #CCC !important; }
+  .item-eq.ok { border-left-color: #27AE60 !important; }
+  .item-eq.problema { border-left-color: #C0392B !important; }
+  .acoes, .progresso-bar { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <h1>FE-T0A &middot; Inventario de Equipamento</h1>
+    <span class="badge">Pre-Lab &middot; Checklist</span>
+  </div>
+  <div class="progresso-bar"><div class="track"><div class="fill" id="progFill" style="width:0%"></div></div><span class="pct" id="progPct">0%</span></div>
+</header>
+
+<main>
+
+<div class="id-box">
+  <div class="campo full"><label for="nome">Nome completo</label><input type="text" id="nome" placeholder="Seu nome"></div>
+  <div class="campo"><label for="turma">Turma</label><select id="turma"><option value="">Selecione</option><option value="MIN1A">MIN1A</option><option value="MIN1B">MIN1B</option><option value="MIN1C">MIN1C</option></select></div>
+  <div class="campo"><label for="grupo">Grupo</label><select id="grupo"><option value="">Selecione</option><option value="A">Grupo A</option><option value="B">Grupo B</option></select></div>
+  <div class="campo"><label for="bancada">Bancada</label><select id="bancada"><option value="">Selecione</option><option value="1">Bancada 1</option><option value="2">Bancada 2</option><option value="3">Bancada 3</option><option value="4">Bancada 4</option><option value="5">Bancada 5</option></select></div>
+  <div class="campo"><label for="data_aula">Data da aula</label><input type="date" id="data_aula"></div>
+</div>
+
+<div class="instrucao">Confira cada item <strong>antes de iniciar a pratica</strong>. Marque os itens presentes e em condicao de uso. Se houver problema, selecione o tipo de ocorrencia.</div>
+
+<div id="categorias"></div>
+
+<div class="resumo" id="resumo">
+  <div class="resumo-titulo">Verificacao concluida</div>
+  <div class="resumo-grid">
+    <div class="resumo-card"><div class="val" id="res-ok">0</div><div class="lbl">Conforme</div></div>
+    <div class="resumo-card"><div class="val" id="res-prob">0</div><div class="lbl">Com problema</div></div>
+    <div class="resumo-card"><div class="val" id="res-total">0</div><div class="lbl">Total verificado</div></div>
+  </div>
+</div>
+
+<div class="acoes">
+  <button class="btn btn-primario" id="btn-enviar" disabled>Enviar verificacao</button>
+  <button class="btn btn-secundario" id="btn-exportar" disabled>Exportar JSON</button>
+</div>
+
+</main>
+
+<div class="footer">FE-T0A &middot; Inventario de Equipamento v1 &middot; Fisica Experimental 1 &middot; IFMG &mdash; Campus Ouro Preto &middot; 2026</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const CATEGORIAS = [
+  { titulo: 'Instrumentos de medicao (parede do Lab)', icon: '1', itens: [
+    { id:'esc1', nome:'Escala manual #1', detalhe:'Menor divisao: 1,0 m — afixada na parede', qty:'1/lab' },
+    { id:'esc2', nome:'Escala manual #2', detalhe:'Menor divisao: 1,0 dm (0,1 m) — afixada na parede', qty:'1/lab' },
+    { id:'esc3', nome:'Escala manual #3', detalhe:'Menor divisao: 1,0 cm (0,01 m) — afixada na parede', qty:'1/lab' },
+    { id:'fita', nome:'Fita metrica', detalhe:'Menor divisao: 1,0 mm (0,001 m) — colada na parede', qty:'1/lab' },
+    { id:'esq', nome:'Esquadro de madeira ou acrilico', detalhe:'Para alinhar o topo da cabeca na leitura', qty:'1/bancada' }
+  ]},
+  { titulo: 'Material do estudante', icon: '2', itens: [
+    { id:'caderno', nome:'Caderno de Laboratorio', detalhe:'Capa dura, pautado, dedicado a FE1', qty:'1/aluno' },
+    { id:'regua', nome:'Regua escolar 30 cm', detalhe:'Menor divisao 1 mm — trazer de casa', qty:'1/aluno' },
+    { id:'calc', nome:'Calculadora cientifica', detalhe:'Para media e incerteza', qty:'1/aluno' },
+    { id:'caneta', nome:'Caneta ou lapis', detalhe:'Para registro no Caderno de Laboratorio', qty:'1/aluno' },
+    { id:'celular', nome:'Celular com camera', detalhe:'Para fotografar bancada e anotacoes', qty:'1/aluno' }
+  ]},
+  { titulo: 'EPI — Equipamento de Protecao Individual', icon: '3', itens: [
+    { id:'calcado', nome:'Calcado fechado', detalhe:'Recomendado na T0A; obrigatorio a partir de T01', qty:'1/aluno' }
+  ]},
+  { titulo: 'Infraestrutura do Lab de Mecanica', icon: '4', itens: [
+    { id:'bancada', nome:'Bancada de trabalho', detalhe:'Bancada branca limpa e desimpedida', qty:'1/grupo' },
+    { id:'quadro', nome:'Quadro branco ou lousa', detalhe:'Para consolidacao das normas de seguranca', qty:'1/lab' }
+  ]},
+  { titulo: 'Consumiveis (T0A)', icon: '5', itens: [
+    { id:'papel', nome:'Papel kraft ou cartolina', detalhe:'Para cartaz das normas do Lab', qty:'1 folha' },
+    { id:'fitaadesiva', nome:'Fita adesiva', detalhe:'Para afixar cartaz na parede', qty:'1 rolo' },
+    { id:'pincel', nome:'Pinceis atômicos ou canetas grossas', detalhe:'Para escrever as normas no cartaz', qty:'3-4' }
+  ]}
+];
+
+const PROBLEMAS = ['Ausente','Danificado','Quantidade insuficiente','Sujo/mal conservado','Outro'];
+const LS_PREFIX = 'ifmg_fe_t0a_ie_';
+let estado = {};
+let enviado = false;
+
+function init() {
+  const container = document.getElementById('categorias');
+  let totalItens = 0;
+
+  CATEGORIAS.forEach(cat => {
+    const div = document.createElement('div');
+    div.className = 'categoria';
+    div.innerHTML = `<div class="cat-header"><span class="cat-icon">${cat.icon}</span><span class="cat-titulo">${cat.titulo}</span><span class="cat-count" data-cat="${cat.titulo}">0/${cat.itens.length}</span></div>`;
+
+    cat.itens.forEach(item => {
+      totalItens++;
+      estado[item.id] = { checked: false, problema: '' };
+      div.innerHTML += `
+        <div class="item-eq" id="eq-${item.id}">
+          <input type="checkbox" id="chk-${item.id}" data-id="${item.id}">
+          <div class="item-info"><span class="item-nome">${item.nome}</span><span class="item-detalhe">${item.detalhe}</span></div>
+          <span class="item-qty">${item.qty}</span>
+        </div>
+        <div class="obs-campo" id="obs-${item.id}">
+          <select data-id="${item.id}"><option value="">Tipo de problema...</option>${PROBLEMAS.map(p => `<option value="${p}">${p}</option>`).join('')}</select>
+        </div>`;
+    });
+    container.appendChild(div);
+  });
+
+  container.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', e => {
+      const id = e.target.dataset.id;
+      estado[id].checked = e.target.checked;
+      const el = document.getElementById('eq-' + id);
+      const obs = document.getElementById('obs-' + id);
+      if (e.target.checked) {
+        el.classList.add('ok');
+        el.classList.remove('problema');
+        obs.classList.remove('visivel');
+        estado[id].problema = '';
+      } else {
+        el.classList.remove('ok');
+      }
+      atualizar();
+      salvarLS();
+    });
+  });
+
+  container.querySelectorAll('.item-eq').forEach(row => {
+    row.addEventListener('contextmenu', e => {
+      e.preventDefault();
+      const id = row.id.replace('eq-', '');
+      const obs = document.getElementById('obs-' + id);
+      obs.classList.toggle('visivel');
+    });
+    row.addEventListener('dblclick', e => {
+      if (e.target.type === 'checkbox') return;
+      const id = row.id.replace('eq-', '');
+      const obs = document.getElementById('obs-' + id);
+      obs.classList.toggle('visivel');
+    });
+  });
+
+  container.querySelectorAll('.obs-campo select').forEach(sel => {
+    sel.addEventListener('change', e => {
+      const id = e.target.dataset.id;
+      estado[id].problema = e.target.value;
+      const el = document.getElementById('eq-' + id);
+      const cb = document.getElementById('chk-' + id);
+      if (e.target.value) {
+        el.classList.add('problema');
+        el.classList.remove('ok');
+        cb.checked = false;
+        estado[id].checked = false;
+      } else {
+        el.classList.remove('problema');
+      }
+      atualizar();
+      salvarLS();
+    });
+  });
+
+  document.getElementById('btn-enviar').addEventListener('click', enviar);
+  document.getElementById('btn-exportar').addEventListener('click', exportarJSON);
+  ['nome','turma','grupo','bancada','data_aula'].forEach(id => {
+    document.getElementById(id).addEventListener('input', salvarLS);
+  });
+
+  restaurarLS();
+  atualizar();
+}
+
+function atualizar() {
+  const ids = Object.keys(estado);
+  const total = ids.length;
+  const verificados = ids.filter(id => estado[id].checked || estado[id].problema).length;
+  const ok = ids.filter(id => estado[id].checked && !estado[id].problema).length;
+  const prob = ids.filter(id => estado[id].problema).length;
+  const pct = total > 0 ? Math.round(verificados / total * 100) : 0;
+
+  document.getElementById('progFill').style.width = pct + '%';
+  document.getElementById('progPct').textContent = pct + '%';
+  document.getElementById('btn-enviar').disabled = verificados < total || enviado;
+
+  CATEGORIAS.forEach(cat => {
+    const catOk = cat.itens.filter(i => estado[i.id].checked || estado[i.id].problema).length;
+    const span = document.querySelector(`.cat-count[data-cat="${cat.titulo}"]`);
+    if (span) span.textContent = catOk + '/' + cat.itens.length;
+  });
+}
+
+function enviar() {
+  if (enviado) return;
+  enviado = true;
+
+  const ids = Object.keys(estado);
+  const ok = ids.filter(id => estado[id].checked && !estado[id].problema).length;
+  const prob = ids.filter(id => estado[id].problema).length;
+  const total = ids.filter(id => estado[id].checked || estado[id].problema).length;
+
+  document.getElementById('res-ok').textContent = ok;
+  document.getElementById('res-prob').textContent = prob;
+  document.getElementById('res-total').textContent = total;
+  document.getElementById('resumo').classList.add('visivel');
+
+  document.getElementById('btn-enviar').disabled = true;
+  document.getElementById('btn-exportar').disabled = false;
+  document.querySelectorAll('.item-eq input[type="checkbox"]').forEach(cb => cb.disabled = true);
+  document.querySelectorAll('.obs-campo select').forEach(sel => sel.disabled = true);
+  ['nome','turma','grupo','bancada','data_aula'].forEach(id => document.getElementById(id).disabled = true);
+
+  salvarLS();
+  toast('Verificacao enviada');
+}
+
+function exportarJSON() {
+  const nome = document.getElementById('nome').value.trim();
+  const turma = document.getElementById('turma').value;
+  const grupo = document.getElementById('grupo').value;
+  const bancada = document.getElementById('bancada').value;
+  const data_aula = document.getElementById('data_aula').value;
+
+  const ids = Object.keys(estado);
+  const itensArr = [];
+  CATEGORIAS.forEach(cat => {
+    cat.itens.forEach(item => {
+      itensArr.push({
+        id: item.id, nome: item.nome, categoria: cat.titulo,
+        conforme: estado[item.id].checked && !estado[item.id].problema,
+        problema: estado[item.id].problema || null
+      });
+    });
+  });
+
+  const ok = itensArr.filter(i => i.conforme).length;
+  const prob = itensArr.filter(i => i.problema).length;
+
+  const dados = {
+    meta: { versao_schema: '1.0', trilha: 'FE-T0A', tipo_oa: 'IE', versao_ie: 'v1', timestamp: new Date().toISOString() },
+    identificacao: { nome, turma, grupo, bancada, data_aula },
+    resultado: { conforme: ok, com_problema: prob, total: itensArr.length, percentual_conforme: Math.round(ok / itensArr.length * 100) },
+    itens: itensArr
+  };
+
+  const nomeArq = 'FE-T0A-IE_' + turma + '_' + grupo + '_B' + bancada + '_' + nome.replace(/\s+/g, '-') + '.json';
+  const blob = new Blob([JSON.stringify(dados, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = nomeArq; a.click();
+  URL.revokeObjectURL(url);
+  toast('JSON exportado: ' + nomeArq);
+}
+
+function salvarLS() {
+  try { localStorage.setItem(LS_PREFIX + 'dados', JSON.stringify({
+    nome: document.getElementById('nome').value,
+    turma: document.getElementById('turma').value,
+    grupo: document.getElementById('grupo').value,
+    bancada: document.getElementById('bancada').value,
+    data_aula: document.getElementById('data_aula').value,
+    estado, enviado
+  })); } catch(e) {}
+}
+
+function restaurarLS() {
+  try {
+    const raw = localStorage.getItem(LS_PREFIX + 'dados');
+    if (!raw) return;
+    const d = JSON.parse(raw);
+    if (d.nome) document.getElementById('nome').value = d.nome;
+    if (d.turma) document.getElementById('turma').value = d.turma;
+    if (d.grupo) document.getElementById('grupo').value = d.grupo;
+    if (d.bancada) document.getElementById('bancada').value = d.bancada;
+    if (d.data_aula) document.getElementById('data_aula').value = d.data_aula;
+    if (d.estado) {
+      Object.entries(d.estado).forEach(([id, val]) => {
+        estado[id] = val;
+        const cb = document.getElementById('chk-' + id);
+        if (cb) cb.checked = val.checked;
+        const el = document.getElementById('eq-' + id);
+        if (el && val.checked) el.classList.add('ok');
+        if (val.problema) {
+          if (el) { el.classList.add('problema'); el.classList.remove('ok'); }
+          const obs = document.getElementById('obs-' + id);
+          if (obs) { obs.classList.add('visivel'); obs.querySelector('select').value = val.problema; }
+        }
+      });
+    }
+    if (d.enviado) enviar();
+  } catch(e) {}
+}
+
+function toast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('visivel'); setTimeout(() => t.classList.remove('visivel'), 3000); }
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

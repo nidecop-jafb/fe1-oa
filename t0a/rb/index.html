@@ -1,0 +1,1711 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FE-T0A · Roteiro de Bancada</title>
+<style>
+:root {
+  /* Brutalismo Cientifico / Industrial */
+  --azul: oklch(0.65 0.22 45);
+  --azul-claro: oklch(0.72 0.19 45);
+  --azul-bg: oklch(0.28 0.05 45);
+  --ouro: oklch(0.85 0.18 95);
+  --ouro-claro: oklch(0.25 0.04 95);
+  --verde: oklch(0.7 0.15 150);
+  --verde-claro: oklch(0.25 0.04 150);
+  --erro: oklch(0.6 0.22 25);
+  --erro-claro: oklch(0.22 0.05 25);
+  --cinza: oklch(0.55 0.02 260);
+  --cinza-claro: oklch(0.18 0.02 260);
+  --cinza-borda: oklch(0.38 0.02 260);
+  --texto: oklch(0.93 0 0);
+  --branco: oklch(0.93 0 0);
+  --superficie: oklch(0.24 0.02 260);
+  --input-bg: oklch(0.2 0.02 260);
+  --hover-bg: oklch(0.22 0.02 260);
+  --r: 0px;
+  --r-sm: 0px;
+  --shadow: 0 1px 0 oklch(0.3 0.02 260);
+  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'Space Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font);
+  background: var(--cinza-claro);
+  color: var(--texto);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+/* === HEADER === */
+.header {
+  position: sticky; top: 0; z-index: 100;
+  background: oklch(0.14 0.02 260);
+  color: var(--branco);
+  padding: 12px 20px;
+  border-top: 3px solid var(--azul);
+  box-shadow: 0 2px 12px rgba(0,0,0,.4);
+}
+.header-row {
+  display: flex; align-items: center; justify-content: space-between;
+  max-width: 800px; margin: 0 auto;
+}
+.header h1 { font-size: 1.1rem; font-weight: 700; letter-spacing: .5px; }
+.header .badge {
+  background: rgba(255,255,255,.2);
+  padding: 2px 10px; border-radius: 20px;
+  font-size: .75rem; font-weight: 600;
+}
+.progress-bar {
+  max-width: 800px; margin: 8px auto 0;
+  display: flex; gap: 4px; height: 4px;
+}
+.progress-bar .seg {
+  flex: 1; border-radius: 2px;
+  background: rgba(255,255,255,.25);
+  transition: background .3s;
+}
+.progress-bar .seg.done { background: var(--ouro); }
+
+/* === MAIN === */
+main {
+  max-width: 800px; margin: 0 auto;
+  padding: 16px;
+}
+
+/* === BANNER RESTAURACAO === */
+.banner {
+  background: var(--ouro-claro);
+  border: 1px solid var(--ouro);
+  border-radius: var(--r);
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  display: flex; align-items: center; gap: 12px;
+  flex-wrap: wrap;
+}
+.banner-texto { flex: 1; min-width: 200px; font-size: .9rem; }
+.banner-texto strong { color: var(--azul); }
+.banner-acoes { display: flex; gap: 8px; }
+.banner .btn-sm {
+  padding: 6px 14px; border-radius: var(--r-sm);
+  border: none; cursor: pointer; font-size: .8rem; font-weight: 600;
+}
+.banner .btn-restaurar { background: var(--azul); color: var(--branco); }
+.banner .btn-descartar { background: transparent; color: var(--erro); border: 1px solid var(--erro); }
+
+/* === SECAO === */
+.secao {
+  background: var(--superficie);
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+  margin-bottom: 12px;
+  border-left: 4px solid var(--cinza-borda);
+  transition: border-color .3s;
+  overflow: hidden;
+}
+.secao.concluida { border-left-color: var(--verde); }
+.secao.ativa { border-left-color: var(--azul); }
+.secao.erro { border-left-color: var(--erro); }
+.secao.bloqueada { opacity: .5; pointer-events: none; }
+
+.secao-header {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 16px;
+  cursor: pointer;
+  user-select: none;
+  transition: background .15s;
+}
+.secao-header:hover { background: var(--hover-bg); }
+.secao-header:focus-visible { outline: 2px solid var(--azul); outline-offset: -2px; }
+
+.secao-num {
+  width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: var(--input-bg);
+  color: var(--cinza);
+  font-size: .8rem; font-weight: 700;
+  flex-shrink: 0;
+  transition: background .3s, color .3s;
+}
+.secao.concluida .secao-num { background: var(--verde-claro); color: var(--verde); }
+.secao.ativa .secao-num { background: var(--azul-bg); color: var(--azul); }
+
+.secao-titulo { flex: 1; font-weight: 600; font-size: .95rem; }
+.secao-chevron {
+  width: 20px; height: 20px;
+  transition: transform .2s;
+  color: var(--cinza);
+}
+.secao.aberta .secao-chevron { transform: rotate(180deg); }
+
+.secao-corpo {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .3s ease-out;
+}
+.secao.aberta .secao-corpo { max-height: 8000px; }
+.secao-conteudo { padding: 0 16px 16px; }
+
+/* === FORMULARIO === */
+.campo { margin-bottom: 14px; }
+.campo label {
+  display: block;
+  font-size: .8rem; font-weight: 600;
+  color: var(--azul);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+.campo-hint {
+  font-size: .75rem; color: var(--cinza);
+  margin-top: 2px; font-style: italic;
+}
+.campo-instrucao {
+  font-size: .82rem; color: var(--texto);
+  margin-bottom: 10px; line-height: 1.5;
+  background: var(--input-bg);
+  padding: 10px 14px;
+  border-radius: var(--r-sm);
+  border-left: 3px solid var(--azul);
+}
+input[type="text"], input[type="number"], input[type="date"], select, textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid var(--cinza-borda);
+  border-radius: var(--r-sm);
+  font-family: var(--font);
+  font-size: .95rem;
+  transition: border-color .2s, box-shadow .2s;
+  background: var(--input-bg);
+  color: var(--texto);
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--azul);
+  box-shadow: 0 0 0 3px oklch(0.65 0.22 45 / .2);
+}
+input.valido, select.valido, textarea.valido { border-color: var(--verde); }
+input.invalido, select.invalido, textarea.invalido { border-color: var(--erro); }
+.msg-erro {
+  font-size: .75rem; color: var(--erro);
+  margin-top: 2px; display: none;
+}
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+
+/* === CHECKBOX GROUP === */
+.check-grupo { margin-bottom: 12px; }
+.check-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 14px;
+  border: 1.5px solid var(--cinza-borda);
+  border-radius: var(--r);
+  margin-bottom: 6px;
+  cursor: pointer;
+  transition: all .15s;
+  min-height: 44px;
+}
+.check-item:hover { border-color: var(--azul-claro); background: var(--hover-bg); }
+.check-item input[type="checkbox"] {
+  width: 20px; height: 20px;
+  accent-color: var(--azul);
+  flex-shrink: 0;
+  margin-top: 2px;
+  cursor: pointer;
+}
+.check-item span { font-size: .88rem; line-height: 1.4; cursor: pointer; }
+.check-item.marcado { border-color: var(--verde); background: var(--verde-claro); }
+
+/* === ASSINATURA === */
+.assinatura-box {
+  display: flex; align-items: center; gap: 12px;
+  margin-top: 12px;
+  padding: 14px;
+  border: 2px dashed var(--azul);
+  border-radius: var(--r);
+  background: var(--input-bg);
+}
+.assinatura-box label {
+  font-size: .85rem; font-weight: 600;
+  color: var(--azul);
+  white-space: nowrap;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.assinatura-box input {
+  flex: 1;
+  font-family: var(--mono);
+  font-style: italic;
+}
+
+/* === ALERTA SEGURANCA === */
+.alerta-seg {
+  background: var(--erro-claro);
+  border: 1.5px solid var(--erro);
+  border-radius: var(--r);
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  font-size: .85rem;
+  display: flex; align-items: center; gap: 10px;
+}
+.alerta-seg-icon { font-size: 1.2rem; flex-shrink: 0; }
+.alerta-seg.desbloqueado {
+  background: var(--verde-claro);
+  border-color: var(--verde);
+}
+
+/* === TABELA DADOS === */
+.tabela-scroll { overflow-x: auto; margin: 8px 0; }
+.tabela-dados {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+/* simbolos de grandeza e unidades SI nunca sao maiusculizados */
+.un { text-transform: none; }
+.tabela-dados th {
+  background: var(--azul);
+  color: var(--branco);
+  padding: 8px 10px;
+  font-size: .7rem;
+  text-transform: uppercase;
+  letter-spacing: .3px;
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+}
+.tabela-dados th:first-child { border-radius: var(--r-sm) 0 0 0; text-align: left; }
+.tabela-dados th:last-child { border-radius: 0 var(--r-sm) 0 0; }
+.tabela-dados td {
+  padding: 4px 4px;
+  border-bottom: 1px solid oklch(0.25 0.02 260);
+  vertical-align: middle;
+  text-align: center;
+}
+.tabela-dados tr:last-child td { border-bottom: none; }
+.tabela-dados tr.voce-row { background: var(--azul-bg); }
+.tabela-dados .rotulo-input {
+  font-size: .85rem;
+  padding: 8px 10px;
+  min-width: 100px;
+}
+.tabela-dados input[type="number"] {
+  padding: 8px 6px;
+  font-size: .85rem;
+  width: 85px;
+  text-align: center;
+}
+.tabela-dados .auto-val {
+  font-family: var(--mono);
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--azul);
+  min-width: 70px;
+}
+.tabela-dados .auto-val.vazio { color: var(--cinza); font-weight: 400; }
+
+/* === CALCULOS === */
+.calc-box {
+  background: var(--input-bg);
+  border-radius: var(--r);
+  padding: 16px;
+  margin: 8px 0;
+}
+.calc-row {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+.calc-row:last-child { margin-bottom: 0; }
+.calc-label { font-size: .85rem; color: var(--texto); font-weight: 500; min-width: 80px; }
+.calc-formula {
+  font-family: var(--mono);
+  font-size: .85rem;
+  color: var(--cinza);
+  flex: 1;
+}
+.calc-result {
+  font-family: var(--mono);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--azul);
+  background: var(--superficie);
+  padding: 6px 14px;
+  border-radius: var(--r-sm);
+  border: 1.5px solid var(--azul-bg);
+  min-width: 120px;
+  text-align: center;
+  transition: all .3s;
+}
+.calc-result.vazio { color: var(--cinza); font-weight: 400; }
+
+/* === RESULTADO === */
+.resultado-destaque {
+  background: linear-gradient(135deg, var(--azul-bg), var(--ouro-claro));
+  border: 1px solid var(--cinza-borda);
+  border-radius: var(--r);
+  padding: 20px;
+  text-align: center;
+  margin: 8px 0;
+}
+.resultado-titulo {
+  font-size: .8rem; text-transform: uppercase; letter-spacing: 1px;
+  color: var(--azul); margin-bottom: 8px; font-weight: 600;
+}
+.resultado-valor {
+  font-family: var(--mono);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--azul);
+  letter-spacing: 1px;
+}
+.resultado-valor.vazio { color: var(--cinza); font-size: 1rem; font-weight: 400; }
+
+/* === C5 STEP === */
+.c5-step { margin-bottom: 16px; }
+.c5-step-header {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 6px;
+}
+.c5-step-num {
+  width: 24px; height: 24px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: var(--azul-bg);
+  color: var(--azul);
+  font-size: .7rem; font-weight: 700;
+  flex-shrink: 0;
+}
+.c5-step-label {
+  font-size: .85rem; font-weight: 600;
+  color: var(--azul);
+}
+
+/* === TEXTAREA / CONTADORES === */
+textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+.contador-palavras {
+  text-align: right;
+  font-size: .75rem;
+  color: var(--cinza);
+  margin-top: 4px;
+}
+.contador-palavras.ok { color: var(--verde); }
+.contador-palavras.curto { color: var(--ouro); }
+
+/* === NORMA TABLE === */
+.norma-row {
+  display: grid;
+  grid-template-columns: 32px 1fr 160px;
+  gap: 8px;
+  margin-bottom: 6px;
+  align-items: start;
+}
+.norma-num {
+  width: 32px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--azul-bg);
+  color: var(--azul);
+  font-size: .8rem; font-weight: 700;
+  border-radius: var(--r-sm);
+}
+.norma-row textarea { min-height: 40px; }
+.norma-row input { padding: 10px 12px; }
+
+/* === FOOTER === */
+.footer {
+  display: flex; gap: 10px;
+  flex-wrap: wrap;
+  margin: 16px 0 40px;
+}
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 20px;
+  border: none; border-radius: var(--r);
+  font-family: var(--font);
+  font-size: .9rem; font-weight: 600;
+  cursor: pointer;
+  transition: all .15s;
+  min-height: 44px;
+}
+.btn:focus-visible { outline: 2px solid var(--azul); outline-offset: 2px; }
+.btn:active { transform: scale(.97); }
+.btn-primario {
+  background: var(--azul);
+  color: var(--branco);
+}
+.btn-primario:hover { background: var(--azul-claro); }
+.btn-primario:disabled {
+  background: var(--cinza-borda);
+  cursor: not-allowed;
+  transform: none;
+}
+.btn-secundario {
+  background: var(--superficie);
+  color: var(--azul);
+  border: 1.5px solid var(--azul);
+}
+.btn-secundario:hover { background: var(--azul-bg); }
+.btn-ghost {
+  background: transparent;
+  color: var(--cinza);
+  border: 1px solid var(--cinza-borda);
+}
+.btn-ghost:hover { background: var(--hover-bg); color: var(--texto); }
+.btn-add {
+  background: var(--ouro-claro);
+  color: var(--ouro);
+  border: 1px solid var(--ouro);
+  font-size: .82rem;
+  padding: 8px 14px;
+}
+.btn-add:hover { background: var(--azul-bg); }
+
+/* === TOAST === */
+.toast {
+  position: fixed; bottom: 20px; right: 20px;
+  background: var(--azul);
+  color: var(--branco);
+  padding: 12px 20px;
+  border-radius: var(--r);
+  font-size: .85rem; font-weight: 500;
+  box-shadow: 0 4px 16px rgba(0,0,0,.2);
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all .3s;
+  z-index: 200;
+  max-width: 360px;
+}
+.toast.visivel { transform: translateY(0); opacity: 1; }
+.toast.sucesso { background: var(--verde); }
+.toast.erro { background: var(--erro); }
+
+/* === CREDITOS === */
+.creditos {
+  text-align: center;
+  padding: 20px;
+  font-size: .7rem;
+  color: var(--cinza);
+  border-top: 1px solid var(--cinza-borda);
+  margin-top: 20px;
+}
+
+/* === RESPONSIVO === */
+@media (max-width: 600px) {
+  .header h1 { font-size: .95rem; }
+  main { padding: 10px; }
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .tabela-dados { font-size: .8rem; }
+  .tabela-dados input[type="number"] { width: 65px; font-size: .8rem; padding: 6px 4px; }
+  .tabela-dados .rotulo-input { min-width: 80px; font-size: .8rem; }
+  .resultado-valor { font-size: 1.1rem; }
+  .footer { flex-direction: column; }
+  .btn { width: 100%; justify-content: center; }
+  .norma-row { grid-template-columns: 28px 1fr; }
+  .norma-row input:last-child { grid-column: 2; }
+}
+
+/* === IMPRESSAO === */
+@media print {
+  body { background: white !important; color: #1A1A1A !important; }
+  .header {
+    position: static; background: none !important; color: #1A1A1A;
+    box-shadow: none; border-bottom: 2px solid #1F3864; border-top: none;
+    padding: 8px 0;
+  }
+  .header h1 { color: #1F3864; }
+  .header .badge { display: none; }
+  .progress-bar { display: none; }
+  main { padding: 0; max-width: none; }
+  .secao {
+    background: white !important;
+    box-shadow: none; border-radius: 0;
+    border-left: 2px solid #1F3864;
+    page-break-inside: avoid;
+    margin-bottom: 6px;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+  .secao-corpo { max-height: none !important; }
+  .secao-chevron { display: none; }
+  .secao-titulo, .secao-num, .calc-label, .calc-formula { color: #1A1A1A !important; }
+  .campo label, .c5-step-label { color: #1F3864 !important; }
+  .c5-step-num { background: #E8EDF4 !important; color: #1F3864 !important; }
+  .footer, .banner, .toast, .creditos, .alerta-seg { display: none; }
+  .btn { display: none; }
+  .campo-hint { display: none; }
+  .campo-instrucao { background: #F4F4F4 !important; color: #1A1A1A !important; border-left-color: #1F3864 !important; }
+  .calc-box { background: #F4F4F4 !important; border: 1px solid #D0D0D0; padding: 8px; }
+  .calc-result { background: white !important; color: #1F3864 !important; border-color: #D0D0D0 !important; }
+  .resultado-destaque { background: white !important; border: 2px solid #1F3864; padding: 12px; }
+  .resultado-titulo, .resultado-valor { color: #1F3864 !important; }
+  .tabela-dados th { background: #F4F4F4 !important; color: #1A1A1A !important; }
+  .tabela-dados .auto-val { color: #1A1A1A !important; }
+  .check-item { border-color: #D0D0D0 !important; background: transparent !important; }
+  .norma-num { background: #E8EDF4 !important; color: #1F3864 !important; }
+  .assinatura-box { border-color: #1F3864 !important; background: transparent !important; }
+  input, select, textarea {
+    border: none !important; border-bottom: 1px solid #D0D0D0 !important;
+    box-shadow: none !important; padding: 4px 2px !important;
+    background: transparent !important; color: #1A1A1A !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-row">
+    <h1>FE-T0A &middot; Roteiro de Bancada</h1>
+    <span class="badge">Lab &middot; 90 min</span>
+  </div>
+  <div class="progress-bar" id="progressBar">
+    <div class="seg" data-sec="1"></div>
+    <div class="seg" data-sec="2"></div>
+    <div class="seg" data-sec="3"></div>
+    <div class="seg" data-sec="4"></div>
+    <div class="seg" data-sec="5"></div>
+    <div class="seg" data-sec="6"></div>
+    <div class="seg" data-sec="7"></div>
+    <div class="seg" data-sec="8"></div>
+  </div>
+</header>
+
+<main>
+
+<!-- BANNER RESTAURACAO -->
+<div class="banner" id="bannerRestaura" style="display:none">
+  <div class="banner-texto">Rascunho salvo em <strong id="bannerData"></strong>.</div>
+  <div class="banner-acoes">
+    <button class="btn-sm btn-restaurar" onclick="restaurarEstado()">Restaurar</button>
+    <button class="btn-sm btn-descartar" onclick="descartarEstado()">Descartar</button>
+  </div>
+</div>
+
+<!-- ALERTA SEGURANCA -->
+<div class="alerta-seg" id="alertaSeg">
+  <span class="alerta-seg-icon">&#9888;</span>
+  <span>Complete a <strong>checklist de seguranca</strong> e assine antes de iniciar as medicoes.</span>
+</div>
+
+<!-- SECAO 1: IDENTIFICACAO -->
+<section class="secao aberta ativa" data-sec="1" id="sec1">
+  <div class="secao-header" tabindex="0" onclick="toggleSecao(this)" role="button" aria-expanded="true">
+    <div class="secao-num">1</div>
+    <div class="secao-titulo">Identificacao</div>
+    <svg class="secao-chevron" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
+  </div>
+  <div class="secao-corpo">
+    <div class="secao-conteudo">
+      <div class="grid-2">
+        <div class="campo">
+          <label for="inp-nome">Nome completo</label>
+          <input type="text" id="inp-nome" placeholder="Seu nome">
+        </div>
+        <div class="campo">
+          <label for="inp-curso">Curso</label>
+          <input type="text" id="inp-curso" placeholder="Tecnico em Mineracao">
+        </div>
+      </div>
+      <div class="grid-3">
+        <div class="campo">
+          <label for="inp-turma">Turma</label>
+          <select id="inp-turma">
+            <option value="">Selecione...</option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label>Grupo</label>
+          <div class="grupo-radio" style="margin-top: 2px;">
+            <label><input type="radio" name="grupo" value="A"><span>A</span></label>
+            <label><input type="radio" name="grupo" value="B"><span>B</span></label>
+          </div>
+        </div>
+        <div class="campo">
+          <label for="inp-bancada">Bancada</label>
+          <select id="inp-bancada">
+            <option value="">Selecione...</option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="campo">
+          <label for="inp-colegas">Colegas do grupo</label>
+          <input type="text" id="inp-colegas" placeholder="Nomes dos colegas de bancada">
+          <div class="campo-hint">Separe os nomes por virgula</div>
+        </div>
+        <div class="campo">
+          <label for="inp-data">Data</label>
+          <input type="date" id="inp-data">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECAO 2: SEGURANCA -->
+<section class="secao" data-sec="2" id="sec2">
+  <div class="secao-header" tabindex="0" onclick="toggleSecao(this)" role="button" aria-expanded="false">
+    <div class="secao-num">0</div>
+    <div class="secao-titulo">Seguranca (assinar ANTES de comecar)</div>
+    <svg class="secao-chevron" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
+  </div>
+  <div class="secao-corpo">
+    <div class="secao-conteudo">
+      <div class="campo-instrucao">Marque todos os itens e assine para desbloquear as partes seguintes do roteiro.</div>
+      <div class="check-grupo" id="checksSeg">
+        <label class="check-item" onclick="atualizarCheck(this)">
+          <input type="checkbox" id="seg1" onchange="verificarSeguranca()">
+          <span>Li o Topico 5 (Seguranca e NR-22) do Texto Tematico.</span>
+        </label>
+        <label class="check-item" onclick="atualizarCheck(this)">
+          <input type="checkbox" id="seg2" onchange="verificarSeguranca()">
+          <span>Sei onde fica o extintor (corredor de entrada do Pavilhao de Fisica).</span>
+        </label>
+        <label class="check-item" onclick="atualizarCheck(this)">
+          <input type="checkbox" id="seg3" onchange="verificarSeguranca()">
+          <span>Estou atenta(o) ao colega de bancada durante a medicao.</span>
+        </label>
+        <label class="check-item" onclick="atualizarCheck(this)">
+          <input type="checkbox" id="seg4" onchange="verificarSeguranca()">
+          <span>Vou comunicar qualquer acidente ou quase-acidente ao professor (NR-22, 22.21).</span>
+        </label>
+      </div>
+      <div class="assinatura-box">
+        <label for="inp-assinatura">Assinatura:</label>
+        <input type="text" id="inp-assinatura" placeholder="Digite seu nome completo para assinar" oninput="verificarSeguranca()">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECAO 3: MEDICOES -->
+<section class="secao bloqueada" data-sec="3" id="sec3">
+  <div class="secao-header" tabindex="0" onclick="toggleSecao(this)" role="button" aria-expanded="false">
+    <div class="secao-num">1</div>
+    <div class="secao-titulo">As 4 Medicoes de Altura</div>
+    <svg class="secao-chevron" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
+  </div>
+  <div class="secao-corpo">
+    <div class="secao-conteudo">
+      <div class="campo-instrucao">
+        <strong>Protocolo:</strong> colega de costas na parede, calcanhar no rodape, olhar reto, sem salto. Esquadro no topo da cabeca com angulo reto na escala. Ler em <strong>metros</strong>, com o <strong>algarismo duvidoso</strong>. Anotar na tabela.
+      </div>
+      <div class="campo-hint" style="margin-bottom: 12px;">
+        <strong>Escalas disponiveis:</strong> 3 escalas na parede (menores divisoes: 1,0 m; 1,0 dm; 1,0 cm) + 1 fita metrica (menor divisao: 1,0 mm). Toda medida vai com <strong>unidade</strong> e respeita os algarismos significativos. <strong>Converta antes de digitar:</strong> a tabela recebe tudo em <strong>metros</strong> &mdash; uma leitura de 16,6 dm na escala #2 entra como 1,66 m; 166,2 cm na #3 entra como 1,662 m.
+      </div>
+      <div class="tabela-scroll">
+        <table class="tabela-dados" id="tabelaMedicoes">
+          <thead>
+            <tr>
+              <th style="min-width:100px">Colega</th>
+              <th>Escala #1 <span class="un">(m)</span><br><span class="un" style="font-weight:400;font-size:.6rem">menor div. 1,0 m</span></th>
+              <th>Escala #2 <span class="un">(m)</span><br><span class="un" style="font-weight:400;font-size:.6rem">menor div. 1,0 dm</span></th>
+              <th>Escala #3 <span class="un">(m)</span><br><span class="un" style="font-weight:400;font-size:.6rem">menor div. 1,0 cm</span></th>
+              <th>Fita metrica <span class="un">(m)</span><br><span class="un" style="font-weight:400;font-size:.6rem">menor div. 1,0 mm</span></th>
+              <th>Media <span class="un">(m)</span></th>
+              <th><span class="un">&delta;h (m)</span></th>
+            </tr>
+          </thead>
+          <tbody id="tabelaCorpo">
+            <tr data-row="0">
+              <td><input type="text" class="rotulo-input inp-colega" data-row="0" placeholder="Nome"></td>
+              <td><input type="number" class="inp-medida" data-row="0" data-col="0" step="any" placeholder="0.0"></td>
+              <td><input type="number" class="inp-medida" data-row="0" data-col="1" step="any" placeholder="0.00"></td>
+              <td><input type="number" class="inp-medida" data-row="0" data-col="2" step="any" placeholder="0.000"></td>
+              <td><input type="number" class="inp-medida" data-row="0" data-col="3" step="any" placeholder="0.0000"></td>
+              <td><span class="auto-val vazio" id="media-0">—</span></td>
+              <td><span class="auto-val vazio" id="delta-0">—</span></td>
+            </tr>
+            <tr data-row="1">
+              <td><input type="text" class="rotulo-input inp-colega" data-row="1" placeholder="Nome"></td>
+              <td><input type="number" class="inp-medida" data-row="1" data-col="0" step="any" placeholder="0.0"></td>
+              <td><input type="number" class="inp-medida" data-row="1" data-col="1" step="any" placeholder="0.00"></td>
+              <td><input type="number" class="inp-medida" data-row="1" data-col="2" step="any" placeholder="0.000"></td>
+              <td><input type="number" class="inp-medida" data-row="1" data-col="3" step="any" placeholder="0.0000"></td>
+              <td><span class="auto-val vazio" id="media-1">—</span></td>
+              <td><span class="auto-val vazio" id="delta-1">—</span></td>
+            </tr>
+            <tr data-row="2">
+              <td><input type="text" class="rotulo-input inp-colega" data-row="2" placeholder="Nome"></td>
+              <td><input type="number" class="inp-medida" data-row="2" data-col="0" step="any" placeholder="0.0"></td>
+              <td><input type="number" class="inp-medida" data-row="2" data-col="1" step="any" placeholder="0.00"></td>
+              <td><input type="number" class="inp-medida" data-row="2" data-col="2" step="any" placeholder="0.000"></td>
+              <td><input type="number" class="inp-medida" data-row="2" data-col="3" step="any" placeholder="0.0000"></td>
+              <td><span class="auto-val vazio" id="media-2">—</span></td>
+              <td><span class="auto-val vazio" id="delta-2">—</span></td>
+            </tr>
+            <tr data-row="3" class="voce-row">
+              <td style="font-weight:700;font-size:.85rem;padding-left:10px;text-align:left;">Voce</td>
+              <td><input type="number" class="inp-medida" data-row="3" data-col="0" step="any" placeholder="0.0"></td>
+              <td><input type="number" class="inp-medida" data-row="3" data-col="1" step="any" placeholder="0.00"></td>
+              <td><input type="number" class="inp-medida" data-row="3" data-col="2" step="any" placeholder="0.000"></td>
+              <td><input type="number" class="inp-medida" data-row="3" data-col="3" step="any" placeholder="0.0000"></td>
+              <td><span class="auto-val vazio" id="media-3">—</span></td>
+              <td><span class="auto-val vazio" id="delta-3">—</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECAO 4: CALCULOS -->
+<section class="secao bloqueada" data-sec="4" id="sec4">
+  <div class="secao-header" tabindex="0" onclick="toggleSecao(this)" role="button" aria-expanded="false">
+    <div class="secao-num">2</div>
+    <div class="secao-titulo">Calculos (sua altura)</div>
+    <svg class="secao-chevron" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
+  </div>
+  <div class="secao-corpo">
+    <div class="secao-conteudo">
+      <div class="campo-instrucao">Para a <strong>sua</strong> altura, com os 4 valores da linha "Voce" da tabela acima. Use a calculadora cientifica.</div>
+      <div class="calc-box">
+        <div class="calc-row">
+          <span class="calc-label">Media:</span>
+          <span class="calc-formula">h&#772; = (h1 + h2 + h3 + h4) / 4 =</span>
+          <span class="calc-result vazio" id="calcMedia">—</span>
+          <span style="font-size:.85rem;color:var(--cinza)">m</span>
+        </div>
+        <div class="calc-row">
+          <span class="calc-label">Incerteza:</span>
+          <span class="calc-formula">&delta;h = (h_max &minus; h_min) / 2 =</span>
+          <span class="calc-result vazio" id="calcIncerteza">—</span>
+          <span style="font-size:.85rem;color:var(--cinza)">m</span>
+        </div>
+      </div>
+      <div class="resultado-destaque" id="resultadoFinal">
+        <div class="resultado-titulo">Minha altura</div>
+        <div class="resultado-valor vazio" id="resultadoValor">Preencha as 4 medidas na Parte 1</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECAO 5: PROTOCOLO C5 -->
+<section class="secao bloqueada" data-sec="5" id="sec5">
+  <div class="secao-header" tabindex="0" onclick="toggleSecao(this)" role="button" aria-expanded="false">
+    <div class="secao-num">3</div>
+    <div class="secao-titulo">Protocolo C5 (8 passos)</div>
+    <svg class="secao-chevron" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
+  </div>
+  <div class="secao-corpo">
+    <div class="secao-conteudo">
+      <div class="campo-instrucao">Aplique o Protocolo C5 (TT-v8, Topico 4) a <strong>sua</strong> medicao de altura. Preencha cada passo com base nos seus proprios dados.</div>
+
+      <div class="c5-step">
+        <div class="c5-step-header">
+          <div class="c5-step-num">1</div>
+          <div class="c5-step-label">O que esta sendo pedido?</div>
+        </div>
+        <textarea id="c5-1" class="inp-c5" rows="2" placeholder="Descreva o problema proposto..."></textarea>
+        <div class="contador-palavras" id="cw-c5-1">0 palavras</div>
+      </div>
+
+      <div class="c5-step">
+        <div class="c5-step-header">
+          <div class="c5-step-num">2</div>
+          <div class="c5-step-label">Quais sao os dados?</div>
+        </div>
+        <textarea id="c5-2" class="inp-c5" rows="2" placeholder="Liste seus 4 valores da tabela..."></textarea>
+        <div class="contador-palavras" id="cw-c5-2">0 palavras</div>
+      </div>
+
+      <div class="c5-step">
+        <div class="c5-step-header">
+          <div class="c5-step-num">3</div>
+          <div class="c5-step-label">Quais sao as hipoteses?</div>
+        </div>
+        <textarea id="c5-3" class="inp-c5" rows="2" placeholder="Que hipoteses voce assume?"></textarea>
+        <div class="contador-palavras" id="cw-c5-3">0 palavras</div>
+      </div>
+
+      <div class="c5-step">
+        <div class="c5-step-header">
+          <div class="c5-step-num">4</div>
+          <div class="c5-step-label">Qual e o desenho do problema?</div>
+        </div>
+        <div class="campo-hint" style="margin-bottom:6px">Esboce o intervalo h_min — media — h_max na reta abaixo (ou descreva em palavras).</div>
+        <textarea id="c5-4" class="inp-c5" rows="3" placeholder="|_________________|_________________|&#10;h_min           media           h_max"></textarea>
+        <div class="contador-palavras" id="cw-c5-4">0 palavras</div>
+      </div>
+
+      <div class="c5-step">
+        <div class="c5-step-header">
+          <div class="c5-step-num">5</div>
+          <div class="c5-step-label">Quais sao as equacoes?</div>
+        </div>
+        <textarea id="c5-5" class="inp-c5" rows="2" placeholder="Escreva as equacoes da media e da incerteza..."></textarea>
+        <div class="contador-palavras" id="cw-c5-5">0 palavras</div>
+      </div>
+
+      <div class="c5-step">
+        <div class="c5-step-header">
+          <div class="c5-step-num">6</div>
+          <div class="c5-step-label">Calculos com unidades</div>
+        </div>
+        <textarea id="c5-6" class="inp-c5" rows="2" placeholder="Substitua os valores e calcule (com unidades)..."></textarea>
+        <div class="contador-palavras" id="cw-c5-6">0 palavras</div>
+      </div>
+
+      <div class="c5-step">
+        <div class="c5-step-header">
+          <div class="c5-step-num">7</div>
+          <div class="c5-step-label">Analise de resultados</div>
+        </div>
+        <textarea id="c5-7" class="inp-c5" rows="3" placeholder="Sua altura calculada bate com a que voce achava? Dentro de quantas vezes a incerteza?"></textarea>
+        <div class="contador-palavras" id="cw-c5-7">0 palavras</div>
+      </div>
+
+      <div class="c5-step">
+        <div class="c5-step-header">
+          <div class="c5-step-num">8</div>
+          <div class="c5-step-label">Responda o que foi pedido</div>
+        </div>
+        <textarea id="c5-8" class="inp-c5" rows="2" placeholder="Minha altura = ( ___ +/- ___ ) m"></textarea>
+        <div class="contador-palavras" id="cw-c5-8">0 palavras</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECAO 6: DISCUSSAO -->
+<section class="secao bloqueada" data-sec="6" id="sec6">
+  <div class="secao-header" tabindex="0" onclick="toggleSecao(this)" role="button" aria-expanded="false">
+    <div class="secao-num">4</div>
+    <div class="secao-titulo">Discussao</div>
+    <svg class="secao-chevron" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
+  </div>
+  <div class="secao-corpo">
+    <div class="secao-conteudo">
+      <div class="campo">
+        <label>1. Por que as 4 medidas sao diferentes?</label>
+        <div class="campo-hint" style="margin-bottom:6px">Cite pelo menos 2 fontes de erro que voce observou.</div>
+        <textarea id="disc-1" class="inp-disc" rows="3" placeholder="Fonte 1: ...&#10;Fonte 2: ..."></textarea>
+        <div class="contador-palavras" id="cw-disc-1">0 palavras</div>
+      </div>
+      <div class="campo">
+        <label>2. Qual e a sua altura, afinal?</label>
+        <textarea id="disc-2" class="inp-disc" rows="2" placeholder="Uma frase com valor +/- incerteza e unidade..."></textarea>
+        <div class="contador-palavras" id="cw-disc-2">0 palavras</div>
+      </div>
+      <div class="campo">
+        <label>3. Uma regra de seguranca para o Lab de Mecanica</label>
+        <div class="campo-hint" style="margin-bottom:6px">Proponha uma regra inspirada no Topico 5 (NR-22).</div>
+        <textarea id="disc-3" class="inp-disc" rows="2" placeholder="Proposta de regra..."></textarea>
+        <div class="contador-palavras" id="cw-disc-3">0 palavras</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECAO 7: NORMAS DO LAB -->
+<section class="secao bloqueada" data-sec="7" id="sec7">
+  <div class="secao-header" tabindex="0" onclick="toggleSecao(this)" role="button" aria-expanded="false">
+    <div class="secao-num">5</div>
+    <div class="secao-titulo">Normas do Lab de Mecanica</div>
+    <svg class="secao-chevron" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
+  </div>
+  <div class="secao-corpo">
+    <div class="secao-conteudo">
+      <div class="campo-instrucao">Com seus colegas, proponham <strong>pelo menos 5 regras</strong> para o Lab de Mecanica, inspiradas na NR-22. O professor consolida no quadro. As regras aprovadas viram o <strong>primeiro cartaz oficial</strong> do Lab — e levam os nomes dos autores.</div>
+      <div id="normasContainer">
+        <div class="norma-row" data-norma="0">
+          <div class="norma-num">1</div>
+          <textarea class="inp-norma" data-norma="0" rows="1" placeholder="Regra proposta..."></textarea>
+          <input type="text" class="inp-norma-autor" data-norma="0" placeholder="Autores">
+        </div>
+        <div class="norma-row" data-norma="1">
+          <div class="norma-num">2</div>
+          <textarea class="inp-norma" data-norma="1" rows="1" placeholder="Regra proposta..."></textarea>
+          <input type="text" class="inp-norma-autor" data-norma="1" placeholder="Autores">
+        </div>
+        <div class="norma-row" data-norma="2">
+          <div class="norma-num">3</div>
+          <textarea class="inp-norma" data-norma="2" rows="1" placeholder="Regra proposta..."></textarea>
+          <input type="text" class="inp-norma-autor" data-norma="2" placeholder="Autores">
+        </div>
+        <div class="norma-row" data-norma="3">
+          <div class="norma-num">4</div>
+          <textarea class="inp-norma" data-norma="3" rows="1" placeholder="Regra proposta..."></textarea>
+          <input type="text" class="inp-norma-autor" data-norma="3" placeholder="Autores">
+        </div>
+        <div class="norma-row" data-norma="4">
+          <div class="norma-num">5</div>
+          <textarea class="inp-norma" data-norma="4" rows="1" placeholder="Regra proposta..."></textarea>
+          <input type="text" class="inp-norma-autor" data-norma="4" placeholder="Autores">
+        </div>
+      </div>
+      <button class="btn btn-add" onclick="adicionarNorma()" style="margin-top: 8px;">+ Adicionar regra</button>
+    </div>
+  </div>
+</section>
+
+<!-- SECAO 8: FECHAMENTO -->
+<section class="secao bloqueada" data-sec="8" id="sec8">
+  <div class="secao-header" tabindex="0" onclick="toggleSecao(this)" role="button" aria-expanded="false">
+    <div class="secao-num">&#10003;</div>
+    <div class="secao-titulo">Fechamento</div>
+    <svg class="secao-chevron" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
+  </div>
+  <div class="secao-corpo">
+    <div class="secao-conteudo">
+      <div class="check-grupo" id="checksFech">
+        <label class="check-item" onclick="atualizarCheck(this)">
+          <input type="checkbox" id="fech1" onchange="atualizarProgresso(); agendarSalvar();">
+          <span>Colei/transcrevi esta folha no Caderno de Laboratorio.</span>
+        </label>
+        <label class="check-item" onclick="atualizarCheck(this)">
+          <input type="checkbox" id="fech2" onchange="atualizarProgresso(); agendarSalvar();">
+          <span>Anotei a media + incerteza da minha altura no formato (valor &plusmn; incerteza) m.</span>
+        </label>
+        <label class="check-item" onclick="atualizarCheck(this)">
+          <input type="checkbox" id="fech3" onchange="atualizarProgresso(); agendarSalvar();">
+          <span>Participei da construcao das normas do Lab de Mecanica (Parte 5).</span>
+        </label>
+        <label class="check-item" onclick="atualizarCheck(this)">
+          <input type="checkbox" id="fech4" onchange="atualizarProgresso(); agendarSalvar();">
+          <span>Sei o que trazer na T01: Caderno de Laboratorio, regua escolar, <strong>calculadora cientifica</strong> e <strong>celular</strong>.</span>
+        </label>
+      </div>
+      <div style="text-align:center; margin-top:16px; padding:14px; border:1px solid var(--cinza-borda); border-radius:var(--r);">
+        <em style="font-size:.85rem; color:var(--cinza);">"Quando se pode medir aquilo de que se fala, e exprimi-lo em numeros, sabe-se algo sobre ele." — Lord Kelvin (1883)</em>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div class="footer">
+  <button class="btn btn-secundario" onclick="salvarRascunho()">Salvar rascunho</button>
+  <button class="btn btn-primario" id="btnExportar" onclick="exportarJSON()" disabled>Exportar JSON</button>
+  <button class="btn btn-ghost" onclick="imprimirFormulario()">Imprimir</button>
+</div>
+
+<div class="creditos">
+  Fisica Experimental 1 &middot; IFMG — Campus Ouro Preto &middot; 2026<br>
+  Roteiro de Bancada FE-T0A v3 &middot; Ancorado em FE-T0A-TT-v8
+</div>
+
+</main>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ==================== CONSTANTES ====================
+
+var LS = 'ifmg_fe_t0a_rb_';
+var debounceTimer = null;
+var segurancaOK = false;
+var normaCount = 5;
+
+var C5_ROTULOS = [
+  'O que esta sendo pedido?',
+  'Quais sao os dados?',
+  'Quais sao as hipoteses?',
+  'Qual e o desenho do problema?',
+  'Quais sao as equacoes?',
+  'Calculos com unidades',
+  'Analise de resultados',
+  'Responda o que foi pedido'
+];
+
+var ESCALAS = [
+  { rotulo: 'Escala #1 (parede)', menor_divisao_m: 1.0 },
+  { rotulo: 'Escala #2 (parede)', menor_divisao_m: 0.1 },
+  { rotulo: 'Escala #3 (parede)', menor_divisao_m: 0.01 },
+  { rotulo: 'Fita metrica', menor_divisao_m: 0.001 }
+];
+
+// ==================== SECAO TOGGLE ====================
+
+function toggleSecao(header) {
+  var secao = header.parentElement;
+  if (secao.classList.contains('bloqueada')) return;
+  var aberta = secao.classList.contains('aberta');
+  secao.classList.toggle('aberta');
+  header.setAttribute('aria-expanded', !aberta);
+}
+
+// ==================== CHECKBOX STYLING ====================
+
+function atualizarCheck(label) {
+  setTimeout(function() {
+    var cb = label.querySelector('input[type="checkbox"]');
+    if (cb.checked) {
+      label.classList.add('marcado');
+    } else {
+      label.classList.remove('marcado');
+    }
+  }, 10);
+}
+
+// ==================== SEGURANCA ====================
+
+function verificarSeguranca() {
+  var checks = [
+    document.getElementById('seg1').checked,
+    document.getElementById('seg2').checked,
+    document.getElementById('seg3').checked,
+    document.getElementById('seg4').checked
+  ];
+  var assinatura = document.getElementById('inp-assinatura').value.trim();
+  var todosCheck = checks.every(function(c) { return c; });
+  var assinado = assinatura.length >= 3;
+
+  segurancaOK = todosCheck && assinado;
+
+  var alerta = document.getElementById('alertaSeg');
+  var secoesLab = ['sec3', 'sec4', 'sec5', 'sec6', 'sec7', 'sec8'];
+
+  if (segurancaOK) {
+    alerta.classList.add('desbloqueado');
+    alerta.innerHTML = '<span class="alerta-seg-icon">&#10003;</span><span>Seguranca verificada. Todas as partes do roteiro estao <strong>desbloqueadas</strong>.</span>';
+    secoesLab.forEach(function(id) {
+      document.getElementById(id).classList.remove('bloqueada');
+    });
+    document.getElementById('sec2').classList.add('concluida');
+  } else {
+    alerta.classList.remove('desbloqueado');
+    alerta.innerHTML = '<span class="alerta-seg-icon">&#9888;</span><span>Complete a <strong>checklist de seguranca</strong> e assine antes de iniciar as medicoes.</span>';
+    secoesLab.forEach(function(id) {
+      document.getElementById(id).classList.add('bloqueada');
+    });
+    document.getElementById('sec2').classList.remove('concluida');
+  }
+
+  atualizarProgresso();
+  agendarSalvar();
+}
+
+// ==================== CALCULOS ====================
+
+// exibicao em PT-BR: virgula decimal. Os dados exportados (JSON) seguem em ponto.
+function fmtBR(valor, casas) {
+  if (valor === null || valor === undefined || isNaN(valor)) return '—';
+  return Number(valor).toFixed(casas).replace('.', ',');
+}
+
+function recalcularLinha(row) {
+  var inputs = document.querySelectorAll('.inp-medida[data-row="' + row + '"]');
+  var vals = [];
+  inputs.forEach(function(inp) {
+    var v = parseFloat(inp.value);
+    if (!isNaN(v) && v > 0) vals.push(v);
+  });
+
+  var mediaEl = document.getElementById('media-' + row);
+  var deltaEl = document.getElementById('delta-' + row);
+
+  if (vals.length === 4) {
+    var soma = vals.reduce(function(a, b) { return a + b; }, 0);
+    var media = soma / 4;
+    var delta = (Math.max.apply(null, vals) - Math.min.apply(null, vals)) / 2;
+
+    mediaEl.textContent = fmtBR(media, 4);
+    mediaEl.classList.remove('vazio');
+    deltaEl.textContent = fmtBR(delta, 4);
+    deltaEl.classList.remove('vazio');
+  } else {
+    mediaEl.textContent = '—';
+    mediaEl.classList.add('vazio');
+    deltaEl.textContent = '—';
+    deltaEl.classList.add('vazio');
+  }
+
+  if (row === 3) recalcularResultado();
+}
+
+function recalcularResultado() {
+  var inputs = document.querySelectorAll('.inp-medida[data-row="3"]');
+  var vals = [];
+  inputs.forEach(function(inp) {
+    var v = parseFloat(inp.value);
+    if (!isNaN(v) && v > 0) vals.push(v);
+  });
+
+  var calcMediaEl = document.getElementById('calcMedia');
+  var calcIncEl = document.getElementById('calcIncerteza');
+  var resultEl = document.getElementById('resultadoValor');
+
+  if (vals.length === 4) {
+    var soma = vals.reduce(function(a, b) { return a + b; }, 0);
+    var media = soma / 4;
+    var delta = (Math.max.apply(null, vals) - Math.min.apply(null, vals)) / 2;
+    var casas = casasDecimaisDaIncerteza(delta);
+
+    calcMediaEl.textContent = fmtBR(media, casas);
+    calcMediaEl.classList.remove('vazio');
+    calcIncEl.textContent = fmtBR(delta, casas);
+    calcIncEl.classList.remove('vazio');
+
+    resultEl.textContent = '( ' + fmtBR(media, casas) + ' ± ' + fmtBR(delta, casas) + ' ) m';
+    resultEl.classList.remove('vazio');
+  } else {
+    calcMediaEl.textContent = '—';
+    calcMediaEl.classList.add('vazio');
+    calcIncEl.textContent = '—';
+    calcIncEl.classList.add('vazio');
+    resultEl.textContent = 'Preencha as 4 medidas na Parte 1';
+    resultEl.classList.add('vazio');
+  }
+
+  atualizarProgresso();
+}
+
+function casasDecimaisDaIncerteza(inc) {
+  if (inc <= 0) return 2;
+  var order = Math.floor(Math.log10(Math.abs(inc)));
+  return Math.max(0, -order);
+}
+
+// ==================== NORMAS ====================
+
+function adicionarNorma() {
+  var container = document.getElementById('normasContainer');
+  var idx = normaCount;
+  normaCount++;
+
+  var div = document.createElement('div');
+  div.className = 'norma-row';
+  div.setAttribute('data-norma', idx);
+  div.innerHTML =
+    '<div class="norma-num">' + (idx + 1) + '</div>' +
+    '<textarea class="inp-norma" data-norma="' + idx + '" rows="1" placeholder="Regra proposta..."></textarea>' +
+    '<input type="text" class="inp-norma-autor" data-norma="' + idx + '" placeholder="Autores">';
+
+  container.appendChild(div);
+
+  div.querySelector('.inp-norma').addEventListener('input', function() {
+    atualizarProgresso();
+    agendarSalvar();
+  });
+  div.querySelector('.inp-norma-autor').addEventListener('input', function() {
+    agendarSalvar();
+  });
+}
+
+// ==================== PROGRESSO ====================
+
+function atualizarProgresso() {
+  var segs = document.querySelectorAll('.progress-bar .seg');
+  var secoes = [
+    verificarSecao1(),
+    segurancaOK,
+    verificarSecao3(),
+    verificarSecao4(),
+    verificarSecao5(),
+    verificarSecao6(),
+    verificarSecao7(),
+    verificarSecao8()
+  ];
+
+  segs.forEach(function(seg, i) {
+    if (secoes[i]) {
+      seg.classList.add('done');
+    } else {
+      seg.classList.remove('done');
+    }
+  });
+
+  // Status visual das secoes
+  var secIds = ['sec1', 'sec2', 'sec3', 'sec4', 'sec5', 'sec6', 'sec7', 'sec8'];
+  secIds.forEach(function(id, i) {
+    var sec = document.getElementById(id);
+    if (secoes[i]) {
+      sec.classList.add('concluida');
+      sec.classList.remove('ativa');
+    } else {
+      sec.classList.remove('concluida');
+    }
+  });
+
+  // Exportar habilitado quando seguranca OK + pelo menos identificacao + medicoes
+  var btnExport = document.getElementById('btnExportar');
+  btnExport.disabled = !(secoes[0] && secoes[1] && secoes[2]);
+}
+
+function verificarSecao1() {
+  return document.getElementById('inp-nome').value.trim().length > 0 &&
+         document.getElementById('inp-turma').value !== '' &&
+         document.getElementById('inp-data').value !== '';
+}
+
+function verificarSecao3() {
+  var voceInputs = document.querySelectorAll('.inp-medida[data-row="3"]');
+  var preenchidos = 0;
+  voceInputs.forEach(function(inp) {
+    if (inp.value !== '' && !isNaN(parseFloat(inp.value))) preenchidos++;
+  });
+  return preenchidos === 4;
+}
+
+function verificarSecao4() {
+  return !document.getElementById('calcMedia').classList.contains('vazio');
+}
+
+function verificarSecao5() {
+  var preenchidos = 0;
+  for (var i = 1; i <= 8; i++) {
+    if (document.getElementById('c5-' + i).value.trim().length > 0) preenchidos++;
+  }
+  return preenchidos >= 6;
+}
+
+function verificarSecao6() {
+  var preenchidos = 0;
+  for (var i = 1; i <= 3; i++) {
+    if (document.getElementById('disc-' + i).value.trim().length > 0) preenchidos++;
+  }
+  return preenchidos >= 2;
+}
+
+function verificarSecao7() {
+  var normas = document.querySelectorAll('.inp-norma');
+  var preenchidos = 0;
+  normas.forEach(function(ta) {
+    if (ta.value.trim().length > 0) preenchidos++;
+  });
+  return preenchidos >= 3;
+}
+
+function verificarSecao8() {
+  var checks = ['fech1', 'fech2', 'fech3', 'fech4'];
+  return checks.filter(function(id) {
+    return document.getElementById(id).checked;
+  }).length >= 3;
+}
+
+// ==================== CONTADORES ====================
+
+function contarPalavras(texto) {
+  var t = texto.trim();
+  if (t.length === 0) return 0;
+  return t.split(/\s+/).length;
+}
+
+function atualizarContador(textareaId, contadorId) {
+  var texto = document.getElementById(textareaId).value;
+  var n = contarPalavras(texto);
+  var el = document.getElementById(contadorId);
+  el.textContent = n + ' palavra' + (n !== 1 ? 's' : '');
+}
+
+// ==================== LOCALSTORAGE ====================
+
+function agendarSalvar() {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(function() {
+    salvarEstadoSilencioso();
+    atualizarProgresso();
+  }, 2000);
+}
+
+function salvarEstadoSilencioso() {
+  try {
+    var estado = coletarEstado();
+    localStorage.setItem(LS + 'estado', JSON.stringify(estado));
+    localStorage.setItem(LS + 'timestamp', new Date().toISOString());
+  } catch (e) { /* quota exceeded */ }
+}
+
+function salvarRascunho() {
+  salvarEstadoSilencioso();
+  mostrarToast('Rascunho salvo com sucesso', 'sucesso');
+}
+
+function coletarEstado() {
+  var medicoes = [];
+  for (var r = 0; r < 4; r++) {
+    var colega = r < 3 ? document.querySelector('.inp-colega[data-row="' + r + '"]').value : 'Voce';
+    var vals = [];
+    for (var c = 0; c < 4; c++) {
+      vals.push(document.querySelector('.inp-medida[data-row="' + r + '"][data-col="' + c + '"]').value);
+    }
+    medicoes.push({ colega: colega, valores: vals });
+  }
+
+  var normas = [];
+  document.querySelectorAll('.norma-row').forEach(function(row) {
+    normas.push({
+      regra: row.querySelector('.inp-norma').value,
+      autores: row.querySelector('.inp-norma-autor').value
+    });
+  });
+
+  var c5 = [];
+  for (var i = 1; i <= 8; i++) {
+    c5.push(document.getElementById('c5-' + i).value);
+  }
+
+  var disc = [];
+  for (var j = 1; j <= 3; j++) {
+    disc.push(document.getElementById('disc-' + j).value);
+  }
+
+  return {
+    identificacao: {
+      nome: document.getElementById('inp-nome').value,
+      curso: document.getElementById('inp-curso').value,
+      turma: document.getElementById('inp-turma').value,
+      bancada: document.getElementById('inp-bancada').value,
+      grupo: (document.querySelector('input[name="grupo"]:checked') || {}).value || '',
+      data: document.getElementById('inp-data').value,
+      colegas: document.getElementById('inp-colegas').value
+    },
+    seguranca: {
+      checks: [
+        document.getElementById('seg1').checked,
+        document.getElementById('seg2').checked,
+        document.getElementById('seg3').checked,
+        document.getElementById('seg4').checked
+      ],
+      assinatura: document.getElementById('inp-assinatura').value
+    },
+    medicoes: medicoes,
+    c5: c5,
+    discussao: disc,
+    normas: normas,
+    fechamento: {
+      checks: [
+        document.getElementById('fech1').checked,
+        document.getElementById('fech2').checked,
+        document.getElementById('fech3').checked,
+        document.getElementById('fech4').checked
+      ]
+    }
+  };
+}
+
+function restaurarEstado() {
+  try {
+    var raw = localStorage.getItem(LS + 'estado');
+    if (!raw) return;
+    var e = JSON.parse(raw);
+
+    // Identificacao
+    var id = e.identificacao || {};
+    document.getElementById('inp-nome').value = id.nome || '';
+    document.getElementById('inp-curso').value = id.curso || '';
+    document.getElementById('inp-turma').value = id.turma || '';
+    document.getElementById('inp-bancada').value = id.bancada || '';
+    if (id.grupo) {
+      var radio = document.querySelector('input[name="grupo"][value="' + id.grupo + '"]');
+      if (radio) radio.checked = true;
+    }
+    document.getElementById('inp-data').value = id.data || '';
+    document.getElementById('inp-colegas').value = id.colegas || '';
+
+    // Seguranca
+    var seg = e.seguranca || {};
+    var segChecks = seg.checks || [];
+    for (var s = 0; s < 4; s++) {
+      var cb = document.getElementById('seg' + (s + 1));
+      cb.checked = !!segChecks[s];
+      var label = cb.closest('.check-item');
+      if (label) { if (cb.checked) label.classList.add('marcado'); else label.classList.remove('marcado'); }
+    }
+    document.getElementById('inp-assinatura').value = seg.assinatura || '';
+    verificarSeguranca();
+
+    // Medicoes
+    (e.medicoes || []).forEach(function(med, r) {
+      if (r < 3) {
+        var inp = document.querySelector('.inp-colega[data-row="' + r + '"]');
+        if (inp) inp.value = med.colega || '';
+      }
+      (med.valores || []).forEach(function(v, c) {
+        var inp2 = document.querySelector('.inp-medida[data-row="' + r + '"][data-col="' + c + '"]');
+        if (inp2) inp2.value = v || '';
+      });
+      recalcularLinha(r);
+    });
+
+    // C5
+    (e.c5 || []).forEach(function(val, i) {
+      document.getElementById('c5-' + (i + 1)).value = val || '';
+      atualizarContador('c5-' + (i + 1), 'cw-c5-' + (i + 1));
+    });
+
+    // Discussao
+    (e.discussao || []).forEach(function(val, i) {
+      document.getElementById('disc-' + (i + 1)).value = val || '';
+      atualizarContador('disc-' + (i + 1), 'cw-disc-' + (i + 1));
+    });
+
+    // Normas
+    var normas = e.normas || [];
+    while (normaCount < normas.length) adicionarNorma();
+    normas.forEach(function(n, i) {
+      var ta = document.querySelector('.inp-norma[data-norma="' + i + '"]');
+      var au = document.querySelector('.inp-norma-autor[data-norma="' + i + '"]');
+      if (ta) ta.value = n.regra || '';
+      if (au) au.value = n.autores || '';
+    });
+
+    // Fechamento
+    var fech = e.fechamento || {};
+    var fechChecks = fech.checks || [];
+    for (var f = 0; f < 4; f++) {
+      var fcb = document.getElementById('fech' + (f + 1));
+      fcb.checked = !!fechChecks[f];
+      var flabel = fcb.closest('.check-item');
+      if (flabel) { if (fcb.checked) flabel.classList.add('marcado'); else flabel.classList.remove('marcado'); }
+    }
+
+    recalcularResultado();
+    atualizarProgresso();
+
+    document.getElementById('bannerRestaura').style.display = 'none';
+    mostrarToast('Rascunho restaurado', 'sucesso');
+  } catch (err) { /* corrupted state */ }
+}
+
+function descartarEstado() {
+  limparLocalStorage();
+  document.getElementById('bannerRestaura').style.display = 'none';
+  mostrarToast('Rascunho descartado', '');
+}
+
+function limparLocalStorage() {
+  var keys = [];
+  for (var i = 0; i < localStorage.length; i++) {
+    var k = localStorage.key(i);
+    if (k && k.startsWith(LS)) keys.push(k);
+  }
+  keys.forEach(function(k) { localStorage.removeItem(k); });
+}
+
+function verificarRascunhoSalvo() {
+  var ts = localStorage.getItem(LS + 'timestamp');
+  var estado = localStorage.getItem(LS + 'estado');
+  if (ts && estado) {
+    var d = new Date(ts);
+    var fmt = d.toLocaleDateString('pt-BR') + ' as ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    document.getElementById('bannerData').textContent = fmt;
+    document.getElementById('bannerRestaura').style.display = 'flex';
+  }
+}
+
+// ==================== EXPORTAR JSON ====================
+
+function exportarJSON() {
+  if (document.getElementById('btnExportar').disabled) return;
+
+  var estado = coletarEstado();
+
+  var voceVals = [];
+  for (var c = 0; c < 4; c++) {
+    voceVals.push(parseFloat(document.querySelector('.inp-medida[data-row="3"][data-col="' + c + '"]').value));
+  }
+  var media = voceVals.reduce(function(a, b) { return a + b; }, 0) / 4;
+  var delta = (Math.max.apply(null, voceVals) - Math.min.apply(null, voceVals)) / 2;
+  var casas = casasDecimaisDaIncerteza(delta);
+
+  var colegas = [];
+  for (var r = 0; r < 3; r++) {
+    var nomeCol = document.querySelector('.inp-colega[data-row="' + r + '"]').value.trim();
+    var colVals = [];
+    for (var cc = 0; cc < 4; cc++) {
+      colVals.push(parseFloat(document.querySelector('.inp-medida[data-row="' + r + '"][data-col="' + cc + '"]').value) || null);
+    }
+    var colPreenchido = colVals.filter(function(v) { return v !== null && !isNaN(v); });
+    var colMedia = colPreenchido.length === 4 ? colPreenchido.reduce(function(a, b) { return a + b; }, 0) / 4 : null;
+    var colDelta = colPreenchido.length === 4 ? (Math.max.apply(null, colPreenchido) - Math.min.apply(null, colPreenchido)) / 2 : null;
+    colegas.push({
+      nome: nomeCol,
+      medidas: colVals,
+      media: colMedia !== null ? parseFloat(colMedia.toFixed(6)) : null,
+      incerteza: colDelta !== null ? parseFloat(colDelta.toFixed(6)) : null
+    });
+  }
+
+  var json = {
+    meta: {
+      versao_schema: '1.0',
+      trilha: 'FE-T0A',
+      tipo_oa: 'RB',
+      timestamp_criacao: localStorage.getItem(LS + 'timestamp') || new Date().toISOString(),
+      timestamp_envio: new Date().toISOString()
+    },
+    identificacao: {
+      nome: estado.identificacao.nome,
+      curso: estado.identificacao.curso,
+      turma: estado.identificacao.turma,
+      bancada: estado.identificacao.bancada,
+      grupo: estado.identificacao.grupo,
+      data_aula: estado.identificacao.data,
+      colegas_grupo: estado.identificacao.colegas
+    },
+    seguranca: {
+      todos_itens_verificados: segurancaOK,
+      assinatura: estado.seguranca.assinatura
+    },
+    dados: {
+      escalas: ESCALAS,
+      colegas: colegas,
+      voce: {
+        medidas: voceVals.map(function(v) { return parseFloat(v.toFixed(6)); }),
+        media: parseFloat(media.toFixed(6)),
+        incerteza: parseFloat(delta.toFixed(6))
+      }
+    },
+    resultado: {
+      media_m: parseFloat(media.toFixed(6)),
+      incerteza_m: parseFloat(delta.toFixed(6)),
+      formatado: '(' + fmtBR(media, casas) + ' ± ' + fmtBR(delta, casas) + ') m'
+    },
+    c5: C5_ROTULOS.map(function(rotulo, i) {
+      return {
+        passo: i + 1,
+        rotulo: rotulo,
+        resposta: estado.c5[i] || ''
+      };
+    }),
+    discussao: {
+      fontes_erro: estado.discussao[0] || '',
+      altura_final: estado.discussao[1] || '',
+      regra_seguranca: estado.discussao[2] || ''
+    },
+    normas: estado.normas.filter(function(n) { return n.regra.trim().length > 0; }).map(function(n, i) {
+      return { numero: i + 1, regra: n.regra, autores: n.autores };
+    }),
+    fechamento: {
+      caderno_colado: estado.fechamento.checks[0],
+      media_anotada: estado.fechamento.checks[1],
+      normas_participou: estado.fechamento.checks[2],
+      sabe_proximo: estado.fechamento.checks[3]
+    }
+  };
+
+  var nomeArquivo = 'FE-T0A-RB_' +
+    (estado.identificacao.turma || 'X') + '_' +
+    (estado.identificacao.grupo || 'X') + '_' +
+    (estado.identificacao.nome || 'aluno').replace(/\s+/g, '_').substring(0, 30) +
+    '.json';
+
+  var blob = new Blob([JSON.stringify(json, null, 2)], { type: 'application/json' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = nomeArquivo;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  mostrarToast('JSON exportado: ' + nomeArquivo, 'sucesso');
+}
+
+// ==================== IMPRESSAO ====================
+
+function imprimirFormulario() {
+  document.querySelectorAll('.secao').forEach(function(s) { s.classList.add('aberta'); });
+  setTimeout(function() { window.print(); }, 200);
+}
+
+// ==================== TOAST ====================
+
+function mostrarToast(msg, tipo) {
+  var el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast';
+  if (tipo) el.classList.add(tipo);
+  el.classList.add('visivel');
+  setTimeout(function() { el.classList.remove('visivel'); }, 3000);
+}
+
+// ==================== INIT ====================
+
+function init() {
+  // Identificacao inputs
+  ['inp-nome', 'inp-curso', 'inp-turma', 'inp-bancada', 'inp-data', 'inp-colegas'].forEach(function(id) {
+    var el = document.getElementById(id);
+    el.addEventListener('input', function() { atualizarProgresso(); agendarSalvar(); });
+    el.addEventListener('change', function() { atualizarProgresso(); agendarSalvar(); });
+  });
+
+  // Grupo radio
+  document.querySelectorAll('input[name="grupo"]').forEach(function(r) {
+    r.addEventListener('change', function() { atualizarProgresso(); agendarSalvar(); });
+  });
+
+  // Medicoes
+  document.querySelectorAll('.inp-medida').forEach(function(inp) {
+    inp.addEventListener('input', function() {
+      var row = parseInt(inp.getAttribute('data-row'));
+      recalcularLinha(row);
+      atualizarProgresso();
+      agendarSalvar();
+    });
+  });
+
+  // Colega names
+  document.querySelectorAll('.inp-colega').forEach(function(inp) {
+    inp.addEventListener('input', function() { agendarSalvar(); });
+  });
+
+  // C5
+  for (var i = 1; i <= 8; i++) {
+    (function(idx) {
+      document.getElementById('c5-' + idx).addEventListener('input', function() {
+        atualizarContador('c5-' + idx, 'cw-c5-' + idx);
+        atualizarProgresso();
+        agendarSalvar();
+      });
+    })(i);
+  }
+
+  // Discussao
+  for (var j = 1; j <= 3; j++) {
+    (function(idx) {
+      document.getElementById('disc-' + idx).addEventListener('input', function() {
+        atualizarContador('disc-' + idx, 'cw-disc-' + idx);
+        atualizarProgresso();
+        agendarSalvar();
+      });
+    })(j);
+  }
+
+  // Normas
+  document.querySelectorAll('.inp-norma').forEach(function(ta) {
+    ta.addEventListener('input', function() { atualizarProgresso(); agendarSalvar(); });
+  });
+  document.querySelectorAll('.inp-norma-autor').forEach(function(inp) {
+    inp.addEventListener('input', function() { agendarSalvar(); });
+  });
+
+  // Keyboard nav on secao-header
+  document.querySelectorAll('.secao-header').forEach(function(h) {
+    h.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        h.click();
+      }
+    });
+  });
+
+  verificarRascunhoSalvo();
+  atualizarProgresso();
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

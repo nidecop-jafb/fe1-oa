@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FE-T0A · Provinha de Fechamento</title>
+<style>
+:root {
+  --azul: oklch(0.65 0.22 45);
+  --azul-claro: oklch(0.72 0.19 45);
+  --azul-bg: oklch(0.28 0.05 45);
+  --ouro: oklch(0.85 0.18 95);
+  --ouro-claro: oklch(0.25 0.04 95);
+  --verde: oklch(0.7 0.15 150);
+  --verde-claro: oklch(0.25 0.04 150);
+  --erro: oklch(0.6 0.22 25);
+  --erro-claro: oklch(0.22 0.05 25);
+  --cinza: oklch(0.55 0.02 260);
+  --cinza-claro: oklch(0.18 0.02 260);
+  --cinza-borda: oklch(0.38 0.02 260);
+  --texto: oklch(0.93 0 0);
+  --branco: oklch(0.93 0 0);
+  --superficie: oklch(0.24 0.02 260);
+  --input-bg: oklch(0.2 0.02 260);
+  --hover-bg: oklch(0.22 0.02 260);
+  --r: 0px;
+  --r-sm: 0px;
+  --shadow: 0 1px 0 oklch(0.3 0.02 260);
+  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'Space Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font);
+  background: var(--cinza-claro);
+  color: var(--texto);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+.header {
+  background: oklch(0.14 0.02 260);
+  border-top: 3px solid var(--azul);
+  padding: 12px 20px;
+}
+.header-inner {
+  max-width: 700px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.header h1 { font-size: 1.05rem; font-weight: 700; letter-spacing: .3px; }
+.header .badge {
+  background: var(--ouro);
+  color: oklch(0.15 0.02 260);
+  padding: 3px 10px; border-radius: 20px;
+  font-size: .7rem; font-weight: 700;
+  text-transform: uppercase;
+}
+.header-sub {
+  max-width: 700px; margin: 4px auto 0;
+  font-size: .72rem; color: var(--cinza);
+}
+
+.progresso {
+  max-width: 700px; margin: 12px auto 0;
+  display: flex; gap: 4px; height: 6px;
+}
+.progresso .seg {
+  flex: 1;
+  background: var(--cinza-borda);
+  transition: background .3s;
+}
+.progresso .seg.resp { background: var(--azul); }
+.progresso .seg.certo { background: var(--verde); }
+.progresso .seg.errado { background: var(--erro); }
+
+main { max-width: 700px; margin: 0 auto; padding: 16px; }
+
+/* IDENTIFICACAO */
+.id-box {
+  background: var(--superficie);
+  padding: 14px 18px;
+  margin-bottom: 14px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 14px;
+}
+.id-box .campo { display: flex; flex-direction: column; gap: 3px; }
+.id-box .campo.full { grid-column: 1 / -1; }
+.id-box label {
+  font-size: .68rem; font-weight: 600; color: var(--azul);
+  text-transform: uppercase; letter-spacing: .3px;
+}
+.id-box input, .id-box select {
+  background: var(--input-bg);
+  border: 1px solid var(--cinza-borda);
+  color: var(--texto);
+  padding: 7px 10px;
+  font-family: var(--font);
+  font-size: .82rem;
+  border-radius: var(--r);
+  min-height: 36px;
+}
+.id-box input:focus, .id-box select:focus {
+  outline: none;
+  border-color: var(--azul);
+  box-shadow: 0 0 0 2px var(--azul-bg);
+}
+
+/* QUESTAO */
+.questao {
+  background: var(--superficie);
+  margin-bottom: 12px;
+  padding: 16px 18px;
+  border-left: 3px solid var(--cinza-borda);
+  transition: border-color .3s;
+}
+.questao.respondida { border-left-color: var(--azul); }
+.questao.certa { border-left-color: var(--verde); }
+.questao.errada { border-left-color: var(--erro); }
+
+.q-header {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 10px;
+}
+.q-num {
+  width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--azul-bg); color: var(--azul);
+  border-radius: 50%;
+  font-size: .78rem; font-weight: 700;
+  flex-shrink: 0;
+}
+.q-tags { display: flex; gap: 6px; }
+.q-tag {
+  font-size: .6rem; font-weight: 600;
+  padding: 2px 7px; border-radius: 10px;
+  text-transform: uppercase; letter-spacing: .3px;
+}
+.tag-bloom { background: var(--azul-bg); color: var(--azul); }
+.tag-pts { background: var(--ouro-claro); color: var(--ouro); }
+
+.q-enunciado {
+  font-size: .85rem;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+.q-enunciado strong { color: var(--azul); }
+
+.alternativas {
+  list-style: none; padding: 0;
+}
+.alternativas li {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 8px 12px;
+  margin-bottom: 4px;
+  background: var(--input-bg);
+  cursor: pointer;
+  transition: background .15s, border-color .15s;
+  border: 1px solid transparent;
+  font-size: .82rem;
+}
+.alternativas li:hover { background: var(--hover-bg); }
+.alternativas li.selecionada {
+  border-color: var(--azul);
+  background: var(--azul-bg);
+}
+.alternativas li.correta-revelada {
+  border-color: var(--verde);
+  background: var(--verde-claro);
+}
+.alternativas li.errada-revelada {
+  border-color: var(--erro);
+  background: var(--erro-claro);
+}
+.alternativas li.bloqueada {
+  pointer-events: none;
+  opacity: .85;
+}
+.alt-letra {
+  width: 22px; height: 22px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1.5px solid var(--cinza-borda);
+  border-radius: 50%;
+  font-size: .7rem; font-weight: 700;
+  flex-shrink: 0;
+  color: var(--cinza);
+  transition: border-color .15s, color .15s, background .15s;
+}
+.selecionada .alt-letra {
+  border-color: var(--azul);
+  color: var(--azul);
+  background: var(--azul-bg);
+}
+.correta-revelada .alt-letra {
+  border-color: var(--verde);
+  color: var(--verde);
+  background: var(--verde-claro);
+}
+.errada-revelada .alt-letra {
+  border-color: var(--erro);
+  color: var(--erro);
+}
+
+.feedback {
+  display: none;
+  margin-top: 10px;
+  padding: 10px 14px;
+  font-size: .78rem;
+  border-left: 3px solid var(--cinza-borda);
+}
+.feedback.visivel { display: block; }
+.feedback.certo {
+  background: var(--verde-claro);
+  border-left-color: var(--verde);
+  color: var(--verde);
+}
+.feedback.errado {
+  background: var(--erro-claro);
+  border-left-color: var(--erro);
+  color: var(--erro);
+}
+.feedback .fb-titulo { font-weight: 700; margin-bottom: 4px; }
+.feedback .fb-texto { color: var(--texto); }
+
+/* RESULTADO FINAL */
+.resultado-box {
+  display: none;
+  background: var(--superficie);
+  border: 2px solid var(--azul);
+  padding: 20px 24px;
+  margin: 16px 0;
+  text-align: center;
+}
+.resultado-box.visivel { display: block; }
+.resultado-box .nota-grande {
+  font-family: var(--mono);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--azul);
+}
+.resultado-box .nota-label {
+  font-size: .75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--cinza);
+  margin-top: 4px;
+}
+.resultado-box .nota-detalhe {
+  font-size: .82rem;
+  margin-top: 10px;
+  color: var(--texto);
+}
+
+/* ACOES */
+.acoes {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  margin-top: 14px;
+}
+.btn {
+  padding: 10px 20px;
+  border: none;
+  font-family: var(--font);
+  font-size: .82rem;
+  font-weight: 600;
+  cursor: pointer;
+  min-height: 44px;
+  transition: background .15s;
+}
+.btn-primario {
+  background: var(--azul);
+  color: var(--branco);
+}
+.btn-primario:hover { background: var(--azul-claro); }
+.btn-primario:disabled {
+  background: var(--cinza-borda);
+  cursor: not-allowed;
+  color: var(--cinza);
+}
+.btn-secundario {
+  background: var(--superficie);
+  color: var(--texto);
+  border: 1px solid var(--cinza-borda);
+}
+.btn-secundario:hover { background: var(--hover-bg); }
+.btn-secundario:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+/* TOAST */
+.toast {
+  position: fixed; bottom: 20px; right: 20px;
+  background: var(--superficie);
+  border: 1px solid var(--verde);
+  border-left: 4px solid var(--verde);
+  color: var(--texto);
+  padding: 12px 18px;
+  font-size: .82rem;
+  z-index: 999;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .3s, transform .3s;
+  pointer-events: none;
+}
+.toast.visivel {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.footer {
+  text-align: center;
+  padding: 16px;
+  font-size: .65rem;
+  color: var(--cinza);
+  margin-top: 16px;
+  border-top: 1px solid var(--cinza-borda);
+}
+
+@media (max-width: 600px) {
+  .header h1 { font-size: .95rem; }
+  main { padding: 10px; }
+  .id-box { grid-template-columns: 1fr; }
+  .questao { padding: 12px 14px; }
+  .alternativas li { padding: 8px; font-size: .78rem; }
+}
+
+@media print {
+  body { background: white !important; color: #1A1A1A !important; font-size: 10pt; }
+  .header { background: none !important; border-top: 2px solid #1F3864; border-bottom: 1px solid #C0C0C0; }
+  .header h1 { color: #1F3864 !important; }
+  .header .badge { background: #C8922A !important; color: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .header-sub { color: #808080 !important; }
+  .progresso { display: none; }
+  main { max-width: none; padding: 0; }
+  .id-box { background: #F8F8F8 !important; border: 1px solid #D0D0D0; }
+  .id-box label { color: #1F3864 !important; }
+  .id-box input, .id-box select { border-color: #D0D0D0 !important; background: white !important; color: #1A1A1A !important; }
+  .questao { background: white !important; border-left-width: 3px; page-break-inside: avoid; }
+  .questao.certa { border-left-color: #27AE60 !important; }
+  .questao.errada { border-left-color: #C0392B !important; }
+  .q-num { background: #E8EDF4 !important; color: #1F3864 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .q-enunciado strong { color: #1F3864 !important; }
+  .alternativas li { background: white !important; border-color: #D0D0D0 !important; }
+  .alternativas li.correta-revelada { background: #E8F8EE !important; border-color: #27AE60 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .alternativas li.errada-revelada { background: #FDEDEC !important; border-color: #C0392B !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .feedback.certo { background: #E8F8EE !important; border-left-color: #27AE60 !important; color: #27AE60 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .feedback.errado { background: #FDEDEC !important; border-left-color: #C0392B !important; color: #C0392B !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .feedback .fb-texto { color: #1A1A1A !important; }
+  .resultado-box { border-color: #1F3864 !important; background: #F4F4F4 !important; }
+  .resultado-box .nota-grande { color: #1F3864 !important; }
+  .acoes { display: none; }
+  .footer { color: #808080 !important; border-top-color: #D0D0D0 !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <h1>FE-T0A &middot; Provinha de Fechamento</h1>
+    <span class="badge">5 pontos &middot; 5-8 min</span>
+  </div>
+  <div class="header-sub">Metodologia Experimental &middot; Lab de Mecanica &middot; Tentativa unica &middot; Ancorado em TT-v8 + RB-v3</div>
+  <div class="progresso" id="progresso">
+    <div class="seg" data-q="1"></div>
+    <div class="seg" data-q="2"></div>
+    <div class="seg" data-q="3"></div>
+    <div class="seg" data-q="4"></div>
+    <div class="seg" data-q="5"></div>
+  </div>
+</header>
+
+<main>
+
+<div class="id-box" id="identificacao">
+  <div class="campo full">
+    <label for="nome">Nome completo</label>
+    <input type="text" id="nome" placeholder="Seu nome">
+  </div>
+  <div class="campo">
+    <label for="turma">Turma</label>
+    <select id="turma">
+      <option value="">Selecione</option>
+      <option value="MIN1A">MIN1A</option>
+      <option value="MIN1B">MIN1B</option>
+      <option value="MIN1C">MIN1C</option>
+    </select>
+  </div>
+  <div class="campo">
+    <label for="grupo">Grupo</label>
+    <select id="grupo">
+      <option value="">Selecione</option>
+      <option value="A">Grupo A</option>
+      <option value="B">Grupo B</option>
+    </select>
+  </div>
+</div>
+
+<div id="questoes"></div>
+
+<div class="resultado-box" id="resultado">
+  <div class="nota-grande" id="nota-valor"></div>
+  <div class="nota-label">de 5,0 pontos</div>
+  <div class="nota-detalhe" id="nota-detalhe"></div>
+</div>
+
+<div class="acoes">
+  <button class="btn btn-primario" id="btn-enviar" disabled>Enviar respostas</button>
+  <button class="btn btn-secundario" id="btn-exportar" disabled>Exportar JSON</button>
+</div>
+
+</main>
+
+<div class="footer">
+  FE-T0A &middot; Provinha de Fechamento v1 &middot; Fisica Experimental 1 &middot; IFMG &mdash; Campus Ouro Preto &middot; 2026
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const BANCO = [
+  {
+    id: 'T0A-PR-Q1',
+    bloom: 'L1',
+    comp: 'C1',
+    pts: 1,
+    enunciado: 'Voce acabou de medir a altura de um colega. Na terminologia da Fisica Experimental, <strong>o que e a "medicao" e o que e a "medida"?</strong>',
+    alternativas: [
+      { letra: 'A', texto: 'Medicao e o resultado em metros; medida e o procedimento de alinhar o esquadro.' },
+      { letra: 'B', texto: 'Medicao e medida sao sinonimos — significam a mesma coisa.' },
+      { letra: 'C', texto: 'Medicao e o <strong>processo</strong> (posicionar, alinhar, ler); medida e o <strong>resultado</strong> (o numero com unidade).' },
+      { letra: 'D', texto: 'Medida e a incerteza; medicao e a media dos valores.' }
+    ],
+    correta: 'C',
+    feedbacks: {
+      C: { ok: true, texto: 'TT-v8 Topico 1: a medicao e o que voce FAZ; a medida e o que voce OBTEM. 1,68 m e uma medida que nasceu de uma medicao.' },
+      _: { ok: false, texto: 'TT-v8 Topico 1: a medicao e o que voce FAZ (o processo); a medida e o que voce OBTEM (o numero com unidade).' }
+    }
+  },
+  {
+    id: 'T0A-PR-Q2',
+    bloom: 'L2',
+    comp: 'C3',
+    pts: 1,
+    enunciado: 'Voce mediu sua altura em 4 escalas e obteve valores ligeiramente diferentes. <strong>O que explica essa diferenca?</strong>',
+    alternativas: [
+      { letra: 'A', texto: 'O colega que mediu errou todas as vezes.' },
+      { letra: 'B', texto: 'Cada escala tem uma menor divisao diferente, e a leitura depende do angulo de visao (paralaxe) — a dispersao entre os valores e a incerteza experimental.' },
+      { letra: 'C', texto: 'A altura muda ao longo do dia, por isso os valores diferem.' },
+      { letra: 'D', texto: 'A diferenca e tao pequena que pode ser ignorada.' }
+    ],
+    correta: 'B',
+    feedbacks: {
+      B: { ok: true, texto: 'TT-v8 Topico 3: a incerteza experimental vem da repeticao da medicao em instrumentos diferentes + paralaxe + posicionamento. Nao se ignora — se declara.' },
+      _: { ok: false, texto: 'A incerteza experimental vem da repeticao da medicao em instrumentos diferentes + paralaxe + posicionamento. Nao se ignora — se declara.' }
+    }
+  },
+  {
+    id: 'T0A-PR-Q3',
+    bloom: 'L3',
+    comp: 'C4',
+    pts: 1,
+    enunciado: 'Um colega mediu sua altura 4 vezes e obteve: <strong>1,70 m; 1,72 m; 1,71 m; 1,71 m</strong>. Usando δh = (h<sub>max</sub> − h<sub>min</sub>) ÷ 2, <strong>qual e o resultado no formato (valor ± incerteza)?</strong>',
+    alternativas: [
+      { letra: 'A', texto: '(1,71 ± 0,01) m' },
+      { letra: 'B', texto: '(1,71 ± 0,02) m' },
+      { letra: 'C', texto: '(1,72 ± 0,01) m' },
+      { letra: 'D', texto: '(1,71 ± 0,005) m' }
+    ],
+    correta: 'A',
+    feedbacks: {
+      A: { ok: true, texto: 'Media = (1,70 + 1,72 + 1,71 + 1,71) ÷ 4 = 1,71 m. δh = (1,72 − 1,70) ÷ 2 = 0,01 m. Resultado: (1,71 ± 0,01) m.' },
+      B: { ok: false, texto: 'Voce usou a amplitude inteira (0,02) sem dividir por 2. A formula e δh = (h_max − h_min) / 2 = 0,01 m.' },
+      C: { ok: false, texto: 'A media e 1,71 m (nao 1,72). 1,72 e apenas o valor maximo.' },
+      D: { ok: false, texto: '0,005 m seria a incerteza instrumental (menor divisao/2 de uma fita de 1 cm), nao a experimental.' }
+    }
+  },
+  {
+    id: 'T0A-PR-Q4',
+    bloom: 'L2',
+    comp: 'C5',
+    pts: 1,
+    enunciado: 'Segundo as normas do Lab de Mecanica (inspiradas na NR-22), <strong>o que voce deve fazer se vir um quase-acidente durante a aula?</strong>',
+    alternativas: [
+      { letra: 'A', texto: 'Resolver sozinho sem incomodar o professor.' },
+      { letra: 'B', texto: 'Anotar no caderno e falar depois da aula.' },
+      { letra: 'C', texto: 'Nao fazer nada — quase-acidente nao e acidente.' },
+      { letra: 'D', texto: 'Comunicar imediatamente ao professor (NR-22, 22.21).' }
+    ],
+    correta: 'D',
+    feedbacks: {
+      D: { ok: true, texto: 'TT-v8 Topico 5, NR-22 item 22.21: comunicacao imediata de quase-acidente. Quem ve, fala — sem esperar, sem resolver sozinho.' },
+      _: { ok: false, texto: 'NR-22, item 22.21: quase-acidente deve ser comunicado imediatamente ao professor. Quem ve, fala — sem esperar.' }
+    }
+  },
+  {
+    id: 'T0A-PR-Q5',
+    bloom: 'L4',
+    comp: 'C2',
+    pts: 1,
+    enunciado: 'Um colega anotou no Caderno de Laboratorio: <strong>"Minha altura: 1,73"</strong>. <strong>O que falta nesse registro para que ele seja uma medida completa?</strong>',
+    alternativas: [
+      { letra: 'A', texto: 'Nada — o numero esta claro.' },
+      { letra: 'B', texto: 'Faltam a <strong>unidade</strong> (m) e a <strong>incerteza</strong> (± δh). Uma medida completa seria algo como (1,73 ± 0,01) m.' },
+      { letra: 'C', texto: 'Falta apenas arredondar para 1,7.' },
+      { letra: 'D', texto: 'Falta trocar a virgula por ponto.' }
+    ],
+    correta: 'B',
+    feedbacks: {
+      B: { ok: true, texto: 'TT-v8 Topico 1: toda medida precisa de (1) valor numerico, (2) unidade SI, (3) incerteza. "1,73" sozinho nao e medida — e chute disfarcado de numero.' },
+      _: { ok: false, texto: 'Toda medida precisa de tres elementos: (1) valor numerico, (2) unidade SI, (3) incerteza. Sem eles, nao e medida — e chute.' }
+    }
+  }
+];
+
+const LS_PREFIX = 'ifmg_fe_t0a_pr_';
+let respostas = {};
+let enviado = false;
+let debounceTimer = null;
+
+function init() {
+  const container = document.getElementById('questoes');
+  BANCO.forEach((q, i) => {
+    const div = document.createElement('div');
+    div.className = 'questao';
+    div.id = 'q' + (i + 1);
+    div.innerHTML = `
+      <div class="q-header">
+        <div class="q-num">${i + 1}</div>
+        <div class="q-tags">
+          <span class="q-tag tag-bloom">Bloom ${q.bloom}</span>
+          <span class="q-tag tag-pts">${q.pts},0 pt</span>
+        </div>
+      </div>
+      <div class="q-enunciado">${q.enunciado}</div>
+      <ul class="alternativas" data-qi="${i}">
+        ${q.alternativas.map(a => `
+          <li data-letra="${a.letra}" onclick="selecionar(${i},'${a.letra}')">
+            <span class="alt-letra">${a.letra}</span>
+            <span>${a.texto}</span>
+          </li>
+        `).join('')}
+      </ul>
+      <div class="feedback" id="fb${i}">
+        <div class="fb-titulo"></div>
+        <div class="fb-texto"></div>
+      </div>
+    `;
+    container.appendChild(div);
+  });
+
+  document.getElementById('btn-enviar').addEventListener('click', enviar);
+  document.getElementById('btn-exportar').addEventListener('click', exportarJSON);
+
+  ['nome', 'turma', 'grupo'].forEach(id => {
+    document.getElementById(id).addEventListener('input', salvarLS);
+  });
+
+  restaurarLS();
+}
+
+function selecionar(qi, letra) {
+  if (enviado) return;
+  respostas[qi] = letra;
+  const ul = document.querySelector(`[data-qi="${qi}"]`);
+  ul.querySelectorAll('li').forEach(li => {
+    li.classList.toggle('selecionada', li.dataset.letra === letra);
+  });
+  const questao = document.getElementById('q' + (qi + 1));
+  questao.classList.add('respondida');
+  atualizarProgresso();
+  atualizarBotao();
+  salvarLS();
+}
+
+function atualizarProgresso() {
+  BANCO.forEach((_, i) => {
+    const seg = document.querySelector(`.seg[data-q="${i + 1}"]`);
+    seg.className = 'seg';
+    if (enviado) {
+      seg.classList.add(respostas[i] === BANCO[i].correta ? 'certo' : (respostas[i] ? 'errado' : ''));
+    } else if (respostas[i]) {
+      seg.classList.add('resp');
+    }
+  });
+}
+
+function atualizarBotao() {
+  const todas = BANCO.every((_, i) => respostas[i]);
+  const nome = document.getElementById('nome').value.trim();
+  const turma = document.getElementById('turma').value;
+  document.getElementById('btn-enviar').disabled = !todas || !nome || !turma || enviado;
+}
+
+function enviar() {
+  if (enviado) return;
+  enviado = true;
+
+  let acertos = 0;
+  BANCO.forEach((q, i) => {
+    const escolha = respostas[i];
+    const acertou = escolha === q.correta;
+    if (acertou) acertos++;
+
+    const questao = document.getElementById('q' + (i + 1));
+    questao.classList.remove('respondida');
+    questao.classList.add(acertou ? 'certa' : 'errada');
+
+    const ul = questao.querySelector('.alternativas');
+    ul.querySelectorAll('li').forEach(li => {
+      li.classList.add('bloqueada');
+      li.classList.remove('selecionada');
+      if (li.dataset.letra === q.correta) li.classList.add('correta-revelada');
+      else if (li.dataset.letra === escolha && !acertou) li.classList.add('errada-revelada');
+    });
+
+    const fb = document.getElementById('fb' + i);
+    const fbData = q.feedbacks[escolha] || q.feedbacks['_'];
+    fb.className = 'feedback visivel ' + (acertou ? 'certo' : 'errado');
+    fb.querySelector('.fb-titulo').textContent = acertou ? 'Correto!' : 'Incorreto';
+    fb.querySelector('.fb-texto').textContent = fbData.texto;
+  });
+
+  atualizarProgresso();
+
+  const res = document.getElementById('resultado');
+  res.classList.add('visivel');
+  document.getElementById('nota-valor').textContent = acertos + ',0';
+  document.getElementById('nota-detalhe').textContent = acertos + ' de 5 questoes corretas (' + (acertos * 20) + '%)';
+
+  document.getElementById('btn-enviar').disabled = true;
+  document.getElementById('btn-exportar').disabled = false;
+
+  ['nome', 'turma', 'grupo'].forEach(id => {
+    document.getElementById(id).disabled = true;
+  });
+
+  salvarLS();
+  toast('Provinha enviada — ' + acertos + '/5 acertos');
+}
+
+function exportarJSON() {
+  const nome = document.getElementById('nome').value.trim();
+  const turma = document.getElementById('turma').value;
+  const grupo = document.getElementById('grupo').value;
+
+  let acertos = 0;
+  const detalhes = BANCO.map((q, i) => {
+    const escolha = respostas[i] || '';
+    const acertou = escolha === q.correta;
+    if (acertou) acertos++;
+    return {
+      id: q.id,
+      bloom: q.bloom,
+      escolha: escolha,
+      correta: q.correta,
+      acertou: acertou,
+      pontos: acertou ? q.pts : 0
+    };
+  });
+
+  const dados = {
+    meta: {
+      versao_schema: '1.0',
+      trilha: 'FE-T0A',
+      tipo_oa: 'PR',
+      versao_pr: 'v1',
+      timestamp: new Date().toISOString()
+    },
+    identificacao: {
+      nome: nome,
+      turma: turma,
+      grupo: grupo
+    },
+    resultado: {
+      acertos: acertos,
+      total: 5,
+      nota: acertos,
+      percentual: acertos * 20
+    },
+    questoes: detalhes
+  };
+
+  const nomeArq = 'FE-T0A-PR_' + turma + '_' + grupo + '_' + nome.replace(/\s+/g, '-') + '.json';
+  const blob = new Blob([JSON.stringify(dados, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = nomeArq;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('JSON exportado: ' + nomeArq);
+}
+
+function salvarLS() {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => {
+    const dados = {
+      nome: document.getElementById('nome').value,
+      turma: document.getElementById('turma').value,
+      grupo: document.getElementById('grupo').value,
+      respostas: respostas,
+      enviado: enviado,
+      timestamp: new Date().toISOString()
+    };
+    try { localStorage.setItem(LS_PREFIX + 'dados', JSON.stringify(dados)); } catch(e) {}
+  }, 1500);
+}
+
+function restaurarLS() {
+  try {
+    const raw = localStorage.getItem(LS_PREFIX + 'dados');
+    if (!raw) return;
+    const dados = JSON.parse(raw);
+    if (dados.nome) document.getElementById('nome').value = dados.nome;
+    if (dados.turma) document.getElementById('turma').value = dados.turma;
+    if (dados.grupo) document.getElementById('grupo').value = dados.grupo;
+    if (dados.respostas) {
+      respostas = dados.respostas;
+      Object.keys(respostas).forEach(qi => {
+        selecionar(parseInt(qi), respostas[qi]);
+      });
+    }
+    if (dados.enviado) {
+      enviar();
+    }
+    atualizarBotao();
+  } catch(e) {}
+}
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('visivel');
+  setTimeout(() => t.classList.remove('visivel'), 3000);
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+
+</body>
+</html>

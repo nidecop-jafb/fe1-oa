@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FE-T0A · Ponto de Partida</title>
+<style>
+:root {
+  --azul: oklch(0.65 0.22 45);
+  --azul-claro: oklch(0.72 0.19 45);
+  --azul-bg: oklch(0.28 0.05 45);
+  --ouro: oklch(0.85 0.18 95);
+  --ouro-claro: oklch(0.25 0.04 95);
+  --verde: oklch(0.7 0.15 150);
+  --verde-claro: oklch(0.25 0.04 150);
+  --erro: oklch(0.6 0.22 25);
+  --erro-claro: oklch(0.22 0.05 25);
+  --cinza: oklch(0.55 0.02 260);
+  --cinza-claro: oklch(0.18 0.02 260);
+  --cinza-borda: oklch(0.38 0.02 260);
+  --texto: oklch(0.93 0 0);
+  --branco: oklch(0.93 0 0);
+  --superficie: oklch(0.24 0.02 260);
+  --input-bg: oklch(0.2 0.02 260);
+  --hover-bg: oklch(0.22 0.02 260);
+  --r: 0px;
+  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'Space Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font); background: var(--cinza-claro); color: var(--texto); line-height: 1.5; min-height: 100vh; }
+
+.header {
+  background: oklch(0.14 0.02 260);
+  border-top: 3px solid var(--azul);
+  padding: 12px 20px;
+}
+.header-inner { max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+.header h1 { font-size: 1.05rem; font-weight: 700; }
+.header .badge { background: var(--azul); color: var(--branco); padding: 3px 10px; border-radius: 20px; font-size: .7rem; font-weight: 700; text-transform: uppercase; }
+.header-sub { max-width: 800px; margin: 4px auto 0; font-size: .72rem; color: var(--cinza); }
+
+.progresso { max-width: 800px; margin: 12px auto 0; display: flex; gap: 3px; height: 6px; }
+.progresso .seg { flex: 1; background: var(--cinza-borda); transition: background .3s; }
+.progresso .seg.respondido { background: var(--azul); }
+.progresso .seg.certo { background: var(--verde); }
+.progresso .seg.errado { background: var(--erro); }
+.progresso .seg.likert { background: var(--ouro); }
+
+main { max-width: 800px; margin: 0 auto; padding: 16px; }
+
+.id-box { background: var(--superficie); padding: 14px 18px; margin-bottom: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 14px; }
+.id-box .campo { display: flex; flex-direction: column; gap: 3px; }
+.id-box .campo.full { grid-column: 1 / -1; }
+.id-box label { font-size: .68rem; font-weight: 600; color: var(--azul); text-transform: uppercase; letter-spacing: .3px; }
+.id-box input, .id-box select { background: var(--input-bg); border: 1px solid var(--cinza-borda); color: var(--texto); padding: 7px 10px; font-family: var(--font); font-size: .82rem; border-radius: var(--r); min-height: 36px; }
+.id-box input:focus, .id-box select:focus { outline: none; border-color: var(--azul); box-shadow: 0 0 0 2px var(--azul-bg); }
+
+.fase { margin-bottom: 20px; }
+.fase-titulo { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--ouro); margin-bottom: 10px; border-bottom: 1px solid var(--cinza-borda); padding-bottom: 4px; }
+
+.questao { background: var(--superficie); padding: 16px 18px; margin-bottom: 12px; border-left: 3px solid var(--cinza-borda); transition: border-color .3s; }
+.questao.respondida { border-left-color: var(--azul); }
+.questao.certa { border-left-color: var(--verde); }
+.questao.errada { border-left-color: var(--erro); }
+.questao.likert-resp { border-left-color: var(--ouro); }
+
+.q-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.q-num { font-family: var(--mono); font-size: .7rem; font-weight: 700; color: var(--azul); min-width: 28px; }
+.q-tipo { font-size: .6rem; font-weight: 600; text-transform: uppercase; letter-spacing: .4px; padding: 2px 6px; }
+.q-tipo.mc { background: var(--azul-bg); color: var(--azul); }
+.q-tipo.likert { background: var(--ouro-claro); color: var(--ouro); }
+.q-tipo.aberta { background: var(--verde-claro); color: var(--verde); }
+.q-bloom { font-size: .6rem; color: var(--cinza); margin-left: auto; }
+
+.q-enunciado { font-size: .85rem; margin-bottom: 12px; line-height: 1.6; }
+.q-enunciado strong { color: var(--ouro); }
+
+.opcoes { display: flex; flex-direction: column; gap: 6px; }
+.opcao { display: flex; align-items: flex-start; gap: 10px; padding: 8px 12px; background: var(--input-bg); cursor: pointer; transition: background .15s, border-color .15s; border: 1px solid transparent; min-height: 40px; }
+.opcao:hover { background: var(--hover-bg); }
+.opcao.selecionada { border-color: var(--azul); background: var(--azul-bg); }
+.opcao.certa-vis { border-color: var(--verde); background: var(--verde-claro); }
+.opcao.errada-vis { border-color: var(--erro); background: var(--erro-claro); }
+.opcao input[type="radio"] { margin-top: 3px; accent-color: var(--azul); }
+.opcao-texto { font-size: .82rem; }
+.opcao.bloqueada { pointer-events: none; }
+
+textarea {
+  width: 100%; min-height: 80px; padding: 10px 12px;
+  background: var(--input-bg); border: 1px solid var(--cinza-borda);
+  color: var(--texto); font-family: var(--font); font-size: .82rem;
+  border-radius: var(--r); resize: vertical; line-height: 1.5;
+}
+textarea:focus { outline: none; border-color: var(--azul); box-shadow: 0 0 0 2px var(--azul-bg); }
+textarea:disabled { opacity: .7; }
+.char-counter { font-size: .65rem; color: var(--cinza); text-align: right; margin-top: 3px; }
+
+.feedback { display: none; margin-top: 10px; padding: 8px 12px; font-size: .78rem; border-left: 3px solid; }
+.feedback.visivel { display: block; }
+.feedback.fb-certo { border-color: var(--verde); background: var(--verde-claro); color: var(--verde); }
+.feedback.fb-errado { border-color: var(--erro); background: var(--erro-claro); color: var(--erro); }
+.feedback.fb-info { border-color: var(--ouro); background: var(--ouro-claro); color: var(--ouro); }
+.feedback.fb-aberta { border-color: var(--azul); background: var(--azul-bg); color: var(--azul); }
+
+.resultado-box { display: none; background: var(--superficie); border: 2px solid var(--azul); padding: 20px 24px; margin: 16px 0; text-align: center; }
+.resultado-box.visivel { display: block; }
+.resultado-box .nota-grande { font-family: var(--mono); font-size: 2.2rem; font-weight: 700; color: var(--azul); }
+.resultado-box .nota-label { font-size: .72rem; text-transform: uppercase; letter-spacing: 1px; color: var(--cinza); margin-top: 4px; }
+.resultado-box .nota-detalhe { font-size: .82rem; margin-top: 10px; }
+.resultado-box .garantida { font-size: .78rem; color: var(--ouro); margin-top: 8px; font-weight: 600; }
+
+.acoes { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+.btn { padding: 10px 20px; border: none; font-family: var(--font); font-size: .82rem; font-weight: 600; cursor: pointer; min-height: 44px; transition: background .15s; }
+.btn-primario { background: var(--azul); color: var(--branco); }
+.btn-primario:hover { background: var(--azul-claro); }
+.btn-primario:disabled { background: var(--cinza-borda); cursor: not-allowed; color: var(--cinza); }
+.btn-secundario { background: var(--superficie); color: var(--texto); border: 1px solid var(--cinza-borda); }
+.btn-secundario:hover { background: var(--hover-bg); }
+.btn-secundario:disabled { opacity: .5; cursor: not-allowed; }
+
+.toast { position: fixed; bottom: 20px; right: 20px; background: var(--superficie); border: 1px solid var(--verde); border-left: 4px solid var(--verde); color: var(--texto); padding: 12px 18px; font-size: .82rem; z-index: 999; opacity: 0; transform: translateY(10px); transition: opacity .3s, transform .3s; pointer-events: none; }
+.toast.visivel { opacity: 1; transform: translateY(0); }
+
+.footer { text-align: center; padding: 16px; font-size: .65rem; color: var(--cinza); margin-top: 16px; border-top: 1px solid var(--cinza-borda); }
+
+@media (max-width: 600px) {
+  main { padding: 10px; }
+  .id-box { grid-template-columns: 1fr; }
+  .header h1 { font-size: .95rem; }
+}
+
+@media print {
+  body { background: white !important; color: #1A1A1A !important; font-size: 9pt; }
+  .header { background: none !important; border-top: 2px solid #1F3864; }
+  .header .badge { background: #1F3864 !important; color: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .questao { background: #F8F8F8 !important; border-left-color: #D0D0D0 !important; }
+  .questao.certa { border-left-color: #27AE60 !important; }
+  .questao.errada { border-left-color: #C0392B !important; }
+  .acoes, .progresso { display: none; }
+  .footer { color: #808080 !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <h1>FE-T0A &middot; Ponto de Partida</h1>
+    <span class="badge">10 pts &middot; Pre-Lab &middot; Diagnostico</span>
+  </div>
+  <div class="header-sub">Metodologia Experimental &middot; 10 questoes &middot; ~10 min &middot; Nota garantida pelo envio</div>
+  <div class="progresso" id="progresso"></div>
+</header>
+
+<main>
+
+<div class="id-box">
+  <div class="campo full">
+    <label for="nome">Nome completo</label>
+    <input type="text" id="nome" placeholder="Seu nome">
+  </div>
+  <div class="campo">
+    <label for="turma">Turma</label>
+    <select id="turma"><option value="">Selecione</option><option value="MIN1A">MIN1A</option><option value="MIN1B">MIN1B</option><option value="MIN1C">MIN1C</option></select>
+  </div>
+  <div class="campo">
+    <label for="grupo">Grupo</label>
+    <select id="grupo"><option value="">Selecione</option><option value="A">Grupo A</option><option value="B">Grupo B</option></select>
+  </div>
+</div>
+
+<div id="questoes"></div>
+
+<div class="resultado-box" id="resultado">
+  <div class="nota-grande" id="nota-valor"></div>
+  <div class="nota-label">de 2 pontos auto-corrigidos (MC)</div>
+  <div class="nota-detalhe" id="nota-detalhe"></div>
+  <div class="garantida">Nota garantida pelo envio — obrigado por participar!</div>
+</div>
+
+<div class="acoes">
+  <button class="btn btn-primario" id="btn-enviar" disabled>Enviar respostas</button>
+  <button class="btn btn-secundario" id="btn-exportar" disabled>Exportar JSON</button>
+</div>
+
+</main>
+
+<div class="footer">FE-T0A &middot; Ponto de Partida v1 &middot; Fisica Experimental 1 &middot; IFMG &mdash; Campus Ouro Preto &middot; 2026</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const QUESTOES = [
+  { id:'Q1', fase:'F1 — Situacao-Problema', tipo:'ABERTA', bloom:'L1', pts:1,
+    enunciado:'No Lab de Mecanica, a turma mede a altura da Sofia em 4 reguas diferentes e obtem: 1,67 m; 1,68 m; 1,69 m; 1,68 m. As quatro medidas nao sao iguais. <strong>Afinal, qual e a altura da Sofia? O que pode explicar os valores diferentes?</strong>',
+    maxChars: 400 },
+  { id:'Q2', fase:'F1 — Situacao-Problema', tipo:'LIKERT', bloom:'L1', pts:1,
+    enunciado:'"Toda medida tem um erro embutido, por mais cuidadosa que seja a pessoa que mede." Quanto voce concorda com essa frase?',
+    opcoes:['A) Discordo totalmente','B) Discordo em parte','C) Concordo em parte','D) Concordo totalmente'],
+    complemento: true },
+  { id:'Q3', fase:'F2 — Conhecimentos Previos', tipo:'MC', bloom:'L2', pts:1,
+    enunciado:'Para responder "quanto Sofia mede?" de forma cientifica, <strong>qual sequencia esta mais proxima do metodo experimental?</strong>',
+    opcoes:['A) Chutar o valor e conferir so se sobrar tempo.','B) Pergunta → hipotese → medicao → analise → conclusao.','C) Medir uma unica vez, anotar e considerar encerrado.','D) Procurar a resposta na internet.'],
+    gabarito: 1,
+    feedback_certo: 'O metodo experimental da FE1 segue: Pergunta → Hipotese → Medicao → Analise → Conclusao.',
+    feedback_errado: 'O metodo experimental segue: Pergunta → Hipotese → Medicao → Analise → Conclusao. A medicao vem ANTES de qualquer conclusao.',
+    analise: ['Confunde palpite com hipotese; pula a coleta de dados','Sequencia do metodo experimental (CORRETA)','Ignora repeticao e analise; nao permite avaliar incerteza','Substitui a evidencia empirica por busca; nao e medicao'] },
+  { id:'Q4', fase:'F2 — Conhecimentos Previos', tipo:'LIKERT', bloom:'L2', pts:1,
+    enunciado:'Quao confiante voce esta na sua resposta da Q3?',
+    opcoes:['A) Nada confiante','B) Pouco confiante','C) Moderadamente confiante','D) Muito confiante'] },
+  { id:'Q5', fase:'F3 — Exploracao Inicial', tipo:'ABERTA', bloom:'L2', pts:1,
+    enunciado:'Se voce trocar uma regua com marcas de 1 cm por uma com marcas de 1 mm, sua medida fica mais ou menos precisa? <strong>Por que?</strong>',
+    maxChars: 300 },
+  { id:'Q6', fase:'F3 — Exploracao Inicial', tipo:'ABERTA', bloom:'L2', pts:1,
+    enunciado:'Ao anotar uma altura, faz diferenca escrever <strong>"1,7 m"</strong> ou <strong>"1,70 m"</strong>? Os dois dizem exatamente a mesma coisa?',
+    maxChars: 300 },
+  { id:'Q7', fase:'F3 — Exploracao Inicial', tipo:'ABERTA', bloom:'L2', pts:1,
+    enunciado:'Por que um laboratorio de fisica, mesmo <strong>sem produtos quimicos</strong>, ainda precisa de regras de seguranca? De <strong>um exemplo</strong> de cuidado ao medir a altura de um colega.',
+    maxChars: 300 },
+  { id:'Q8', fase:'F4 — Desenvolvimento Conceitual', tipo:'MC', bloom:'L3', pts:1,
+    enunciado:'Pedro foi medido 4 vezes e obteve <strong>1,75 m; 1,76 m; 1,74 m; 1,75 m</strong>. Use a calculadora. <strong>Qual e a media dessas medidas?</strong>',
+    opcoes:['A) 1,75 m','B) 1,74 m','C) 1,76 m','D) 7,00 m'],
+    gabarito: 0,
+    feedback_certo: 'Media = (1,75 + 1,76 + 1,74 + 1,75) / 4 = 7,00 / 4 = 1,75 m.',
+    feedback_errado: 'Media = soma dos valores / numero de medidas = (1,75 + 1,76 + 1,74 + 1,75) / 4 = 7,00 / 4 = 1,75 m.',
+    analise: ['Soma dividida por 4 = 1,75 m (CORRETA)','Tomou o menor valor em vez da media','Tomou o maior valor em vez da media','Somou e esqueceu de dividir por 4'] },
+  { id:'Q9', fase:'F4 — Desenvolvimento Conceitual', tipo:'ABERTA', bloom:'L3', pts:1,
+    enunciado:'A altura da Sofia foi escrita como <strong>(1,68 ± 0,01) m</strong>. Com suas palavras: <strong>o que significa esse "± 0,01"?</strong>',
+    maxChars: 300 },
+  { id:'Q10', fase:'F5 — Sistematizacao', tipo:'ABERTA', bloom:'L1', pts:1,
+    enunciado:'Liste pelo menos <strong>4 coisas</strong> que voce acha importante para registrar bem uma medida (pense em: unidade, instrumento, repeticao, anotacao, incerteza...).',
+    maxChars: 400 }
+];
+
+const LS_PREFIX = 'ifmg_fe_t0a_pdp_';
+let respostas = {};
+let enviado = false;
+let debounceTimer = null;
+
+function init() {
+  const prog = document.getElementById('progresso');
+  for (let i = 0; i < QUESTOES.length; i++) {
+    const seg = document.createElement('div');
+    seg.className = 'seg'; seg.dataset.q = i;
+    prog.appendChild(seg);
+  }
+
+  renderQuestoes();
+  document.getElementById('btn-enviar').addEventListener('click', enviar);
+  document.getElementById('btn-exportar').addEventListener('click', exportarJSON);
+  ['nome','turma','grupo'].forEach(id => {
+    document.getElementById(id).addEventListener('input', () => { salvarLS(); atualizarBotao(); });
+  });
+  restaurarLS();
+}
+
+function renderQuestoes() {
+  const container = document.getElementById('questoes');
+  let faseAtual = '';
+
+  QUESTOES.forEach((q, i) => {
+    if (q.fase !== faseAtual) {
+      faseAtual = q.fase;
+      const ft = document.createElement('div');
+      ft.className = 'fase-titulo';
+      ft.textContent = faseAtual;
+      container.appendChild(ft);
+    }
+
+    const div = document.createElement('div');
+    div.className = 'questao';
+    div.id = 'q-' + i;
+
+    let tipoClass = q.tipo === 'MC' ? 'mc' : q.tipo === 'LIKERT' ? 'likert' : 'aberta';
+    let tipoLabel = q.tipo === 'MC' ? 'Mult. Escolha' : q.tipo === 'LIKERT' ? 'Sondagem' : 'Aberta';
+
+    let html = `<div class="q-header">
+      <span class="q-num">${q.id}</span>
+      <span class="q-tipo ${tipoClass}">${tipoLabel}</span>
+      <span class="q-bloom">Bloom ${q.bloom} &middot; ${q.pts} pt</span>
+    </div>
+    <div class="q-enunciado">${q.enunciado}</div>`;
+
+    if (q.tipo === 'MC' || q.tipo === 'LIKERT') {
+      html += '<div class="opcoes">';
+      q.opcoes.forEach((op, j) => {
+        html += `<label class="opcao" data-q="${i}" data-op="${j}">
+          <input type="radio" name="q${i}" value="${j}">
+          <span class="opcao-texto">${op}</span>
+        </label>`;
+      });
+      html += '</div>';
+      if (q.complemento) {
+        html += `<div style="margin-top:8px">
+          <textarea id="compl-${i}" placeholder="Em uma linha, por que? (opcional)" maxlength="150" style="min-height:40px"></textarea>
+        </div>`;
+      }
+    } else {
+      html += `<textarea id="resp-${i}" placeholder="Sua resposta..." maxlength="${q.maxChars}"></textarea>
+        <div class="char-counter" id="cc-${i}">0 / ${q.maxChars}</div>`;
+    }
+
+    html += `<div class="feedback" id="fb-${i}"></div>`;
+    div.innerHTML = html;
+    container.appendChild(div);
+  });
+
+  container.querySelectorAll('input[type="radio"]').forEach(r => {
+    r.addEventListener('change', e => {
+      const qi = parseInt(e.target.name.replace('q', ''));
+      respostas[qi] = { tipo: QUESTOES[qi].tipo, valor: parseInt(e.target.value) };
+      atualizarProgresso();
+      atualizarBotao();
+      salvarLS();
+    });
+  });
+
+  container.querySelectorAll('textarea').forEach(ta => {
+    ta.addEventListener('input', e => {
+      const id = e.target.id;
+      if (id.startsWith('resp-')) {
+        const qi = parseInt(id.replace('resp-', ''));
+        const cc = document.getElementById('cc-' + qi);
+        cc.textContent = e.target.value.length + ' / ' + QUESTOES[qi].maxChars;
+        if (e.target.value.trim().length >= 20) {
+          respostas[qi] = { tipo: 'ABERTA', valor: e.target.value.trim() };
+        } else {
+          delete respostas[qi];
+        }
+      } else if (id.startsWith('compl-')) {
+        const qi = parseInt(id.replace('compl-', ''));
+        if (respostas[qi]) respostas[qi].complemento = e.target.value.trim();
+      }
+      atualizarProgresso();
+      atualizarBotao();
+      salvarLS();
+    });
+  });
+}
+
+function atualizarProgresso() {
+  QUESTOES.forEach((q, i) => {
+    const seg = document.querySelector(`.seg[data-q="${i}"]`);
+    seg.className = 'seg';
+    if (respostas[i] !== undefined) seg.classList.add('respondido');
+  });
+}
+
+function atualizarBotao() {
+  const nome = document.getElementById('nome').value.trim();
+  const turma = document.getElementById('turma').value;
+  const todas = Object.keys(respostas).length === QUESTOES.length;
+  document.getElementById('btn-enviar').disabled = !todas || !nome || !turma || enviado;
+}
+
+function enviar() {
+  if (enviado) return;
+  enviado = true;
+
+  let acertosMC = 0;
+  QUESTOES.forEach((q, i) => {
+    const div = document.getElementById('q-' + i);
+    const fb = document.getElementById('fb-' + i);
+
+    if (q.tipo === 'MC') {
+      const resp = respostas[i].valor;
+      const correto = resp === q.gabarito;
+      if (correto) acertosMC++;
+
+      div.classList.add(correto ? 'certa' : 'errada');
+      fb.className = 'feedback visivel ' + (correto ? 'fb-certo' : 'fb-errado');
+      fb.textContent = correto ? q.feedback_certo : q.feedback_errado;
+
+      div.querySelectorAll('.opcao').forEach((op, j) => {
+        op.classList.add('bloqueada');
+        if (j === q.gabarito) op.classList.add('certa-vis');
+        else if (j === resp && !correto) op.classList.add('errada-vis');
+      });
+
+      const seg = document.querySelector(`.seg[data-q="${i}"]`);
+      seg.className = 'seg ' + (correto ? 'certo' : 'errado');
+    } else if (q.tipo === 'LIKERT') {
+      div.classList.add('likert-resp');
+      fb.className = 'feedback visivel fb-info';
+      fb.textContent = 'Resposta registrada (sondagem — sem certo ou errado).';
+      div.querySelectorAll('.opcao').forEach(op => op.classList.add('bloqueada'));
+      const seg = document.querySelector(`.seg[data-q="${i}"]`);
+      seg.className = 'seg likert';
+    } else {
+      div.classList.add('respondida');
+      fb.className = 'feedback visivel fb-aberta';
+      fb.textContent = 'Resposta registrada para analise do professor.';
+      const ta = document.getElementById('resp-' + i);
+      if (ta) ta.disabled = true;
+    }
+  });
+
+  const res = document.getElementById('resultado');
+  res.classList.add('visivel');
+  document.getElementById('nota-valor').textContent = acertosMC + '/2';
+  document.getElementById('nota-detalhe').textContent = acertosMC + ' de 2 questoes MC auto-corrigidas. As demais serao analisadas pelo professor.';
+
+  document.getElementById('btn-enviar').disabled = true;
+  document.getElementById('btn-exportar').disabled = false;
+  ['nome','turma','grupo'].forEach(id => document.getElementById(id).disabled = true);
+
+  // Disable Likert complemento
+  document.querySelectorAll('textarea[id^="compl-"]').forEach(ta => ta.disabled = true);
+
+  salvarLS();
+  toast('Ponto de Partida enviado — obrigado!');
+}
+
+function exportarJSON() {
+  const nome = document.getElementById('nome').value.trim();
+  const turma = document.getElementById('turma').value;
+  const grupo = document.getElementById('grupo').value;
+
+  let acertosMC = 0;
+  const questoes = QUESTOES.map((q, i) => {
+    const r = respostas[i];
+    const obj = { id: q.id, tipo: q.tipo, bloom: q.bloom };
+
+    if (q.tipo === 'MC') {
+      const correto = r.valor === q.gabarito;
+      if (correto) acertosMC++;
+      obj.resposta = r.valor;
+      obj.resposta_texto = q.opcoes[r.valor];
+      obj.gabarito = q.gabarito;
+      obj.acertou = correto;
+      obj.pontos = correto ? 1.0 : 0.0;
+    } else if (q.tipo === 'LIKERT') {
+      obj.resposta = r.valor;
+      obj.resposta_texto = q.opcoes[r.valor];
+      if (r.complemento) obj.complemento = r.complemento;
+      obj.pontos = null;
+    } else {
+      obj.resposta = r.valor;
+      obj.pontos = null;
+    }
+    return obj;
+  });
+
+  const dados = {
+    meta: { versao_schema: '1.0', trilha: 'FE-T0A', tipo_oa: 'PdP', versao_pp: 'v1', timestamp: new Date().toISOString() },
+    identificacao: { nome, turma, grupo },
+    resultado: { acertos_mc: acertosMC, total_mc: 2, questoes_respondidas: QUESTOES.length, total_questoes: QUESTOES.length },
+    questoes
+  };
+
+  const nomeArq = 'FE-T0A-PdP_' + turma + '_' + grupo + '_' + nome.replace(/\s+/g, '-') + '.json';
+  const blob = new Blob([JSON.stringify(dados, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = nomeArq; a.click();
+  URL.revokeObjectURL(url);
+  toast('JSON exportado: ' + nomeArq);
+}
+
+function salvarLS() {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => {
+    const dados = {
+      nome: document.getElementById('nome').value,
+      turma: document.getElementById('turma').value,
+      grupo: document.getElementById('grupo').value,
+      respostas, enviado
+    };
+    try { localStorage.setItem(LS_PREFIX + 'dados', JSON.stringify(dados)); } catch(e) {}
+  }, 1500);
+}
+
+function restaurarLS() {
+  try {
+    const raw = localStorage.getItem(LS_PREFIX + 'dados');
+    if (!raw) return;
+    const d = JSON.parse(raw);
+    if (d.nome) document.getElementById('nome').value = d.nome;
+    if (d.turma) document.getElementById('turma').value = d.turma;
+    if (d.grupo) document.getElementById('grupo').value = d.grupo;
+    if (d.respostas) {
+      respostas = d.respostas;
+      Object.entries(respostas).forEach(([qi, r]) => {
+        const i = parseInt(qi);
+        if (r.tipo === 'MC' || r.tipo === 'LIKERT') {
+          const radio = document.querySelector(`input[name="q${i}"][value="${r.valor}"]`);
+          if (radio) radio.checked = true;
+          if (r.complemento) {
+            const compl = document.getElementById('compl-' + i);
+            if (compl) compl.value = r.complemento;
+          }
+        } else {
+          const ta = document.getElementById('resp-' + i);
+          if (ta) {
+            ta.value = r.valor;
+            const cc = document.getElementById('cc-' + i);
+            if (cc) cc.textContent = r.valor.length + ' / ' + QUESTOES[i].maxChars;
+          }
+        }
+      });
+    }
+    atualizarProgresso();
+    if (d.enviado) enviar();
+    atualizarBotao();
+  } catch(e) {}
+}
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('visivel');
+  setTimeout(() => t.classList.remove('visivel'), 3000);
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

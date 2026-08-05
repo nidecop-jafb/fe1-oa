@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FE-T0A · Texto Temático · Leitura Digital</title>
+<style>
+:root {
+  --azul: oklch(0.65 0.22 45);
+  --azul-claro: oklch(0.72 0.19 45);
+  --azul-bg: oklch(0.28 0.05 45);
+  --ouro: oklch(0.85 0.18 95);
+  --ouro-claro: oklch(0.25 0.04 95);
+  --verde: oklch(0.7 0.15 150);
+  --verde-claro: oklch(0.25 0.04 150);
+  --erro: oklch(0.6 0.22 25);
+  --cinza: oklch(0.55 0.02 260);
+  --cinza-claro: oklch(0.18 0.02 260);
+  --cinza-borda: oklch(0.38 0.02 260);
+  --texto: oklch(0.93 0 0);
+  --branco: oklch(0.93 0 0);
+  --superficie: oklch(0.24 0.02 260);
+  --input-bg: oklch(0.2 0.02 260);
+  --hover-bg: oklch(0.22 0.02 260);
+  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'Space Mono', 'Cascadia Code', 'Consolas', monospace;
+  --serif: 'Georgia', 'Cambria', 'Times New Roman', serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font); background: oklch(0.12 0.02 260); color: var(--texto); line-height: 1.8; min-height: 100vh; padding-bottom: 80px; }
+
+.progress-top { position: fixed; top: 0; left: 0; width: 100%; height: 3px; z-index: 100; background: oklch(0.2 0.02 260); }
+.progress-top .bar { height: 100%; background: var(--ouro); width: 0%; transition: width .1s; }
+
+.capa { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 20px; background: linear-gradient(180deg, oklch(0.14 0.03 45) 0%, oklch(0.12 0.02 260) 100%); }
+.capa-disciplina { font-size: 2.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; color: var(--azul); margin-bottom: 6px; }
+.capa-curso { font-size: 2rem; text-transform: uppercase; letter-spacing: 2px; color: var(--cinza); margin-bottom: 24px; }
+.capa-img { max-width: 100%; margin: 0 auto 28px; border: 1px solid var(--cinza-borda); }
+.capa-img img { max-width: 100%; height: auto; display: block; }
+.capa-trilha { font-size: 1.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--ouro); margin-bottom: 8px; }
+.capa-titulo { font-family: var(--serif); font-size: 2.2rem; font-weight: 400; font-style: italic; line-height: 1.25; color: var(--branco); margin-bottom: 28px; max-width: 540px; }
+.capa-autores { font-size: 1rem; color: var(--cinza); }
+.capa-autores strong { color: var(--texto); }
+.capa-inst { font-size: .9rem; color: var(--cinza-borda); margin-top: 20px; letter-spacing: 1px; }
+.capa-scroll { margin-top: 40px; font-size: .75rem; color: var(--cinza-borda); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100% { opacity: .4; } 50% { opacity: 1; } }
+
+.audio-hint { max-width: 720px; margin: -40px auto 40px; padding: 20px 28px; background: oklch(0.16 0.04 45); border-left: 3px solid var(--azul); font-size: 1rem; line-height: 1.7; color: oklch(0.82 0 0); }
+.audio-hint strong { color: var(--ouro); }
+
+.conteudo { max-width: 720px; margin: 0 auto; padding: 0 20px; }
+
+.epigrafe { padding: 40px 0; text-align: center; border-bottom: 1px solid var(--cinza-borda); margin-bottom: 40px; }
+.epigrafe blockquote { font-family: var(--serif); font-style: italic; font-size: 1.4rem; line-height: 1.7; color: oklch(0.78 0 0); max-width: 520px; margin: 0 auto; }
+.epigrafe .autor { font-size: .9rem; color: var(--ouro); margin-top: 12px; font-style: normal; }
+.epigrafe .nota { font-size: .8rem; color: var(--cinza); margin-top: 8px; max-width: 480px; margin-left: auto; margin-right: auto; font-style: normal; }
+
+.ato { margin-bottom: 48px; }
+.ato-titulo { font-size: 1.2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; color: var(--azul); padding: 16px 0; border-top: 2px solid var(--azul-bg); margin-bottom: 24px; }
+.ato-subtitulo { font-family: var(--serif); font-size: 1.8rem; font-weight: 400; font-style: italic; color: var(--branco); margin-bottom: 20px; }
+
+.topico { margin-bottom: 36px; }
+.topico-titulo { font-size: 1.5rem; font-weight: 700; color: var(--ouro); margin-bottom: 16px; padding-bottom: 6px; border-bottom: 1px solid var(--ouro-claro); }
+
+p { font-size: 1.05rem; line-height: 1.85; margin-bottom: 16px; color: oklch(0.85 0 0); }
+p .termo { color: var(--ouro); font-weight: 600; }
+p .citacao { font-style: italic; color: var(--azul-claro); }
+
+.eixo { margin-bottom: 14px; padding-left: 14px; border-left: 2px solid var(--cinza-borda); }
+.eixo-label { font-size: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.eixo-tecnico .eixo-label { color: var(--azul); }
+.eixo-historico .eixo-label { color: var(--ouro); }
+.eixo-cotidiano .eixo-label { color: var(--verde); }
+.eixo p { font-size: 1.1rem; margin-bottom: 8px; }
+
+.definicao { background: var(--superficie); padding: 16px 20px; margin: 16px 0; border-left: 3px solid var(--ouro); }
+.definicao p { font-size: 1.2rem; margin-bottom: 6px; }
+.definicao .def-termo { color: var(--ouro); font-weight: 700; text-transform: uppercase; font-size: 1.05rem; }
+
+.destaque { background: oklch(0.16 0.04 45); padding: 14px 20px; margin: 16px 0; font-size: 1.1rem; font-style: italic; color: var(--azul-claro); border-left: 3px solid var(--azul); }
+
+.quadro { background: var(--superficie); padding: 14px 16px; margin: 16px 0; overflow-x: auto; }
+.quadro table { width: 100%; border-collapse: collapse; font-size: 1rem; }
+.quadro th { padding: 8px 10px; text-align: left; font-weight: 600; color: var(--ouro); border-bottom: 1px solid var(--cinza-borda); font-size: 1rem; text-transform: uppercase; }
+.quadro td { padding: 8px 10px; border-bottom: 1px solid oklch(0.22 0.02 260); color: oklch(0.82 0 0); }
+
+.equacao { background: oklch(0.16 0.02 260); padding: 16px 20px; margin: 16px 0; text-align: center; font-family: var(--serif); font-size: 1.4rem; color: var(--branco); border: 1px solid var(--cinza-borda); }
+
+.c5-passos { background: var(--superficie); padding: 16px 20px; margin: 16px 0; }
+.c5-passos .passo { display: flex; gap: 10px; margin: 6px 0; font-size: 1.1rem; }
+.c5-passos .passo-num { font-family: var(--mono); font-weight: 700; color: var(--azul); min-width: 24px; }
+.c5-passos .passo-texto { color: oklch(0.82 0 0); }
+
+.explore { background: oklch(0.16 0.03 150); padding: 18px 22px; margin: 20px 0; border: 1px solid oklch(0.28 0.06 150); }
+.explore-titulo { font-size: .85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--verde); margin-bottom: 8px; }
+.explore p { font-size: 1.05rem; }
+.explore a { color: var(--verde); }
+
+.fig { margin: 28px 0; text-align: center; }
+.fig img { max-width: 100%; height: auto; border: 1px solid var(--cinza-borda); display: block; margin: 0 auto; }
+.fig-caption { font-size: 1rem; color: var(--cinza); margin-top: 8px; font-style: italic; max-width: 520px; margin-left: auto; margin-right: auto; }
+
+.btn-yt { display: inline-flex; align-items: center; gap: 8px; background: oklch(0.2 0.12 25); color: var(--branco); padding: 10px 20px; font-family: var(--font); font-size: .9rem; font-weight: 600; text-decoration: none; border: none; cursor: pointer; transition: background .15s; margin: 12px 0; }
+.btn-yt:hover { background: oklch(0.28 0.15 25); }
+.btn-yt .yt-icon { width: 20px; height: 14px; background: oklch(0.55 0.22 25); border-radius: 3px; display: flex; align-items: center; justify-content: center; }
+.btn-yt .yt-icon::after { content: ''; width: 0; height: 0; border-left: 6px solid white; border-top: 4px solid transparent; border-bottom: 4px solid transparent; }
+
+.ciencia-arte { padding: 40px 0; border-top: 2px solid var(--ouro-claro); margin-top: 40px; text-align: center; }
+.ciencia-arte blockquote { font-family: var(--serif); font-style: italic; font-size: 1.2rem; color: oklch(0.78 0 0); max-width: 480px; margin: 0 auto 12px; }
+.ciencia-arte .ca-autor { font-size: .9rem; color: var(--ouro); }
+.ciencia-arte .ca-obra { font-size: 1.05rem; margin-top: 20px; font-weight: 600; color: var(--branco); }
+.ciencia-arte .ca-desc { font-size: 1.05rem; color: oklch(0.75 0 0); max-width: 520px; margin: 10px auto 0; }
+
+.refs { padding: 32px 0; border-top: 1px solid var(--cinza-borda); margin-top: 32px; }
+.refs-titulo { font-size: .9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--cinza); margin-bottom: 12px; }
+.refs p { font-size: 1rem; color: var(--cinza); margin-bottom: 4px; line-height: 1.6; }
+
+.separador { width: 60px; height: 1px; background: var(--cinza-borda); margin: 32px auto; }
+
+.ineditismo { padding: 32px 0; border-top: 1px solid var(--cinza-borda); margin-top: 32px; }
+.ineditismo p { font-size: 1rem; color: oklch(0.7 0 0); line-height: 1.7; margin-bottom: 12px; }
+
+/* PLAYER */
+.player { position: fixed; bottom: 0; left: 0; width: 100%; background: oklch(0.14 0.02 260); border-top: 1px solid var(--cinza-borda); padding: 10px 20px; z-index: 200; display: flex; align-items: center; gap: 12px; }
+.player-btn { background: none; border: 2px solid var(--ouro); color: var(--ouro); width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: background .15s; flex-shrink: 0; }
+.player-btn:hover { background: var(--ouro-claro); }
+.player-btn.tocando { background: var(--ouro); color: oklch(0.14 0 0); }
+.player-info { flex: 1; min-width: 0; }
+.player-titulo { font-size: .72rem; font-weight: 600; color: var(--ouro); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.player-sub { font-size: .6rem; color: var(--cinza); }
+.player-vol { display: flex; align-items: center; gap: 6px; }
+.player-vol label { font-size: .6rem; color: var(--cinza); }
+.player-vol input[type="range"] { width: 70px; accent-color: var(--ouro); }
+.player-load { background: none; border: 1px solid var(--cinza-borda); color: var(--cinza); padding: 4px 10px; cursor: pointer; font-size: .6rem; font-family: var(--font); border-radius: 0; flex-shrink: 0; }
+.player-load:hover { color: var(--texto); border-color: var(--texto); }
+.player input[type="file"] { display: none; }
+
+@media (max-width: 600px) {
+  .capa-disciplina { font-size: 1.2rem; }
+  .capa-curso { font-size: .85rem; }
+  .capa-trilha { font-size: .95rem; }
+  .capa-titulo { font-size: 2rem; }
+  .capa-img { max-width: 280px; margin: 0 auto; }
+  .conteudo { padding: 0 14px; }
+  .player { padding: 8px 12px; gap: 8px; }
+  .player-vol { display: none; }
+}
+@media print {
+  body { background: white !important; color: #1A1A1A !important; padding-bottom: 0 !important; }
+  .player, .progress-top, .capa-scroll, .audio-hint { display: none !important; }
+  .capa { min-height: auto !important; background: none !important; padding: 30px 20px !important; }
+  .ato-titulo { border-top-color: #CCC !important; color: #1F3864 !important; }
+  .topico-titulo { color: #8B6914 !important; border-bottom-color: #DDD !important; }
+  p { color: #333 !important; }
+  .definicao { background: #F5F5F5 !important; border-left-color: #8B6914 !important; }
+  .eixo { border-left-color: #CCC !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-top"><div class="bar" id="progressBar"></div></div>
+
+<!-- CAPA -->
+<div class="capa">
+  <div class="capa-disciplina">Física Experimental 1</div>
+  <div class="capa-curso">Técnico em Mineração Integrado ao Ensino Médio</div>
+  <div class="capa-img"><img src="../_imagens/_web/FE-T0A-IT-00-v6.jpg" alt="Pavilhão de Física — Lab de Mecânica"></div>
+  <div class="capa-trilha">Trilha de Aprendizagem T0A</div>
+  <div class="capa-titulo">Medir antes de afirmar</div>
+  <div class="capa-autores"><strong>Júlio Azevedo</strong> &middot; colaboração de <strong>Felipe Beato</strong></div>
+  <div class="capa-inst">IFMG — Campus Ouro Preto &middot; 2026</div>
+  <div class="capa-scroll">&#x25BC; role para ler</div>
+</div>
+
+<!-- AUDIO HINT -->
+<div class="audio-hint">
+  <strong>Para ter uma nova experiência em leitura</strong>, clique no player abaixo e leia ouvindo música instrumental. Conforme recomenda Piazzi em <em>Aprendendo Inteligência</em>: o áudio instrumental ajuda a concentração sem competir com a leitura.
+</div>
+
+<div class="conteudo">
+
+<!-- EPIGRAFE -->
+<div class="fig"><img src="../_imagens/_web/FE-T0A-IT-11-v6.jpg" alt="IT-11 — Limiar do conhecimento"><div class="fig-caption">IT-11 — O laboratório vazio como partitura em branco, à espera das primeiras notas da ciência.</div></div>
+
+<div class="epigrafe">
+  <blockquote>"Quando se pode medir aquilo de que se fala, e exprimi-lo em números, sabe-se algo sobre ele; mas quando não se pode medi-lo, quando não se pode exprimi-lo em números, o conhecimento é escasso e insatisfatório."</blockquote>
+  <div class="autor">— William Thomson, Lord Kelvin (1824–1907)</div>
+  <div class="nota">Físico-matemático britânico, professor em Glasgow por 53 anos. Formulou a escala absoluta de temperatura que leva seu nome (Kelvin). A epígrafe é de uma palestra de 1883 em Londres — virou lema universal das ciências experimentais.</div>
+</div>
+
+<!-- ATO I -->
+<div class="ato">
+  <div class="ato-titulo">Ato I — O Gancho</div>
+  <div class="ato-subtitulo">A chegada ao Laboratório de Mecânica</div>
+
+  <div class="fig"><img src="../_imagens/_web/FE-T0A-IT-01-v6.jpg" alt="IT-01 — Início da jornada"><div class="fig-caption">IT-01 — Três jovens de costas para o mundo, de frente para a descoberta.</div></div>
+
+  <p>A luz da manhã de março em Ouro Preto atingia a fachada dos Pavilhões de Física e Química antes de Sofia, Pedro e Lucas alcançarem a porta da entrada do Pavilhão de Física. Eram quase sete horas. Para eles, dar alguns passos à frente seria simples — mas carrega o peso de uma travessia: do lado de fora, o mundo das opiniões; do lado de dentro, o laboratório onde toda opinião vira hipótese e toda hipótese exige número.</p>
+
+  <p>Sofia ia na frente. Filha de uma professora de matemática do ensino fundamental, ela tinha aprendido cedo a ler manuais e gostar de instruções — algo que os colegas chamavam de "ser certinha" mas que ela preferia chamar de <span class="termo">"saber por onde começar"</span>. Trazia um caderno novo, capa dura azul, ainda em branco.</p>
+
+  <p>Pedro vinha logo atrás. Filho de mineiro da Vale, ele já conhecia uma britagem por dentro — o pai o levava aos sábados, e ali ele havia aprendido a respeitar Equipamento de Proteção Individual (EPI), ordem de serviço e sirene de evacuação. Sabia que tudo o que se faz num lugar de trabalho tem uma razão, ainda que ninguém explique.</p>
+
+  <p>Lucas fechava o trio. Morador do centro histórico, neto de um sacristão da Igreja São Francisco de Assis, ele tinha o jeito de quem observa antes de falar — herdara dos avós a paciência de medir três vezes antes de cortar. No bolso da mochila, levava uma régua escolar e um lápis preto bem apontado.</p>
+
+  <p>O Prof. Júlio os esperava na porta, com uma camisa polo verde. Sorriu quando os três apareceram na entrada do corredor — era a primeira turma de Física Experimental 1, no IFMG-OP em 2026.</p>
+
+  <p>— Bom dia. Antes de entrarmos, uma pergunta: <span class="termo">quanto você mede?</span></p>
+
+  <p>Sofia respondeu sem pensar: — <span class="citacao">1 e 68.</span></p>
+  <p>Pedro, com a certeza de quem já se mediu num consultório: — <span class="citacao">1 e 75.</span></p>
+  <p>Lucas hesitou: — <span class="citacao">Acho que 1 e 72. Medi com a régua de casa semana passada, mas pode ter mexido.</span></p>
+
+  <p>— "Acho", "pode ter mexido". — O Prof. Júlio fez um gesto convidando os três a entrar. — Daqui a uma hora e meia, cada um de vocês vai ter medido a altura de um colega <span class="termo">quatro vezes</span>, em <span class="termo">quatro réguas diferentes</span>. E quando comparar com a própria estimativa de agora, vai entender o que faltava na resposta de vocês — e o que sobra em qualquer número dito sem <span class="termo">incerteza</span>. Venham.</p>
+
+  <p>A porta do Laboratório de Mecânica já estava aberta. Bancadas brancas alinhadas, balanças mecânicas distribuídas, uma roda de bicicleta pendurada no teto, e — a coisa que mais chamou a atenção de Sofia — <span class="termo">três escalas de altura na parede</span>, todas marcadas à mão, com uma fita métrica colada ao lado delas.</p>
+
+  <div class="fig"><img src="../_imagens/_web/FE-T0A-IT-03-v6.jpg" alt="IT-03 — A primeira lição"><div class="fig-caption">IT-03 — A primeira lição como pincelada inaugural, o gesto que transforma silêncio em método.</div></div>
+
+  <p>Pedro estranhou: — <span class="citacao">Cadê os cartazes de segurança, professor? Na britagem da Vale tem uns vinte na entrada.</span></p>
+
+  <p>— Não tem. — O Prof. Júlio sorriu. — <span class="termo">Vocês vão escrever hoje. Essa é parte da aula.</span></p>
+
+  <div class="explore">
+    <div class="explore-titulo">Explore — IFMG Campus Ouro Preto, Pavilhão de Física</div>
+    <p>As construções retangulares dos Pavilhões de Física e Química, inaugurados em 1982, completam 44 anos de existência. Milhares de pessoas passaram pelos laboratórios desses dois pavilhões que representam a ponte entre o pensamento de Gorceix que carrega 150 anos de tradição em "medir antes de afirmar" e a ciência que você poderá aprender.</p>
+    <div class="fig" style="margin-top:12px;"><img src="../_imagens/_web/FE-T0A-IT-00-v6.jpg" alt="IT-00 — Pavilhão de Física"><div class="fig-caption">IT-00 — Pavilhões de Física e Química — a ponte entre a tradição gorceixiana e a ciência que você começa hoje.</div></div>
+    <p style="margin-top:8px;"><a href="https://maps.app.goo.gl/FJvMDyaXYF1iRzU7A" target="_blank">Abrir no Google Maps</a></p>
+  </div>
+</div>
+
+<div class="separador"></div>
+
+<!-- ATO II -->
+<div class="ato">
+  <div class="ato-titulo">Ato II — O Desenvolvimento</div>
+  <div class="ato-subtitulo">Cinco tópicos, um alicerce</div>
+
+  <p>Passar pela porta do Laboratório de Mecânica foi o gancho — agora começa o trabalho. Os cinco tópicos que seguem formam o alicerce sobre o qual todas as 16 trilhas seguintes vão se apoiar: cada conceito medido, cada incerteza declarada, cada linha do Caderno de Laboratório nasce aqui, nesta primeira manhã.</p>
+
+  <div class="fig"><img src="../_imagens/_web/FE-T0A-IT-02-v6.jpg" alt="IT-02 — Bancadas do Lab"><div class="fig-caption">IT-02 — Bancadas, balanças e a roda de bicicleta no alto — três jovens de costas contemplam o laboratório que ainda não conhecem.</div></div>
+
+  <p>A Física Experimental é uma matéria diferente da Física Conceitual: aqui você não <strong>aprende</strong> o conceito — você <strong>mede</strong> o conceito. Mas para medir bem, precisa antes entender cinco coisas.</p>
+
+  <!-- TOPICO 1 -->
+  <div class="topico">
+    <div class="topico-titulo">Tópico 1 — Medição e Medida: o ato e o resultado</div>
+
+    <p>Medir, na ciência, não é um gesto solto: é um procedimento com começo, meio e resultado. Confundir o <em>ato</em> (a medição) com o <em>resultado</em> (a medida) é o primeiro equívoco que este tópico desfaz.</p>
+
+    <div class="eixo eixo-tecnico">
+      <div class="eixo-label">Eixo Técnico — Mineração</div>
+      <p>Numa lavra, o engenheiro de minas não "mede de olho" a espessura de uma camada de minério — ele <span class="termo">executa uma medição</span> com trena, GPS e amostragem, e o que sai disso é uma <span class="termo">medida</span> com incerteza declarada. A NR-22 exige metodologia documentada em qualquer estimativa de reservas.</p>
+    </div>
+
+    <div class="eixo eixo-historico">
+      <div class="eixo-label">Eixo Histórico-Cultural — Ouro Preto</div>
+      <p>Quando Henri Gorceix chegou a Ouro Preto em 1875 para fundar a Escola de Minas, trouxe uma frase repetida em todas as suas aulas: <span class="citacao">"il faut mesurer avant d'affirmer"</span> — é preciso medir antes de afirmar. A diferença entre "achismo" e "metodologia" tem um nome em Ouro Preto: ela se chama <span class="termo">escola gorceixiana</span>.</p>
+    </div>
+
+    <div class="eixo eixo-cotidiano">
+      <div class="eixo-label">Eixo Cotidiano — Você, 15-16 anos</div>
+      <p>Quando você diz "tenho 1 e 68", está dando uma medida — mas é uma medida feita por outra pessoa, em outro lugar, com outro instrumento, talvez há meses. Você já se mediu hoje? Com o quê? A medida que você carrega no bolso da memória não é a mesma coisa que uma medida feita aqui, agora, no lab.</p>
+    </div>
+
+    <div class="definicao">
+      <p><span class="def-termo">Medição</span> = o conjunto de procedimentos executados para obter um resultado. É o ato, o processo (posicionar, alinhar, ler).</p>
+      <p><span class="def-termo">Medida</span> = o resultado obtido em uma medição. É o número acompanhado de unidade (e, idealmente, de incerteza).</p>
+    </div>
+
+    <div class="destaque">A medição é o que você faz; a medida é o que você obtém.</div>
+
+    <p>Toda medida, para ser científica, precisa de <span class="termo">três elementos</span>: (1) um valor numérico, (2) uma unidade do Sistema Internacional (SI), (3) uma estimativa de incerteza. Faltando qualquer um deles, o que você tem não é medida — é opinião.</p>
+  </div>
+
+  <!-- TOPICO 2 -->
+  <div class="topico">
+    <div class="topico-titulo">Tópico 2 — Escala e Algarismos Significativos</div>
+
+    <div class="fig"><img src="../_imagens/_web/FE-T0A-IT-04-v6.jpg" alt="IT-04 — Quatro réguas na parede"><div class="fig-caption">IT-04 — Quatro réguas lado a lado na parede do laboratório — escalas diferentes, traços mais grossos ou mais finos.</div></div>
+
+    <p>Quatro réguas lado a lado na parede do laboratório — escalas diferentes, traços mais grossos ou mais finos, limites de leitura distintos. Nenhum instrumento diz mais do que foi projetado para dizer.</p>
+
+    <div class="eixo eixo-tecnico">
+      <div class="eixo-label">Eixo Técnico — Mineração</div>
+      <p>Cada instrumento da operação mineira tem um limite de leitura — o GPS de campo lê até 0,1 metro, a balança da expedição lê até 10 kg, o pH-metro lê até 0,01. Reportar uma medida com mais casas decimais do que o instrumento permite é um erro técnico que pode invalidar todo um relatório.</p>
+    </div>
+
+    <div class="eixo eixo-historico">
+      <div class="eixo-label">Eixo Histórico-Cultural — Ouro Preto</div>
+      <p>No Museu de Ciência e Técnica da UFOP existem réguas de proporção do século XVIII com escalas logarítmicas marcadas a buril. A relação entre escala e algarismo significativo já era assunto na Escola de Minas no século XIX.</p>
+    </div>
+
+    <div class="eixo eixo-cotidiano">
+      <div class="eixo-label">Eixo Cotidiano</div>
+      <p>Quando você lê um termômetro de febre digital que mostra "37,4", você não pode escrever "37,42" no caderno — o instrumento não sabe dizer aquele 2. O que ele sabe dizer é tudo o que ele mostra; o que ele não sabe, você não tem direito de inventar.</p>
+    </div>
+
+    <div class="definicao">
+      <p><span class="def-termo">Escala</span> = a "régua interna" do instrumento — sua menor divisão define o quão fino ele consegue distinguir.</p>
+      <p><span class="def-termo">Algarismos Significativos</span> = algarismos corretos + 1 algarismo duvidoso. Os corretos você lê direto na escala; o duvidoso é o último, estimado entre as divisões.</p>
+    </div>
+
+    <div class="quadro">
+      <table>
+        <thead><tr><th>Escala</th><th>Menor divisão</th><th>AS esperados</th></tr></thead>
+        <tbody>
+          <tr><td>Escala manual #1</td><td>1,0 m</td><td>1 (ex.: "2 m")</td></tr>
+          <tr><td>Escala manual #2</td><td>1,0 dm</td><td>2 (ex.: "1,7 m")</td></tr>
+          <tr><td>Escala manual #3</td><td>1,0 cm</td><td>3 (ex.: "1,68 m")</td></tr>
+          <tr><td>Fita métrica</td><td>1,0 mm</td><td>4 (ex.: "1,683 m")</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- TOPICO 3 -->
+  <div class="topico">
+    <div class="topico-titulo">Tópico 3 — Incerteza: o erro que toda medida carrega</div>
+
+    <div class="fig"><img src="../_imagens/_web/FE-T0A-IT-05-v6.jpg" alt="IT-05 — Paralaxe"><div class="fig-caption">IT-05 — Olho posicionado em ângulo diante da escala — a paralaxe muda a leitura.</div></div>
+
+    <p>Olhe uma régua de uma posição e obterá uma medida; olhe de outra posição e poderá obter outro resultado. A paralaxe é o lembrete visual: toda medida depende de quem mede e de <em>onde</em> mede. A incerteza não é fraqueza do instrumento: <span class="termo">é honestidade do cientista</span>.</p>
+
+    <div class="eixo eixo-tecnico">
+      <div class="eixo-label">Eixo Técnico — Mineração</div>
+      <p>Nenhum minerador sério fala em "tonelagem de minério" sem dizer junto qual a incerteza estimada. A Resolução ANM 68/1995 exige que o Plano de Aproveitamento Econômico contenha as faixas de variação das reservas — porque tomar decisão econômica com um número sem incerteza é tomar decisão com <span class="termo">chute disfarçado de dado</span>.</p>
+    </div>
+
+    <div class="eixo eixo-historico">
+      <div class="eixo-label">Eixo Histórico-Cultural — Ouro Preto</div>
+      <p>Os engenheiros da Escola de Minas, no começo do século XX, já davam aos alunos o exercício clássico: <span class="citacao">"meça dez vezes a mesma coisa e me diga o que você aprendeu"</span>. A resposta sempre era a mesma — as dez medidas não são iguais, e isso é a primeira lição do laboratório.</p>
+    </div>
+
+    <div class="definicao">
+      <p><span class="def-termo">Incerteza</span> = a margem de erro embutida em toda medida — marca até onde o resultado é confiável.</p>
+      <p>Incerteza instrumental = (menor divisão) / 2. Régua de 1 mm → incerteza = 0,5 mm.</p>
+    </div>
+
+    <div class="equacao">&delta;h = (h<sub>max</sub> &minus; h<sub>min</sub>) / 2</div>
+
+    <p><strong>Exemplo:</strong> Se você medir a altura de Sofia em 4 réguas e obtiver 1,67 / 1,68 / 1,68 / 1,69 m, a incerteza experimental será &delta;h = (1,69 &minus; 1,67)/2 = <span class="termo">0,01 m</span>. A altura final fica registrada como <span class="termo">(1,68 ± 0,01) m</span>.</p>
+  </div>
+
+  <!-- TOPICO 4 -->
+  <div class="topico">
+    <div class="topico-titulo">Tópico 4 — Caderno de Laboratório: o registro como parte do método</div>
+
+    <div class="fig"><img src="../_imagens/_web/FE-T0A-IT-06-v6.jpg" alt="IT-06 — Caderno de Laboratório"><div class="fig-caption">IT-06 — Caderno aberto sobre a bancada com medidas anotadas, média calculada e incerteza declarada.</div></div>
+
+    <p>Um caderno aberto sobre a bancada — quatro medidas anotadas, uma média calculada, uma incerteza declarada. Parece pouco: apenas números e linhas. Mas ali está contido o universo inteiro de uma medição bem feita. O Caderno de Laboratório é onde a ciência ganha memória.</p>
+
+    <div class="eixo eixo-tecnico">
+      <div class="eixo-label">Eixo Técnico — Mineração</div>
+      <p>O Caderno de Laboratório do engenheiro de minas é tão importante quanto o instrumento de medição — é onde fica o registro auditável do que foi medido, quando, por quem, com qual aparelho. O DNPM (hoje ANM) exige, desde os anos 1980, cadernos numerados e datados em toda operação formal.</p>
+    </div>
+
+    <div class="eixo eixo-historico">
+      <div class="eixo-label">Eixo Histórico-Cultural</div>
+      <p>Leonardo da Vinci deixou mais de 6.000 páginas de cadernos de laboratório — onde anotava medidas de tudo. O caderno era seu laboratório portátil. Quando você começa o seu hoje, está entrando numa tradição que liga Leonardo aos engenheiros da Escola de Minas.</p>
+    </div>
+
+    <p><strong>O método: o protocolo de iniciação científica.</strong> O método que iremos usar em Física Experimental 1 tem oito passos — o <span class="termo">Protocolo C5</span>.</p>
+
+    <div class="fig"><img src="../_imagens/_web/FE-T0A-IT-09-v6.jpg" alt="IT-09 — Diagrama C5"><div class="fig-caption">IT-09 — Protocolo C5: os oito passos da modelagem científica conectados em sequência.</div></div>
+
+    <div class="c5-passos">
+      <div class="passo"><span class="passo-num">1</span><span class="passo-texto">O que está sendo pedido?</span></div>
+      <div class="passo"><span class="passo-num">2</span><span class="passo-texto">Quais são os dados?</span></div>
+      <div class="passo"><span class="passo-num">3</span><span class="passo-texto">Quais são as hipóteses?</span></div>
+      <div class="passo"><span class="passo-num">4</span><span class="passo-texto">Qual é o desenho do problema?</span></div>
+      <div class="passo"><span class="passo-num">5</span><span class="passo-texto">Quais são as equações?</span></div>
+      <div class="passo"><span class="passo-num">6</span><span class="passo-texto">Cálculos com unidades</span></div>
+      <div class="passo"><span class="passo-num">7</span><span class="passo-texto">Análise de resultados</span></div>
+      <div class="passo"><span class="passo-num">8</span><span class="passo-texto">Responda o que foi pedido</span></div>
+    </div>
+
+    <p><strong>Exemplo — a altura da Sofia (C5 completo):</strong></p>
+    <div class="c5-passos">
+      <div class="passo"><span class="passo-num">1</span><span class="passo-texto">Determinar a altura da Sofia como (valor ± incerteza) m.</span></div>
+      <div class="passo"><span class="passo-num">2</span><span class="passo-texto">4 medidas: 1,68 · 1,69 · 1,67 · 1,68 m. Menor divisão: 1 cm.</span></div>
+      <div class="passo"><span class="passo-num">3</span><span class="passo-texto">A altura verdadeira está próxima da média; as 4 não serão iguais.</span></div>
+      <div class="passo"><span class="passo-num">4</span><span class="passo-texto">1,67 m ——— (1,68) ——— 1,69 m</span></div>
+      <div class="passo"><span class="passo-num">5</span><span class="passo-texto">média = soma/4; &delta;h = (h_max &minus; h_min)/2.</span></div>
+      <div class="passo"><span class="passo-num">6</span><span class="passo-texto">média = 6,72/4 = 1,68 m; &delta;h = 0,02/2 = 0,01 m.</span></div>
+      <div class="passo"><span class="passo-num">7</span><span class="passo-texto">Sofia disse "1,68 m" — a memória batia com a realidade.</span></div>
+      <div class="passo"><span class="passo-num">8</span><span class="passo-texto"><strong>h = (1,68 ± 0,01) m</strong></span></div>
+    </div>
+  </div>
+
+  <!-- TOPICO 5 -->
+  <div class="topico">
+    <div class="topico-titulo">Tópico 5 — Segurança e NR-22: a inovação da T0A</div>
+
+    <div class="fig"><img src="../_imagens/_web/FE-T0A-IT-07-v6.jpg" alt="IT-07 — Cartaz de normas"><div class="fig-caption">IT-07 — Cartaz de normas sendo afixado na parede do laboratório pelos estudantes.</div></div>
+
+    <p>Fixar regras na parede — é um gesto quase burocrático, mas carrega o peso de um pacto. Quando Sofia, Pedro e Lucas propõem as normas do Laboratório de Mecânica, não estão obedecendo a uma ordem: <span class="termo">estão fundando uma tradição</span>.</p>
+
+    <div class="eixo eixo-tecnico">
+      <div class="eixo-label">Eixo Técnico — Mineração</div>
+      <p>A <span class="termo">NR-22 — Segurança e Saúde Ocupacional na Mineração</span> é a norma que rege o cotidiano de todos os trabalhadores da mineração brasileira. Esta T0A faz uma inovação: traz os princípios da NR-22 para o laboratório escolar, criando — em conjunto com os alunos — o primeiro conjunto de normas operacionais do Laboratório de Mecânica do IFMG-OP.</p>
+    </div>
+
+    <div class="quadro">
+      <table>
+        <thead><tr><th>NR-22</th><th>Aplicação no Lab de Mecânica</th></tr></thead>
+        <tbody>
+          <tr><td>22.1</td><td>Cada aula recebe um Roteiro de Prática — sua ordem de serviço</td></tr>
+          <tr><td>22.6</td><td>Sapato fechado a partir da T01; óculos em trilhas com risco</td></tr>
+          <tr><td>22.13</td><td>Cartaz das normas afixado após a T0A</td></tr>
+          <tr><td>22.21</td><td>Qualquer acidente deve ser comunicado ao professor</td></tr>
+          <tr><td>22.36</td><td>A T0A é o treinamento básico — você está no momento dele</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Nessa aula prática, você e seus colegas vão <span class="termo">propor as regras</span> do Laboratório de Mecânica. O professor vai consolidá-las no quadro. Meta: chegar a no mínimo 5 regras. Ao ser aprovada, a lista vira o <span class="termo">primeiro cartaz oficial</span> do laboratório — e leva os nomes dos autores.</p>
+  </div>
+
+</div>
+
+<div class="separador"></div>
+
+<!-- ATO III -->
+<div class="ato">
+  <div class="ato-titulo">Ato III — O Fechamento</div>
+  <div class="ato-subtitulo">Quem cruza a porta agora sabe medir antes de afirmar</div>
+
+  <div class="fig"><img src="../_imagens/_web/FE-T0A-IT-08-v6.jpg" alt="IT-08 — Trio saindo do laboratório"><div class="fig-caption">IT-08 — Os três protagonistas de costas, cruzando a porta do laboratório ao fim da aula.</div></div>
+
+  <p>O mesmo corredor, a mesma porta — mas quem sai não é quem entrou. Cadernos preenchidos sob o braço, o cartaz de regras já afixado na parede ao fundo. A manhã que começou com uma pergunta — <span class="citacao">"quanto você mede?"</span> — termina com uma resposta que inclui incerteza.</p>
+
+  <p>Sofia escreveu no fim da página do caderno: <span class="citacao">"Minha altura = (1,68 ± 0,01) m. Acertei o que disse no começo — mas agora a resposta tem incerteza. É ciência, não chute."</span></p>
+
+  <p>Pedro descobriu uma coisa que não esperava: a forma de <span class="termo">posicionar o olho</span> em frente à escala pode mudar o resultado em até 1 cm. Anotou: <span class="citacao">"Erro de paralaxe. Tem que estudar isso na próxima trilha."</span></p>
+
+  <p>Lucas, que tinha hesitado no começo com "acho 1 e 72", saiu com <span class="termo">(1,71 ± 0,02) m</span>. A diferença para o que ele tinha dito era menor do que a incerteza — então a memória batia com o instrumento. Escreveu: <span class="citacao">"A memória tem incerteza também. Acho que aprendi alguma coisa fundamental hoje."</span></p>
+
+  <p>Antes de sair, o Prof. Júlio fez três pedidos:</p>
+  <div class="c5-passos">
+    <div class="passo"><span class="passo-num">1</span><span class="passo-texto">Leiam o Roteiro de Prática desta trilha — está no Moodle.</span></div>
+    <div class="passo"><span class="passo-num">2</span><span class="passo-texto">Tragam o Caderno de Laboratório, régua escolar, calculadora e celular.</span></div>
+    <div class="passo"><span class="passo-num">3</span><span class="passo-texto">Lembrem-se da frase do Lord Kelvin: <strong>sem número, não tem ciência. E sem incerteza, não tem número.</strong></span></div>
+  </div>
+</div>
+
+<div class="separador"></div>
+
+<!-- CIÊNCIA E ARTE -->
+<div class="ciencia-arte">
+  <blockquote>"Todo o nosso conhecimento tem sua origem nas percepções."</blockquote>
+  <div class="ca-autor">— Leonardo da Vinci (1452–1519)</div>
+  <div class="ca-obra">Desenho: O Homem Vitruviano (c. 1490)</div>
+
+  <div class="fig"><img src="../_imagens/_web/FE-T0A-IT-10-v6.jpg" alt="IT-10 — Homem Vitruviano"><div class="fig-caption">IT-10 — O Homem Vitruviano de Leonardo da Vinci: o corpo humano como primeiro instrumento de medida.</div></div>
+
+  <div class="ca-desc">A pena e tinta marrom de Leonardo representa um homem com braços e pernas estendidos, inscrito num círculo e num quadrado. O desenho ilustra o <em>De Architectura</em> de Vitrúvio (séc. I a.C.): "as proporções do corpo humano são a referência natural para todas as outras medidas". Leonardo testou isso medindo contemporâneos com régua e compasso — o que Sofia, Pedro e Lucas fizeram no Lab de Mecânica. O corpo humano é a primeira régua portátil da humanidade.</div>
+
+  <div class="ca-desc" style="margin-top:16px;"><strong>Leonardo da Vinci</strong> (Anchiano, 1452 — Amboise, 1519) foi pintor, escultor, arquiteto, engenheiro, anatomista, geólogo, botânico e inventor italiano do Renascimento. Autodidata em quase tudo, deixou mais de 7.000 páginas de cadernos com desenhos técnicos, estudos anatômicos e projetos de máquinas. Sua obra científica antecipou em séculos ideias da aerodinâmica, da hidráulica e da biomecânica. Na pintura, produziu obras como <em>Mona Lisa</em> e <em>A Última Ceia</em>. O <em>Homem Vitruviano</em> sintetiza seu método: medir o corpo para compreender a natureza — e da natureza extrair as leis que governam a arte e a engenharia.</div>
+</div>
+
+<!-- REFERÊNCIAS -->
+<div class="refs">
+  <div class="refs-titulo">Bibliografia Básica</div>
+  <p>BONJORNO, J. R. Identidade Saraiva: Física. São Paulo: Saraiva, 2024.</p>
+  <p>MÁXIMO, A. et al. Física: contexto & aplicações. São Paulo: Scipione, 2013.</p>
+  <p>TALAVEIRA, A. C. et al. Física: ensino médio, v. único. São Paulo: Nova Geração, 2005.</p>
+  <div class="refs-titulo" style="margin-top:12px;">Bibliografia Pedagógica</div>
+  <p>HEWITT, Paul G. Física conceitual. 12. ed. Porto Alegre: Bookman, 2015.</p>
+  <p>PIAZZI, Pierluigi. Aprendendo inteligência. São Paulo: Aleph, 2008.</p>
+  <p>PIAZZI, Pierluigi. Inteligência em concursos. São Paulo: Aleph, 2013.</p>
+  <div class="refs-titulo" style="margin-top:12px;">Bibliografia Complementar</div>
+  <p>BRASIL. NR-22 — Segurança e Saúde Ocupacional na Mineração. Brasília, 2002.</p>
+  <p>ANM. Resolução n.º 68/1995 — Plano de Aproveitamento Econômico. Brasília, 1995.</p>
+  <p>THOMSON, William. Electrical Units of Measurement. London, 1883.</p>
+</div>
+
+<div class="ineditismo">
+  <div class="refs-titulo">Ineditismo</div>
+  <p>Trilhas de Aprendizagem é uma metodologia que faz parte do esforço do projeto Física Conceitual 1 + Física Experimental 1, aprovados pela Coordenadoria da Área de Física, em inovar na publicação didática da física aplicada aos cursos técnicos ofertados gratuitamente pelo IFMG — Campus Ouro Preto, fazendo dialogar narrativa, contextualização tripla (técnica, histórico-cultural, cotidiana), metodologia experimental rigorosa e modelagem científica.</p>
+  <p>Até onde a pesquisa dos autores alcançou, este é o primeiro Texto Temático de Física aplicada ao ensino técnico em mineração integrado ao ensino médio estruturado em Trilhas de Aprendizagem publicado no Brasil. Os livros didáticos de física aprovados pelo PNLD abordam a física do ensino médio, mas não há uma linguagem e nem aplicações em contexto de cursos técnicos em mineração.</p>
+</div>
+
+<div style="text-align:center;padding:24px 0;font-size:.8rem;color:var(--cinza);">
+  FE-T0A · Texto Temático v8 · Leitura digital v1 · IFMG — Campus Ouro Preto · 2026
+</div>
+
+</div><!-- fim .conteudo -->
+
+<!-- PLAYER FIXO -->
+<div class="player" id="player">
+  <button class="player-btn" id="btnPlay" title="Play/Pause">&#9654;</button>
+  <div class="player-info">
+    <div class="player-titulo" id="playerTitulo">Ambient — Estudo instrumental</div>
+    <div class="player-sub" id="playerSub">Web Audio API &middot; Piazzi recomenda: leia ouvindo</div>
+  </div>
+  <div class="player-vol">
+    <label>Vol</label>
+    <input type="range" id="volSlider" min="0" max="100" value="30">
+  </div>
+  <button class="player-load" id="btnLoad" title="Carregar audio local">Carregar MP3</button>
+  <input type="file" id="audioFile" accept="audio/*">
+  <a class="btn-yt" href="https://www.youtube.com/@yamaborges" target="_blank" rel="noopener" title="Yamandu Costa no YouTube"><span class="yt-icon"></span>Yamandu Costa</a>
+</div>
+
+<script>
+// ─── READING PROGRESS ───
+window.addEventListener('scroll', () => {
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = h > 0 ? (window.scrollY / h) * 100 : 0;
+  document.getElementById('progressBar').style.width = pct + '%';
+});
+
+// ─── WEB AUDIO AMBIENT SYNTH ───
+let audioCtx = null;
+let masterGain = null;
+let isPlaying = false;
+let oscillators = [];
+let userAudio = null;
+
+function initAudioCtx() {
+  if (audioCtx) return;
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  masterGain = audioCtx.createGain();
+  masterGain.gain.value = 0.3;
+  masterGain.connect(audioCtx.destination);
+}
+
+function criarAmbient() {
+  const notas = [
+    { freq: 65.41, type: 'sine', gain: 0.12 },
+    { freq: 130.81, type: 'sine', gain: 0.08 },
+    { freq: 196.00, type: 'sine', gain: 0.06 },
+    { freq: 261.63, type: 'triangle', gain: 0.04 },
+    { freq: 329.63, type: 'sine', gain: 0.03 },
+  ];
+
+  notas.forEach(n => {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    const filter = audioCtx.createBiquadFilter();
+
+    osc.type = n.type;
+    osc.frequency.value = n.freq;
+    filter.type = 'lowpass';
+    filter.frequency.value = 400;
+    filter.Q.value = 0.5;
+    gain.gain.value = 0;
+
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(masterGain);
+    osc.start();
+
+    gain.gain.linearRampToValueAtTime(n.gain, audioCtx.currentTime + 3);
+
+    const lfoFreq = 0.05 + Math.random() * 0.1;
+    const lfo = audioCtx.createOscillator();
+    const lfoGain = audioCtx.createGain();
+    lfo.frequency.value = lfoFreq;
+    lfoGain.gain.value = n.freq * 0.003;
+    lfo.connect(lfoGain);
+    lfoGain.connect(osc.frequency);
+    lfo.start();
+
+    oscillators.push({ osc, gain, lfo, lfoGain, filter, baseGain: n.gain });
+  });
+}
+
+function pararAmbient() {
+  oscillators.forEach(o => {
+    o.gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 2);
+    setTimeout(() => { try { o.osc.stop(); o.lfo.stop(); } catch(e) {} }, 2500);
+  });
+  oscillators = [];
+}
+
+function togglePlay() {
+  initAudioCtx();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+
+  if (userAudio) {
+    if (isPlaying) { userAudio.pause(); }
+    else { userAudio.play(); }
+    isPlaying = !isPlaying;
+  } else {
+    if (isPlaying) { pararAmbient(); isPlaying = false; }
+    else { criarAmbient(); isPlaying = true; }
+  }
+
+  const btn = document.getElementById('btnPlay');
+  btn.textContent = isPlaying ? '❚❚' : '▶';
+  btn.classList.toggle('tocando', isPlaying);
+}
+
+document.getElementById('btnPlay').addEventListener('click', togglePlay);
+
+document.getElementById('volSlider').addEventListener('input', e => {
+  const v = e.target.value / 100;
+  if (masterGain) masterGain.gain.value = v;
+  if (userAudio) userAudio.volume = v;
+});
+
+document.getElementById('btnLoad').addEventListener('click', () => {
+  document.getElementById('audioFile').click();
+});
+
+document.getElementById('audioFile').addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  if (isPlaying && !userAudio) { pararAmbient(); isPlaying = false; }
+  if (userAudio) { userAudio.pause(); userAudio = null; }
+
+  const url = URL.createObjectURL(file);
+  userAudio = new Audio(url);
+  userAudio.loop = true;
+  userAudio.volume = document.getElementById('volSlider').value / 100;
+
+  document.getElementById('playerTitulo').textContent = file.name.replace(/\.[^.]+$/, '');
+  document.getElementById('playerSub').textContent = 'Arquivo local · Piazzi recomenda: leia ouvindo';
+
+  const btn = document.getElementById('btnPlay');
+  btn.textContent = '▶';
+  btn.classList.remove('tocando');
+  isPlaying = false;
+});
+</script>
+</body>
+</html>
