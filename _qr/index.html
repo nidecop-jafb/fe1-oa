@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FE1 &middot; QR de acesso ao site</title>
+<style>
+  :root { --epi: #E07B39; --aco: #7FB2D6; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0d0d0d; color: #e8e8e8; font-family: Georgia, 'Times New Roman', serif; line-height: 1.6; }
+  .wrap { max-width: 620px; margin: 0 auto; padding: 48px 20px; text-align: center; }
+  h1 { font-family: 'Courier New', monospace; font-size: 1.3rem; color: var(--epi); text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 2px solid var(--epi); padding-bottom: 12px; margin-bottom: 10px; }
+  .sub { font-size: 0.95rem; color: #c4c4c4; margin-bottom: 32px; }
+  .qr { background: #fff; padding: 22px; display: inline-block; line-height: 0; }
+  .qr img { width: 300px; height: 300px; display: block; }
+  .url { font-family: 'Courier New', monospace; font-size: 0.95rem; color: var(--aco); margin-top: 22px; word-break: break-all; }
+  .url a { color: var(--aco); }
+  .como { font-size: 0.9rem; color: #aaa; margin-top: 26px; }
+  .baixar { display: inline-block; margin-top: 26px; font-family: 'Courier New', monospace; font-size: 0.8rem; color: var(--epi); text-decoration: none; border-bottom: 1px dotted var(--epi); }
+  .footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid #333; font-size: 0.78rem; color: #888; font-family: 'Courier New', monospace; }
+  @media print {
+    body { background: #fff; color: #000; }
+    .qr { padding: 0; }
+    .url, .url a { color: #000; }
+    .como, .footer { color: #333; }
+    .baixar { display: none; }
+    h1 { color: #000; border-color: #000; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Trilhas de Aprendizagem &middot; F&iacute;sica Experimental 1</h1>
+  <div class="sub">Aponte a c&acirc;mera do celular para o c&oacute;digo e entre no site da disciplina.</div>
+
+  <div class="qr"><img src="fe1-oa-qr.png" width="924" height="924"
+       alt="QR code de acesso ao site da Fisica Experimental 1"></div>
+
+  <div class="url"><a href="https://nidecop-jafb.github.io/fe1-oa/">https://nidecop-jafb.github.io/fe1-oa/</a></div>
+
+  <p class="como">Se o c&oacute;digo n&atilde;o abrir, digite o endere&ccedil;o acima no navegador.
+  N&atilde;o &eacute; preciso senha nem instalar aplicativo.</p>
+
+  <a class="baixar" href="fe1-oa-qr.png" download>baixar o QR em alta resolu&ccedil;&atilde;o (PNG)</a>
+
+  <div class="footer">
+    IFMG campus Ouro Preto - Coordenadoria da &Aacute;rea de F&iacute;sica (CODAFIS) - N&uacute;cleo de Inova&ccedil;&atilde;o e Desenvolvimento de Experimentos Cient&iacute;ficos (NIDEC) &middot; Primeira edi&ccedil;&atilde;o &middot; 2026
+  </div>
+</div>
+</body>
+</html>
