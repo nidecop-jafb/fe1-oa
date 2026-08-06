@@ -13,4 +13,4 @@
  *
  * NUNCA coloque a chave do relatorio aqui — este arquivo e publico.
  */
-window.COLETA = { url: '' };
+window.COLETA = { url: 'https://script.google.com/macros/s/AKfycbxBYD4VXRUkFnicnOR2WF8VS_OYdD8z0uYnJCVnGF5Il0BzJF-o4VF8JHPztzARCUJd/exec' };
