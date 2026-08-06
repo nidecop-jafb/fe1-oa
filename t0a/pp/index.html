@@ -520,6 +520,13 @@ body {
   .encerramento { border-top-color: #AE5314; }
   .encerramento .fecho-acao { color: #AE5314; }
 }
+/* ── Coleta FE1 (envio ao Apps Script) ── */
+.coleta-status { margin: 14px 0; padding: 12px 16px; border: 1px solid #555; font-family: var(--mono, monospace); font-size: .85rem; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.coleta-status[hidden], .coleta-retry[hidden] { display: none !important; }
+.coleta-status.ok { border-color: var(--verde, #4CAF7D); color: var(--verde, #4CAF7D); }
+.coleta-status.falha { border-color: var(--erro, #E05252); color: var(--erro, #E05252); }
+.coleta-retry { background: transparent; border: 1px solid var(--erro, #E05252); color: var(--erro, #E05252); font-family: var(--mono, monospace); font-size: .8rem; padding: 6px 12px; cursor: pointer; }
+@media print { .coleta-status { display: none !important; } }
 </style>
 </head>
 <body>
@@ -658,6 +665,12 @@ body {
     <div class="confirm-title">Respostas enviadas</div>
     <div class="confirm-text">Sua participa&ccedil;&atilde;o foi registrada &mdash; a nota &eacute; garantida pelo envio. Veja acima a corre&ccedil;&atilde;o autom&aacute;tica da Parte II: ela mostra o que voc&ecirc; j&aacute; sabe e o que merece aten&ccedil;&atilde;o na bancada.</div>
     <div class="confirm-score" id="confirmScore"></div>
+  </div>
+
+  <!-- COLETA STATUS -->
+  <div class="coleta-status" id="coletaStatus" hidden>
+    <span id="coletaStatusMsg"></span>
+    <button class="coleta-retry" id="coletaRetry" hidden onclick="enviarColeta(true)">Tentar novamente</button>
   </div>
 
   <!-- ACTIONS -->
@@ -1132,6 +1145,7 @@ function submitPP() {
   avaliarSegundaTentativa();
 
   toast('success', 'Respostas enviadas com sucesso!');
+  enviarColeta();
 }
 
 /* ---- EXPORT JSON ---- */
@@ -1389,6 +1403,138 @@ function toast(type, msg) {
   container.appendChild(el);
   setTimeout(function() { if (el.parentNode) el.parentNode.removeChild(el); }, 3000);
 }
+
+function montarPacote() {
+  var now = new Date();
+  var ts = now.toISOString().replace(/[:.]/g, '-');
+  var score = computeScore();
+  var data = {
+    schema: 'ifmg-fe1-ponto-de-partida-v2',
+    trilha: 'FE-T0A',
+    tipo: 'PP',
+    versao: 'v4',
+    tentativa: tentativaAtual,
+    timestamp: now.toISOString(),
+    estudante: {
+      nome: document.getElementById('inputNome').value.trim(),
+      ra: document.getElementById('inputRA').value.trim(),
+      curso: document.getElementById('inputCurso').value,
+      turma: document.getElementById('inputTurma').value,
+      grupo: document.getElementById('inputGrupo').value,
+      professor: document.getElementById('inputProfessor').value,
+      data: dataFormatada()
+    },
+    questoes: BANCO.map(function(q) {
+      var item = {
+        id: q.id,
+        num: q.num,
+        parte: q.parte === 'P1' ? 'I' : 'II',
+        funcao: q.funcao || 'Autoavaliação',
+        bloom: q.bloom,
+        comp: q.comp,
+        tipo: q.tipo,
+        pts: q.pts,
+        resposta: respostas[q.id] || null
+      };
+      if (q.tipo === 'AUTO') {
+        item.rotulo = rotuloAuto(respostas[q.id]);
+        item.justificativa = justifs[q.id] || null;
+        item.pts_max = q.pts;
+        item.pts_obtidos = respostas[q.id] ? q.pts : 0;
+      } else {
+        item.gabarito = q.gabarito;
+        item.acertou = respostas[q.id] ? (respostas[q.id] === q.gabarito) : null;
+      }
+      return item;
+    }),
+    score_diagnostico: score,
+    total_mc: 5,
+    total_respondidas: BANCO.filter(function(q) { return !!respostas[q.id]; }).length,
+    total_questoes: 10
+  };
+  return data;
+}
+
+/* ============================================================
+   COLETA FE1 — injetado por injetar_coletor_fe.py
+   Sem COLETA_URL, tudo abaixo vira no-op e o OA funciona offline.
+   ============================================================ */
+var COLETA_URL = (typeof window !== 'undefined' && window.COLETA && window.COLETA.url) || '';
+var ARQUIVO_FONTE = 'FE-T0A-PP-v4-estudante.html';
+var coletaEnviando = false;
+var coletaComprovante = null;
+
+/* CFG-OA v1: busca a configuracao de aplicacao no boot (endpoint publico). */
+(function buscarConfigOA() {
+  if (!COLETA_URL || typeof OA_ID === 'undefined' || typeof aplicarConfigOA !== 'function') return;
+  fetch(COLETA_URL + '?cfg=1&trilha=' + encodeURIComponent(OA_ID.trilha) +
+        '&oa=' + encodeURIComponent(OA_ID.oa))
+    .then(function (r) { return r.json(); })
+    .then(function (j) { if (j && j.ok && j.cfg) aplicarConfigOA(j.cfg); })
+    .catch(function () { /* offline: vale o default embutido no OA */ });
+})();
+
+function coletaStatusUI(estado, msg) {
+  var box = document.getElementById('coletaStatus');
+  if (!box) return;
+  box.hidden = false;
+  box.className = 'coleta-status' + (estado ? ' ' + estado : '');
+  document.getElementById('coletaStatusMsg').textContent = msg;
+  var retry = document.getElementById('coletaRetry');
+  if (retry) retry.hidden = (estado !== 'falha');
+}
+
+/* Chave do comprovante por tentativa, para o reenvio nao sobrescrever o 1o. */
+function coletaComprovanteKey() {
+  var t = (typeof oaTentativaAtual === 'function') ? oaTentativaAtual() : 1;
+  return PREFIX + 'comprovante' + (t > 1 ? '_t' + t : '');
+}
+
+function coletaRestaurar() {
+  if (!COLETA_URL) return;
+  var c = null;
+  try { c = localStorage.getItem(coletaComprovanteKey()); } catch (e) {}
+  if (c) coletaStatusUI('ok', '\u2713 Respostas registradas \u2014 comprovante ' + c);
+}
+
+function enviarColeta(isRetry) {
+  if (!COLETA_URL || coletaEnviando) return;
+  if (!isRetry && coletaComprovante) return;
+  coletaEnviando = true;
+  coletaStatusUI(null, 'Enviando respostas ao professor...');
+
+  var payload = montarPacote();
+  payload.tentativa = (typeof oaTentativaAtual === 'function') ? oaTentativaAtual() : 1;
+  if (!payload.arquivo) payload.arquivo = ARQUIVO_FONTE;
+
+  fetch(COLETA_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },  /* evita preflight CORS */
+    body: JSON.stringify(payload)
+  })
+    .then(function (r) { return r.json(); })
+    .then(function (j) {
+      coletaEnviando = false;
+      if (!j || !j.ok) {
+        /* RA fora da lista da turma e recusado pelo servidor. O trabalho do
+           estudante nao se perde: o botao Exportar Comprovante aparece
+           sozinho quando este status entra em 'falha'. */
+        coletaStatusUI('falha', ((j && j.erro) || 'Falha ao registrar as respostas.') +
+          ' \u2014 exporte o comprovante abaixo e entregue ao professor.');
+        return;
+      }
+      coletaComprovante = j.comprovante;
+      try { localStorage.setItem(coletaComprovanteKey(), j.comprovante); } catch (e) {}
+      coletaStatusUI('ok', '\u2713 Respostas registradas \u2014 comprovante ' + j.comprovante);
+    })
+    .catch(function () {
+      coletaEnviando = false;
+      coletaStatusUI('falha', 'Sem conexao com o servidor \u2014 exporte o comprovante ' +
+        'e entregue ao professor.');
+    });
+}
+
+document.addEventListener('DOMContentLoaded', coletaRestaurar);
 </script>
 </body>
 </html>
