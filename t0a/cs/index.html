@@ -427,6 +427,10 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
 .header .badge { background: var(--epi); color: oklch(0.13 0.01 260); padding: 4px 12px; border-radius: var(--r-sm); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; }
 .header .header-inner h1 { font-size: 1.4rem; font-weight: 900; letter-spacing: -0.02em; flex: 1 1 240px; }
 .header .header-inner h1 .trilha-code { color: var(--epi); }
+
+/* RA em monoespacada: o estudante confere digito a digito */
+.id-box #ra, .id-card #ra { font-family: var(--mono); letter-spacing: .08em; }
+.id-box .campo.aviso label, .id-card .campo.aviso label { color: var(--erro); }
 </style>
 </head>
 <body>
@@ -486,27 +490,13 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
 <main>
 
 <div class="id-box" id="identificacao">
-  <div class="campo full">
-    <label for="nome">Nome completo</label>
-    <input type="text" id="nome" placeholder="Seu nome">
-  </div>
-  <div class="campo">
-    <label for="turma">Turma</label>
-    <select id="turma">
-      <option value="">Selecione</option>
-      <option value="MIN1A">MIN1A</option>
-      <option value="MIN1B">MIN1B</option>
-      <option value="MIN1C">MIN1C</option>
-    </select>
-  </div>
-  <div class="campo">
-    <label for="grupo">Grupo</label>
-    <select id="grupo">
-      <option value="">Selecione</option>
-      <option value="A">Grupo A</option>
-      <option value="B">Grupo B</option>
-    </select>
-  </div>
+  <div class="campo full"><label for="nome">Nome completo</label><input type="text" id="nome" placeholder="Seu nome completo" autocomplete="off"></div>
+  <div class="campo"><label for="ra">RA</label><input type="text" id="ra" data-campo="ra" inputmode="numeric" maxlength="7" placeholder="7 d&iacute;gitos" autocomplete="off"></div>
+  <div class="campo"><label for="curso">Curso</label><select id="curso"><option value="">Selecione</option><option value="Mineracao">Minera&ccedil;&atilde;o</option><option value="Metalurgia">Metalurgia</option><option value="Edificacoes">Edifica&ccedil;&otilde;es</option><option value="Automacao Industrial">Automa&ccedil;&atilde;o Industrial</option><option value="Administracao">Administra&ccedil;&atilde;o</option></select></div>
+  <div class="campo"><label for="turma">Turma</label><select id="turma"><option value="">Selecione</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></div>
+  <div class="campo"><label for="grupo">Grupo</label><select id="grupo"><option value="">Selecione</option><option value="A">Grupo A</option><option value="B">Grupo B</option></select></div>
+  <div class="campo"><label for="professor">Professor(a)</label><select id="professor"><option value="">Selecione</option><option value="Julio Azevedo">Julio Azevedo</option><option value="Felipe Beato">Felipe Beato</option></select></div>
+  <div class="campo"><label for="data_aula">Data da aula</label><input type="date" id="data_aula"></div>
 </div>
 
 <!-- 1. EPI -->
@@ -701,6 +691,28 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
 
 <script>
 const LS_PREFIX = 'ifmg_fe_t0a_cs_';
+
+/* ---- IDENTIFICACAO CANONICA (padrao PP-v4) ----
+   O RA e a chave do estudante: 7 digitos, com os zeros a esquerda, do jeito
+   que o SUAP escreve. Por isso `raValido()` exige o formato antes de liberar
+   o envio — RA pela metade nao encontra o aluno na lista da turma. */
+function idCampo(id) { var e = document.getElementById(id); return e ? String(e.value).trim() : ''; }
+function idCompleta() {
+  return {
+    nome: idCampo('nome'), ra: idCampo('ra'), curso: idCampo('curso'),
+    turma: idCampo('turma'), grupo: idCampo('grupo'),
+    professor: idCampo('professor'), data_aula: idCampo('data_aula')
+  };
+}
+function raValido() { return /^[0-9]{7}$/.test(idCampo('ra')); }
+function idSalvar() { return idCompleta(); }
+function idRestaurar(d) {
+  ['nome', 'ra', 'curso', 'turma', 'grupo', 'professor', 'data_aula'].forEach(function (k) {
+    var e = document.getElementById(k);
+    if (e && d[k]) e.value = d[k];
+  });
+}
+
 let normasMarcadas = {};
 let debounceTimer = null;
 
@@ -756,7 +768,7 @@ function atualizarBotao() {
   const turma = document.getElementById('turma').value;
   const marcadas = Object.keys(normasMarcadas).length;
   const assinado = document.getElementById('assinatura').value.trim().length >= 3;
-  document.getElementById('btn-exportar').disabled = !(nome && turma && marcadas === 11 && assinado);
+  document.getElementById('btn-exportar').disabled = !(nome && raValido() && turma && marcadas === 11 && assinado);
 }
 
 function exportarJSON() {
@@ -781,11 +793,7 @@ function exportarJSON() {
       versao_cs: 'v1',
       timestamp: new Date().toISOString()
     },
-    identificacao: {
-      nome: nome,
-      turma: turma,
-      grupo: grupo
-    },
+    identificacao: idCompleta(),
     normas: {
       total_canonicas: 11,
       reconhecidas: Object.keys(normasMarcadas).length,
@@ -795,7 +803,7 @@ function exportarJSON() {
     propostas: propostas
   };
 
-  const nomeArq = 'FE-T0A-CS_' + turma + '_' + grupo + '_' + nome.replace(/\s+/g, '-') + '.json';
+  const nomeArq = 'FE-T0A-CS_' + (idCampo('ra') || 'sem-RA') + '_' + turma + '_' + grupo + '_' + nome.replace(/\s+/g, '-') + '.json';
   const blob = new Blob([JSON.stringify(dados, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -815,9 +823,7 @@ function salvarLS() {
       });
     });
     const dados = {
-      nome: document.getElementById('nome').value,
-      turma: document.getElementById('turma').value,
-      grupo: document.getElementById('grupo').value,
+      ...idSalvar(),
       normas: normasMarcadas,
       assinatura: document.getElementById('assinatura').value,
       propostas: propostas
@@ -831,9 +837,7 @@ function restaurarLS() {
     const raw = localStorage.getItem(LS_PREFIX + 'dados');
     if (!raw) return;
     const d = JSON.parse(raw);
-    if (d.nome) document.getElementById('nome').value = d.nome;
-    if (d.turma) document.getElementById('turma').value = d.turma;
-    if (d.grupo) document.getElementById('grupo').value = d.grupo;
+    idRestaurar(d);
     if (d.assinatura) document.getElementById('assinatura').value = d.assinatura;
     if (d.normas) {
       normasMarcadas = d.normas;
@@ -865,7 +869,7 @@ function toast(msg) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  ['nome', 'turma', 'grupo'].forEach(id => {
+  ['nome', 'ra', 'curso', 'turma', 'grupo', 'professor', 'data_aula'].forEach(id => {
     document.getElementById(id).addEventListener('input', () => { atualizarBotao(); salvarLS(); });
     document.getElementById(id).addEventListener('change', () => { atualizarBotao(); salvarLS(); });
   });

@@ -630,6 +630,10 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
 .header .badge { background: var(--epi); color: oklch(0.13 0.01 260); padding: 4px 12px; border-radius: var(--r-sm); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; }
 .header .header-inner h1 { font-size: 1.4rem; font-weight: 900; letter-spacing: -0.02em; flex: 1 1 240px; }
 .header .header-inner h1 .trilha-code { color: var(--epi); }
+
+/* RA em monoespacada: o estudante confere digito a digito */
+.id-box #ra, .id-card #ra { font-family: var(--mono); letter-spacing: .08em; }
+.id-box .campo.aviso label, .id-card .campo.aviso label { color: var(--erro); }
 </style>
 </head>
 <body>
@@ -716,6 +720,16 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
         <div class="campo">
           <label for="inp-curso">Curso</label>
           <input type="text" id="inp-curso" placeholder="Técnico em Mineração">
+        </div>
+      </div>
+      <div class="grid-2">
+      <div class="campo">
+          <label for="inp-ra">RA</label>
+          <input type="text" id="inp-ra" data-campo="ra" inputmode="numeric" maxlength="7" placeholder="7 d&iacute;gitos">
+        </div>
+      <div class="campo">
+          <label for="inp-professor">Professor(a)</label>
+          <select id="inp-professor"><option value="">Selecione</option><option value="Julio Azevedo">Julio Azevedo</option><option value="Felipe Beato">Felipe Beato</option></select>
         </div>
       </div>
       <div class="grid-3">
@@ -1355,6 +1369,7 @@ function atualizarProgresso() {
 
 function verificarSecao1() {
   return document.getElementById('inp-nome').value.trim().length > 0 &&
+         /^[0-9]{7}$/.test(document.getElementById('inp-ra').value.trim()) &&
          document.getElementById('inp-turma').value !== '' &&
          document.getElementById('inp-data').value !== '';
 }
@@ -1474,6 +1489,8 @@ function coletarEstado() {
   return {
     identificacao: {
       nome: document.getElementById('inp-nome').value,
+      ra: document.getElementById('inp-ra').value,
+      professor: document.getElementById('inp-professor').value,
       curso: document.getElementById('inp-curso').value,
       turma: document.getElementById('inp-turma').value,
       bancada: document.getElementById('inp-bancada').value,
@@ -1658,6 +1675,8 @@ function exportarJSON() {
     },
     identificacao: {
       nome: estado.identificacao.nome,
+      ra: estado.identificacao.ra,
+      professor: estado.identificacao.professor,
       curso: estado.identificacao.curso,
       turma: estado.identificacao.turma,
       bancada: estado.identificacao.bancada,
@@ -1707,6 +1726,7 @@ function exportarJSON() {
   };
 
   var nomeArquivo = 'FE-T0A-RB_' +
+    (estado.identificacao.ra || 'sem-RA') + '_' +
     (estado.identificacao.turma || 'X') + '_' +
     (estado.identificacao.grupo || 'X') + '_' +
     (estado.identificacao.nome || 'aluno').replace(/\s+/g, '_').substring(0, 30) +

@@ -450,6 +450,10 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
 .header .badge { background: var(--epi); color: oklch(0.13 0.01 260); padding: 4px 12px; border-radius: var(--r-sm); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; }
 .header .header-inner h1 { font-size: 1.4rem; font-weight: 900; letter-spacing: -0.02em; flex: 1 1 240px; }
 .header .header-inner h1 .trilha-code { color: var(--epi); }
+
+/* RA em monoespacada: o estudante confere digito a digito */
+.id-box #ra, .id-card #ra { font-family: var(--mono); letter-spacing: .08em; }
+.id-box .campo.aviso label, .id-card .campo.aviso label { color: var(--erro); }
 </style>
 </head>
 <body>
@@ -513,22 +517,32 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
   <div class="id-titulo">Identificação</div>
   <div class="id-grid">
     <div class="id-field">
-      <label>Nome completo</label>
-      <input type="text" id="nome" placeholder="Seu nome" oninput="salvar()">
+      <label for="nome">Nome completo</label>
+      <input type="text" id="nome" placeholder="Seu nome completo" oninput="salvar()">
     </div>
     <div class="id-field">
-      <label>Turma</label>
-      <select id="turma" onchange="salvar()">
-        <option value="">--</option>
-        <option>MIN1A</option><option>MIN1B</option><option>MIN1C</option>
-      </select>
+      <label for="ra">RA</label>
+      <input type="text" id="ra" data-campo="ra" inputmode="numeric" maxlength="7" placeholder="7 d&iacute;gitos" oninput="salvar()">
     </div>
     <div class="id-field">
-      <label>Grupo</label>
-      <select id="grupo" onchange="salvar()">
-        <option value="">--</option>
-        <option>A</option><option>B</option>
-      </select>
+      <label for="curso">Curso</label>
+      <select id="curso" onchange="salvar()"><option value="">--</option><option value="Mineracao">Minera&ccedil;&atilde;o</option><option value="Metalurgia">Metalurgia</option><option value="Edificacoes">Edifica&ccedil;&otilde;es</option><option value="Automacao Industrial">Automa&ccedil;&atilde;o Industrial</option><option value="Administracao">Administra&ccedil;&atilde;o</option></select>
+    </div>
+    <div class="id-field">
+      <label for="turma">Turma</label>
+      <select id="turma" onchange="salvar()"><option value="">--</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select>
+    </div>
+    <div class="id-field">
+      <label for="grupo">Grupo</label>
+      <select id="grupo" onchange="salvar()"><option value="">--</option><option value="A">A</option><option value="B">B</option></select>
+    </div>
+    <div class="id-field">
+      <label for="professor">Professor(a)</label>
+      <select id="professor" onchange="salvar()"><option value="">--</option><option value="Julio Azevedo">Julio Azevedo</option><option value="Felipe Beato">Felipe Beato</option></select>
+    </div>
+    <div class="id-field">
+      <label for="data_aula">Data da aula</label>
+      <input type="date" id="data_aula" onchange="salvar()">
     </div>
   </div>
 </div>
@@ -710,6 +724,28 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
 </div>
 <script>
 const LS_PREFIX = 'ifmg_fe_t0a_dx_';
+
+/* ---- IDENTIFICACAO CANONICA (padrao PP-v4) ----
+   O RA e a chave do estudante: 7 digitos, com os zeros a esquerda, do jeito
+   que o SUAP escreve. Por isso `raValido()` exige o formato antes de liberar
+   o envio — RA pela metade nao encontra o aluno na lista da turma. */
+function idCampo(id) { var e = document.getElementById(id); return e ? String(e.value).trim() : ''; }
+function idCompleta() {
+  return {
+    nome: idCampo('nome'), ra: idCampo('ra'), curso: idCampo('curso'),
+    turma: idCampo('turma'), grupo: idCampo('grupo'),
+    professor: idCampo('professor'), data_aula: idCampo('data_aula')
+  };
+}
+function raValido() { return /^[0-9]{7}$/.test(idCampo('ra')); }
+function idSalvar() { return idCompleta(); }
+function idRestaurar(d) {
+  ['nome', 'ra', 'curso', 'turma', 'grupo', 'professor', 'data_aula'].forEach(function (k) {
+    var e = document.getElementById(k);
+    if (e && d[k]) e.value = d[k];
+  });
+}
+
 
 const GABARITO_CASOS = {
   1: { correta: 'b', fb_ok: 'A Escala #2 tem menor divisão 0,1 m — permite no máximo 2 algarismos significativos (ex: 1,7 m). Pedro registrou 4 AS.', fb: { a: 'Paralaxe causa desvio sistemático, não excesso de dígitos.', c: 'A incerteza é importante, mas o erro principal aqui são os AS.', d: 'A unidade (metros) está correta.' } },
@@ -908,7 +944,7 @@ function exportarJSON() {
       subtipo: 'detetive-do-lab',
       timestamp: new Date().toISOString()
     },
-    identificacao: { nome, turma, grupo },
+    identificacao: idCompleta(),
     casos: {},
     c5: {
       ordem_submetida: c5Ordem.map(i => C5_PASSOS_CORRETOS[i]),
@@ -934,7 +970,7 @@ function exportarJSON() {
   const blob = new Blob([JSON.stringify(dados, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  const nomeArq = 'FE-T0A-DX_' + turma + '_' + (grupo || 'X') + '_' + nome.replace(/\s+/g, '_') + '.json';
+  const nomeArq = 'FE-T0A-DX_' + (idCampo('ra') || 'sem-RA') + '_' + turma + '_' + (grupo || 'X') + '_' + nome.replace(/\s+/g, '_') + '.json';
   a.href = url;
   a.download = nomeArq;
   a.click();
@@ -944,9 +980,7 @@ function exportarJSON() {
 
 function salvar() {
   const dados = {
-    nome: document.getElementById('nome').value,
-    turma: document.getElementById('turma').value,
-    grupo: document.getElementById('grupo').value,
+    ...idSalvar(),
     respostasCasos,
     c5Ordem,
     c5Respondido
@@ -956,7 +990,7 @@ function salvar() {
   const nome = document.getElementById('nome').value.trim();
   const turma = document.getElementById('turma').value;
   const btn = document.getElementById('btn-exportar');
-  if (btn) btn.disabled = !(nome && turma && Object.keys(respostasCasos).length === 6 && c5Respondido);
+  if (btn) btn.disabled = !(nome && raValido() && turma && Object.keys(respostasCasos).length === 6 && c5Respondido);
 }
 
 function restaurar() {
@@ -964,9 +998,7 @@ function restaurar() {
     const raw = localStorage.getItem(LS_PREFIX + 'dados');
     if (!raw) return;
     const d = JSON.parse(raw);
-    if (d.nome) document.getElementById('nome').value = d.nome;
-    if (d.turma) document.getElementById('turma').value = d.turma;
-    if (d.grupo) document.getElementById('grupo').value = d.grupo;
+    idRestaurar(d);
     if (d.c5Ordem) { c5Ordem = d.c5Ordem; renderC5(); }
     if (d.respostasCasos) {
       for (const [k, v] of Object.entries(d.respostasCasos)) {

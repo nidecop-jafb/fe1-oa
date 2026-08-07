@@ -528,6 +528,10 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
 .header .badge { background: var(--epi); color: oklch(0.13 0.01 260); padding: 4px 12px; border-radius: var(--r-sm); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; }
 .header .header-inner h1 { font-size: 1.4rem; font-weight: 900; letter-spacing: -0.02em; flex: 1 1 240px; }
 .header .header-inner h1 .trilha-code { color: var(--epi); }
+
+/* RA em monoespacada: o estudante confere digito a digito */
+.id-box #ra, .id-card #ra { font-family: var(--mono); letter-spacing: .08em; }
+.id-box .campo.aviso label, .id-card .campo.aviso label { color: var(--erro); }
 </style>
 </head>
 <body>
@@ -614,18 +618,25 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
         <label for="inp-nome">Nome completo</label>
         <input type="text" id="inp-nome" placeholder="Seu nome completo" autocomplete="name" required>
       </div>
+      <div class="grid-2">
+      <div class="campo">
+          <label for="inp-curso">Curso</label>
+          <select id="inp-curso"><option value="">Selecione</option><option value="Mineracao">Minera&ccedil;&atilde;o</option><option value="Metalurgia">Metalurgia</option><option value="Edificacoes">Edifica&ccedil;&otilde;es</option><option value="Automacao Industrial">Automa&ccedil;&atilde;o Industrial</option><option value="Administracao">Administra&ccedil;&atilde;o</option></select>
+        </div>
+      <div class="campo">
+          <label for="inp-professor">Professor(a)</label>
+          <select id="inp-professor"><option value="">Selecione</option><option value="Julio Azevedo">Julio Azevedo</option><option value="Felipe Beato">Felipe Beato</option></select>
+        </div>
+      </div>
       <div class="grid-3">
         <div class="campo">
-          <label for="inp-ra">RA (opcional)</label>
-          <input type="text" id="inp-ra" placeholder="20260000" inputmode="numeric">
+          <label for="inp-ra">RA</label>
+          <input type="text" id="inp-ra" data-campo="ra" inputmode="numeric" maxlength="7" placeholder="7 d&iacute;gitos" required>
         </div>
         <div class="campo">
           <label for="inp-turma">Turma</label>
           <select id="inp-turma" required>
-            <option value="">Selecione</option>
-            <option value="MIN1A">MIN1A</option>
-            <option value="MIN1B">MIN1B</option>
-            <option value="MIN1C">MIN1C</option>
+            <option value="">Selecione</option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
           </select>
         </div>
         <div class="campo">
@@ -924,10 +935,11 @@ function atualizarProgresso() {
 
 function verificarSec1() {
   const nome = document.getElementById('inp-nome').value.trim();
+  const ra = document.getElementById('inp-ra').value.trim();
   const turma = document.getElementById('inp-turma').value;
   const grupo = document.querySelector('input[name="grupo"]:checked');
   const data = document.getElementById('inp-data').value;
-  return !!(nome.length > 2 && turma && grupo && data);
+  return !!(nome.length > 2 && /^[0-9]{7}$/.test(ra) && turma && grupo && data);
 }
 
 function verificarSec2() {
@@ -1112,6 +1124,8 @@ function coletarEstado() {
   return {
     nome: document.getElementById('inp-nome').value,
     ra: document.getElementById('inp-ra').value,
+    curso: document.getElementById('inp-curso').value,
+    professor: document.getElementById('inp-professor').value,
     turma: document.getElementById('inp-turma').value,
     grupo: (document.querySelector('input[name="grupo"]:checked') || {}).value || '',
     data: document.getElementById('inp-data').value,
@@ -1131,6 +1145,8 @@ function restaurarEstado() {
     const e = JSON.parse(raw);
     document.getElementById('inp-nome').value = e.nome || '';
     document.getElementById('inp-ra').value = e.ra || '';
+    document.getElementById('inp-curso').value = e.curso || '';
+    document.getElementById('inp-professor').value = e.professor || '';
     document.getElementById('inp-turma').value = e.turma || '';
     if (e.grupo) {
       const radio = document.querySelector(`input[name="grupo"][value="${e.grupo}"]`);
@@ -1209,6 +1225,8 @@ function exportarJSON() {
     identificacao: {
       nome: estado.nome,
       ra: estado.ra,
+      curso: estado.curso,
+      professor: estado.professor,
       turma: estado.turma,
       grupo: estado.grupo,
       data_aula: estado.data
@@ -1238,6 +1256,7 @@ function exportarJSON() {
   };
 
   const nomeArquivo = 'FE-T0A-RM_' +
+    (estado.ra || 'sem-RA') + '_' +
     (estado.turma || 'X') + '_' +
     (estado.grupo || 'X') + '_' +
     (estado.nome || 'aluno').replace(/\s+/g, '_').substring(0, 30) +
@@ -1324,7 +1343,7 @@ function init() {
   });
 
   // Eventos nos campos de identificacao
-  ['inp-nome', 'inp-ra', 'inp-turma', 'inp-data'].forEach(id => {
+  ['inp-nome', 'inp-ra', 'inp-curso', 'inp-turma', 'inp-professor', 'inp-data'].forEach(id => {
     document.getElementById(id).addEventListener('input', () => agendarSalvar());
     document.getElementById(id).addEventListener('change', () => agendarSalvar());
   });
