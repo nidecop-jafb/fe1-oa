@@ -8,10 +8,17 @@
   :root { --epi: #E07B39; --aco: #7FB2D6; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: #0d0d0d; color: #e8e8e8; font-family: Georgia, 'Times New Roman', serif; line-height: 1.6; }
-  .wrap { max-width: 720px; margin: 0 auto; padding: 48px 20px; }
+  .header { background: #161616; border-top: 3px solid var(--epi); padding: 14px 20px; }
+  .header-inner { max-width: 720px; margin: 0 auto; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .header .marca { width: 52px; height: 52px; flex-shrink: 0; }
+  .header h1 { font-family: 'Courier New', monospace; font-size: 1.35rem; color: #e8e8e8; letter-spacing: -0.01em; flex: 1 1 240px; line-height: 1.3; }
+  .header h1 .trilha-code { color: var(--epi); }
+  .badge { display: inline-block; background: var(--epi); color: #101010; padding: 4px 12px; font-family: 'Courier New', monospace; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; }
+  .header-sub { max-width: 720px; margin: 6px auto 0; font-size: 0.88rem; color: #999; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 28px 20px 48px; }
+  .nav-trilha { display: flex; gap: 18px; flex-wrap: wrap; margin-bottom: 28px; }
   a.voltar { font-family: 'Courier New', monospace; font-size: 0.85rem; color: #888; text-decoration: none; }
   a.voltar:hover { color: var(--epi); }
-  h1 { font-family: 'Courier New', monospace; font-size: 1.4rem; color: var(--epi); text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 2px solid var(--epi); padding-bottom: 12px; margin: 16px 0 8px; }
   .sub { font-size: 0.95rem; color: #aaa; margin-bottom: 36px; }
   .faixa { border: 1px solid #444; padding: 18px; margin-bottom: 16px; }
   .rot { font-family: 'Courier New', monospace; font-size: 0.95rem; color: #fff; margin-bottom: 10px; }
@@ -24,10 +31,40 @@
 </style>
 </head>
 <body>
+<header class="header">
+  <div class="header-inner">
+    <svg class="marca" viewBox="0 0 120 120" role="img" aria-label="Marca da F&iacute;sica Experimental 1">
+        <g fill="none" stroke="#E07B39" stroke-width="3">
+          <ellipse cx="60" cy="52" rx="46" ry="18"/>
+          <ellipse cx="60" cy="52" rx="46" ry="18" transform="rotate(60 60 52)"/>
+          <ellipse cx="60" cy="52" rx="46" ry="18" transform="rotate(120 60 52)"/>
+        </g>
+        <g fill="#E07B39">
+          <circle cx="53" cy="47" r="7"/>
+          <circle cx="67" cy="47" r="7"/>
+          <circle cx="60" cy="58" r="9"/>
+        </g>
+        <g stroke="#7FB2D6" stroke-width="3" stroke-linecap="square">
+          <line x1="26" y1="110" x2="94" y2="110"/>
+          <line x1="30" y1="110" x2="30" y2="104"/>
+          <line x1="40" y1="110" x2="40" y2="104"/>
+          <line x1="50" y1="110" x2="50" y2="104"/>
+          <line x1="60" y1="110" x2="60" y2="98"/>
+          <line x1="70" y1="110" x2="70" y2="104"/>
+          <line x1="80" y1="110" x2="80" y2="104"/>
+          <line x1="90" y1="110" x2="90" y2="104"/>
+        </g>
+      </svg><h1><span class="trilha-code">FE-T0A</span> &middot; Metodologia experimental</h1>
+    <span class="badge">Resumo em &Aacute;udio (MD)</span>
+  </div>
+  <div class="header-sub">Vers&atilde;o curta + vers&atilde;o padr&atilde;o &middot; ou&ccedil;a aqui ou baixe &middot; Pr&eacute;-Lab</div>
+</header>
 <div class="wrap">
-  <a class="voltar" href="../../">&larr; todas as trilhas</a>
-  <h1>FE-T0A &middot; Resumo em &Aacute;udio (MD)</h1>
-  <div class="sub">Metodologia experimental &mdash; ou&ccedil;a antes da aula. D&aacute; para escutar aqui mesmo, sem baixar; a vers&atilde;o curta cobre o essencial e a padr&atilde;o aprofunda cada t&oacute;pico.</div>
+  <nav class="nav-trilha">
+    <a class="voltar" href="../../">&larr; todas as trilhas</a>
+    <a class="voltar" href="../../#t0a">&#9776; Ver todos os OAs da trilha</a>
+  </nav>
+  <div class="sub">Ou&ccedil;a antes da aula. D&aacute; para escutar aqui mesmo, sem baixar; a vers&atilde;o curta cobre o essencial e a padr&atilde;o aprofunda cada t&oacute;pico.</div>
 
     <div class="faixa">
       <div class="rot">Vers&atilde;o curta<span class="tag">Deep Dive &middot; PT-BR &middot; ~6 min</span></div>

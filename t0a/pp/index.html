@@ -687,7 +687,7 @@ body {
   <div class="fecho-acao">Continue a sua prepara&ccedil;&atilde;o: ou&ccedil;a o <strong>Resumo em &Aacute;udio (MD)</strong> da trilha.</div>
   <div class="fecho-links">
     <a class="fecho-btn" id="linkPlayer" href="https://nidecop-jafb.github.io/fe1-oa/t0a/md/" target="_blank" rel="noopener">Abrir o player</a>
-    <a class="fecho-btn secundario" id="linkGuiaMD" href="https://nidecop-jafb.github.io/fe1-oa/" target="_blank" rel="noopener">Ver todos os OAs da trilha</a>
+    <a class="fecho-btn secundario" id="linkGuiaMD" href="https://nidecop-jafb.github.io/fe1-oa/#t0a" target="_blank" rel="noopener">Ver todos os OAs da trilha</a>
   </div>
   <div class="fecho-inst">IFMG &mdash; Campus Ouro Preto &middot; Coordenadoria da &Aacute;rea de F&iacute;sica (CODAFIS) &middot; N&uacute;cleo de Inova&ccedil;&atilde;o e Desenvolvimento de Experimentos Cient&iacute;ficos (NIDEC)</div>
 </div>
@@ -882,14 +882,16 @@ function setupRA() {
   });
 }
 
-/* ---- Link do guia do MD ----
-   Offline (file://) o guia esta na mesma pasta do OA; publicado no site, cada
-   OA vira t0a/{oa}/index.html e o Resumo em Audio responde em ../md/. Sem este
-   ajuste o link quebraria justamente para o estudante. */
+/* ---- Link "Ver todos os OAs da trilha" ----
+   O botao aponta para a lista de OAs da trilha no indice do site (ancora
+   #t0a). O href absoluto funciona igual offline (file://) e publicado; no
+   site, a forma relativa evita depender do dominio. Historico: este id ja
+   apontou para o guia do MD e um ajuste antigo reescrevia o href para
+   ../md/ — por isso o botao abria o Resumo em Audio (bug corrigido). */
 function ajustarLinkGuiaMD() {
   if (location.protocol === 'file:') return;
   var a = document.getElementById('linkGuiaMD');
-  if (a) a.setAttribute('href', '../md/');
+  if (a) a.setAttribute('href', '../../#t0a');
 }
 
 /* ---- DEFAULT DATE (dd / mm / aaaa) ---- */
@@ -1465,11 +1467,31 @@ var ARQUIVO_FONTE = 'FE-T0A-PP-v4-estudante.html';
 var coletaEnviando = false;
 var coletaComprovante = null;
 
+/* Contrato v2: o OA declarou o que precisamos. Sem ele, vale o caminho legado
+   (PP-v4), onde PREFIX e montarPacote() foram extraidos na injecao. */
+var OAC = (typeof window !== 'undefined' && window.OA_COLETA) || null;
+
+function coletaPrefixo() {
+  if (OAC && OAC.prefixo) return OAC.prefixo;
+  return (typeof PREFIX !== 'undefined') ? PREFIX : 'ifmg_fe1_';
+}
+
+function coletaPacote() {
+  if (OAC && typeof OAC.pacote === 'function') return OAC.pacote();
+  return montarPacote();
+}
+
+function coletaIdentidadeOA() {
+  if (OAC) return { trilha: OAC.trilha, oa: OAC.oa };
+  return (typeof OA_ID !== 'undefined') ? OA_ID : null;
+}
+
 /* CFG-OA v1: busca a configuracao de aplicacao no boot (endpoint publico). */
 (function buscarConfigOA() {
-  if (!COLETA_URL || typeof OA_ID === 'undefined' || typeof aplicarConfigOA !== 'function') return;
-  fetch(COLETA_URL + '?cfg=1&trilha=' + encodeURIComponent(OA_ID.trilha) +
-        '&oa=' + encodeURIComponent(OA_ID.oa))
+  var ident = coletaIdentidadeOA();
+  if (!COLETA_URL || !ident || typeof aplicarConfigOA !== 'function') return;
+  fetch(COLETA_URL + '?cfg=1&trilha=' + encodeURIComponent(ident.trilha) +
+        '&oa=' + encodeURIComponent(ident.oa))
     .then(function (r) { return r.json(); })
     .then(function (j) { if (j && j.ok && j.cfg) aplicarConfigOA(j.cfg); })
     .catch(function () { /* offline: vale o default embutido no OA */ });
@@ -1488,7 +1510,7 @@ function coletaStatusUI(estado, msg) {
 /* Chave do comprovante por tentativa, para o reenvio nao sobrescrever o 1o. */
 function coletaComprovanteKey() {
   var t = (typeof oaTentativaAtual === 'function') ? oaTentativaAtual() : 1;
-  return PREFIX + 'comprovante' + (t > 1 ? '_t' + t : '');
+  return coletaPrefixo() + 'comprovante' + (t > 1 ? '_t' + t : '');
 }
 
 function coletaRestaurar() {
@@ -1523,7 +1545,7 @@ function enviarColeta(isRetry) {
   coletaEnviando = true;
   coletaStatusUI(null, 'Enviando respostas ao professor...');
 
-  var payload = coletaGarantirRA(montarPacote());
+  var payload = coletaGarantirRA(coletaPacote());
   payload.tentativa = (typeof oaTentativaAtual === 'function') ? oaTentativaAtual() : 1;
   if (!payload.arquivo) payload.arquivo = ARQUIVO_FONTE;
 
@@ -1555,6 +1577,10 @@ function enviarColeta(isRetry) {
 }
 
 document.addEventListener('DOMContentLoaded', coletaRestaurar);
+
+/* Contrato v2: o OA avisa quando o trabalho fecha. No legado o gancho e uma
+   linha inserida logo depois do toast final do envio. */
+document.addEventListener('oa:enviado', function () { enviarColeta(); });
 </script>
 </body>
 </html>
