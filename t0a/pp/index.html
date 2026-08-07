@@ -606,7 +606,7 @@ body {
     </label>
     <label>
       RA
-      <input type="text" id="inputRA" inputmode="numeric" maxlength="7" placeholder="7 d&iacute;gitos" autocomplete="off">
+      <input type="text" id="inputRA" data-campo="ra" inputmode="numeric" maxlength="7" placeholder="7 d&iacute;gitos" autocomplete="off">
     </label>
     <label>
       Curso
@@ -1498,13 +1498,32 @@ function coletaRestaurar() {
   if (c) coletaStatusUI('ok', '\u2713 Respostas registradas \u2014 comprovante ' + c);
 }
 
+/* O RA e achado pelo PAPEL (data-campo="ra"), nao pelo id: os OAs da FE1 tem
+   convencoes de nome diferentes — `ra` num, `inp-ra` noutro, `inputRA` no PP.
+   `id="inputRA"` fica como legado. */
+function coletaCampoRA() {
+  var e = document.querySelector('[data-campo="ra"]') || document.getElementById('inputRA');
+  return e ? String(e.value || '').trim() : '';
+}
+
+/* Garante o RA no pacote. Sem ele o servidor recusa o envio — e o estudante
+   teria preenchido tudo certo para ver "RA fora da lista da turma". */
+function coletaGarantirRA(payload) {
+  var ra = coletaCampoRA();
+  if (!ra) return payload;
+  if (!payload.identificacao) payload.identificacao = {};
+  if (!payload.identificacao.ra) payload.identificacao.ra = ra;
+  if (!payload.ra) payload.ra = ra;
+  return payload;
+}
+
 function enviarColeta(isRetry) {
   if (!COLETA_URL || coletaEnviando) return;
   if (!isRetry && coletaComprovante) return;
   coletaEnviando = true;
   coletaStatusUI(null, 'Enviando respostas ao professor...');
 
-  var payload = montarPacote();
+  var payload = coletaGarantirRA(montarPacote());
   payload.tentativa = (typeof oaTentativaAtual === 'function') ? oaTentativaAtual() : 1;
   if (!payload.arquivo) payload.arquivo = ARQUIVO_FONTE;
 
