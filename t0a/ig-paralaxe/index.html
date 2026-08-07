@@ -54,7 +54,7 @@ body {
   padding: 12px 20px;
 }
 .header-inner {
-  max-width: 760px; margin: 0 auto;
+  max-width: 800px; margin: 0 auto;
   display: flex; align-items: center; justify-content: space-between;
 }
 .header h1 { font-size: 1.05rem; font-weight: 700; }
@@ -64,10 +64,10 @@ body {
   font-size: .7rem; font-weight: 700; text-transform: uppercase;
 }
 .header-sub {
-  max-width: 760px; margin: 4px auto 0;
+  max-width: 800px; margin: 4px auto 0;
   font-size: .72rem; color: var(--cinza);
 }
-main { max-width: 760px; margin: 0 auto; padding: 16px; }
+main { max-width: 800px; margin: 0 auto; padding: 16px; }
 
 .intro {
   background: var(--superficie);
@@ -143,6 +143,20 @@ main { max-width: 760px; margin: 0 auto; padding: 16px; }
   background: var(--ouro);
   border-radius: 50%;
 }
+/* Objeto APARENTE — como o observador ve o objeto contra a escala. E ele que
+   se desloca quando o observador muda de posicao; o objeto real fica parado. */
+.ponteiro.fantasma {
+  opacity: .55;
+  transition: left .4s ease, opacity .3s ease;
+  z-index: 3;
+}
+.ponteiro.fantasma,
+.ponteiro.fantasma .ponteiro-topo {
+  background: var(--erro);
+}
+.ponteiro.fantasma .ponteiro-topo { box-shadow: 0 0 0 2px oklch(0.6 0.22 25 / 0.35); }
+.ponteiro.fantasma .ponteiro-label { color: var(--erro); top: auto; bottom: -22px; }
+.ponteiro.fantasma.oculto { opacity: 0; }
 .ponteiro-label {
   position: absolute;
   top: -28px; left: 50%;
@@ -492,6 +506,12 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
       <div class="ponteiro-label">Valor real</div>
     </div>
 
+    <!-- Objeto aparente (como o observador ve — move com a posicao do olho) -->
+    <div class="ponteiro fantasma oculto" id="ponteiro-ap">
+      <div class="ponteiro-topo"></div>
+      <div class="ponteiro-label">Aparente</div>
+    </div>
+
     <!-- Leitura aparente -->
     <div class="leitura-aparente" id="leitura-ap">
       <div class="la-label" id="la-label">?</div>
@@ -592,6 +612,7 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
 const canvas = document.getElementById('canvas');
 const olho = document.getElementById('olho');
 const ponteiro = document.getElementById('ponteiro');
+const ponteiroAp = document.getElementById('ponteiro-ap');
 const leituraAp = document.getElementById('leitura-ap');
 const laLabel = document.getElementById('la-label');
 const svgVisada = document.getElementById('visada-svg');
@@ -661,6 +682,11 @@ function atualizar() {
 
   aparenteX = Math.max(rLeft, Math.min(rRight, aparenteX));
   leituraAp.style.left = aparenteX + 'px';
+
+  /* O objeto aparente acompanha a leitura: e o que o estudante VE se mover
+     quando muda de posicao. Coincidindo com o real (olho frontal), some. */
+  ponteiroAp.style.left = aparenteX + 'px';
+  ponteiroAp.classList.toggle('oculto', Math.abs(aparenteX - realX) < 3);
 
   const realCm = (REAL_POS / 100) * (TICKS - 1);
   const aparenteCm = ((aparenteX - rLeft) / span) * (TICKS - 1);
