@@ -247,12 +247,12 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
 <main>
 
 <div class="id-box">
-  <div class="campo full"><label for="nome">Nome completo</label><input type="text" id="nome" placeholder="Seu nome completo" autocomplete="off"></div>
+  <div class="campo full"><label for="nome">Nome completo</label><input type="text" id="nome" data-campo="nome" placeholder="Seu nome completo" autocomplete="off"></div>
   <div class="campo"><label for="ra">RA</label><input type="text" id="ra" data-campo="ra" inputmode="numeric" maxlength="7" placeholder="7 d&iacute;gitos" autocomplete="off"></div>
-  <div class="campo"><label for="curso">Curso</label><select id="curso"><option value="">Selecione</option><option value="Mineracao">Minera&ccedil;&atilde;o</option><option value="Metalurgia">Metalurgia</option><option value="Edificacoes">Edifica&ccedil;&otilde;es</option><option value="Automacao Industrial">Automa&ccedil;&atilde;o Industrial</option><option value="Administracao">Administra&ccedil;&atilde;o</option></select></div>
-  <div class="campo"><label for="turma">Turma</label><select id="turma"><option value="">Selecione</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></div>
-  <div class="campo"><label for="grupo">Grupo</label><select id="grupo"><option value="">Selecione</option><option value="A">Grupo A</option><option value="B">Grupo B</option></select></div>
-  <div class="campo"><label for="professor">Professor(a)</label><select id="professor"><option value="">Selecione</option><option value="Julio Azevedo">Julio Azevedo</option><option value="Felipe Beato">Felipe Beato</option></select></div>
+  <div class="campo"><label for="curso">Curso</label><select id="curso" data-campo="curso"><option value="">Selecione</option><option value="Mineracao">Minera&ccedil;&atilde;o</option><option value="Metalurgia">Metalurgia</option><option value="Edificacoes">Edifica&ccedil;&otilde;es</option><option value="Automacao Industrial">Automa&ccedil;&atilde;o Industrial</option><option value="Administracao">Administra&ccedil;&atilde;o</option></select></div>
+  <div class="campo"><label for="turma">Turma</label><select id="turma" data-campo="turma"><option value="">Selecione</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></div>
+  <div class="campo"><label for="grupo">Grupo</label><select id="grupo" data-campo="grupo"><option value="">Selecione</option><option value="A">Grupo A</option><option value="B">Grupo B</option></select></div>
+  <div class="campo"><label for="professor">Professor(a)</label><select id="professor" data-campo="professor"><option value="">Selecione</option><option value="Julio Azevedo">Julio Azevedo</option><option value="Felipe Beato">Felipe Beato</option></select></div>
   <div class="campo"><label for="data_aula">Data da aula</label><input type="date" id="data_aula"></div>
   <div class="campo"><label for="bancada">Bancada</label><select id="bancada"><option value="">Selecione</option><option value="1">Bancada 1</option><option value="2">Bancada 2</option><option value="3">Bancada 3</option><option value="4">Bancada 4</option><option value="5">Bancada 5</option></select></div>
 </div>
@@ -717,6 +717,202 @@ document.addEventListener('DOMContentLoaded', coletaRestaurar);
 /* Contrato v2: o OA avisa quando o trabalho fecha. No legado o gancho e uma
    linha inserida logo depois do toast final do envio. */
 document.addEventListener('oa:enviado', function () { enviarColeta(); });
+</script>
+<!-- IDENTIFICACAO-RA (injetada na publicacao — nao existe no OA canonico) -->
+<style>
+  #idfeOverlay { position: fixed; inset: 0; background: rgba(8,8,10,.92); z-index: 9000;
+    display: flex; align-items: center; justify-content: center; padding: 16px; }
+  #idfeOverlay[hidden] { display: none; }
+  .idfe-card { background: #17181c; border-top: 3px solid #E07B39; max-width: 420px; width: 100%;
+    padding: 26px 22px; color: #e8e8e8; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .idfe-card h2 { font-size: 1.05rem; margin: 0 0 6px; color: #E07B39; }
+  .idfe-card p { font-size: .88rem; color: #aaa; margin: 0 0 14px; line-height: 1.5; }
+  .idfe-card input { width: 100%; padding: 12px; font-size: 1.15rem; letter-spacing: .12em;
+    background: #0f1013; color: #fff; border: 1px solid #444; text-align: center; }
+  .idfe-acoes { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+  .idfe-btn { flex: 1 1 120px; padding: 11px 14px; font-size: .85rem; font-weight: 700;
+    background: #E07B39; color: #101010; border: 0; cursor: pointer; }
+  .idfe-btn.sec { background: transparent; color: #7FB2D6; border: 1px solid #7FB2D6; }
+  .idfe-manual { display: block; margin-top: 14px; font-size: .78rem; color: #888;
+    text-align: center; cursor: pointer; text-decoration: underline; background: none; border: 0; width: 100%; }
+  .idfe-erro { color: #e57373; font-size: .82rem; margin-top: 10px; min-height: 1em; }
+  #idfeConfirma strong { color: #E07B39; }
+  #idfeChip { position: fixed; left: 10px; bottom: 10px; z-index: 8000; background: #17181c;
+    border: 1px solid #444; border-left: 3px solid #E07B39; color: #bbb; font-size: .72rem;
+    font-family: system-ui, sans-serif; padding: 6px 10px; }
+  #idfeChip button { background: none; border: 0; color: #7FB2D6; font-size: .72rem;
+    cursor: pointer; text-decoration: underline; padding: 0 0 0 6px; }
+  @media print { #idfeChip, #idfeOverlay { display: none !important; } }
+</style>
+<div id="idfeOverlay" hidden>
+  <div class="idfe-card">
+    <div id="idfePasso1">
+      <h2>Entre com o seu RA</h2>
+      <p>S&oacute; os 7 d&iacute;gitos da matr&iacute;cula &mdash; sem senha. O restante da
+         identifica&ccedil;&atilde;o &eacute; preenchido para voc&ecirc;.</p>
+      <input id="idfeRA" inputmode="numeric" maxlength="7" placeholder="0000000" autocomplete="off">
+      <div class="idfe-acoes">
+        <button class="idfe-btn" id="idfeBuscar" type="button">Continuar</button>
+      </div>
+      <div class="idfe-erro" id="idfeErro"></div>
+      <button class="idfe-manual" id="idfeManual" type="button">Preencher a identifica&ccedil;&atilde;o manualmente</button>
+    </div>
+    <div id="idfePasso2" hidden>
+      <h2>Confirme</h2>
+      <p id="idfeConfirma"></p>
+      <div class="idfe-acoes">
+        <button class="idfe-btn" id="idfeSim" type="button">Sou eu</button>
+        <button class="idfe-btn sec" id="idfeNao" type="button">N&atilde;o sou eu</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="idfeChip" hidden></div>
+<script>
+(function () {
+  'use strict';
+  /* Plano B intacto: do disco, ou sem a config da coleta, nada muda. */
+  if (location.protocol === 'file:') return;
+  if (!document.querySelector('[data-campo="ra"]')) return;
+  var URL_EXEC = (window.COLETA && window.COLETA.url) || '';
+  if (!URL_EXEC) return;
+
+  var KEY = 'ifmg_fe1_aluno';   /* uma origem, um login: vale para todos os OAs */
+  var overlay = document.getElementById('idfeOverlay');
+  var passo1 = document.getElementById('idfePasso1');
+  var passo2 = document.getElementById('idfePasso2');
+  var inpRA = document.getElementById('idfeRA');
+  var erroEl = document.getElementById('idfeErro');
+  var chip = document.getElementById('idfeChip');
+  var candidato = null;
+
+  function campos(papel) {
+    return document.querySelectorAll('[data-campo="' + papel + '"]');
+  }
+
+  function definir(el, valor) {
+    if (!valor) return;
+    if (el.tagName === 'SELECT') {
+      for (var i = 0; i < el.options.length; i++) {
+        var o = el.options[i];
+        if (o.value === valor || o.textContent.trim() === valor) { el.value = o.value; break; }
+      }
+    } else {
+      el.value = valor;
+    }
+    el.dispatchEvent(new Event('input', { bubbles: true }));
+    el.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+
+  function mapProfessor(p) {
+    if (!p) return '';
+    if (p.indexOf('Julio') >= 0) return 'Julio Azevedo';
+    if (p.indexOf('Felipe') >= 0) return 'Felipe Beato';
+    return p;
+  }
+
+  function preencher(a) {
+    var mapa = { nome: a.nome, ra: a.ra, curso: 'Mineracao',
+                 turma: a.turma_oa || '', grupo: a.grupo || '',
+                 professor: mapProfessor(a.professor) };
+    for (var papel in mapa) {
+      var els = campos(papel);
+      for (var i = 0; i < els.length; i++) {
+        /* Curso em campo de texto (RB/RM/RC) fica legivel, nao em ASCII */
+        var v = (papel === 'curso' && els[i].tagName !== 'SELECT')
+              ? 'Mineração' : mapa[papel];
+        definir(els[i], v);
+      }
+    }
+  }
+
+  function mostrarChip(a) {
+    chip.innerHTML = 'Identificado: <strong>' + a.nome + '</strong> &middot; RA ' + a.ra;
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = 'trocar';
+    b.addEventListener('click', function () {
+      try { localStorage.removeItem(KEY); } catch (e) {}
+      chip.hidden = true;
+      abrir();
+    });
+    chip.appendChild(b);
+    chip.hidden = false;
+  }
+
+  function abrir() {
+    passo1.hidden = false;
+    passo2.hidden = true;
+    erroEl.textContent = '';
+    overlay.hidden = false;
+    setTimeout(function () { inpRA.focus(); }, 50);
+  }
+
+  function buscar() {
+    var ra = (inpRA.value || '').replace(/\D/g, '');
+    if (ra.length && ra.length < 7) ra = ('0000000' + ra).slice(-7);
+    if (ra.length !== 7) { erroEl.textContent = 'O RA tem 7 dígitos.'; return; }
+    erroEl.textContent = 'Procurando...';
+    fetch(URL_EXEC + '?login=1&ra=' + encodeURIComponent(ra))
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        if (!j || !j.ok) {
+          erroEl.textContent = (j && j.erro) ? j.erro +
+            ' Confira o RA ou use o preenchimento manual.' : 'Não foi possível consultar.';
+          return;
+        }
+        candidato = { ra: ra, nome: j.nome, turma: j.turma,
+                      turma_oa: j.turma_oa || ((/I1OPIMINE(\d)/.exec(j.turma || '') || [])[1] || ''),
+                      grupo: j.grupo || '', professor: j.professor || '' };
+        var desc = '<strong>' + j.nome + '</strong>' +
+                   (candidato.turma_oa ? ' — turma ' + candidato.turma_oa : ' — ' + (j.turma || '')) +
+                   (candidato.grupo ? ', grupo ' + candidato.grupo : '');
+        document.getElementById('idfeConfirma').innerHTML = 'Você é ' + desc + '?';
+        passo1.hidden = true;
+        passo2.hidden = false;
+        erroEl.textContent = '';
+      })
+      .catch(function () {
+        erroEl.textContent = 'Sem conexão com o servidor. Preencha manualmente.';
+      });
+  }
+
+  document.getElementById('idfeBuscar').addEventListener('click', buscar);
+  inpRA.addEventListener('keydown', function (e) { if (e.key === 'Enter') buscar(); });
+  document.getElementById('idfeManual').addEventListener('click', function () {
+    overlay.hidden = true;
+  });
+  document.getElementById('idfeNao').addEventListener('click', function () {
+    candidato = null;
+    inpRA.value = '';
+    passo2.hidden = true;
+    passo1.hidden = false;
+    setTimeout(function () { inpRA.focus(); }, 50);
+  });
+  document.getElementById('idfeSim').addEventListener('click', function () {
+    if (!candidato) return;
+    try { localStorage.setItem(KEY, JSON.stringify(candidato)); } catch (e) {}
+    preencher(candidato);
+    overlay.hidden = true;
+    mostrarChip(candidato);
+  });
+
+  function boot() {
+    var salvo = null;
+    try { salvo = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
+    if (salvo && salvo.ra) {
+      preencher(salvo);
+      mostrarChip(salvo);
+    } else {
+      abrir();
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+})();
 </script>
 </body>
 </html>
