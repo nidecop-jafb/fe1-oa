@@ -780,6 +780,16 @@ buildRegua();
 atualizar();
 
 window.addEventListener('resize', () => { buildRegua(); atualizar(); });
+
+/* Blindagem de entrada (2026-08-08): alem do oninput inline, listeners
+   explicitos — cobre navegadores que restauram a pagina do bfcache (volta
+   pelo botao Voltar) e casos em que o atributo inline nao dispara. */
+['input', 'change'].forEach(ev => slider.addEventListener(ev, atualizar));
+window.addEventListener('pageshow', () => { buildRegua(); atualizar(); });
+document.querySelectorAll('.pos-btn').forEach((b, i) => {
+  const vals = [15, 50, 85];
+  b.addEventListener('click', () => setPosicao(vals[i]));
+});
 </script>
 
 <!-- ABA-SITE (injetada na publicacao — nao existe no OA canonico) -->
