@@ -79,6 +79,20 @@
   .oa.offline { display: block; padding: 14px 18px; border: 1px dashed #444; color: #9a9a9a; font-family: 'Courier New', monospace; }
   .oa.offline .num { color: #9a9a9a; }
   .oa.offline .tag { color: #7f7f7f; font-size: .8rem; margin-left: 10px; }
+/* Navegacao das trilhas: atalhos fixos + sanfona por trilha (menos rolagem no celular) */
+  .trilha-nav { position: sticky; top: 0; z-index: 10; display: flex; flex-wrap: wrap; gap: 6px; padding: 12px 0; margin-bottom: 14px; background: #0d0d0d; border-bottom: 1px solid #333; }
+  .trilha-nav a { font-family: 'Courier New', monospace; font-size: .8rem; color: var(--epi); text-decoration: none; border: 1px solid #444; padding: 5px 10px; }
+  .trilha-nav a:hover { border-color: var(--epi); }
+  details.trilha { border: 1px solid #444; margin-bottom: 12px; scroll-margin-top: 64px; }
+  @media (max-width: 560px) { details.trilha { scroll-margin-top: 108px; } } /* a barra de atalhos quebra em 2 linhas */
+  details.trilha[open] { border-color: var(--aco); }
+  details.trilha > summary { cursor: pointer; list-style: none; padding: 15px 16px; font-family: 'Courier New', monospace; font-size: 1rem; color: #fff; }
+  details.trilha > summary::-webkit-details-marker { display: none; }
+  details.trilha > summary::before { content: '+'; color: var(--epi); display: inline-block; min-width: 1.4em; }
+  details.trilha[open] > summary::before { content: '\2212'; }
+  details.trilha > summary:hover { color: var(--epi); }
+  details.trilha > .trilha-corpo { padding: 0 14px 14px; }
+  details.trilha .parada:first-child { margin-top: 4px; }
 /* METODO:CSS-FIM */
 
 </style>
@@ -202,7 +216,11 @@
   </div>
 
   <!-- TRILHAS:INICIO -->
-  <h2 id="t0a">FE-T0A &middot; Metodologia experimental</h2>
+  <nav class="trilha-nav" aria-label="Ir para a trilha"><a href="#t0a">T0A</a></nav>
+
+  <details class="trilha" id="t0a">
+  <summary>FE-T0A &middot; Metodologia experimental</summary>
+  <div class="trilha-corpo">
   <p class="parada">Pré-Lab <span>&middot; fazer em casa, antes da aula de bancada</span></p>
   <ul>
     <li><a class="oa" href="t0a/pp/"><b class="num">1</b>Ponto de Partida (PP)<span class="tag">vale nota · antes do Lab · 10 min</span></a></li>
@@ -234,6 +252,20 @@
   <ul>
     <li><a class="oa extra" href="t0a/dx/">Desafio Pedagógico (DX)<span class="tag">opcional · desafio</span></a></li>
   </ul>
+  </div>
+  </details>
+
+  <script>
+/* Atalho #t{nn} abre a trilha na sanfona; sem JS o toque no titulo ainda abre. */
+(function () {
+  function abrir() {
+    var alvo = location.hash && document.getElementById(location.hash.slice(1));
+    if (alvo && alvo.tagName === 'DETAILS') alvo.open = true;
+  }
+  window.addEventListener('hashchange', abrir);
+  abrir();
+})();
+</script>
   <!-- TRILHAS:FIM -->
 
 
