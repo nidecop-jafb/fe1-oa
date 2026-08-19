@@ -59,6 +59,8 @@
 .aba-painel .aba-nota { font-size: .8rem; color: #888; }
 .aba-painel ol { margin: 0 0 14px 0; padding-left: 22px; }
 .aba-painel ol li { margin-bottom: 7px; font-size: .88rem; }
+.aba-painel ul.apoio { list-style: none; margin: 0 0 14px 0; padding-left: 22px; border-left: 1px dashed #444; }
+.aba-painel ul.apoio li { margin-bottom: 7px; font-size: .88rem; }
 .aba-painel .parada-t { font-family: 'Courier New', monospace; font-size: .78rem; text-transform: uppercase; letter-spacing: 1px; color: #e8e8e8; margin: 16px 0 7px; }
 .aba-painel .regra { border: 1px solid #E07B39; padding: 12px 14px; margin: 14px 0 4px; font-size: .88rem; }
 @media (max-width: 800px) {
@@ -74,6 +76,9 @@
   .parada span { color: #8d8d8d; text-transform: none; letter-spacing: 0; }
   .oa .num { display: inline-block; min-width: 1.6em; color: var(--epi); }
   .oa.sub { margin-left: 26px; font-size: .92rem; }
+  .oa.offline { display: block; padding: 14px 18px; border: 1px dashed #444; color: #9a9a9a; font-family: 'Courier New', monospace; }
+  .oa.offline .num { color: #9a9a9a; }
+  .oa.offline .tag { color: #7f7f7f; font-size: .8rem; margin-left: 10px; }
 /* METODO:CSS-FIM */
 
 </style>
@@ -93,18 +98,22 @@
 <aside class="aba-painel" id="abaMetodo">
   <h3>Método de Estudo</h3>
   <p>A ordem não é burocracia: ela segue como o cérebro aprende — preparação (pergunta antes da resposta), construção ativa (recuperar em vez de reler) e consolidação (revisão no mesmo dia e revisões espaçadas, com o sono fazendo a parte dele).</p>
-  <p class="parada-t">Pré-Lab · em casa, antes da aula de bancada</p>
+  <p class="parada-t">Pré-Lab · fazer em casa, antes da aula de bancada</p>
   <p class="aba-nota">Preparar o experimento antes de tocar no equipamento: chegar à bancada sabendo o que será medido, com qual instrumento e com quais cuidados.</p>
   <ol>
     <li><strong>Ponto de Partida (PP)</strong> — vale nota · antes do Lab · 10 min<br><span class="aba-nota">Responder antes de estudar cria erro produtivo: o cérebro marca a lacuna e passa a procurar a resposta durante todo o Pré-Lab. Testar antes de ensinar aumenta o que fica depois.</span></li>
     <li><strong>Resumo em Áudio (MD)</strong> — ouvir · 3 a 5 min<br><span class="aba-nota">O áudio monta o esqueleto da prática antes da leitura. Com o mapa geral pronto, a memória de trabalho gasta menos esforço com a estrutura e sobra para o detalhe do procedimento.</span></li>
-    <li><strong>Texto Temático (TT)</strong> — leitura · a prática explicada<br><span class="aba-nota">Leitura profunda sobre um esquema já ativado: ouvir e depois ler codifica o mesmo conteúdo por duas vias e deixa dois caminhos de recuperação.</span></li>
-    <li><strong>Mapa Conceitual (MC)</strong> — conceito → aparato<br><span class="aba-nota">Organiza em imagem o que foi lido: cada conceito ligado ao instrumento que o mede. O cérebro guarda muito melhor o que está estruturado do que o que está solto.</span></li>
-    <li><strong>Cartões Didáticos (CD)</strong> — equipamento e função · revisão ativa<br><span class="aba-nota">Recuperação ativa: lembrar custa esforço, e é esse esforço que fixa. Reler dá a sensação de saber; tentar lembrar produz memória de verdade.</span></li>
-    <li><strong>Inventário de Equipamento (IE)</strong> — o que vai na bancada<br><span class="aba-nota">Reconhecer cada item antes de manuseá-lo: na bancada, o tempo é de medição, não de descoberta do material.</span></li>
-    <li><strong>Checklist de Segurança (CS)</strong> — obrigatório · antes da bancada<br><span class="aba-nota">Segurança é pré-condição, não etapa: quem entra no laboratório já sabendo os cuidados e os EPIs libera a atenção para o experimento.</span></li>
+    <li><strong>Texto Temático (TT)</strong> — ler · a prática explicada<br><span class="aba-nota">Leitura profunda sobre um esquema já ativado: ouvir e depois ler codifica o mesmo conteúdo por duas vias e deixa dois caminhos de recuperação.</span></li>
+    <li><strong>Simulações (SM)</strong> — explorar · simulações<br><span class="aba-nota">Manipular a simulação antes da bancada: errar sem risco e ver o invisível. O experimento virtual prepara o gesto do experimento real.</span></li>
     <li><strong>Testinho (TN)</strong> — vale nota · antes do Lab · 10 min<br><span class="aba-nota">Fecha o Pré-Lab medindo segurança e procedimento, com correção na hora. Erro corrigido na véspera vira aprendizagem; erro descoberto na bancada, risco.</span></li>
   </ol>
+  <p class="aba-nota">Materiais de apoio desta parada (sem número no caminho):</p>
+  <ul class="apoio">
+    <li><strong>Cartões Didáticos (CD)</strong> — ler · revisão ativa<br><span class="aba-nota">Recuperação ativa: lembrar custa esforço, e é esse esforço que fixa.</span></li>
+    <li><strong>Mapa Conceitual (MC)</strong> — ler · questões conceituais<br><span class="aba-nota">Cada conceito ligado ao instrumento que o mede — estrutura antes da bancada.</span></li>
+    <li><strong>Inventário de Equipamento (IE)</strong> — o que vai na bancada<br><span class="aba-nota">Reconhecer cada item antes de manuseá-lo: na bancada, o tempo é de medição.</span></li>
+    <li><strong>Checklist de Segurança (CS)</strong> — obrigatório · antes da bancada<br><span class="aba-nota">Segurança é pré-condição: quem entra sabendo os cuidados e os EPIs libera a atenção para o experimento.</span></li>
+  </ul>
   <p class="parada-t">Lab · na bancada, com o professor · 100 min</p>
   <p class="aba-nota">Construir o conhecimento com as mãos: montar, medir e registrar — com o professor sustentando o passo que você ainda não dá sozinho.</p>
   <ol>
@@ -118,7 +127,6 @@
   <ol>
     <li><strong>Relatório Mínimo (RM)</strong> — vale nota · no mesmo dia do Lab · 1 página<br><span class="aba-nota">O que é revisto ANTES de dormir entra na fila de consolidação da noite. É o "aula dada, aula estudada hoje" de Piazzi, aplicado aos dados da bancada.</span></li>
     <li><strong>Relatório Completo (RC)</strong> — vale nota · até 3 dias após o Lab<br><span class="aba-nota">Repetição espaçada com elaboração: voltar aos dados quando a lembrança já começou a cair rende mais — e escrever a análise completa é gerar, não copiar.</span></li>
-    <li><strong>Projeto Investigativo (PI)</strong> — vale nota · até 6 dias após o Lab · peso 20%<br><span class="aba-nota">Segundo intervalo de espaçamento, agora com transferência: investigar uma pergunta nova com o método aprendido é o que transforma medição em ciência.</span></li>
   </ol>
   <div class="regra"><strong>Não pule nenhum objeto de aprendizagem. Se pulou, volte.</strong><br>Cada passo prepara o terreno do seguinte: sem o Ponto de Partida a leitura não encontra pergunta; sem o Pré-Lab a bancada vira receita seguida às cegas; sem o Relatório Mínimo do mesmo dia os dados esfriam antes de virar conclusão. Pular um objeto de aprendizagem não adianta a trilha — atrasa. Se você pulou, volte ao passo que ficou para trás e siga dali.</div>
 </aside>
@@ -195,20 +203,22 @@
 
   <!-- TRILHAS:INICIO -->
   <h2 id="t0a">FE-T0A &middot; Metodologia experimental</h2>
-  <p class="parada">Pré-Lab <span>&middot; em casa, antes da aula de bancada</span></p>
+  <p class="parada">Pré-Lab <span>&middot; fazer em casa, antes da aula de bancada</span></p>
   <ul>
     <li><a class="oa" href="t0a/pp/"><b class="num">1</b>Ponto de Partida (PP)<span class="tag">vale nota · antes do Lab · 10 min</span></a></li>
     <li><a class="oa" href="t0a/md/"><b class="num">2</b>Resumo em Áudio (MD)<span class="tag">ouvir · 3 a 5 min</span></a></li>
-    <li><a class="oa" href="t0a/tt/"><b class="num">3</b>Texto Temático (TT)<span class="tag">leitura · a prática explicada</span></a></li>
-    <li><a class="oa" href="t0a/mc/"><b class="num">4</b>Mapa Conceitual (MC)<span class="tag">conceito → aparato</span></a></li>
-    <li><a class="oa" href="t0a/cd/"><b class="num">5</b>Cartões Didáticos (CD)<span class="tag">equipamento e função · revisão ativa</span></a></li>
-    <li><a class="oa" href="t0a/ie/"><b class="num">6</b>Inventário de Equipamento (IE)<span class="tag">o que vai na bancada</span></a></li>
-    <li><a class="oa" href="t0a/cs/"><b class="num">7</b>Checklist de Segurança (CS)<span class="tag">obrigatório · antes da bancada</span></a></li>
-    <li><a class="oa" href="t0a/tn/"><b class="num">8</b>Testinho (TN)<span class="tag">vale nota · antes do Lab · 10 min</span></a></li>
+    <li><a class="oa" href="t0a/tt/"><b class="num">3</b>Texto Temático (TT)<span class="tag">ler · a prática explicada</span></a></li>
+    <li><span class="oa offline"><b class="num">4</b>Simulações (SM)<span class="tag">explorar · simulações &middot; em breve</span></span></li>
+    <li><a class="oa" href="t0a/tn/"><b class="num">5</b>Testinho (TN)<span class="tag">vale nota · antes do Lab · 10 min</span></a></li>
+    <li><a class="oa" href="t0a/cd/">Cartões Didáticos (CD)<span class="tag">ler · revisão ativa</span></a></li>
+    <li><a class="oa" href="t0a/mc/">Mapa Conceitual (MC)<span class="tag">ler · questões conceituais</span></a></li>
+    <li><a class="oa" href="t0a/ie/">Inventário de Equipamento (IE)<span class="tag">o que vai na bancada</span></a></li>
+    <li><a class="oa" href="t0a/cs/">Checklist de Segurança (CS)<span class="tag">obrigatório · antes da bancada</span></a></li>
   </ul>
   <p class="parada">Lab <span>&middot; na bancada, com o professor · 100 min</span></p>
   <ul>
     <li><a class="oa" href="t0a/rb/"><b class="num">1</b>Roteiro de Bancada (RB)<span class="tag">execução · registrar os dados</span></a></li>
+    <li><a class="oa sub" href="t0a/rb/FE-T0A-RB-impresso.pdf">Baixar o RB em PDF<span class="tag">imprimir e levar para a bancada</span></a></li>
     <li><a class="oa" href="t0a/ap/"><b class="num">2</b>Apresentação do Lab (AP)<span class="tag">roteiro dos 100 min · rever depois</span></a></li>
     <li><a class="oa" href="t0a/ig-painel/"><b class="num">3</b>Infográficos de Bancada (IG)<span class="tag">painel e consultas · durante a prática</span></a></li>
     <li><a class="oa sub" href="t0a/ig-escalas/">Infográfico &middot; Escalas<span class="tag">consulta de bancada</span></a></li>
@@ -226,10 +236,6 @@
   </ul>
   <!-- TRILHAS:FIM -->
 
-  <h2>Documentos do projeto</h2>
-  <ul>
-    <li><a class="oa extra" href="projeto/">O projeto &mdash; vers&atilde;o executiva<span class="tag">documento &middot; 20 p&aacute;ginas &middot; professores e equipe</span></a></li>
-  </ul>
 
 
   
@@ -266,6 +272,15 @@ if (location.protocol === 'file:') {
                ['abaMusicaT', 'abaMusica'],
                ['abaIneditismoT', 'abaIneditismo'],
                ['abaCreditosT', 'abaCreditos']];
+  /* Espacamento UNIFORME entre as linguetas: o rotulo e vertical e a altura
+     real varia com a fonte do navegador — medir e empilhar com folga fixa
+     garante o que a estimativa em CSS (12px por letra) so aproximava. */
+  var y = 56;
+  pares.forEach(function (p) {
+    var t = document.getElementById(p[0]);
+    t.style.top = y + 'px';
+    y += t.offsetHeight + 14;
+  });
   var abas = pares.map(function (p) {
     return [document.getElementById(p[0]), document.getElementById(p[1])];
   });

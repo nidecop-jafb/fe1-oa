@@ -407,6 +407,12 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
   line-height: 1.6;
   color: var(--texto);
 }
+.rubrica-box { background: var(--superficie); border: 1px solid var(--cinza-borda); border-left: 4px solid var(--epi); padding: 14px 18px; margin-bottom: 20px; }
+.rubrica-box .rubrica-t { font-family: var(--mono, 'Courier New', monospace); font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--epi); margin-bottom: 8px; }
+.rubrica-box table { width: 100%; border-collapse: collapse; font-size: .86rem; }
+.rubrica-box td { padding: 5px 8px; border-bottom: 1px solid var(--cinza-borda); vertical-align: top; }
+.rubrica-box tr:last-child td { border-bottom: none; }
+.rubrica-box td:first-child { color: var(--aco); white-space: nowrap; font-weight: 700; width: 7.5em; }
 .intro-box .vagoneta { width: 84px; height: auto; flex-shrink: 0; display: block; margin-top: 2px; }
 .intro-box strong { color: var(--epi); }
 
@@ -486,6 +492,16 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
 </div>
 
 <main>
+
+<div class="rubrica-box">
+  <div class="rubrica-t">Rubrica de avalia&ccedil;&atilde;o</div>
+  <table>
+    <tr><td>Quest&otilde;es</td><td>5 quest&otilde;es objetivas &mdash; uma por etapa da pr&aacute;tica</td></tr>
+    <tr><td>Pontua&ccedil;&atilde;o</td><td>1,0 ponto por quest&atilde;o &middot; total <strong>5,0 pontos</strong> &middot; vale nota</td></tr>
+    <tr><td>Corre&ccedil;&atilde;o</td><td>autom&aacute;tica, exibida no envio &mdash; acertos, erros e justificativas</td></tr>
+    <tr><td>Tentativa</td><td>&uacute;nica &middot; consulta permitida ao Roteiro de Bancada (RB) preenchido</td></tr>
+  </table>
+</div>
 
 <div class="id-box" id="identificacao">
   <div class="campo full"><label for="nome">Nome completo</label><input type="text" id="nome" data-campo="nome" placeholder="Seu nome completo" autocomplete="off"></div>
@@ -903,7 +919,7 @@ window.OA_COLETA = {
    Sem COLETA_URL, tudo abaixo vira no-op e o OA funciona offline.
    ============================================================ */
 var COLETA_URL = (typeof window !== 'undefined' && window.COLETA && window.COLETA.url) || '';
-var ARQUIVO_FONTE = 'FE-T0A-PR-v2-estudante.html';
+var ARQUIVO_FONTE = 'FE-T0A-PR-v3-estudante.html';
 var coletaEnviando = false;
 var coletaComprovante = null;
 
