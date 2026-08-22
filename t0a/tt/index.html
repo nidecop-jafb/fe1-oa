@@ -984,12 +984,6 @@ document.addEventListener('click', function(e) {
 .aba-site-painel h3 { font-family: 'Courier New', monospace; font-size: .8rem; text-transform: uppercase; letter-spacing: 2px; color: #E07B39; border-bottom: 1px solid #444; padding-bottom: 8px; margin: 0 0 14px; }
 .aba-site-painel a.aba-site-btn { display: block; margin: 10px 0; padding: 11px 14px; border: 1px solid #444; color: #e8e8e8; text-decoration: none; font-family: 'Courier New', monospace; font-size: .85rem; }
 .aba-site-painel a.aba-site-btn:hover { border-color: #E07B39; color: #E07B39; }
-/* TT: abre espaco no topo do trilho e oculta a aba Figuras (decisao 2026-08-08) */
-.musica-toggle { top: 128px !important; }
-.ineditismo-toggle { top: 210px !important; }
-.toc-toggle { top: 330px !important; }
-.creditos-toggle { top: 418px !important; }
-.figuras-toggle, .figuras-sidebar { display: none !important; }
 /* Celular: a aba fica sobre o conteudo, porque em tela estreita o texto ocupa
    a largura toda e o trilho e `position: fixed` na borda esquerda. Abrir uma
    faixa no body empurra TUDO para a direita — vale para a aba Site e para o
@@ -1013,7 +1007,7 @@ document.addEventListener('click', function(e) {
 (function () {
   var t = document.getElementById('abaSiteToggle');
   var p = document.getElementById('abaSitePainel');
-  var outras = '.musica-sidebar,.ineditismo-sidebar,.toc-sidebar,.creditos-sidebar,.figuras-sidebar';
+  var outras = '.metodo-sidebar,.musica-sidebar,.ineditismo-sidebar,.toc-sidebar,.projeto-sidebar,.creditos-sidebar,.figuras-sidebar';
   t.addEventListener('click', function () {
     p.classList.toggle('open');
     document.querySelectorAll(outras).forEach(function (s) { s.classList.remove('open'); });
