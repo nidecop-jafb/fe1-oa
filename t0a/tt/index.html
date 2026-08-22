@@ -50,14 +50,14 @@ body { font-family: var(--font); background: oklch(0.12 0.02 260); color: var(--
 
 .capa { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 20px; background: linear-gradient(180deg, oklch(0.14 0.03 45) 0%, oklch(0.12 0.02 260) 100%); }
 .capa-disciplina { font-size: 2.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; color: var(--azul); margin-bottom: 6px; }
-.capa-curso { font-size: 2rem; text-transform: uppercase; letter-spacing: 2px; color: var(--cinza); margin-bottom: 24px; }
+.capa-curso { font-size: 1.15rem; letter-spacing: 1.5px; color: var(--cinza); margin-bottom: 24px; max-width: 680px; margin-left: auto; margin-right: auto; }
 .capa-img { max-width: 100%; margin: 0 auto 28px; border: 1px solid var(--cinza-borda); }
 .capa-img img { max-width: 100%; height: auto; display: block; }
 .capa-trilha { font-size: 1.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--ouro); margin-bottom: 8px; }
 .capa-titulo { font-family: var(--serif); font-size: 2.2rem; font-weight: 400; font-style: italic; line-height: 1.25; color: var(--branco); margin-bottom: 28px; max-width: 540px; }
 .capa-autores { font-size: 1rem; color: var(--cinza); }
 .capa-autores strong { color: var(--texto); }
-.capa-inst { font-size: .9rem; color: var(--cinza-borda); margin-top: 20px; letter-spacing: 1px; }
+.capa-inst { font-size: .8rem; color: var(--cinza-borda); margin-top: 20px; letter-spacing: .5px; line-height: 1.5; max-width: 720px; margin-left: auto; margin-right: auto; }
 .capa-scroll { margin-top: 40px; font-size: .75rem; color: var(--cinza-borda); animation: pulse 2s infinite; }
 @keyframes pulse { 0%,100% { opacity: .4; } 50% { opacity: 1; } }
 
@@ -517,18 +517,19 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
 <button class="figuras-toggle" id="figurasToggle">Figuras</button>
 <aside class="figuras-sidebar" id="figurasSidebar">
   <div class="figuras-titulo">Índice de figuras</div>
-  <a href="#fig-1"><p><span class="figura-num">IT-11</span> &mdash; O laboratório vazio como partitura em branco.</p></a>
-  <a href="#fig-2"><p><span class="figura-num">IT-01</span> &mdash; Três jovens de costas para o mundo, de frente para a descoberta.</p></a>
-  <a href="#fig-3"><p><span class="figura-num">IT-03</span> &mdash; A primeira lição como pincelada inaugural.</p></a>
-  <a href="#fig-4"><p><span class="figura-num">IT-00</span> &mdash; Pavilhões de Física e Química.</p></a>
-  <a href="#fig-5"><p><span class="figura-num">IT-02</span> &mdash; Bancadas, balanças e a roda de bicicleta no alto.</p></a>
-  <a href="#fig-6"><p><span class="figura-num">IT-04</span> &mdash; Quatro réguas lado a lado na parede.</p></a>
-  <a href="#fig-7"><p><span class="figura-num">IT-05</span> &mdash; Paralaxe: o olho em ângulo muda a leitura.</p></a>
-  <a href="#fig-8"><p><span class="figura-num">IT-06</span> &mdash; Caderno de Laboratório com média e incerteza.</p></a>
-  <a href="#fig-9"><p><span class="figura-num">IT-09</span> &mdash; Protocolo C5: os oito passos da modelagem.</p></a>
-  <a href="#fig-10"><p><span class="figura-num">IT-07</span> &mdash; Cartaz de normas afixado no laboratório.</p></a>
-  <a href="#fig-11"><p><span class="figura-num">IT-08</span> &mdash; Os três protagonistas cruzando a porta ao fim da aula.</p></a>
-  <a href="#fig-12"><p><span class="figura-num">IT-10</span> &mdash; O Homem Vitruviano: o corpo como instrumento de medida.</p></a>
+  <a href="#fig-1"><p><span class="figura-num">Fig. 01</span> &mdash; Réguas em V sobre o Caderno de Laboratório: o brasão da trilha.</p></a>
+  <a href="#fig-2"><p><span class="figura-num">Fig. 02</span> &mdash; O Prof. Júlio apresenta a prática do dia.</p></a>
+  <a href="#fig-4"><p><span class="figura-num">Fig. 03</span> &mdash; Pavilhões de Física e Química.</p></a>
+  <a href="#fig-5"><p><span class="figura-num">Fig. 04</span> &mdash; A primeira medição real: esquadro, parede e caderno.</p></a>
+  <a href="#fig-6"><p><span class="figura-num">Fig. 05</span> &mdash; Quatro réguas lado a lado na parede.</p></a>
+  <a href="#fig-7"><p><span class="figura-num">Fig. 06</span> &mdash; Fontes de erro: postura, paralaxe, escala e instrumento.</p></a>
+  <a href="#fig-7b"><p><span class="figura-num">Fig. 07</span> &mdash; Quatro medidas e uma faixa: média ± incerteza.</p></a>
+  <a href="#fig-8"><p><span class="figura-num">Fig. 08</span> &mdash; Caderno de Laboratório com média e incerteza.</p></a>
+  <a href="#fig-9"><p><span class="figura-num">Fig. 09</span> &mdash; Protocolo C5: os oito passos da modelagem.</p></a>
+  <a href="#fig-10"><p><span class="figura-num">Fig. 10</span> &mdash; Cartaz de normas afixado pelos três protagonistas.</p></a>
+  <a href="#fig-11"><p><span class="figura-num">Fig. 11</span> &mdash; Os três protagonistas cruzando a porta ao fim da aula.</p></a>
+  <a href="#fig-11b"><p><span class="figura-num">Fig. 12</span> &mdash; O laboratório devolvido como foi encontrado.</p></a>
+  <a href="#fig-12"><p><span class="figura-num">Fig. 13</span> &mdash; O Homem Vitruviano: o corpo como instrumento de medida.</p></a>
 </aside>
 
 
@@ -556,25 +557,25 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
           <line x1="90" y1="110" x2="90" y2="104"/>
         </g>
       </svg></div>
-  <div class="capa-disciplina">Física Experimental 1</div>
-  <div class="capa-curso">Técnico em Mineração Integrado ao Ensino Médio</div>
+  <div class="capa-disciplina">Física Aplicada à Mineração</div>
+  <div class="capa-curso">Física Experimental 1 - Curso Técnico em Mineração Integrado ao Ensino Médio</div>
   <div class="capa-img"><img src="../_imagens/_web/FE-T0A-IT-00-v6.jpg" alt="Pavilhão de Física — Lab de Mecânica"></div>
   <div class="capa-trilha">Trilha de Aprendizagem T0A</div>
   <div class="capa-titulo">Medir antes de afirmar</div>
   <div class="capa-autores"><strong>Júlio Azevedo</strong> &middot; colaboração de <strong>Felipe Beato</strong></div>
-  <div class="capa-inst">IFMG — Campus Ouro Preto &middot; 2026</div>
+  <div class="capa-inst">IFMG campus Ouro Preto - Coordenadoria da Área de Física (CODAFIS) - Núcleo de Inovação e Desenvolvimento de Experimentos Científicos (NIDEC) &middot; FE1 &middot; T0A &middot; Primeira edição &middot; 2026</div>
   <div class="capa-scroll">&#x25BC; role para ler</div>
 </div>
 
 <!-- AUDIO HINT -->
 <div class="audio-hint">
-  <strong>Para ter uma nova experiência em leitura</strong>, clique no player abaixo e leia ouvindo música instrumental. Conforme recomenda Piazzi em <em>Aprendendo Inteligência</em>: o áudio instrumental ajuda a concentração sem competir com a leitura.
+  <strong>Para ter uma nova experiência em leitura</strong>, clique em <strong>MÚSICA</strong> para ouvir as músicas instrumentais desta trilha. Pierluigi Piazzi, em <em>Aprendendo Inteligência</em>, explica que o áudio instrumental ajuda a concentração sem competir com a leitura.
 </div>
 
 <div class="conteudo">
 
 <!-- EPIGRAFE -->
-<div class="fig" id="fig-1"><img style="border:none" src="../_imagens/_web/FE-T0A-IT-11-v6.png" alt="IT-11 — Limiar do conhecimento"><div class="fig-caption">IT-11 — O laboratório vazio como partitura em branco, à espera das primeiras notas da ciência.</div></div>
+<div class="fig" id="fig-1"><img src="../_imagens/_web/FE-T0A-IT-01-v6.jpg" alt="Fig. 01 — Símbolo da trilha"><div class="fig-caption">Fig. 01 — Duas réguas em V sobre o Caderno de Laboratório: medir e registrar, o brasão desta trilha.</div></div>
 
 <div class="epigrafe" id="epigrafe">
   <blockquote>"Quando se pode medir aquilo de que se fala, e exprimi-lo em números, sabe-se algo sobre ele; mas quando não se pode medi-lo, quando não se pode exprimi-lo em números, o conhecimento é escasso e insatisfatório."</blockquote>
@@ -587,7 +588,7 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
   <div class="ato-titulo">Ato I — O Gancho</div>
   <div class="ato-subtitulo">A chegada ao Laboratório de Mecânica</div>
 
-  <div class="fig" id="fig-2"><img src="../_imagens/_web/FE-T0A-IT-01-v6.jpg" alt="IT-01 — Início da jornada"><div class="fig-caption">IT-01 — Três jovens de costas para o mundo, de frente para a descoberta.</div></div>
+  <div class="fig" id="fig-2"><img src="../_imagens/_web/FE-T0A-IT-02-v7.jpg" alt="Fig. 02 — O encontro que abre a sessão"><div class="fig-caption">Fig. 02 — O Prof. Júlio apresenta a prática do dia: três jovens de costas para o mundo, de frente para a descoberta.</div></div>
 
   <p>A luz da manhã de março em Ouro Preto atingia a fachada dos Pavilhões de Física e Química antes de Sofia, Pedro e Lucas alcançarem a porta da entrada do Pavilhão de Física. Eram quase sete horas. Para eles, dar alguns passos à frente seria simples — mas carrega o peso de uma travessia: do lado de fora, o mundo das opiniões; do lado de dentro, o laboratório onde toda opinião vira hipótese e toda hipótese exige número.</p>
 
@@ -609,8 +610,6 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
 
   <p>A porta do Laboratório de Mecânica já estava aberta. Bancadas brancas alinhadas, balanças mecânicas distribuídas, uma roda de bicicleta pendurada no teto, e — a coisa que mais chamou a atenção de Sofia — <span class="termo">três escalas de altura na parede</span>, todas marcadas à mão, com uma fita métrica colada ao lado delas.</p>
 
-  <div class="fig" id="fig-3"><img src="../_imagens/_web/FE-T0A-IT-03-v6.jpg" alt="IT-03 — A primeira lição"><div class="fig-caption">IT-03 — A primeira lição como pincelada inaugural, o gesto que transforma silêncio em método.</div></div>
-
   <p>Pedro estranhou: — <span class="citacao">Cadê os cartazes de segurança, professor? Na britagem da Vale tem uns vinte na entrada.</span></p>
 
   <p>— Não tem. — O Prof. Júlio sorriu. — <span class="termo">Vocês vão escrever hoje. Essa é parte da aula.</span></p>
@@ -618,7 +617,7 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
   <div class="explore">
     <div class="explore-titulo">Explore — IFMG Campus Ouro Preto, Pavilhão de Física</div>
     <p>As construções retangulares dos Pavilhões de Física e Química, inaugurados em 1982, completam 44 anos de existência. Milhares de pessoas passaram pelos laboratórios desses dois pavilhões que representam a ponte entre o pensamento de Gorceix que carrega 150 anos de tradição em "medir antes de afirmar" e a ciência que você poderá aprender.</p>
-    <div class="fig" id="fig-4" style="margin-top:12px;"><img src="../_imagens/_web/FE-T0A-IT-00-v6.jpg" alt="IT-00 — Pavilhão de Física"><div class="fig-caption">IT-00 — Pavilhões de Física e Química — a ponte entre a tradição gorceixiana e a ciência que você começa hoje.</div></div>
+    <div class="fig" id="fig-4" style="margin-top:12px;"><img src="../_imagens/_web/FE-T0A-IT-00-v6.jpg" alt="Fig. 03 — Pavilhão de Física"><div class="fig-caption">Fig. 03 — Pavilhões de Física e Química — a ponte entre a tradição gorceixiana e a ciência que você começa hoje.</div></div>
     <p style="margin-top:8px;"><a href="https://maps.app.goo.gl/FJvMDyaXYF1iRzU7A" target="_blank">Abrir no Google Maps</a></p>
   </div>
 </div>
@@ -632,7 +631,7 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
 
   <p>Passar pela porta do Laboratório de Mecânica foi o gancho — agora começa o trabalho. Os cinco tópicos que seguem formam o alicerce sobre o qual todas as 16 trilhas seguintes vão se apoiar: cada conceito medido, cada incerteza declarada, cada linha do Caderno de Laboratório nasce aqui, nesta primeira manhã.</p>
 
-  <div class="fig" id="fig-5"><img src="../_imagens/_web/FE-T0A-IT-02-v6.jpg" alt="IT-02 — Bancadas do Lab"><div class="fig-caption">IT-02 — Bancadas, balanças e a roda de bicicleta no alto — três jovens de costas contemplam o laboratório que ainda não conhecem.</div></div>
+  <div class="fig" id="fig-5"><img src="../_imagens/_web/FE-T0A-IT-05-v7.jpg" alt="Fig. 04 — Estudantes medindo"><div class="fig-caption">Fig. 04 — A primeira medição real da disciplina: Pedro junto à parede de medição, Sofia alinhando o esquadro, Lucas registrando no Caderno de Laboratório.</div></div>
 
   <p>A Física Experimental é uma matéria diferente da Física Conceitual: aqui você não <strong>aprende</strong> o conceito — você <strong>mede</strong> o conceito. Mas para medir bem, precisa antes entender cinco coisas.</p>
 
@@ -671,7 +670,7 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
   <div class="topico" id="topico-2">
     <div class="topico-titulo">Tópico 2 — Escala e Algarismos Significativos</div>
 
-    <div class="fig" id="fig-6"><img src="../_imagens/_web/FE-T0A-IT-04-v6.jpg" alt="IT-04 — Quatro réguas na parede"><div class="fig-caption">IT-04 — Quatro réguas lado a lado na parede do laboratório — escalas diferentes, traços mais grossos ou mais finos.</div></div>
+    <div class="fig" id="fig-6"><img src="../_imagens/_web/FE-T0A-IT-04-v7.jpg" alt="Fig. 05 — Quatro réguas na parede"><div class="fig-caption">Fig. 05 — Quatro réguas lado a lado na parede do laboratório — escalas diferentes, traços mais grossos ou mais finos.</div></div>
 
     <p>Quatro réguas lado a lado na parede do laboratório — escalas diferentes, traços mais grossos ou mais finos, limites de leitura distintos. Nenhum instrumento diz mais do que foi projetado para dizer.</p>
 
@@ -712,7 +711,7 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
   <div class="topico" id="topico-3">
     <div class="topico-titulo">Tópico 3 — Incerteza: o erro que toda medida carrega</div>
 
-    <div class="fig" id="fig-7"><img src="../_imagens/_web/FE-T0A-IT-05-v6.jpg" alt="IT-05 — Paralaxe"><div class="fig-caption">IT-05 — Olho posicionado em ângulo diante da escala — a paralaxe muda a leitura.</div></div>
+    <div class="fig" id="fig-7"><img src="../_imagens/_web/FE-T0A-IT-08-v7.jpg" alt="Fig. 06 — Fontes de erro"><div class="fig-caption">Fig. 06 — As quatro fontes de erro da medição — postura, paralaxe, escala e instrumento: olhar a escala em ângulo muda a leitura.</div></div>
 
     <p>Olhe uma régua de uma posição e obterá uma medida; olhe de outra posição e poderá obter outro resultado. A paralaxe é o lembrete visual: toda medida depende de quem mede e de <em>onde</em> mede. A incerteza não é fraqueza do instrumento: <span class="termo">é honestidade do cientista</span>.</p>
 
@@ -734,13 +733,15 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
     <div class="equacao">&delta;h = (h<sub>max</sub> &minus; h<sub>min</sub>) / 2</div>
 
     <p><strong>Exemplo:</strong> Se você medir a altura de Sofia em 4 réguas e obtiver 1,67 / 1,68 / 1,68 / 1,69 m, a incerteza experimental será &delta;h = (1,69 &minus; 1,67)/2 = <span class="termo">0,01 m</span>. A altura final fica registrada como <span class="termo">(1,68 ± 0,01) m</span>.</p>
+
+    <div class="fig" id="fig-7b"><img src="../_imagens/_web/FE-T0A-IT-07-v8.jpg" alt="Fig. 07 — Gráfico das quatro medidas"><div class="fig-caption">Fig. 07 — Quatro medidas e uma faixa: a resposta honesta é um intervalo, não um número exato.</div></div>
   </div>
 
   <!-- TOPICO 4 -->
   <div class="topico" id="topico-4">
     <div class="topico-titulo">Tópico 4 — Caderno de Laboratório: o registro como parte do método</div>
 
-    <div class="fig" id="fig-8"><img src="../_imagens/_web/FE-T0A-IT-06-v6.jpg" alt="IT-06 — Caderno de Laboratório"><div class="fig-caption">IT-06 — Caderno aberto sobre a bancada com medidas anotadas, média calculada e incerteza declarada.</div></div>
+    <div class="fig" id="fig-8"><img src="../_imagens/_web/FE-T0A-IT-06-v6.jpg" alt="Fig. 08 — Caderno de Laboratório"><div class="fig-caption">Fig. 08 — Caderno aberto sobre a bancada com medidas anotadas, média calculada e incerteza declarada.</div></div>
 
     <p>Um caderno aberto sobre a bancada — quatro medidas anotadas, uma média calculada, uma incerteza declarada. Parece pouco: apenas números e linhas. Mas ali está contido o universo inteiro de uma medição bem feita. O Caderno de Laboratório é onde a ciência ganha memória.</p>
 
@@ -756,7 +757,7 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
 
     <p><strong>O método: o protocolo de iniciação científica.</strong> O método que iremos usar em Física Experimental 1 tem oito passos — o <span class="termo">Protocolo C5</span>.</p>
 
-    <div class="fig" id="fig-9"><img src="../_imagens/_web/FE-T0A-IT-09-v6.jpg" alt="IT-09 — Diagrama C5"><div class="fig-caption">IT-09 — Protocolo C5: os oito passos da modelagem científica conectados em sequência.</div></div>
+    <div class="fig" id="fig-9"><img style="border:none" src="../_imagens/_web/FE-T0A-IT-11-v7.png" alt="Fig. 09 — Diagrama C5"><div class="fig-caption">Fig. 09 — Protocolo C5: os oito passos da modelagem científica conectados em sequência.</div></div>
 
     <div class="c5-passos">
       <div class="passo"><span class="passo-num">1</span><span class="passo-texto">O que está sendo pedido?</span></div>
@@ -786,7 +787,7 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
   <div class="topico" id="topico-5">
     <div class="topico-titulo">Tópico 5 — Segurança e NR-22: a inovação da T0A</div>
 
-    <div class="fig" id="fig-10"><img src="../_imagens/_web/FE-T0A-IT-07-v6.jpg" alt="IT-07 — Cartaz de normas"><div class="fig-caption">IT-07 — Cartaz de normas sendo afixado na parede do laboratório pelos estudantes.</div></div>
+    <div class="fig" id="fig-10"><img src="../_imagens/_web/FE-T0A-IT-03-v7.jpg" alt="Fig. 10 — Cartaz de normas"><div class="fig-caption">Fig. 10 — Sofia, Pedro e Lucas afixando na parede do laboratório o cartaz de normas que eles mesmos escreveram.</div></div>
 
     <p>Fixar regras na parede — é um gesto quase burocrático, mas carrega o peso de um pacto. Quando Sofia, Pedro e Lucas propõem as normas do Laboratório de Mecânica, não estão obedecendo a uma ordem: <span class="termo">estão fundando uma tradição</span>.</p>
 
@@ -820,7 +821,7 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
   <div class="ato-titulo">Ato III — O Fechamento</div>
   <div class="ato-subtitulo">Quem cruza a porta agora sabe medir antes de afirmar</div>
 
-  <div class="fig" id="fig-11"><img src="../_imagens/_web/FE-T0A-IT-08-v6.jpg" alt="IT-08 — Trio saindo do laboratório"><div class="fig-caption">IT-08 — Os três protagonistas de costas, cruzando a porta do laboratório ao fim da aula.</div></div>
+  <div class="fig" id="fig-11"><img src="../_imagens/_web/FE-T0A-IT-10-v6.jpg" alt="Fig. 11 — Trio saindo do laboratório"><div class="fig-caption">Fig. 11 — Os três protagonistas de costas, cruzando a porta do laboratório ao fim da aula.</div></div>
 
   <p>O mesmo corredor, a mesma porta — mas quem sai não é quem entrou. Cadernos preenchidos sob o braço, o cartaz de regras já afixado na parede ao fundo. A manhã que começou com uma pergunta — <span class="citacao">"quanto você mede?"</span> — termina com uma resposta que inclui incerteza.</p>
 
@@ -836,6 +837,8 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
     <div class="passo"><span class="passo-num">2</span><span class="passo-texto">Tragam o Caderno de Laboratório, régua escolar, calculadora e celular.</span></div>
     <div class="passo"><span class="passo-num">3</span><span class="passo-texto">Lembrem-se da frase do Lord Kelvin: <strong>sem número, não tem ciência. E sem incerteza, não tem número.</strong></span></div>
   </div>
+
+  <div class="fig" id="fig-11b"><img src="../_imagens/_web/FE-T0A-IT-09-v7.jpg" alt="Fig. 12 — Laboratório organizado ao fim da aula"><div class="fig-caption">Fig. 12 — O laboratório devolvido como foi encontrado: a organização é a última etapa do experimento.</div></div>
 </div>
 
 <div class="separador"></div>
@@ -846,7 +849,7 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
   <div class="ca-autor">— Leonardo da Vinci (1452–1519)</div>
   <div class="ca-obra">Desenho: O Homem Vitruviano (c. 1490)</div>
 
-  <div class="fig" id="fig-12"><img src="../_imagens/_web/FE-T0A-IT-10-v6.jpg" alt="IT-10 — Homem Vitruviano"><div class="fig-caption">IT-10 — O Homem Vitruviano de Leonardo da Vinci: o corpo humano como primeiro instrumento de medida.</div></div>
+  <div class="fig" id="fig-12"><img src="../_imagens/_web/FE-T0A-IT-12-v6.jpg" alt="Fig. 13 — Homem Vitruviano"><div class="fig-caption">Fig. 13 — O Homem Vitruviano de Leonardo da Vinci: o corpo humano como primeiro instrumento de medida.</div></div>
 
   <div class="ca-desc">A pena e tinta marrom de Leonardo representa um homem com braços e pernas estendidos, inscrito num círculo e num quadrado. O desenho ilustra o <em>De Architectura</em> de Vitrúvio (séc. I a.C.): "as proporções do corpo humano são a referência natural para todas as outras medidas". Leonardo testou isso medindo contemporâneos com régua e compasso — o que Sofia, Pedro e Lucas fizeram no Lab de Mecânica. O corpo humano é a primeira régua portátil da humanidade.</div>
 
