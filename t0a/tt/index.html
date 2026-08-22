@@ -116,10 +116,6 @@ p .citacao { font-style: italic; color: var(--azul-claro); }
 .fig img { max-width: 100%; height: auto; border: 1px solid var(--cinza-borda); display: block; margin: 0 auto; }
 .fig-caption { font-size: 1rem; color: var(--cinza); margin-top: 8px; font-style: italic; max-width: 520px; margin-left: auto; margin-right: auto; }
 
-.btn-yt { display: inline-flex; align-items: center; gap: 8px; background: oklch(0.2 0.12 25); color: var(--branco); padding: 10px 20px; font-family: var(--font); font-size: .9rem; font-weight: 600; text-decoration: none; border: none; cursor: pointer; transition: background .15s; margin: 12px 0; }
-.btn-yt:hover { background: oklch(0.28 0.15 25); }
-.btn-yt .yt-icon { width: 20px; height: 14px; background: oklch(0.55 0.22 25); border-radius: 3px; display: flex; align-items: center; justify-content: center; }
-.btn-yt .yt-icon::after { content: ''; width: 0; height: 0; border-left: 6px solid white; border-top: 4px solid transparent; border-bottom: 4px solid transparent; }
 
 .ciencia-arte { padding: 40px 0; border-top: 2px solid var(--ouro-claro); margin-top: 40px; text-align: center; }
 .ciencia-arte blockquote { font-family: var(--serif); font-style: italic; font-size: 1.2rem; color: oklch(0.78 0 0); max-width: 480px; margin: 0 auto 12px; }
@@ -136,20 +132,6 @@ p .citacao { font-style: italic; color: var(--azul-claro); }
 .ineditismo { padding: 32px 0; border-top: 1px solid var(--cinza-borda); margin-top: 32px; }
 .ineditismo p { font-size: 1rem; color: oklch(0.7 0 0); line-height: 1.7; margin-bottom: 12px; }
 
-/* PLAYER */
-.player { position: fixed; bottom: 0; left: 0; width: 100%; background: oklch(0.14 0.02 260); border-top: 1px solid var(--cinza-borda); padding: 10px 20px; z-index: 200; display: flex; align-items: center; gap: 12px; }
-.player-btn { background: none; border: 2px solid var(--ouro); color: var(--ouro); width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: background .15s; flex-shrink: 0; }
-.player-btn:hover { background: var(--ouro-claro); }
-.player-btn.tocando { background: var(--ouro); color: oklch(0.14 0 0); }
-.player-info { flex: 1; min-width: 0; }
-.player-titulo { font-size: .72rem; font-weight: 600; color: var(--ouro); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.player-sub { font-size: .6rem; color: var(--cinza); }
-.player-vol { display: flex; align-items: center; gap: 6px; }
-.player-vol label { font-size: .6rem; color: var(--cinza); }
-.player-vol input[type="range"] { width: 70px; accent-color: var(--ouro); }
-.player-load { background: none; border: 1px solid var(--cinza-borda); color: var(--cinza); padding: 4px 10px; cursor: pointer; font-size: .6rem; font-family: var(--font); border-radius: 0; flex-shrink: 0; }
-.player-load:hover { color: var(--texto); border-color: var(--texto); }
-.player input[type="file"] { display: none; }
 
 
 /* ==== CHROME PADRAO DO TT DIGITAL (portado do T08-TT-v1-digital.html) ==== */
@@ -187,8 +169,6 @@ p .citacao { font-style: italic; color: var(--azul-claro); }
 [data-theme="light"] .ciencia-arte blockquote { color: oklch(0.35 0 0); }
 [data-theme="light"] .ciencia-arte .ca-desc { color: oklch(0.35 0 0); }
 [data-theme="light"] .ineditismo p { color: oklch(0.40 0 0); }
-[data-theme="light"] .player { background: oklch(0.96 0.01 260); }
-[data-theme="light"] .player-btn.tocando { color: oklch(0.98 0 0); }
 
 /* TOOLBAR (fonte + tema) */
 .toolbar {
@@ -204,41 +184,41 @@ p .citacao { font-style: italic; color: var(--azul-claro); }
 .toolbar button:hover { color: var(--texto); border-color: var(--texto); }
 .toolbar button.active { color: var(--ouro); border-color: var(--ouro); }
 
-/* TOC SIDEBAR */
-.toc-toggle {
-  position: fixed; top: 275px; left: 0; z-index: 998;
+/* CREDITOS */
+.projeto-toggle {
+  position: fixed; top: 475px; left: 0; z-index: 998;
   background: var(--superficie); border: 1px solid var(--cinza-borda); border-left: none;
   color: var(--cinza); font-size: 0.7rem; padding: 8px 10px; cursor: pointer;
   font-family: var(--font); writing-mode: vertical-rl; text-orientation: mixed;
   letter-spacing: 1px; text-transform: uppercase; border-radius: 0;
   transition: color 0.15s;
 }
-.toc-toggle:hover { color: var(--ouro); }
-.toc-sidebar {
-  position: fixed; top: 60px; left: 0; z-index: 997;
-  width: 280px; max-height: calc(100vh - 80px); overflow-y: auto;
+.projeto-toggle:hover { color: var(--ouro); }
+.projeto-sidebar {
+  position: fixed; top: 0; left: 0; z-index: 996;
+  width: 340px; height: 100vh; overflow-y: auto;
   background: var(--superficie); border-right: 1px solid var(--cinza-borda);
-  padding: 20px 16px 20px 40px; transform: translateX(-100%); transition: transform 0.25s;
+  padding: 24px 20px 24px 40px; transform: translateX(-100%); transition: transform 0.25s;
+  font-family: var(--font); font-size: 0.95rem; line-height: 1.7;
+  color: var(--texto);
 }
-.toc-sidebar.open { transform: translateX(0); }
-.toc-sidebar h3 {
-  font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px;
-  color: var(--cinza); margin-bottom: 12px;
+.projeto-sidebar.open { transform: translateX(0); }
+.projeto-sidebar .projeto-titulo {
+  font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 2px; color: var(--ouro); margin-bottom: 16px;
+  border-bottom: 1px solid var(--cinza-borda); padding-bottom: 8px;
 }
-.toc-sidebar a {
-  display: block; padding: 6px 0; font-size: 0.85rem; color: oklch(0.75 0 0);
-  text-decoration: none; border-bottom: 1px solid oklch(0.22 0.02 260);
-  transition: color 0.15s;
+.projeto-sidebar p { font-size: 0.95rem; color: oklch(0.65 0 0); line-height: 1.7; margin-bottom: 10px; }
+[data-theme="light"] .projeto-sidebar p { color: oklch(0.40 0 0); }
+.projeto-sidebar .projeto-link {
+  display: inline-block; margin-top: 8px; padding: 8px 14px;
+  background: var(--ouro); color: oklch(0.12 0 0); font-weight: 700;
+  font-size: 0.8rem; text-decoration: none; letter-spacing: 0.5px;
 }
-[data-theme="light"] .toc-sidebar a { color: oklch(0.35 0 0); border-bottom-color: oklch(0.90 0.02 260); }
-.toc-sidebar a:hover { color: var(--ouro); }
-.toc-sidebar a.toc-ato { font-weight: 700; color: var(--azul); font-size: 0.9rem; }
-.toc-sidebar a.toc-topico { padding-left: 16px; font-size: 0.8rem; }
-.toc-sidebar a.toc-extra { font-style: italic; color: var(--cinza); font-size: 0.8rem; }
+.projeto-sidebar .projeto-link:hover { opacity: 0.85; }
 
-/* CREDITOS */
 .creditos-toggle {
-  position: fixed; top: 365px; left: 0; z-index: 998;
+  position: fixed; top: 585px; left: 0; z-index: 998;
   background: var(--superficie); border: 1px solid var(--cinza-borda); border-left: none;
   color: var(--cinza); font-size: 0.7rem; padding: 8px 10px; cursor: pointer;
   font-family: var(--font); writing-mode: vertical-rl; text-orientation: mixed;
@@ -266,8 +246,40 @@ p .citacao { font-style: italic; color: var(--azul-claro); }
 .creditos-nome { margin-bottom: 0; }
 
 /* MUSICA */
+.metodo-toggle {
+  position: fixed; top: 132px; left: 0; z-index: 998;
+  background: var(--superficie); border: 1px solid var(--cinza-borda); border-left: none;
+  color: var(--cinza); font-size: 0.7rem; padding: 8px 10px; cursor: pointer;
+  font-family: var(--font); writing-mode: vertical-rl; text-orientation: mixed;
+  letter-spacing: 1px; text-transform: uppercase; border-radius: 0;
+  transition: color 0.15s;
+}
+.metodo-toggle:hover { color: var(--ouro); }
+.metodo-sidebar {
+  position: fixed; top: 0; left: 0; z-index: 996;
+  width: 340px; height: 100vh; overflow-y: auto;
+  background: var(--superficie); border-right: 1px solid var(--cinza-borda);
+  padding: 24px 20px 24px 40px; transform: translateX(-100%); transition: transform 0.25s;
+  font-family: var(--font); font-size: 0.9rem; line-height: 1.6;
+  color: var(--texto);
+}
+.metodo-sidebar.open { transform: translateX(0); }
+.metodo-sidebar .metodo-titulo {
+  font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 2px; color: var(--ouro); margin-bottom: 12px;
+  border-bottom: 1px solid var(--cinza-borda); padding-bottom: 8px;
+}
+.metodo-sidebar .metodo-parada { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--azul); margin: 16px 0 4px; }
+.metodo-sidebar .metodo-quando { font-size: 0.78rem; font-style: italic; color: var(--cinza); margin-bottom: 8px; }
+.metodo-sidebar ol { margin: 0 0 8px 20px; padding: 0; }
+.metodo-sidebar ol li { margin-bottom: 6px; font-size: 0.85rem; }
+.metodo-sidebar .metodo-tag { display: block; font-size: 0.72rem; color: var(--cinza); }
+.metodo-sidebar .metodo-apoio { font-size: 0.8rem; color: var(--cinza); margin-bottom: 4px; }
+.metodo-sidebar .metodo-regra { margin-top: 16px; padding: 10px 12px; border-left: 3px solid var(--azul); background: var(--azul-bg); font-size: 0.82rem; line-height: 1.6; }
+.metodo-sidebar .metodo-regra strong { color: var(--azul-claro); }
+
 .musica-toggle {
-  position: fixed; top: 60px; left: 0; z-index: 998;
+  position: fixed; top: 231px; left: 0; z-index: 998;
   background: var(--superficie); border: 1px solid var(--cinza-borda); border-left: none;
   color: var(--cinza); font-size: 0.7rem; padding: 8px 10px; cursor: pointer;
   font-family: var(--font); writing-mode: vertical-rl; text-orientation: mixed;
@@ -303,7 +315,7 @@ p .citacao { font-style: italic; color: var(--azul-claro); }
 
 /* INEDITISMO */
 .ineditismo-toggle {
-  position: fixed; top: 145px; left: 0; z-index: 998;
+  position: fixed; top: 330px; left: 0; z-index: 998;
   background: var(--superficie); border: 1px solid var(--cinza-borda); border-left: none;
   color: var(--cinza); font-size: 0.7rem; padding: 8px 10px; cursor: pointer;
   font-family: var(--font); writing-mode: vertical-rl; text-orientation: mixed;
@@ -328,35 +340,6 @@ p .citacao { font-style: italic; color: var(--azul-claro); }
 .ineditismo-sidebar p { font-size: 0.95rem; color: oklch(0.65 0 0); line-height: 1.7; margin-bottom: 10px; }
 [data-theme="light"] .ineditismo-sidebar p { color: oklch(0.40 0 0); }
 
-/* FIGURAS */
-.figuras-toggle {
-  position: fixed; top: 460px; left: 0; z-index: 998;
-  background: var(--superficie); border: 1px solid var(--cinza-borda); border-left: none;
-  color: var(--cinza); font-size: 0.7rem; padding: 8px 10px; cursor: pointer;
-  font-family: var(--font); writing-mode: vertical-rl; text-orientation: mixed;
-  letter-spacing: 1px; text-transform: uppercase; border-radius: 0;
-  transition: color 0.15s;
-}
-.figuras-toggle:hover { color: var(--ouro); }
-.figuras-sidebar {
-  position: fixed; top: 0; left: 0; z-index: 996;
-  width: 380px; height: 100vh; overflow-y: auto;
-  background: var(--superficie); border-right: 1px solid var(--cinza-borda);
-  padding: 24px 20px 24px 40px; transform: translateX(-100%); transition: transform 0.25s;
-  font-family: var(--font); font-size: 0.88rem; line-height: 1.7;
-  color: var(--texto);
-}
-.figuras-sidebar.open { transform: translateX(0); }
-.figuras-sidebar .figuras-titulo {
-  font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 2px; color: var(--ouro); margin-bottom: 16px;
-  border-bottom: 1px solid var(--cinza-borda); padding-bottom: 8px;
-}
-.figuras-sidebar a { text-decoration: none; color: inherit; }
-.figuras-sidebar p { font-size: 0.85rem; color: var(--texto); margin-bottom: 8px; line-height: 1.5; }
-.figuras-sidebar p:hover { color: var(--ouro); }
-.figuras-sidebar .figura-num { color: var(--azul); font-weight: 700; }
-
 @media (max-width: 600px) {
   .capa-disciplina { font-size: 1.2rem; }
   .capa-curso { font-size: .85rem; }
@@ -365,18 +348,16 @@ p .citacao { font-style: italic; color: var(--azul-claro); }
   .capa-img { max-width: 280px; margin: 0 auto; }
   .conteudo { padding: 0 14px 0 46px; }
   .audio-hint { margin-left: 32px; }
-  .toc-toggle, .musica-toggle, .ineditismo-toggle, .creditos-toggle, .figuras-toggle { font-size: 0.6rem; padding: 6px 6px; }
-  .toc-sidebar, .musica-sidebar, .ineditismo-sidebar, .creditos-sidebar, .figuras-sidebar { width: 82vw; }
+  .metodo-toggle, .musica-toggle, .ineditismo-toggle, .projeto-toggle, .creditos-toggle { font-size: 0.6rem; padding: 6px 6px; }
+  .metodo-sidebar, .musica-sidebar, .ineditismo-sidebar, .projeto-sidebar, .creditos-sidebar { width: 82vw; }
   .toolbar { padding: 4px 8px; }
-  .player { padding: 8px 12px; gap: 8px; }
-  .player-vol { display: none; }
 }
 @media print {
   body { background: white !important; color: #1A1A1A !important; padding-bottom: 0 !important; }
-  .player, .progress-top, .capa-scroll, .audio-hint, .toolbar,
-  .toc-toggle, .toc-sidebar, .musica-toggle, .musica-sidebar,
-  .ineditismo-toggle, .ineditismo-sidebar, .creditos-toggle, .creditos-sidebar,
-  .figuras-toggle, .figuras-sidebar { display: none !important; }
+  .progress-top, .capa-scroll, .audio-hint, .toolbar,
+  .metodo-toggle, .metodo-sidebar, .musica-toggle, .musica-sidebar,
+  .ineditismo-toggle, .ineditismo-sidebar, .projeto-toggle, .projeto-sidebar,
+  .creditos-toggle, .creditos-sidebar { display: none !important; }
   .capa { min-height: auto !important; background: none !important; padding: 30px 20px !important; }
   .ato-titulo { border-top-color: #CCC !important; color: #1F3864 !important; }
   .topico-titulo { color: #8B6914 !important; border-bottom-color: #DDD !important; }
@@ -465,7 +446,42 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
   <button id="btnTheme" title="Alternar tema claro/escuro">Tema</button>
 </div>
 
-<!-- ABAS LATERAIS -->
+<!-- ABAS LATERAIS · ordem: Site (injetada na publicação) · Método · Música · Ineditismo · Projeto · Créditos -->
+<button class="metodo-toggle" id="metodoToggle">Método</button>
+<aside class="metodo-sidebar" id="metodoSidebar">
+  <div class="metodo-titulo">Método de Estudo &mdash; FE1</div>
+
+  <div class="metodo-parada">Pré-Lab</div>
+  <div class="metodo-quando">fazer em casa, antes da aula de bancada</div>
+  <ol>
+    <li>Ponto de Partida (PP)<span class="metodo-tag">vale nota &middot; antes do Lab &middot; 10 min</span></li>
+    <li>Resumo em Áudio (MD)<span class="metodo-tag">ouvir &middot; 3 a 5 min</span></li>
+    <li>Texto Temático (TT)<span class="metodo-tag">ler &middot; a prática explicada &middot; você está aqui</span></li>
+    <li>Simulações (SM)<span class="metodo-tag">explorar &middot; errar sem risco antes da bancada</span></li>
+    <li>Testinho (TN)<span class="metodo-tag">vale nota &middot; antes do Lab &middot; 10 min</span></li>
+  </ol>
+  <div class="metodo-apoio"><strong>Apoio</strong> (sem número): Cartões Didáticos (CD) &middot; Mapa Conceitual (MC) &middot; Inventário de Equipamento (IE) &middot; Checklist de Segurança (CS)</div>
+
+  <div class="metodo-parada">Lab</div>
+  <div class="metodo-quando">na bancada, com o professor &middot; 100 min</div>
+  <ol>
+    <li>Roteiro de Bancada (RB)<span class="metodo-tag">execução &middot; registrar os dados</span></li>
+    <li>Apresentação do Lab (AP)<span class="metodo-tag">roteiro dos 100 min &middot; rever depois</span></li>
+    <li>Infográficos de Bancada (IG)<span class="metodo-tag">consulta durante a prática</span></li>
+    <li>Provinha (PR)<span class="metodo-tag">vale nota &middot; fechamento do Lab</span></li>
+  </ol>
+
+  <div class="metodo-parada">Pós-Lab</div>
+  <div class="metodo-quando">a partir do mesmo dia da prática</div>
+  <ol>
+    <li>Relatório Mínimo (RM)<span class="metodo-tag">vale nota &middot; no mesmo dia do Lab &middot; 1 página</span></li>
+    <li>Relatório Completo (RC)<span class="metodo-tag">vale nota &middot; até 3 dias após o Lab</span></li>
+  </ol>
+
+  <div class="metodo-regra"><strong>Não pule nenhum objeto de aprendizagem. Se pulou, volte.</strong><br>
+  Cada passo prepara o terreno do seguinte: sem o Ponto de Partida a leitura não encontra pergunta; sem o Pré-Lab a bancada vira receita seguida às cegas; sem o Relatório Mínimo do mesmo dia os dados esfriam antes de virar conclusão.</div>
+</aside>
+
 <button class="musica-toggle" id="musicaToggle">Música</button>
 <aside class="musica-sidebar" id="musicaSidebar">
   <div class="musica-titulo">Música desta trilha</div>
@@ -474,7 +490,6 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
   <div class="musica-album">J. S. Bach &mdash; Concerto Italiano, BWV 971</div>
   <div class="musica-detail">1735 &middot; cravo &middot; ~13 min &middot; ouça em repetição enquanto lê</div>
   <a class="musica-link" href="https://music.youtube.com/search?q=Bach+Concerto+Italiano+BWV+971+cravo" target="_blank" rel="noopener">&#9654; YouTube Music</a>
-  <div class="musica-detail" style="margin-top:16px;">Sem streaming? O player no rodapé desta página toca um ambiente instrumental gerado no navegador &mdash; ou um MP3 seu.</div>
 </aside>
 
 <button class="ineditismo-toggle" id="ineditismoToggle">Ineditismo</button>
@@ -484,53 +499,37 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
   <p>Até onde a pesquisa dos autores alcançou, este é o primeiro Texto Temático de Física aplicada ao ensino técnico em mineração integrado ao ensino médio estruturado em Trilhas de Aprendizagem publicado no Brasil. Os livros didáticos de física aprovados pelo PNLD abordam a física do ensino médio, mas não há uma linguagem e nem aplicações em contexto de cursos técnicos em mineração.</p>
 </aside>
 
-<button class="toc-toggle" id="tocToggle">Sumário</button>
-<aside class="toc-sidebar" id="tocSidebar">
-  <h3>Sumário</h3>
-  <a href="#epigrafe" class="toc-extra">Epígrafe</a>
-  <a href="#ato-i" class="toc-ato">Ato I &mdash; O Gancho</a>
-  <a href="#ato-ii" class="toc-ato">Ato II &mdash; O Desenvolvimento</a>
-  <a href="#topico-1" class="toc-topico">Tópico 1 &mdash; Medição e Medida</a>
-  <a href="#topico-2" class="toc-topico">Tópico 2 &mdash; Escala e Algarismos Significativos</a>
-  <a href="#topico-3" class="toc-topico">Tópico 3 &mdash; Incerteza</a>
-  <a href="#topico-4" class="toc-topico">Tópico 4 &mdash; Caderno de Laboratório</a>
-  <a href="#topico-5" class="toc-topico">Tópico 5 &mdash; Segurança e NR-22</a>
-  <a href="#ato-iii" class="toc-ato">Ato III &mdash; O Fechamento</a>
-  <a href="#refs" class="toc-extra">Bibliografia</a>
+<button class="projeto-toggle" id="projetoToggle">Projeto</button>
+<aside class="projeto-sidebar" id="projetoSidebar">
+  <div class="projeto-titulo">Projeto</div>
+  <p><strong>Trilhas de Aprendizagem &mdash; Física Experimental 1: Versão Executiva.</strong></p>
+  <p>O projeto pedagógico em 20 páginas, escrito para colegas das Áreas de Mineração, Química, Biologia e Matemática, para a equipe, a coordenação e a direção: as camadas do ecossistema, o Método de Estudo, o Protocolo C5 e os limites declarados da proposta.</p>
+  <a class="projeto-link" href="https://nidecop-jafb.github.io/fe1-oa/projeto/" target="_blank" rel="noopener">&#9654; Abrir o Projeto Executivo</a>
 </aside>
 
 <button class="creditos-toggle" id="creditosToggle">Créditos</button>
 <aside class="creditos-sidebar" id="creditosSidebar">
   <div class="creditos-titulo">Créditos</div>
-  <p class="creditos-instituicao">IFMG &mdash; Campus Ouro Preto</p>
-  <p class="creditos-cargo">Autor</p>
-  <p class="creditos-nome">Júlio Azevedo</p>
-  <p class="creditos-cargo">Colaboração</p>
-  <p class="creditos-nome">Felipe Beato</p>
-  <p class="creditos-cargo">Institucional</p>
-  <p class="creditos-nome">Coordenadoria da Área de Física (CODAFIS)</p>
-  <p class="creditos-nome">Núcleo de Inovação e Desenvolvimento de Experimentos Científicos (NIDEC)</p>
+  <p class="creditos-cargo">Reitor</p>
+  <p class="creditos-nome">Rafael Bastos Teixeira</p>
+  <p class="creditos-cargo">Pró-Reitor de Ensino</p>
+  <p class="creditos-nome">Mário Luiz Viana Alvarenga</p>
+  <p class="creditos-cargo">Diretor-Geral do Campus Ouro Preto</p>
+  <p class="creditos-nome">Reginato Fernandes dos Santos</p>
+  <p class="creditos-cargo">Diretora de Ensino</p>
+  <p class="creditos-nome">Talita Valadares</p>
+  <p class="creditos-cargo">Coordenador do Curso Técnico em Mineração Integrado ao Ensino Médio</p>
+  <p class="creditos-nome">Salatiel Assis Resende</p>
+  <p class="creditos-cargo">Coordenador da Área de Física (CODAFIS)</p>
+  <p class="creditos-nome">Lázaro Souza Lima</p>
+  <p class="creditos-cargo">Autor da Trilha</p>
+  <p class="creditos-nome">Julio Azevedo &mdash; Professor do Ensino Técnico e Tecnológico do IFMG, atuando na Área de Física do campus Ouro Preto desde 1985. Criador do Núcleo de Inovação e Desenvolvimento de Experimentos Científicos (NIDEC) em 2016. Ex-aluno do Curso de Engenharia de Minas e do Curso de Física, ambos da UFOP.</p>
+  <p class="creditos-cargo">Colaborador</p>
+  <p class="creditos-nome">Felipe Beato &mdash; Professor, pesquisador, colaborador do Núcleo de Inovação e Desenvolvimento de Experimentos Científicos do IFMG campus Ouro Preto. Licenciado em Física, Mestre em Física dos Materiais.</p>
   <p class="creditos-cargo">Edição</p>
-  <p class="creditos-nome">FE-T0A &middot; Texto Temático v8 &middot; Primeira edição &middot; 2026</p>
+  <p class="creditos-nome">1.ª edição &mdash; Ouro Preto, 2026</p>
 </aside>
 
-<button class="figuras-toggle" id="figurasToggle">Figuras</button>
-<aside class="figuras-sidebar" id="figurasSidebar">
-  <div class="figuras-titulo">Índice de figuras</div>
-  <a href="#fig-1"><p><span class="figura-num">Fig. 01</span> &mdash; Réguas em V sobre o Caderno de Laboratório: o brasão da trilha.</p></a>
-  <a href="#fig-2"><p><span class="figura-num">Fig. 02</span> &mdash; O Prof. Júlio apresenta a prática do dia.</p></a>
-  <a href="#fig-4"><p><span class="figura-num">Fig. 03</span> &mdash; Pavilhões de Física e Química.</p></a>
-  <a href="#fig-5"><p><span class="figura-num">Fig. 04</span> &mdash; A primeira medição real: esquadro, parede e caderno.</p></a>
-  <a href="#fig-6"><p><span class="figura-num">Fig. 05</span> &mdash; Quatro réguas lado a lado na parede.</p></a>
-  <a href="#fig-7"><p><span class="figura-num">Fig. 06</span> &mdash; Fontes de erro: postura, paralaxe, escala e instrumento.</p></a>
-  <a href="#fig-7b"><p><span class="figura-num">Fig. 07</span> &mdash; Quatro medidas e uma faixa: média ± incerteza.</p></a>
-  <a href="#fig-8"><p><span class="figura-num">Fig. 08</span> &mdash; Caderno de Laboratório com média e incerteza.</p></a>
-  <a href="#fig-9"><p><span class="figura-num">Fig. 09</span> &mdash; Protocolo C5: os oito passos da modelagem.</p></a>
-  <a href="#fig-10"><p><span class="figura-num">Fig. 10</span> &mdash; Cartaz de normas afixado pelos três protagonistas.</p></a>
-  <a href="#fig-11"><p><span class="figura-num">Fig. 11</span> &mdash; Os três protagonistas cruzando a porta ao fim da aula.</p></a>
-  <a href="#fig-11b"><p><span class="figura-num">Fig. 12</span> &mdash; O laboratório devolvido como foi encontrado.</p></a>
-  <a href="#fig-12"><p><span class="figura-num">Fig. 13</span> &mdash; O Homem Vitruviano: o corpo como instrumento de medida.</p></a>
-</aside>
 
 
 <!-- CAPA -->
@@ -575,7 +574,7 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
 <div class="conteudo">
 
 <!-- EPIGRAFE -->
-<div class="fig" id="fig-1"><img src="../_imagens/_web/FE-T0A-IT-01-v6.jpg" alt="Fig. 01 — Símbolo da trilha"><div class="fig-caption">Fig. 01 — Duas réguas em V sobre o Caderno de Laboratório: medir e registrar, o brasão desta trilha.</div></div>
+<div class="fig" id="fig-1"><img src="../_imagens/_web/FE-T0A-IT-01-v7.png" alt="Fig. 01 — Símbolo da trilha"><div class="fig-caption">Fig. 01 — Duas réguas formando um "V" cruzando um Caderno de Laboratório aberto, como brasão da trilha.</div></div>
 
 <div class="epigrafe" id="epigrafe">
   <blockquote>"Quando se pode medir aquilo de que se fala, e exprimi-lo em números, sabe-se algo sobre ele; mas quando não se pode medi-lo, quando não se pode exprimi-lo em números, o conhecimento é escasso e insatisfatório."</blockquote>
@@ -587,8 +586,6 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
 <div class="ato" id="ato-i">
   <div class="ato-titulo">Ato I — O Gancho</div>
   <div class="ato-subtitulo">A chegada ao Laboratório de Mecânica</div>
-
-  <div class="fig" id="fig-2"><img src="../_imagens/_web/FE-T0A-IT-02-v7.jpg" alt="Fig. 02 — O encontro que abre a sessão"><div class="fig-caption">Fig. 02 — O Prof. Júlio apresenta a prática do dia: três jovens de costas para o mundo, de frente para a descoberta.</div></div>
 
   <p>A luz da manhã de março em Ouro Preto atingia a fachada dos Pavilhões de Física e Química antes de Sofia, Pedro e Lucas alcançarem a porta da entrada do Pavilhão de Física. Eram quase sete horas. Para eles, dar alguns passos à frente seria simples — mas carrega o peso de uma travessia: do lado de fora, o mundo das opiniões; do lado de dentro, o laboratório onde toda opinião vira hipótese e toda hipótese exige número.</p>
 
@@ -608,6 +605,8 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
 
   <p>— "Acho", "pode ter mexido". — O Prof. Júlio fez um gesto convidando os três a entrar. — Daqui a uma hora e meia, cada um de vocês vai ter medido a altura de um colega <span class="termo">quatro vezes</span>, em <span class="termo">quatro réguas diferentes</span>. E quando comparar com a própria estimativa de agora, vai entender o que faltava na resposta de vocês — e o que sobra em qualquer número dito sem <span class="termo">incerteza</span>. Venham.</p>
 
+  <div class="fig" id="fig-2"><img src="../_imagens/_web/FE-T0A-IT-02-v7.jpg" alt="Fig. 02 — Quanto você mede?"><div class="fig-caption">Fig. 02 — Bom dia. Antes de entrarmos, uma pergunta: quanto você mede?</div></div>
+
   <p>A porta do Laboratório de Mecânica já estava aberta. Bancadas brancas alinhadas, balanças mecânicas distribuídas, uma roda de bicicleta pendurada no teto, e — a coisa que mais chamou a atenção de Sofia — <span class="termo">três escalas de altura na parede</span>, todas marcadas à mão, com uma fita métrica colada ao lado delas.</p>
 
   <p>Pedro estranhou: — <span class="citacao">Cadê os cartazes de segurança, professor? Na britagem da Vale tem uns vinte na entrada.</span></p>
@@ -617,7 +616,7 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
   <div class="explore">
     <div class="explore-titulo">Explore — IFMG Campus Ouro Preto, Pavilhão de Física</div>
     <p>As construções retangulares dos Pavilhões de Física e Química, inaugurados em 1982, completam 44 anos de existência. Milhares de pessoas passaram pelos laboratórios desses dois pavilhões que representam a ponte entre o pensamento de Gorceix que carrega 150 anos de tradição em "medir antes de afirmar" e a ciência que você poderá aprender.</p>
-    <div class="fig" id="fig-4" style="margin-top:12px;"><img src="../_imagens/_web/FE-T0A-IT-00-v6.jpg" alt="Fig. 03 — Pavilhão de Física"><div class="fig-caption">Fig. 03 — Pavilhões de Física e Química — a ponte entre a tradição gorceixiana e a ciência que você começa hoje.</div></div>
+    <div class="fig" id="fig-4" style="margin-top:12px;"><img src="../_imagens/_web/FE-T0A-IT-13-v6.jpg" alt="Fig. 03 — Três jovens diante dos Pavilhões"><div class="fig-caption">Fig. 03 — Três jovens de costas para o mundo, de frente para a descoberta.</div></div>
     <p style="margin-top:8px;"><a href="https://maps.app.goo.gl/FJvMDyaXYF1iRzU7A" target="_blank">Abrir no Google Maps</a></p>
   </div>
 </div>
@@ -632,6 +631,7 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
   <p>Passar pela porta do Laboratório de Mecânica foi o gancho — agora começa o trabalho. Os cinco tópicos que seguem formam o alicerce sobre o qual todas as 16 trilhas seguintes vão se apoiar: cada conceito medido, cada incerteza declarada, cada linha do Caderno de Laboratório nasce aqui, nesta primeira manhã.</p>
 
   <div class="fig" id="fig-5"><img src="../_imagens/_web/FE-T0A-IT-05-v7.jpg" alt="Fig. 04 — Estudantes medindo"><div class="fig-caption">Fig. 04 — A primeira medição real da disciplina: Pedro junto à parede de medição, Sofia alinhando o esquadro, Lucas registrando no Caderno de Laboratório.</div></div>
+  <!-- posição da Fig. 04 mantida; roteiro de regeração corrige a orientação do esquadro -->
 
   <p>A Física Experimental é uma matéria diferente da Física Conceitual: aqui você não <strong>aprende</strong> o conceito — você <strong>mede</strong> o conceito. Mas para medir bem, precisa antes entender cinco coisas.</p>
 
@@ -650,6 +650,8 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
       <div class="eixo-label">Eixo Histórico-Cultural — Ouro Preto</div>
       <p>Quando Henri Gorceix chegou a Ouro Preto em 1875 para fundar a Escola de Minas, trouxe uma frase repetida em todas as suas aulas: <span class="citacao">"il faut mesurer avant d'affirmer"</span> — é preciso medir antes de afirmar. A diferença entre "achismo" e "metodologia" tem um nome em Ouro Preto: ela se chama <span class="termo">escola gorceixiana</span>.</p>
     </div>
+
+    <div class="fig" id="fig-5b"><img src="../_imagens/_web/FE-T0A-IT-00-v6.jpg" alt="Fig. 05 — Pavilhões de Física e Química"><div class="fig-caption">Fig. 05 — Pavilhões de Física e Química — inaugurados em 1985, simbolizando a ponte entre a tradição gorceixiana e a ciência que você começa a estudar hoje.</div></div>
 
     <div class="eixo eixo-cotidiano">
       <div class="eixo-label">Eixo Cotidiano — Você, 15-16 anos</div>
@@ -670,7 +672,7 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
   <div class="topico" id="topico-2">
     <div class="topico-titulo">Tópico 2 — Escala e Algarismos Significativos</div>
 
-    <div class="fig" id="fig-6"><img src="../_imagens/_web/FE-T0A-IT-04-v7.jpg" alt="Fig. 05 — Quatro réguas na parede"><div class="fig-caption">Fig. 05 — Quatro réguas lado a lado na parede do laboratório — escalas diferentes, traços mais grossos ou mais finos.</div></div>
+    <div class="fig" id="fig-6"><img src="../_imagens/_web/FE-T0A-IT-04-v7.jpg" alt="Fig. 06 — Quatro réguas na parede"><div class="fig-caption">Fig. 06 — Quatro réguas lado a lado na parede do laboratório — escalas diferentes, traços mais grossos ou mais finos.</div></div>
 
     <p>Quatro réguas lado a lado na parede do laboratório — escalas diferentes, traços mais grossos ou mais finos, limites de leitura distintos. Nenhum instrumento diz mais do que foi projetado para dizer.</p>
 
@@ -711,7 +713,7 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
   <div class="topico" id="topico-3">
     <div class="topico-titulo">Tópico 3 — Incerteza: o erro que toda medida carrega</div>
 
-    <div class="fig" id="fig-7"><img src="../_imagens/_web/FE-T0A-IT-08-v7.jpg" alt="Fig. 06 — Fontes de erro"><div class="fig-caption">Fig. 06 — As quatro fontes de erro da medição — postura, paralaxe, escala e instrumento: olhar a escala em ângulo muda a leitura.</div></div>
+    <div class="fig" id="fig-7"><img src="../_imagens/_web/FE-T0A-IT-08-v7.jpg" alt="Fig. 07 — Fontes de erro"><div class="fig-caption">Fig. 07 — As quatro fontes de erro da medição — postura, paralaxe, escala e instrumento: olhar a escala em ângulo muda a leitura.</div></div>
 
     <p>Olhe uma régua de uma posição e obterá uma medida; olhe de outra posição e poderá obter outro resultado. A paralaxe é o lembrete visual: toda medida depende de quem mede e de <em>onde</em> mede. A incerteza não é fraqueza do instrumento: <span class="termo">é honestidade do cientista</span>.</p>
 
@@ -734,14 +736,14 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
 
     <p><strong>Exemplo:</strong> Se você medir a altura de Sofia em 4 réguas e obtiver 1,67 / 1,68 / 1,68 / 1,69 m, a incerteza experimental será &delta;h = (1,69 &minus; 1,67)/2 = <span class="termo">0,01 m</span>. A altura final fica registrada como <span class="termo">(1,68 ± 0,01) m</span>.</p>
 
-    <div class="fig" id="fig-7b"><img src="../_imagens/_web/FE-T0A-IT-07-v8.jpg" alt="Fig. 07 — Gráfico das quatro medidas"><div class="fig-caption">Fig. 07 — Quatro medidas e uma faixa: a resposta honesta é um intervalo, não um número exato.</div></div>
+    <div class="fig" id="fig-7b"><img src="../_imagens/_web/FE-T0A-IT-07-v8.jpg" alt="Fig. 08 — Gráfico das quatro medidas"><div class="fig-caption">Fig. 08 — Quatro medidas e uma faixa: a resposta honesta é um intervalo, não um número exato.</div></div>
   </div>
 
   <!-- TOPICO 4 -->
   <div class="topico" id="topico-4">
     <div class="topico-titulo">Tópico 4 — Caderno de Laboratório: o registro como parte do método</div>
 
-    <div class="fig" id="fig-8"><img src="../_imagens/_web/FE-T0A-IT-06-v6.jpg" alt="Fig. 08 — Caderno de Laboratório"><div class="fig-caption">Fig. 08 — Caderno aberto sobre a bancada com medidas anotadas, média calculada e incerteza declarada.</div></div>
+    <div class="fig" id="fig-8"><img src="../_imagens/_web/FE-T0A-IT-06-v6.jpg" alt="Fig. 09 — Caderno de Laboratório"><div class="fig-caption">Fig. 09 — Caderno aberto sobre a bancada com medidas anotadas, média calculada e incerteza declarada.</div></div>
 
     <p>Um caderno aberto sobre a bancada — quatro medidas anotadas, uma média calculada, uma incerteza declarada. Parece pouco: apenas números e linhas. Mas ali está contido o universo inteiro de uma medição bem feita. O Caderno de Laboratório é onde a ciência ganha memória.</p>
 
@@ -757,7 +759,7 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
 
     <p><strong>O método: o protocolo de iniciação científica.</strong> O método que iremos usar em Física Experimental 1 tem oito passos — o <span class="termo">Protocolo C5</span>.</p>
 
-    <div class="fig" id="fig-9"><img style="border:none" src="../_imagens/_web/FE-T0A-IT-11-v7.png" alt="Fig. 09 — Diagrama C5"><div class="fig-caption">Fig. 09 — Protocolo C5: os oito passos da modelagem científica conectados em sequência.</div></div>
+    <div class="fig" id="fig-9"><img style="border:none" src="../_imagens/_web/FE-T0A-IT-11-v7.png" alt="Fig. 10 — Diagrama C5"><div class="fig-caption">Fig. 10 — O método em cena: as oito etapas que transformam uma pergunta simples como "Qual é a sua altura?" numa resposta confiável e com sentido científico.</div></div>
 
     <div class="c5-passos">
       <div class="passo"><span class="passo-num">1</span><span class="passo-texto">O que está sendo pedido?</span></div>
@@ -787,7 +789,7 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
   <div class="topico" id="topico-5">
     <div class="topico-titulo">Tópico 5 — Segurança e NR-22: a inovação da T0A</div>
 
-    <div class="fig" id="fig-10"><img src="../_imagens/_web/FE-T0A-IT-03-v7.jpg" alt="Fig. 10 — Cartaz de normas"><div class="fig-caption">Fig. 10 — Sofia, Pedro e Lucas afixando na parede do laboratório o cartaz de normas que eles mesmos escreveram.</div></div>
+    <div class="fig" id="fig-10"><img src="../_imagens/_web/FE-T0A-IT-03-v7.jpg" alt="Fig. 11 — Cartaz de normas"><div class="fig-caption">Fig. 11 — Sofia, Pedro e Lucas afixando na parede do laboratório o cartaz de normas que eles mesmos escreveram.</div></div>
 
     <p>Fixar regras na parede — é um gesto quase burocrático, mas carrega o peso de um pacto. Quando Sofia, Pedro e Lucas propõem as normas do Laboratório de Mecânica, não estão obedecendo a uma ordem: <span class="termo">estão fundando uma tradição</span>.</p>
 
@@ -821,7 +823,7 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
   <div class="ato-titulo">Ato III — O Fechamento</div>
   <div class="ato-subtitulo">Quem cruza a porta agora sabe medir antes de afirmar</div>
 
-  <div class="fig" id="fig-11"><img src="../_imagens/_web/FE-T0A-IT-10-v6.jpg" alt="Fig. 11 — Trio saindo do laboratório"><div class="fig-caption">Fig. 11 — Os três protagonistas de costas, cruzando a porta do laboratório ao fim da aula.</div></div>
+  <div class="fig" id="fig-11"><img src="../_imagens/_web/FE-T0A-IT-10-v6.jpg" alt="Fig. 12 — Trio saindo do laboratório"><div class="fig-caption">Fig. 12 — Os três protagonistas saindo do laboratório. "Aula dada, aula estudada hoje" de Piazzi.</div></div>
 
   <p>O mesmo corredor, a mesma porta — mas quem sai não é quem entrou. Cadernos preenchidos sob o braço, o cartaz de regras já afixado na parede ao fundo. A manhã que começou com uma pergunta — <span class="citacao">"quanto você mede?"</span> — termina com uma resposta que inclui incerteza.</p>
 
@@ -838,7 +840,6 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
     <div class="passo"><span class="passo-num">3</span><span class="passo-texto">Lembrem-se da frase do Lord Kelvin: <strong>sem número, não tem ciência. E sem incerteza, não tem número.</strong></span></div>
   </div>
 
-  <div class="fig" id="fig-11b"><img src="../_imagens/_web/FE-T0A-IT-09-v7.jpg" alt="Fig. 12 — Laboratório organizado ao fim da aula"><div class="fig-caption">Fig. 12 — O laboratório devolvido como foi encontrado: a organização é a última etapa do experimento.</div></div>
 </div>
 
 <div class="separador"></div>
@@ -874,28 +875,6 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
 
 
 
-<div style="text-align:center;padding:24px 0;font-size:.8rem;color:var(--cinza);">
-  FE-T0A · Texto Temático v8 · Leitura digital v1 · IFMG — Campus Ouro Preto · 2026
-</div>
-
-</div><!-- fim .conteudo -->
-
-<!-- PLAYER FIXO -->
-<div class="player" id="player">
-  <button class="player-btn" id="btnPlay" title="Play/Pause">&#9654;</button>
-  <div class="player-info">
-    <div class="player-titulo" id="playerTitulo">Ambient — Estudo instrumental</div>
-    <div class="player-sub" id="playerSub">Web Áudio API &middot; Piazzi recomenda: leia ouvindo</div>
-  </div>
-  <div class="player-vol">
-    <label>Vol</label>
-    <input type="range" id="volSlider" min="0" max="100" value="30">
-  </div>
-  <button class="player-load" id="btnLoad" title="Carregar áudio local">Carregar MP3</button>
-  <input type="file" id="audioFile" accept="audio/*">
-  <a class="btn-yt" href="https://music.youtube.com/search?q=Bach+Concerto+Italiano+BWV+971+cravo" target="_blank" rel="noopener" title="J. S. Bach — Concerto Italiano, BWV 971"><span class="yt-icon"></span>Bach · Concerto Italiano</a>
-</div>
-
 <script>
 // ─── READING PROGRESS ───
 window.addEventListener('scroll', () => {
@@ -903,128 +882,14 @@ window.addEventListener('scroll', () => {
   const pct = h > 0 ? (window.scrollY / h) * 100 : 0;
   document.getElementById('progressBar').style.width = pct + '%';
 });
-
-// ─── WEB AUDIO AMBIENT SYNTH ───
-let audioCtx = null;
-let masterGain = null;
-let isPlaying = false;
-let oscillators = [];
-let userAudio = null;
-
-function initAudioCtx() {
-  if (audioCtx) return;
-  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  masterGain = audioCtx.createGain();
-  masterGain.gain.value = 0.3;
-  masterGain.connect(audioCtx.destination);
-}
-
-function criarAmbient() {
-  const notas = [
-    { freq: 65.41, type: 'sine', gain: 0.12 },
-    { freq: 130.81, type: 'sine', gain: 0.08 },
-    { freq: 196.00, type: 'sine', gain: 0.06 },
-    { freq: 261.63, type: 'triangle', gain: 0.04 },
-    { freq: 329.63, type: 'sine', gain: 0.03 },
-  ];
-
-  notas.forEach(n => {
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    const filter = audioCtx.createBiquadFilter();
-
-    osc.type = n.type;
-    osc.frequency.value = n.freq;
-    filter.type = 'lowpass';
-    filter.frequency.value = 400;
-    filter.Q.value = 0.5;
-    gain.gain.value = 0;
-
-    osc.connect(filter);
-    filter.connect(gain);
-    gain.connect(masterGain);
-    osc.start();
-
-    gain.gain.linearRampToValueAtTime(n.gain, audioCtx.currentTime + 3);
-
-    const lfoFreq = 0.05 + Math.random() * 0.1;
-    const lfo = audioCtx.createOscillator();
-    const lfoGain = audioCtx.createGain();
-    lfo.frequency.value = lfoFreq;
-    lfoGain.gain.value = n.freq * 0.003;
-    lfo.connect(lfoGain);
-    lfoGain.connect(osc.frequency);
-    lfo.start();
-
-    oscillators.push({ osc, gain, lfo, lfoGain, filter, baseGain: n.gain });
-  });
-}
-
-function pararAmbient() {
-  oscillators.forEach(o => {
-    o.gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 2);
-    setTimeout(() => { try { o.osc.stop(); o.lfo.stop(); } catch(e) {} }, 2500);
-  });
-  oscillators = [];
-}
-
-function togglePlay() {
-  initAudioCtx();
-  if (audioCtx.state === 'suspended') audioCtx.resume();
-
-  if (userAudio) {
-    if (isPlaying) { userAudio.pause(); }
-    else { userAudio.play(); }
-    isPlaying = !isPlaying;
-  } else {
-    if (isPlaying) { pararAmbient(); isPlaying = false; }
-    else { criarAmbient(); isPlaying = true; }
-  }
-
-  const btn = document.getElementById('btnPlay');
-  btn.textContent = isPlaying ? '❚❚' : '▶';
-  btn.classList.toggle('tocando', isPlaying);
-}
-
-document.getElementById('btnPlay').addEventListener('click', togglePlay);
-
-document.getElementById('volSlider').addEventListener('input', e => {
-  const v = e.target.value / 100;
-  if (masterGain) masterGain.gain.value = v;
-  if (userAudio) userAudio.volume = v;
-});
-
-document.getElementById('btnLoad').addEventListener('click', () => {
-  document.getElementById('audioFile').click();
-});
-
-document.getElementById('audioFile').addEventListener('change', e => {
-  const file = e.target.files[0];
-  if (!file) return;
-  if (isPlaying && !userAudio) { pararAmbient(); isPlaying = false; }
-  if (userAudio) { userAudio.pause(); userAudio = null; }
-
-  const url = URL.createObjectURL(file);
-  userAudio = new Audio(url);
-  userAudio.loop = true;
-  userAudio.volume = document.getElementById('volSlider').value / 100;
-
-  document.getElementById('playerTitulo').textContent = file.name.replace(/\.[^.]+$/, '');
-  document.getElementById('playerSub').textContent = 'Arquivo local · Piazzi recomenda: leia ouvindo';
-
-  const btn = document.getElementById('btnPlay');
-  btn.textContent = '▶';
-  btn.classList.remove('tocando');
-  isPlaying = false;
-});
 </script>
 <div class="encerramento">
   <div class="fecho-frase">Terminamos por aqui, um abra&ccedil;o, e at&eacute; o pr&oacute;ximo encontro.</div>
-  <div class="fecho-acao">Continue a sua prepara&ccedil;&atilde;o: ou&ccedil;a o <strong>Resumo em &Aacute;udio (MD)</strong> da trilha.</div>
+  <div class="fecho-acao">Continue a sua prepara&ccedil;&atilde;o: explore as <strong>Simula&ccedil;&otilde;es (SM)</strong> da trilha &mdash; passo 4 do Pr&eacute;-Lab.</div>
   <div class="fecho-links">
-    <a class="fecho-btn" href="https://nidecop-jafb.github.io/fe1-oa/t0a/md/" target="_blank" rel="noopener">Abrir o player</a>
+    <a class="fecho-btn" href="https://nidecop-jafb.github.io/fe1-oa/t0a/sm/" target="_blank" rel="noopener">Abrir as Simula&ccedil;&otilde;es</a>
     <a class="fecho-btn secundario" href="https://nidecop-jafb.github.io/fe1-oa/" target="_blank" rel="noopener">Voltar ao in&iacute;cio do site</a>
-      <a class="fecho-btn secundario" href="https://nidecop-jafb.github.io/fe1-oa/#t0a" target="_blank" rel="noopener">Ver todos os OAs da trilha</a>
+    <a class="fecho-btn secundario" href="https://nidecop-jafb.github.io/fe1-oa/#t0a" target="_blank" rel="noopener">Ver todos os OAs da trilha</a>
   </div>
   <div class="fecho-inst">IFMG &mdash; Campus Ouro Preto &middot; Coordenadoria da &Aacute;rea de F&iacute;sica (CODAFIS) &middot; N&uacute;cleo de Inova&ccedil;&atilde;o e Desenvolvimento de Experimentos Cient&iacute;ficos (NIDEC)</div>
 </div>
@@ -1032,6 +897,8 @@ document.getElementById('audioFile').addEventListener('change', e => {
 <div class="footer-line">
   T0A &middot; Metodologia Experimental &middot; Texto Tem&aacute;tico (TT) &middot; Primeira edi&ccedil;&atilde;o &middot; 2026
 </div>
+
+</div><!-- fim .conteudo -->
 
 
 <script>
@@ -1079,19 +946,20 @@ document.getElementById('btnTheme').addEventListener('click', function() {
   setTheme(current === 'dark' ? 'light' : 'dark');
 });
 
-var tocBtn = document.getElementById('tocToggle');
-var tocSidebar = document.getElementById('tocSidebar');
-var creditosBtn = document.getElementById('creditosToggle');
-var creditosSidebar = document.getElementById('creditosSidebar');
+var metodoBtn = document.getElementById('metodoToggle');
+var metodoSidebar = document.getElementById('metodoSidebar');
 var musicaBtn = document.getElementById('musicaToggle');
 var musicaSidebar = document.getElementById('musicaSidebar');
 var ineditismoBtn = document.getElementById('ineditismoToggle');
 var ineditismoSidebar = document.getElementById('ineditismoSidebar');
-var figurasBtn = document.getElementById('figurasToggle');
-var figurasSidebar = document.getElementById('figurasSidebar');
+var projetoBtn = document.getElementById('projetoToggle');
+var projetoSidebar = document.getElementById('projetoSidebar');
+var creditosBtn = document.getElementById('creditosToggle');
+var creditosSidebar = document.getElementById('creditosSidebar');
 var abas = [
-  [tocBtn, tocSidebar], [creditosBtn, creditosSidebar], [musicaBtn, musicaSidebar],
-  [ineditismoBtn, ineditismoSidebar], [figurasBtn, figurasSidebar]
+  [metodoBtn, metodoSidebar], [musicaBtn, musicaSidebar],
+  [ineditismoBtn, ineditismoSidebar], [projetoBtn, projetoSidebar],
+  [creditosBtn, creditosSidebar]
 ];
 abas.forEach(function(par) {
   par[0].addEventListener('click', function() {
@@ -1100,12 +968,6 @@ abas.forEach(function(par) {
       else { outro[1].classList.remove('open'); }
     });
   });
-});
-tocSidebar.querySelectorAll('a').forEach(function(a) {
-  a.addEventListener('click', function() { tocSidebar.classList.remove('open'); });
-});
-figurasSidebar.querySelectorAll('a').forEach(function(a) {
-  a.addEventListener('click', function() { figurasSidebar.classList.remove('open'); });
 });
 document.addEventListener('click', function(e) {
   abas.forEach(function(par) {
