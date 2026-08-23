@@ -61,8 +61,9 @@ body { font-family: var(--font); background: oklch(0.12 0.02 260); color: var(--
 .capa-scroll { margin-top: 40px; font-size: .75rem; color: var(--cinza-borda); animation: pulse 2s infinite; }
 @keyframes pulse { 0%,100% { opacity: .4; } 50% { opacity: 1; } }
 
-.audio-hint { max-width: 720px; margin: -40px auto 40px; padding: 20px 28px; background: oklch(0.16 0.04 45); border-left: 3px solid var(--azul); font-size: 1rem; line-height: 1.7; color: oklch(0.82 0 0); }
+.audio-hint { max-width: 720px; margin: -40px auto 40px; padding: 6px 0; text-align: center; font-size: .88rem; line-height: 1.5; color: var(--cinza); cursor: pointer; }
 .audio-hint strong { color: var(--ouro); }
+.audio-hint:hover { color: var(--texto); }
 
 .conteudo { max-width: 720px; margin: 0 auto; padding: 0 20px; }
 
@@ -581,10 +582,8 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
   <div class="capa-scroll">&#x25BC; role para ler</div>
 </div>
 
-<!-- AUDIO HINT -->
-<div class="audio-hint">
-  <strong>Para ter uma nova experiência em leitura</strong>, clique em <strong>MÚSICA</strong> para ouvir as músicas instrumentais desta trilha. Pierluigi Piazzi, em <em>Aprendendo Inteligência</em>, explica que o áudio instrumental ajuda a concentração sem competir com a leitura.
-</div>
+<!-- AUDIO HINT (linha-convite: a explicacao completa mora na aba MUSICA) -->
+<div class="audio-hint" id="audioHint" role="button" tabindex="0">&#9834; <em>Leia ouvindo</em> &mdash; clique aqui ou na aba <strong>MÚSICA</strong> e conheça a recomendação de Piazzi.</div>
 
 <div class="conteudo">
 
@@ -1020,6 +1019,14 @@ document.addEventListener('click', function(e) {
     if (!par[1].contains(e.target) && e.target !== par[0]) { par[1].classList.remove('open'); }
   });
 });
+var audioHint = document.getElementById('audioHint');
+if (audioHint) {
+  audioHint.addEventListener('click', function(e) {
+    e.stopPropagation();
+    abas.forEach(function(par) { par[1].classList.remove('open'); });
+    musicaSidebar.classList.add('open');
+  });
+}
 </script>
 <!-- ABA-SITE (injetada na publicacao — nao existe no OA canonico) -->
 <style>
