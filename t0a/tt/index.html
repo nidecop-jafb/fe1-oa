@@ -216,6 +216,7 @@ p .citacao { font-style: italic; color: var(--azul-claro); }
   font-size: 0.8rem; text-decoration: none; letter-spacing: 0.5px;
 }
 .projeto-sidebar .projeto-link:hover { opacity: 0.85; }
+.projeto-sidebar .projeto-img { display: block; width: 100%; margin: 0 0 14px; border: 1px solid var(--cinza-borda); }
 
 .creditos-toggle {
   position: fixed; top: 521px; left: 0; z-index: 998;
@@ -485,11 +486,12 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
 <button class="musica-toggle" id="musicaToggle">Música</button>
 <aside class="musica-sidebar" id="musicaSidebar">
   <div class="musica-titulo">Música desta trilha</div>
-  <span class="musica-ref">Pierluigi Piazzi recomenda em <em>Aprendendo Inteligência</em>:</span>
+  <div class="musica-detail">Por que estudar ouvindo? Miguel Nicolelis responde em <em>O Verdadeiro Criador de Tudo</em>: ciência e arte saem do mesmo lugar — o cérebro humano. E Pierluigi Piazzi, em <em>Aprendendo Inteligência</em>, acrescenta a parte prática: música sem letra não disputa com a leitura as áreas da linguagem. A palavra cantada rouba a palavra lida; a música instrumental sustenta, e some. Daí a regra do projeto: <strong>uma trilha, uma música</strong>.</div>
   <div class="musica-tags"><span class="musica-tag">Ler</span><span class="musica-tag">Escrever</span><span class="musica-tag">Medir</span></div>
   <div class="musica-album">J. S. Bach &mdash; Concerto Italiano, BWV 971</div>
-  <div class="musica-detail">1735 &middot; cravo &middot; ~13 min &middot; ouça em repetição enquanto lê</div>
+  <div class="musica-detail">1735 &middot; cravo &middot; ~13 min &middot; ouça em repetição enquanto lê. Bach (Eisenach, 1685 &mdash; Leipzig, 1750) resolveu um problema de medida com música: o <em>Cravo Bem-Temperado</em> mostrou que uma única afinação acomoda todas as tonalidades. E a fuga é o argumento inteiro em som — vozes independentes obedecendo a uma única regra, a própria definição de sistema físico. Quem estuda com Bach ao fundo está ouvindo estrutura.</div>
   <a class="musica-link" href="https://music.youtube.com/search?q=Bach+Concerto+Italiano+BWV+971+cravo" target="_blank" rel="noopener">&#9654; YouTube Music</a>
+  <div class="musica-detail" style="margin-top:16px;">Este é um dos <strong>sete acervos sonoros</strong> das Trilhas — Baden Powell, Yamandu Costa, Orquestra Ouro Preto, Filarmônica de Minas Gerais, Bach, Mozart e Beethoven. Na FE1, as quatro primeiras playlists giram em ciclo pelas trilhas T01-T16; a T0A fica fora do ciclo, com Bach.</div>
 </aside>
 
 <button class="ineditismo-toggle" id="ineditismoToggle">Ineditismo</button>
@@ -502,6 +504,7 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
 <button class="projeto-toggle" id="projetoToggle">Projeto</button>
 <aside class="projeto-sidebar" id="projetoSidebar">
   <div class="projeto-titulo">Projeto</div>
+  <img class="projeto-img" src="../_imagens/_web/FE-T0A-IT-12-v6.jpg" alt="O Homem Vitruviano — capa do Projeto Executivo">
   <p><strong>Trilhas de Aprendizagem &mdash; Física Experimental 1: Versão Executiva.</strong></p>
   <p>O projeto pedagógico em 20 páginas, escrito para colegas das Áreas de Mineração, Química, Biologia e Matemática, para a equipe, a coordenação e a direção: as camadas do ecossistema, o Método de Estudo, o Protocolo C5 e os limites declarados da proposta.</p>
   <a class="projeto-link" href="https://nidecop-jafb.github.io/fe1-oa/projeto/" target="_blank" rel="noopener">&#9654; Abrir o Projeto Executivo</a>
@@ -558,7 +561,7 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
       </svg></div>
   <div class="capa-disciplina">Física Aplicada à Mineração</div>
   <div class="capa-curso">Física Experimental 1 - Curso Técnico em Mineração Integrado ao Ensino Médio</div>
-  <div class="capa-img"><img src="../_imagens/_web/FE-T0A-IT-00-v6.jpg" alt="Pavilhão de Física — Lab de Mecânica"></div>
+  <div class="capa-img"><img src="../_imagens/_web/FE-T0A-IT-00-v7.jpg" alt="Pavilhões de Física e Química — IFMG campus Ouro Preto"></div>
   <div class="capa-trilha">Trilha de Aprendizagem T0A</div>
   <div class="capa-titulo">Medir antes de afirmar</div>
   <div class="capa-autores"><strong>Júlio Azevedo</strong> &middot; colaboração de <strong>Felipe Beato</strong></div>
@@ -605,7 +608,7 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
 
   <p>— "Acho", "pode ter mexido". — O Prof. Júlio fez um gesto convidando os três a entrar. — Daqui a uma hora e meia, cada um de vocês vai ter medido a altura de um colega <span class="termo">quatro vezes</span>, em <span class="termo">quatro réguas diferentes</span>. E quando comparar com a própria estimativa de agora, vai entender o que faltava na resposta de vocês — e o que sobra em qualquer número dito sem <span class="termo">incerteza</span>. Venham.</p>
 
-  <div class="fig" id="fig-2"><img src="../_imagens/_web/FE-T0A-IT-02-v7.jpg" alt="Fig. 02 — Quanto você mede?"><div class="fig-caption">Fig. 02 — Bom dia. Antes de entrarmos, uma pergunta: quanto você mede?</div></div>
+  <div class="fig" id="fig-2"><img src="../_imagens/_web/FE-T0A-IT-02-v8.jpg" alt="Fig. 02 — Quanto você mede?"><div class="fig-caption">Fig. 02 — Bom dia. Antes de entrarmos, uma pergunta: quanto você mede?</div></div>
 
   <p>A porta do Laboratório de Mecânica já estava aberta. Bancadas brancas alinhadas, balanças mecânicas distribuídas, uma roda de bicicleta pendurada no teto, e — a coisa que mais chamou a atenção de Sofia — <span class="termo">três escalas de altura na parede</span>, todas marcadas à mão, com uma fita métrica colada ao lado delas.</p>
 
@@ -630,7 +633,7 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
 
   <p>Passar pela porta do Laboratório de Mecânica foi o gancho — agora começa o trabalho. Os cinco tópicos que seguem formam o alicerce sobre o qual todas as 16 trilhas seguintes vão se apoiar: cada conceito medido, cada incerteza declarada, cada linha do Caderno de Laboratório nasce aqui, nesta primeira manhã.</p>
 
-  <div class="fig" id="fig-5"><img src="../_imagens/_web/FE-T0A-IT-05-v7.jpg" alt="Fig. 04 — Estudantes medindo"><div class="fig-caption">Fig. 04 — A primeira medição real da disciplina: Pedro junto à parede de medição, Sofia alinhando o esquadro, Lucas registrando no Caderno de Laboratório.</div></div>
+  <div class="fig" id="fig-5"><img src="../_imagens/_web/FE-T0A-IT-05-v8.jpg" alt="Fig. 04 — Estudantes medindo"><div class="fig-caption">Fig. 04 — A primeira medição real da disciplina: Pedro junto à parede de medição, Sofia alinhando o esquadro, Lucas registrando no Caderno de Laboratório.</div></div>
   <!-- posição da Fig. 04 mantida; roteiro de regeração corrige a orientação do esquadro -->
 
   <p>A Física Experimental é uma matéria diferente da Física Conceitual: aqui você não <strong>aprende</strong> o conceito — você <strong>mede</strong> o conceito. Mas para medir bem, precisa antes entender cinco coisas.</p>
@@ -651,7 +654,7 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
       <p>Quando Henri Gorceix chegou a Ouro Preto em 1875 para fundar a Escola de Minas, trouxe uma frase repetida em todas as suas aulas: <span class="citacao">"il faut mesurer avant d'affirmer"</span> — é preciso medir antes de afirmar. A diferença entre "achismo" e "metodologia" tem um nome em Ouro Preto: ela se chama <span class="termo">escola gorceixiana</span>.</p>
     </div>
 
-    <div class="fig" id="fig-5b"><img src="../_imagens/_web/FE-T0A-IT-00-v6.jpg" alt="Fig. 05 — Pavilhões de Física e Química"><div class="fig-caption">Fig. 05 — Pavilhões de Física e Química — inaugurados em 1985, simbolizando a ponte entre a tradição gorceixiana e a ciência que você começa a estudar hoje.</div></div>
+    <div class="fig" id="fig-5b"><img src="../_imagens/_web/FE-T0A-IT-00-v7.jpg" alt="Fig. 05 — Pavilhões de Física e Química"><div class="fig-caption">Fig. 05 — Pavilhões de Física e Química — inaugurados em 1985, simbolizando a ponte entre a tradição gorceixiana e a ciência que você começa a estudar hoje.</div></div>
 
     <div class="eixo eixo-cotidiano">
       <div class="eixo-label">Eixo Cotidiano — Você, 15-16 anos</div>
@@ -741,11 +744,39 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
 
   <!-- TOPICO 4 -->
   <div class="topico" id="topico-4">
-    <div class="topico-titulo">Tópico 4 — Caderno de Laboratório: o registro como parte do método</div>
+    <div class="topico-titulo">Tópico 4 — O Método de Estudo: aprender na ordem em que o cérebro aprende</div>
+
+    <p>A Física Experimental 1 tem um caminho de estudo com nome e ordem: o <span class="termo">Método de Estudo</span> das Trilhas de Aprendizagem. A ordem não é burocracia — ela segue como o cérebro aprende: <span class="termo">preparação</span> (pergunta antes da resposta), <span class="termo">construção ativa</span> (recuperar em vez de reler) e <span class="termo">consolidação</span> (revisão no mesmo dia e revisões espaçadas, com o sono fazendo a parte dele). Cada trilha percorre três paradas:</p>
+
+    <div class="destaque">Pré-Lab — fazer em casa, antes da aula de bancada</div>
+    <div class="c5-passos">
+      <div class="passo"><span class="passo-num">1</span><span class="passo-texto"><strong>Ponto de Partida (PP)</strong> — vale nota · 10 min. Responder antes de estudar cria erro produtivo: o cérebro marca a lacuna e passa a procurar a resposta.</span></div>
+      <div class="passo"><span class="passo-num">2</span><span class="passo-texto"><strong>Resumo em Áudio (MD)</strong> — ouvir · 3 a 5 min. O áudio monta o esqueleto da prática antes da leitura.</span></div>
+      <div class="passo"><span class="passo-num">3</span><span class="passo-texto"><strong>Texto Temático (TT)</strong> — é este que você está lendo: a prática explicada sobre um esquema já ativado.</span></div>
+      <div class="passo"><span class="passo-num">4</span><span class="passo-texto"><strong>Simulações (SM)</strong> — errar sem risco e ver o invisível: o experimento virtual prepara o gesto do experimento real.</span></div>
+      <div class="passo"><span class="passo-num">5</span><span class="passo-texto"><strong>Testinho (TN)</strong> — vale nota · 10 min. Erro corrigido na véspera vira aprendizagem; erro descoberto na bancada, risco.</span></div>
+    </div>
+    <p>Como apoio da preparação, sem número: os <strong>Cartões Didáticos (CD)</strong>, o <strong>Mapa Conceitual (MC)</strong>, o <strong>Inventário de Equipamento (IE)</strong> e o <strong>Checklist de Segurança (CS)</strong> — quem chega sabendo o que vai na bancada gasta os 100 minutos do Lab medindo, não descobrindo.</p>
+
+    <div class="destaque">Lab — na bancada, com o professor · 100 min</div>
+    <div class="c5-passos">
+      <div class="passo"><span class="passo-num">1</span><span class="passo-texto"><strong>Roteiro de Bancada (RB)</strong> — executar e registrar os dados com as próprias mãos, no momento em que a medição acontece.</span></div>
+      <div class="passo"><span class="passo-num">2</span><span class="passo-texto"><strong>Apresentação do Lab (AP)</strong> — o fio condutor dos 100 minutos, disponível para rever depois.</span></div>
+      <div class="passo"><span class="passo-num">3</span><span class="passo-texto"><strong>Infográficos de Bancada (IG)</strong> — consulta visual no momento da dúvida.</span></div>
+      <div class="passo"><span class="passo-num">4</span><span class="passo-texto"><strong>Provinha (PR)</strong> — vale nota, no fechamento do Lab: consolida enquanto o traço ainda está fresco.</span></div>
+    </div>
+
+    <div class="destaque">Pós-Lab — a partir do mesmo dia da prática</div>
+    <div class="c5-passos">
+      <div class="passo"><span class="passo-num">1</span><span class="passo-texto"><strong>Relatório Mínimo (RM)</strong> — vale nota · no mesmo dia · 1 página. O que é revisto antes de dormir entra na fila de consolidação da noite: é o "aula dada, aula estudada hoje" de Piazzi.</span></div>
+      <div class="passo"><span class="passo-num">2</span><span class="passo-texto"><strong>Relatório Completo (RC)</strong> — vale nota · até 3 dias. Voltar aos dados quando a lembrança já começou a cair rende mais.</span></div>
+    </div>
+
+    <div class="destaque">Não pule nenhum objeto de aprendizagem. Se pulou, volte.</div>
 
     <div class="fig" id="fig-8"><img src="../_imagens/_web/FE-T0A-IT-06-v6.jpg" alt="Fig. 09 — Caderno de Laboratório"><div class="fig-caption">Fig. 09 — Caderno aberto sobre a bancada com medidas anotadas, média calculada e incerteza declarada.</div></div>
 
-    <p>Um caderno aberto sobre a bancada — quatro medidas anotadas, uma média calculada, uma incerteza declarada. Parece pouco: apenas números e linhas. Mas ali está contido o universo inteiro de uma medição bem feita. O Caderno de Laboratório é onde a ciência ganha memória.</p>
+    <p>E o <span class="termo">Caderno de Laboratório</span>? Ele é onde a ciência ganha memória — e nesta disciplina ele vai <span class="termo">surgir ao final de cada tema</span>, com a edição dos seus Roteiros de Bancada: as folhas que você preenche na bancada, prática após prática, reunidas e encadernadas viram o caderno do tema.</p>
 
     <div class="eixo eixo-tecnico">
       <div class="eixo-label">Eixo Técnico — Mineração</div>
@@ -754,12 +785,17 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
 
     <div class="eixo eixo-historico">
       <div class="eixo-label">Eixo Histórico-Cultural</div>
-      <p>Leonardo da Vinci deixou mais de 6.000 páginas de cadernos de laboratório — onde anotava medidas de tudo. O caderno era seu laboratório portátil. Quando você começa o seu hoje, está entrando numa tradição que liga Leonardo aos engenheiros da Escola de Minas.</p>
+      <p>Leonardo da Vinci deixou mais de 6.000 páginas de cadernos de laboratório — onde anotava medidas de tudo. O caderno era seu laboratório portátil. Quando os seus Roteiros de Bancada virarem caderno, você estará entrando numa tradição que liga Leonardo aos engenheiros da Escola de Minas.</p>
     </div>
 
-    <p><strong>O método: o protocolo de iniciação científica.</strong> O método que iremos usar em Física Experimental 1 tem oito passos — o <span class="termo">Protocolo C5</span>.</p>
+    <div class="eixo eixo-cotidiano">
+      <div class="eixo-label">Eixo Cotidiano — Você, 15-16 anos</div>
+      <p>O Método pede pouco de cada vez: minutos de áudio no ônibus, uma leitura com música instrumental, um relatório de uma página antes de dormir. É menos do que uma tarde de véspera de prova — e rende mais, porque respeita o modo como a sua memória de fato funciona.</p>
+    </div>
 
-    <div class="fig" id="fig-9"><img style="border:none" src="../_imagens/_web/FE-T0A-IT-11-v7.png" alt="Fig. 10 — Diagrama C5"><div class="fig-caption">Fig. 10 — O método em cena: as oito etapas que transformam uma pergunta simples como "Qual é a sua altura?" numa resposta confiável e com sentido científico.</div></div>
+    <p><strong>O protocolo de resolução: o C5 em oito etapas.</strong> Dentro do Método, toda pergunta quantitativa se resolve pelo mesmo protocolo — o <span class="termo">Protocolo C5</span>.</p>
+
+    <div class="fig" id="fig-9"><img src="../_imagens/_web/FE-T0A-IT-11-v8.jpg" alt="Fig. 10 — O método em cena"><div class="fig-caption">Fig. 10 — O método em cena: as oito etapas que transformam uma pergunta simples como "Qual é a sua altura?" numa resposta confiável e com sentido científico.</div></div>
 
     <div class="c5-passos">
       <div class="passo"><span class="passo-num">1</span><span class="passo-texto">O que está sendo pedido?</span></div>
@@ -811,7 +847,7 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
       </table>
     </div>
 
-    <p>Nessa aula prática, você e seus colegas vão <span class="termo">propor as regras</span> do Laboratório de Mecânica. O professor vai consolidá-las no quadro. Meta: chegar a no mínimo 5 regras. Ao ser aprovada, a lista vira o <span class="termo">primeiro cartaz oficial</span> do laboratório — e leva os nomes dos autores.</p>
+    <p>Nessa aula você e seus colegas vão <span class="termo">conhecer o Método de Estudo</span> e <span class="termo">propor as regras</span> do Laboratório de Mecânica — o professor vai consolidá-las no quadro. Depois da aula, a conversa continua no site da FE1: a página <a href="https://nidecop-jafb.github.io/fe1-oa/sugestoes/" target="_blank" rel="noopener"><span class="termo">Sugestões de Aprimoramento</span></a> fica aberta para você enviar melhorias às regras, por texto ou por áudio. Ao ser aprovada, a lista vira o <span class="termo">primeiro cartaz oficial</span> do laboratório — e leva os nomes dos autores.</p>
   </div>
 
 </div>
@@ -835,8 +871,8 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
 
   <p>Antes de sair, o Prof. Júlio fez três pedidos:</p>
   <div class="c5-passos">
-    <div class="passo"><span class="passo-num">1</span><span class="passo-texto">Leiam o Roteiro de Prática desta trilha — está no Moodle.</span></div>
-    <div class="passo"><span class="passo-num">2</span><span class="passo-texto">Tragam o Caderno de Laboratório, régua escolar, calculadora e celular.</span></div>
+    <div class="passo"><span class="passo-num">1</span><span class="passo-texto">Sigam o Método de Estudo no site da FE1: completem os passos da Pré-Lab — Ponto de Partida (PP), Resumo em Áudio (MD), este Texto Temático (TT), Simulações (SM) e Testinho (TN).</span></div>
+    <div class="passo"><span class="passo-num">2</span><span class="passo-texto">Tragam régua escolar, calculadora e celular — a folha do Roteiro de Bancada (RB) espera vocês na bancada, e no site dá para conhecê-la antes.</span></div>
     <div class="passo"><span class="passo-num">3</span><span class="passo-texto">Lembrem-se da frase do Lord Kelvin: <strong>sem número, não tem ciência. E sem incerteza, não tem número.</strong></span></div>
   </div>
 
@@ -849,8 +885,6 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
   <blockquote>"Todo o nosso conhecimento tem sua origem nas percepções."</blockquote>
   <div class="ca-autor">— Leonardo da Vinci (1452–1519)</div>
   <div class="ca-obra">Desenho: O Homem Vitruviano (c. 1490)</div>
-
-  <div class="fig" id="fig-12"><img src="../_imagens/_web/FE-T0A-IT-12-v6.jpg" alt="Fig. 13 — Homem Vitruviano"><div class="fig-caption">Fig. 13 — O Homem Vitruviano de Leonardo da Vinci: o corpo humano como primeiro instrumento de medida.</div></div>
 
   <div class="ca-desc">A pena e tinta marrom de Leonardo representa um homem com braços e pernas estendidos, inscrito num círculo e num quadrado. O desenho ilustra o <em>De Architectura</em> de Vitrúvio (séc. I a.C.): "as proporções do corpo humano são a referência natural para todas as outras medidas". Leonardo testou isso medindo contemporâneos com régua e compasso — o que Sofia, Pedro e Lucas fizeram no Lab de Mecânica. O corpo humano é a primeira régua portátil da humanidade.</div>
 
