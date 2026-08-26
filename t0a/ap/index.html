@@ -2462,7 +2462,7 @@ html, body {
     if (acao && taref) items.push([acao, taref]);
     if (prov) items.push(prov);
     if (frase) items.push(frase);
-    if (items.length) progressiveReveal(body, items, items[0]);
+    if (items.length) progressiveReveal(body, items, acao || prov || frase);
   })();
 })();
 
