@@ -1013,6 +1013,11 @@ html, body {
 .chk-t { font-size: 1rem; line-height: 1.4; }
 
 
+/* figuras inteiras — cartaz (s3), reguas (s4) e simbolo (s10): cover cortava 16-37% */
+.slide[data-slide="3"] .col-img img,
+.slide[data-slide="4"] .col-img img,
+.slide[data-slide="10"] .col-img img { object-fit: contain; }
+
 /* ajuste de transbordo — slides 4 e 11 (com botao de revelacao) */
 .slide[data-slide="4"] .tbl th, .slide[data-slide="4"] .tbl td { padding: 5px 9px; }
 .slide[data-slide="4"] .eq { padding: 6px 14px; }
