@@ -75,7 +75,9 @@
 /* METODO:CSS-INICIO */
 /* Paradas e numeracao do Metodo de Estudo (metodo_estudo.py, PARADAS_FE) */
   .parada { font-family: 'Courier New', monospace; font-size: .95rem; font-weight: bold; color: #fff; text-transform: uppercase; letter-spacing: .1em; margin: 26px 0 10px; border-left: 5px solid var(--epi); background: rgba(127,178,214,.14); padding: 9px 12px; }
-  .parada span { color: var(--aco); text-transform: none; letter-spacing: 0; font-weight: normal; font-size: .82rem; }
+  .parada span { color: var(--aco); text-transform: none; letter-spacing: 0; font-weight: normal; font-size: .95rem; }
+  /* Fontes azuis (var(--aco)) maiores em proporcao reforcada (pedido do autor, 2026-08-28) */
+  a.oa .tag { font-size: .95rem; }
   /* No celular a parada e o marco visual da lista: fonte maior e o "quando" desce de linha */
   @media (max-width: 560px) {
     .parada { font-size: 1.05rem; padding: 11px 12px; margin: 28px 0 12px; }
@@ -84,8 +86,9 @@
        e a tag (vale nota - quando - duracao) numa linha propria, alinhada ao nome. */
     a.oa, .oa.offline { font-size: 1.08rem; line-height: 1.5; }
     .oa.sub { font-size: 1.02rem; }
-    a.oa .tag, .oa.offline .tag { display: block; font-size: .95rem; margin-left: 2.2em; margin-top: 2px; }
+    a.oa .tag, .oa.offline .tag { display: block; font-size: 1.02rem; margin-left: 2.2em; margin-top: 2px; }
     a.oa.extra .tag { margin-left: 0; }
+    .parada span { font-size: 1rem; }
   }
   .oa .num { display: inline-block; min-width: 1.6em; color: var(--epi); }
   .oa.sub { font-size: .92rem; }  /* sem recuo: todos os OAs alinhados a esquerda (decisao 2026-08-19) */
@@ -99,13 +102,15 @@
   details.trilha { border: 1px solid #444; margin-bottom: 12px; scroll-margin-top: 64px; }
   @media (max-width: 560px) { details.trilha { scroll-margin-top: 108px; } } /* a barra de atalhos quebra em 2 linhas */
   details.trilha[open] { border-color: var(--aco); }
-  details.trilha > summary { cursor: pointer; list-style: none; padding: 15px 16px; font-family: 'Courier New', monospace; font-size: 1rem; color: #fff; }
+  details.trilha > summary { cursor: pointer; list-style: none; padding: 15px 16px; font-family: 'Courier New', monospace; font-size: 1.15rem; color: #fff; }
   details.trilha > summary::-webkit-details-marker { display: none; }
   details.trilha > summary::before { content: '+'; color: var(--epi); display: inline-block; min-width: 1.4em; }
   details.trilha[open] > summary::before { content: '\2212'; }
   details.trilha > summary:hover { color: var(--epi); }
   details.trilha > .trilha-corpo { padding: 0 14px 14px; }
   details.trilha .parada:first-child { margin-top: 4px; }
+  /* Titulo da trilha maior no celular — precisa vir DEPOIS da regra-base do summary na cascata */
+  @media (max-width: 560px) { details.trilha > summary { font-size: 1.28rem; } }
 /* METODO:CSS-FIM */
 
 </style>
