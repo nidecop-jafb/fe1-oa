@@ -3,165 +3,164 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FE-T0A &middot; Roteiro de Bancada — folha A4 para imprimir</title>
+<title>T0A · Metodologia Experimental — RB Estudante (impresso, 3 páginas)</title>
 <style>
+/* ============================================================
+   FE-T0A-RB-v5-estudante-impresso.html
+   Roteiro de Bancada — 3 paginas A4, para ESCRITA A MAO na bancada.
+   Alinhado ao padrao da T04 (formatacao da FA impressa da FC1,
+   decisao do autor em 2026-08-29):
+     pag 1  cabecalho FA + caixa IDENTIFICACAO + linha Piazzi + epigrafe
+            + Minha Trilha (Pre-Lab/Lab/Pos-Lab) + Seguranca
+            + Parte 1 (protocolo + tabela das 4 medicoes)
+     pag 2  Parte 2 (calculos) + Parte 3 (Protocolo C5)
+     pag 3  Parte 4 (discussao) + Parte 5 (normas do Lab) + Conclusao
+            + fecho + Espaco da Equipe de Monitoria
+   Sem espaco morto no pe da pagina: a folga vira linha de escrita
+   (classe .cresce — regra da FA/TR), e o rodape cola na base.
+   ============================================================ */
+
 :root {
-  /* Paleta FE — _identidade/paleta-fe.md
-     laranja-EPI (primario) + azul-aco (acento) */
-  --epi: #E07B39;
-  --epi-claro: #EE9A63;
-  --epi-bg: oklch(0.28 0.06 55);
-  --aco: #7FB2D6;
-  --aco-claro: #A7CCE6;
-  --aco-bg: oklch(0.28 0.05 240);
+  /* --- paleta de TELA (FE: laranja-EPI + azul-aco) --- */
+  --azul: #E07B39;
+  --azul-bg: oklch(0.28 0.06 55);
+  --ouro: #7FB2D6;
+  --ouro-bg: oklch(0.28 0.05 240);
   --verde: oklch(0.7 0.15 150);
-  --verde-claro: oklch(0.25 0.04 150);
   --erro: oklch(0.6 0.22 25);
-  --erro-claro: oklch(0.22 0.05 25);
-  --cinza: oklch(0.62 0.01 260);
-  --cinza-claro: oklch(0.18 0.01 260);
-  --cinza-borda: oklch(0.40 0.01 260);
+  --erro-bg: oklch(0.22 0.05 25);
+  --cinza: oklch(0.55 0.02 260);
+  --cinza-borda: oklch(0.38 0.02 260);
   --texto: oklch(0.93 0 0);
-  --branco: oklch(0.96 0 0);
-  --superficie: oklch(0.22 0.01 260);
-  --input-bg: oklch(0.18 0.01 260);
-  --hover-bg: oklch(0.25 0.01 260);
-  --fundo: oklch(0.13 0.01 260);
-  --painel: oklch(0.16 0.01 260);
-  --r: 0px;
-  --r-sm: 0px;
-  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --mono: 'Courier New', 'Cascadia Code', 'Consolas', monospace;
+  --branco: oklch(0.93 0 0);
+  --superficie: oklch(0.24 0.02 260);
+  --fundo: oklch(0.18 0.02 260);
+  --linha: oklch(0.38 0.02 260);
+  --font: 'Century Gothic', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'Space Mono', 'Cascadia Code', 'Consolas', monospace;
   --serif: 'Georgia', 'Cambria', 'Times New Roman', serif;
-  /* nomes herdados dos OAs de 2026-07 — apontam para a paleta FE */
-  --azul: var(--epi);
-  --azul-claro: var(--epi-claro);
-  --azul-bg: var(--epi-bg);
-  --ouro: var(--aco);
-  --ouro-claro: var(--aco-bg);
 }
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
 body {
   font-family: var(--font);
-  background: var(--cinza-claro);
+  background: var(--fundo);
   color: var(--texto);
   line-height: 1.45;
-  min-height: 100vh;
 }
 
-.page {
-  max-width: 740px;
-  margin: 0 auto;
-  padding: 20px 16px;
-}
+.folha { max-width: 760px; margin: 0 auto; padding: 20px 16px; }
 
-/* HEADER */
+/* ── PAGINA ── */
+.pagina { margin-bottom: 28px; }
+.pagina + .pagina { border-top: 2px dashed var(--cinza-borda); padding-top: 24px; }
+
+/* ── CABECALHO (padrao FA) ── */
 .header {
   display: flex; align-items: center; justify-content: space-between;
-  border-top: 2px solid var(--azul);
-  border-bottom: 2px solid var(--azul);
-  padding: 10px 0;
+  gap: 12px;
+  border-top: 3px solid var(--azul);
+  border-bottom: 1px solid var(--cinza-borda);
+  padding: 10px 0; margin-bottom: 12px;
+}
+.header-left h1 { font-size: 1.05rem; font-weight: 700; color: var(--azul); }
+.header-left .sub { font-size: .72rem; color: var(--cinza); margin-top: 2px; }
+.header-right { text-align: right; font-size: .7rem; color: var(--cinza); line-height: 1.5; }
+.header-right .badge { font-weight: 700; color: var(--azul); font-size: .75rem; }
+
+/* ── CAIXA IDENTIFICACAO ── */
+.id-box {
+  border: 1.5px solid var(--cinza-borda);
+  padding: 8px 12px 9px;
   margin-bottom: 10px;
 }
-.header-left h1 {
-  font-size: 1.05rem; font-weight: 700; color: var(--azul);
-  letter-spacing: .3px;
+.id-box-titulo {
+  font-size: .66rem; font-weight: 700; color: var(--cinza);
+  text-transform: uppercase; letter-spacing: .6px; margin-bottom: 6px;
 }
-.header-left .sub {
-  font-size: .72rem; color: var(--cinza); margin-top: 2px;
+.id-box .campo-linha {
+  display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap;
+  font-size: .8rem; border-bottom: 1px solid var(--linha);
+  padding-bottom: 5px; margin-bottom: 7px;
 }
-.header-right {
-  text-align: right;
-  font-size: .7rem; color: var(--cinza);
-  line-height: 1.5;
-}
-.header-right .lab {
-  font-weight: 600; color: var(--azul);
-  font-size: .75rem;
-}
-
-/* SECAO */
-.secao {
-  margin-bottom: 10px;
-  border-left: 3px solid var(--cinza-borda);
-  padding-left: 14px;
-}
-.secao.seg { border-left-color: var(--erro); }
-.secao.med { border-left-color: var(--ouro); }
-.secao.calc { border-left-color: var(--verde); }
-.secao.c5 { border-left-color: var(--azul-claro); }
-.secao.disc { border-left-color: oklch(0.65 0.15 280); }
-.secao.normas { border-left-color: var(--ouro); }
-.secao.fech { border-left-color: var(--verde); }
-
-.secao-titulo {
-  display: flex; align-items: center; gap: 8px;
-  margin-bottom: 6px;
-}
-.secao-titulo .num {
-  width: 22px; height: 22px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: .8rem; font-weight: 700;
-  background: var(--azul-bg); color: var(--azul);
-  border-radius: 50%; flex-shrink: 0;
-}
-.secao-titulo h2 {
-  font-size: .85rem; font-weight: 700;
-  color: var(--azul);
-  text-transform: uppercase;
-  letter-spacing: .3px;
-}
-
-/* IDENTIFICACAO GRID */
-.id-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px 16px;
-}
-.id-grid .campo {
-  display: flex; align-items: baseline; gap: 6px;
-  font-size: .8rem;
-  border-bottom: 1px dotted var(--cinza-borda);
-  padding-bottom: 4px;
-}
-.id-grid .campo.full { grid-column: 1 / -1; }
-.id-grid .campo label {
-  font-weight: 600; color: var(--azul);
-  white-space: nowrap; font-size: .75rem;
-}
-.id-grid .campo .linha {
-  flex: 1;
-  min-width: 0;
-  height: 1.2em;
-}
-.id-grid .campo .linha.curso { flex: .5; }
-/* RA: cabe em 7 digitos, entao nao precisa roubar espaco do nome */
-.id-grid .campo .linha.ra { flex: 0 0 7em; }
-.turma-opts, .bancada-opts {
-  font-size: .72rem; color: var(--cinza);
-  display: flex; gap: 12px;
-  margin-left: 4px; margin-right: 10px;
-  white-space: nowrap;
-}
-.turma-opts .opt, .bancada-opts .opt {
-  display: flex; align-items: center; gap: 5px;
-}
-.turma-opts .opt::before, .bancada-opts .opt::before {
+.id-box .campo-linha:last-child { margin-bottom: 0; }
+.id-box label { font-weight: 700; color: var(--azul); font-size: .74rem; white-space: nowrap; }
+.id-box .linha { flex: 1; min-width: 0; height: 1.3em; }
+.id-box .linha.ra { flex: 0 0 7.5em; }
+.id-box .linha.meia { flex: .6; }
+.opts { display: flex; gap: 12px; font-size: .72rem; color: var(--cinza); margin-right: 12px; white-space: nowrap; }
+.opts .opt { display: flex; align-items: center; gap: 4px; }
+.opts .opt::before {
   content: '';
   display: inline-block;
-  width: 16px; height: 16px;
+  width: 13px; height: 13px;
   border: 1.5px solid var(--cinza-borda);
   flex-shrink: 0;
 }
-.data-campo {
-  font-size: .75rem; color: var(--cinza);
-  white-space: nowrap;
-}
+.data-campo { font-size: .78rem; color: var(--cinza); white-space: nowrap; }
 
-/* CHECKBOX HANDWRITE */
-.check-list {
-  list-style: none; padding: 0; margin: 6px 0;
+/* ── BARRA PIAZZI ── */
+.piazzi {
+  display: flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap;
+  border: 1px solid var(--cinza-borda); padding: 7px 12px; margin-bottom: 10px;
+  font-size: .74rem; color: var(--cinza); text-align: center;
 }
+.piazzi .mao { color: var(--branco); font-weight: 600; }
+.piazzi em { color: var(--ouro); font-style: italic; }
+
+/* ── EPIGRAFE ── */
+.epigrafe {
+  border-left: 3px solid var(--ouro); background: var(--ouro-bg);
+  padding: 8px 12px; margin-bottom: 12px;
+  font-family: var(--serif); font-size: .82rem;
+}
+.epigrafe .cit { font-style: italic; color: var(--ouro); }
+.epigrafe .atrib { font-family: var(--font); font-size: .7rem; color: var(--cinza); }
+
+/* ── MINHA TRILHA (checklist dos OAs, padrao FA) ── */
+.checklist { margin-bottom: 12px; }
+.checklist-titulo {
+  text-align: center; font-size: .68rem; font-weight: 700; color: var(--cinza);
+  text-transform: uppercase; letter-spacing: .6px; margin-bottom: 7px;
+}
+.checklist-fases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.fase { border: 1px solid var(--cinza-borda); border-top: 2px solid var(--ouro); padding: 6px 8px 7px; }
+.fase-nome {
+  font-size: .66rem; font-weight: 700; color: var(--ouro);
+  text-transform: uppercase; letter-spacing: .4px; margin-bottom: 5px;
+}
+.fase-oas { display: flex; flex-wrap: wrap; gap: 4px 8px; }
+.oa-item { display: flex; align-items: center; gap: 4px; font-size: .64rem; line-height: 1.2; }
+.oa-box { width: 9px; height: 9px; border: 1px solid var(--cinza); flex-shrink: 0; }
+.oa-sigla { font-family: var(--mono); font-weight: 700; color: var(--texto); }
+.oa-nome { color: var(--cinza); }
+
+/* ── SECAO ── */
+.secao { margin-bottom: 12px; }
+.secao-titulo { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.secao-titulo .num {
+  width: 24px; height: 24px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .78rem; font-weight: 700;
+  background: var(--azul-bg); color: var(--azul); border-radius: 50%;
+}
+.secao-titulo h2 {
+  font-size: .88rem; font-weight: 700; color: var(--azul);
+  text-transform: uppercase; letter-spacing: .4px;
+}
+.secao-titulo .hint { margin-left: auto; font-size: .66rem; color: var(--cinza); font-style: italic; }
+
+/* ── SEGURANCA ── */
+.alerta-seg {
+  background: var(--erro-bg);
+  border: 1px solid var(--erro);
+  padding: 6px 10px;
+  font-size: .72rem;
+  margin-bottom: 6px;
+}
+.alerta-seg strong { color: var(--erro); }
+.check-list { list-style: none; padding: 0; margin: 6px 0; }
 .check-list li {
   display: flex; align-items: flex-start; gap: 8px;
   font-size: .78rem;
@@ -170,153 +169,93 @@ body {
 .check-list li::before {
   content: '';
   display: inline-block;
-  width: 16px; height: 16px;
+  width: 15px; height: 15px;
   border: 1.5px solid var(--cinza-borda);
   flex-shrink: 0;
   margin-top: 1px;
 }
 .check-list.seg li::before { border-color: var(--erro); }
-
 .assinatura {
   display: flex; align-items: baseline; gap: 8px;
-  margin: 8px 0;
-  font-size: .78rem; font-weight: 800; color: var(--azul);
+  margin: 8px 0 0;
+  font-size: .78rem; font-weight: 700; color: var(--azul);
 }
-.assinatura .linha-ass {
-  flex: 1;
-  border-bottom: 1.5px solid var(--erro);
-  min-height: 1.4em;
-}
+.assinatura .linha-ass { flex: 1; border-bottom: 1.5px solid var(--erro); min-height: 1.4em; }
 
-/* ALERTA */
-.alerta-seg {
-  background: var(--erro-claro);
-  border: 1px solid var(--erro);
-  padding: 6px 10px;
-  font-size: .72rem;
-  margin-bottom: 6px;
-  display: flex; align-items: center; gap: 6px;
-}
-.alerta-seg strong { color: var(--erro); }
-
-/* LEMBRETE */
+/* ── PROTOCOLO DE MEDICAO ── */
 .lembrete {
-  background: var(--ouro-claro);
+  background: var(--ouro-bg);
   border: 1px solid var(--ouro);
   padding: 6px 10px;
   font-size: .72rem;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 .lembrete strong { color: var(--ouro); }
-
-.protocolo-lista {
-  list-style: none; padding: 0; margin: 0 0 8px;
-}
+.protocolo-lista { list-style: none; padding: 0; margin: 0 0 8px; }
 .protocolo-lista li {
-  font-size: .8rem;
-  padding: 1px 0 1px 16px;
+  font-size: .78rem;
+  padding: 2px 0 2px 18px;
   position: relative;
 }
 .protocolo-lista li::before {
   content: attr(data-n);
   position: absolute; left: 0;
   color: var(--azul); font-weight: 700;
-  font-size: .7rem;
+  font-size: .72rem;
 }
+.nota-metodo { font-size: .74rem; color: var(--cinza); font-style: italic; margin-top: 4px; }
 
-/* TABELA DE DADOS */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: .8rem;
-  margin: 6px 0;
-}
+/* ── TABELAS DE DADOS ── */
+.tabela-rotulo { font-size: .74rem; color: var(--cinza); font-style: italic; margin: 6px 0 3px; }
+table { width: 100%; border-collapse: collapse; font-size: .8rem; margin: 4px 0 8px; }
 th {
-  background: var(--azul);
-  color: var(--branco);
+  background: var(--azul-bg);
+  color: var(--azul);
   padding: 5px 4px;
   text-align: center;
-  font-size: .75rem;
+  font-size: .72rem;
   text-transform: uppercase;
   letter-spacing: .2px;
-  font-weight: 600;
+  font-weight: 700;
+  border: 1px solid var(--cinza-borda);
 }
 th:first-child { text-align: left; padding-left: 8px; }
-/* simbolos de grandeza e unidades SI nunca sao maiusculizados */
 th .un { text-transform: none; }
 td {
-  padding: 10px 6px;
+  padding: 8px 6px;
   border: 1px solid var(--cinza-borda);
   text-align: center;
   vertical-align: middle;
-  height: 32px;
+  height: 30px;
 }
-td:first-child {
-  text-align: left;
-  padding-left: 8px;
-  font-size: .8rem;
-}
-tr.voce td {
-  background: var(--azul-bg);
-  border-color: var(--azul);
-}
-tr.voce td:first-child {
-  font-weight: 700;
-  color: var(--azul);
-}
-.escalas-nota {
-  font-size: .8rem; color: var(--cinza);
-  margin-top: 4px; font-style: italic;
-}
-.escalas-regra {
-  font-size: .8rem; color: var(--cinza);
-  margin-top: 4px; font-style: italic;
-}
-/* CALCULOS */
-.calc-bloco {
-  background: var(--superficie);
-  padding: 8px 12px;
-  margin: 6px 0;
-}
-.calc-formula {
-  display: flex; align-items: center; gap: 6px;
-  font-size: .82rem; margin: 6px 0;
-}
-.calc-formula .label {
-  font-weight: 600; color: var(--azul);
-  white-space: nowrap;
-}
-.calc-formula .eq {
-  font-family: var(--mono);
-  font-size: .82rem;
-  color: var(--cinza);
-}
-.calc-formula .campo-calc {
-  border-bottom: 1.5px solid var(--azul);
-  min-width: 80px;
-  height: 1.1em;
-  display: inline-block;
-}
+td:first-child { text-align: left; padding-left: 8px; }
+tr.voce td { background: var(--azul-bg); border-color: var(--azul); }
+tr.voce td:first-child { font-weight: 700; color: var(--azul); }
+
+/* ── CALCULOS ── */
+.calc-bloco { background: var(--superficie); padding: 8px 12px; margin: 6px 0 0; }
+.calc-formula { display: flex; align-items: center; gap: 6px; font-size: .8rem; margin: 6px 0; }
+.calc-formula .label { font-weight: 600; color: var(--azul); white-space: nowrap; }
+.calc-formula .eq { font-family: var(--mono); font-size: .78rem; color: var(--cinza); }
+.calc-formula .campo-calc { border-bottom: 1.5px solid var(--azul); min-width: 80px; height: 1.1em; display: inline-block; }
+.calc-formula .un-m { font-size: .72rem; }
 /* conversao para o SI antes da media — sem ela o aluno soma m + dm + cm + mm */
 .calc-formula.conv { flex-wrap: wrap; gap: 4px 12px; }
 .calc-formula.conv .conv-item { display: flex; align-items: center; gap: 5px; }
 .calc-formula.conv .campo-calc { min-width: 52px; }
-.calc-formula .un-m { font-size: .75rem; }
+
 .resultado-final {
-  background: linear-gradient(135deg, var(--azul-bg), var(--ouro-claro));
   border: 1.5px solid var(--azul);
+  background: var(--azul-bg);
   padding: 8px 12px;
   text-align: center;
-  margin: 10px 0;
+  margin: 8px 0 0;
 }
 .resultado-final .titulo-res {
-  font-size: .80rem; text-transform: uppercase; letter-spacing: 1px;
-  color: var(--azul); font-weight: 600; margin-bottom: 4px;
+  font-size: .72rem; text-transform: uppercase; letter-spacing: 1px;
+  color: var(--azul); font-weight: 700; margin-bottom: 4px;
 }
-.resultado-final .formula-res {
-  font-size: 1.1rem; font-weight: 700; color: var(--branco);
-  font-family: var(--mono);
-}
+.resultado-final .formula-res { font-size: 1.05rem; font-weight: 700; color: var(--branco); font-family: var(--mono); }
 .resultado-final .campo-res {
   display: inline-block;
   border-bottom: 1.5px solid var(--azul);
@@ -324,609 +263,642 @@ tr.voce td:first-child {
   height: 1.3em;
 }
 
-/* METODOLOGIA CINETÍFICA - C5 */
-.c5-lista {
-  list-style: none; padding: 0; margin: 0;
-}
+/* ── PROTOCOLO C5 ── */
+.c5-lista { list-style: none; padding: 0; margin: 0; }
 .c5-lista li {
   padding: 4px 0 4px 24px;
   position: relative;
-  font-size: .80rem;
+  font-size: .8rem;
   border-bottom: 1px dotted var(--cinza-borda);
-  min-height: 28px;
+  min-height: 30px;
 }
 .c5-lista li:last-child { border-bottom: none; }
-.c5-lista li .passo-num {
-  position: absolute; left: 0; top: 4px;
-  font-weight: 700; color: var(--azul);
-  font-size: .8rem;
-}
-.c5-lista li .passo-label {
-  font-weight: 600; color: var(--azul-claro);
-}
-.c5-lista li .campo-c5 {
-  display: block;
-  border-bottom: 1px dotted var(--cinza-borda);
-  min-height: 20px;
-  margin-top: 1.5px;
-}
+.c5-lista li .passo-num { position: absolute; left: 0; top: 4px; font-weight: 700; color: var(--azul); font-size: .8rem; }
+.c5-lista li .passo-label { font-weight: 600; color: var(--ouro); }
+.c5-lista li .inline-resp { font-size: .78rem; font-family: var(--mono); color: var(--azul); }
 .c5-esboco {
   border: 1px dashed var(--cinza-borda);
-  height: 50px;
-  margin: 4px 0;
-  position: relative;
+  height: 48px;
+  margin: 4px 0 2px;
   display: flex; align-items: flex-end; justify-content: space-between;
   padding: 0 12px 2px;
-  font-size: .8rem; color: var(--cinza);
+  font-size: .74rem; color: var(--cinza);
   font-family: var(--mono);
 }
 
-/* DISCUSSAO */
-.disc-q {
-  font-size: .8rem; margin: 6px 0 2px;
-}
+/* ── DISCUSSAO ── */
+.disc-item { display: flex; flex-direction: column; margin-bottom: 4px; }
+.disc-q { font-size: .8rem; margin: 4px 0 2px; }
 .disc-q strong { color: var(--azul); }
-.disc-linha {
-  border-bottom: 1px dotted var(--cinza-borda);
-  height: 25px;
-  margin: 2px 0;
-}
+.disc-linha { border-bottom: 1px dotted var(--cinza-borda); min-height: 24px; }
 
-/* NORMAS TABLE */
+/* ── NORMAS ── */
 .normas-table td:first-child {
   width: 28px; text-align: center;
   font-weight: 700; color: var(--azul);
   font-size: .85rem;
 }
-.normas-table td:last-child {
-  width: 100px;
-}
+.normas-table td:last-child { width: 110px; }
 
-/* CITACAO */
-.citacao {
-  text-align: center;
-  font-size: .8rem;
-  font-style: italic;
-  color: var(--cinza);
-  padding: 8px 20px;
-  border-top: 1px solid var(--cinza-borda);
-  margin-top: 8px;
+/* ── FECHAMENTO (padrao FA) ── */
+.fechamento { border-top: 1px solid var(--cinza-borda); margin-top: 10px; padding-top: 9px; }
+.fechamento .frase {
+  text-align: center; font-size: .92rem; font-style: italic; color: var(--texto); line-height: 1.55;
 }
+.fechamento .frase strong { color: var(--ouro); font-style: normal; }
 
-/* FOOTER TELA */
-.footer-tela {
-  text-align: center;
-  padding: 16px 0;
-  margin-top: 12px;
+/* ── ESPACO DA EQUIPE DE MONITORIA (padrao FA) ── */
+.monitoria { border: 1.5px solid var(--verde); margin-top: 10px; padding: 8px 10px 9px; }
+.monitoria-titulo {
+  font-size: .68rem; font-weight: 700; color: var(--verde);
+  text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px;
 }
-.footer-tela .btn {
-  padding: 10px 24px;
-  background: var(--azul);
-  color: var(--branco);
-  border: none;
-  font-family: var(--font);
-  font-size: .85rem;
-  font-weight: 500;
-  cursor: pointer;
-  min-height: 35px;
+.monitoria-entrega { font-size: .8rem; font-weight: 600; margin-bottom: 7px; }
+.monitoria-marcas { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-bottom: 7px; }
+.marca { display: flex; align-items: center; gap: 5px; font-size: .72rem; }
+.marca .cx { width: 11px; height: 11px; border: 1px solid var(--cinza); flex-shrink: 0; }
+.marca .data { display: inline-flex; align-items: flex-end; gap: 3px; color: var(--cinza); }
+.marca .data i { display: inline-block; border-bottom: 1px solid var(--linha); height: 1em; font-style: normal; }
+.marca .data .d, .marca .data .m { width: 22px; }
+.marca .data .a { width: 34px; }
+.monitoria-obs { font-size: .64rem; color: var(--cinza); text-transform: uppercase; letter-spacing: .4px; }
+.monitoria-linha { border-bottom: 1px solid var(--linha); height: 22px; }
+.monitoria-assina { display: grid; grid-template-columns: 2fr 1fr; gap: 18px; margin-top: 6px; }
+.monitoria-assina .campo {
+  display: flex; align-items: baseline; gap: 6px;
+  font-size: .72rem; border-bottom: 1px solid var(--linha); padding-bottom: 3px;
 }
-.footer-tela .btn:hover { background: var(--azul-claro); }
-.footer-tela .creditos {
-  font-size: .8rem; color: var(--cinza);
-  margin-top: 8px;
-}
+.monitoria-assina label { font-weight: 600; color: var(--verde); white-space: nowrap; font-size: .68rem; }
+.monitoria-assina .linha { flex: 1; min-width: 0; height: 1.2em; }
 
-.footer-print { display: none; }
+/* ── RODAPES ── */
+.rodape-print { display: none; }
+.barra-tela { text-align: center; padding: 18px 0 6px; }
+.barra-tela .btn {
+  padding: 11px 26px; background: var(--azul); color: oklch(0.13 0.01 260);
+  border: none; font-family: var(--font); font-size: .85rem; font-weight: 700;
+  cursor: pointer; min-height: 44px;
+}
+.barra-tela .btn:hover { filter: brightness(1.1); }
+.barra-tela .nota { font-size: .66rem; color: var(--cinza); margin-top: 8px; line-height: 1.5; }
 
-/* =========== PRINT =========== */
+/* ============================================================
+   IMPRESSAO — paleta azul sobre branco (padrao T04):
+   titulos e rotulos em azul #1F3864, linhas de escrita discretas.
+   @page { margin: 0 } suprime o cabecalho/rodape do navegador;
+   a margem real vira o padding de .pagina.
+   ============================================================ */
 @media print {
-  /* margin: 0 zera a area de margem da folha — e nela que o navegador
-     desenha titulo, URL, numero de pagina e data. Sem margem, esses
-     elementos nao sao impressos. As margens reais do documento passam
-     a ser o padding de .folha, aplicado uma vez por pagina. */
-  @page {
-    size: A4 portrait;
-    margin: 0;
-  }
+  @page { size: A4 portrait; margin: 0; }
+
   body {
-    background: white !important;
+    background: #FFFFFF !important;
     color: #1A1A1A !important;
-    font-size: 9pt;
-    line-height: 1.35;
+    font-size: 8.8pt;
+    line-height: 1.34;
   }
-  .page { max-width: none; padding: 0; }
+  .folha { max-width: none; padding: 0; }
 
-  /* cada .folha e uma pagina A4 com suas proprias margens */
-  .folha { padding: 12mm 12mm 10mm 12mm; }
-  .folha + .folha { break-before: page; page-break-before: always; }
-
-  /* ajuste fino para a folha 2 fechar em 1 pagina (sem 3.a folha orfa) */
-  .c5-lista li { min-height: 40px !important; }
-  .c5-esboco { height: 42px; }
-  .disc-linha { height: 21px; }
-  .normas-table td { padding: 6px; height: 28px; }
-  .citacao { padding: 4px 16px; margin-top: 4px; }
-
-  .header {
-    border-top: 2px solid #1F3864;
-    border-bottom: 1px solid #C0C0C0;
-    padding: 6px 0;
-    margin-bottom: 8px;
+  /* uma .pagina por folha A4; coluna flex com a altura da folha:
+     a folga vira linha de escrita (.cresce) e o rodape cola na base */
+  .pagina {
+    margin: 0; padding: 11mm 13mm 9mm 13mm;
+    break-after: page; page-break-after: always;
+    display: flex; flex-direction: column; height: 297mm;
   }
-  .header-left h1 { color: #1F3864 !important; font-size: 11pt; }
-  .header-left .sub { color: #808080 !important; }
-  .header-right { color: #808080 !important; }
-  .header-right .lab { color: #1F3864 !important; }
-
-  .secao {
-    border-left-width: 2px;
-    padding-left: 10px;
-    margin-bottom: 6px;
+  .pagina:last-of-type { break-after: auto; page-break-after: auto; }
+  /* ARMADILHA (FA): repetir o padding-top — a regra de tela
+     `.pagina + .pagina` vence dentro do @media print. */
+  .pagina + .pagina { border-top: none; padding-top: 11mm; }
+  .rodape-print {
+    display: block; text-align: center;
+    font-size: 6.8pt; color: #808080;
+    border-top: .5pt solid #D0D0D0; padding-top: 3pt;
+    margin-top: auto;
   }
-  .secao.seg { border-left-color: #C0392B !important; }
-  .secao.med { border-left-color: #C8922A !important; }
-  .secao.calc { border-left-color: #27AE60 !important; }
-  .secao.c5 { border-left-color: #2980B9 !important; }
-  .secao.disc { border-left-color: #8E44AD !important; }
-  .secao.normas { border-left-color: #C8922A !important; }
-  .secao.fech { border-left-color: #27AE60 !important; }
 
-  .secao-titulo .num {
-    background: #E8EDF4 !important; color: #1F3864 !important;
+  /* a secao marcada .cresce absorve a folga da pagina; tabela .estica
+     dentro dela distribui a folga entre as proprias linhas */
+  .cresce { flex: 1 1 auto; display: flex; flex-direction: column; }
+  .cresce table.estica { flex: 1 1 auto; }
+
+  .header { border-top: 2.5pt solid #1F3864; border-bottom: .5pt solid #C0C0C0; padding: 5pt 0; margin-bottom: 7pt; }
+  .header-left h1 { color: #1F3864 !important; font-size: 12pt; }
+  .header-left .sub { color: #4D6A96 !important; }
+  .header-right { color: #4D6A96 !important; }
+  .header-right .badge { color: #1F3864 !important; }
+
+  .id-box { border: 1pt solid #1A1A1A !important; padding: 5pt 8pt 6pt; margin-bottom: 6pt; }
+  .id-box-titulo { color: #1A1A1A !important; font-size: 7pt; margin-bottom: 4pt; }
+  .id-box .campo-linha { border-bottom: .75pt solid #7A7A7A !important; padding-bottom: 4pt; margin-bottom: 5pt; }
+  .id-box label { color: #1F3864 !important; }
+  .opts { color: #4D4D4D !important; }
+  .opts .opt::before { border: 1pt solid #808080 !important; width: 10pt; height: 10pt; }
+  .data-campo { color: #4D4D4D !important; }
+
+  .piazzi { border: .5pt solid #C0C0C0 !important; color: #1F3864 !important; padding: 4pt 8pt; margin-bottom: 6pt; font-size: 8pt; }
+  .piazzi .mao { color: #1F3864 !important; font-weight: 700; }
+  .piazzi em { color: #1F3864 !important; }
+
+  .epigrafe {
+    background: #F4F4F4 !important; border-left: 2.5pt solid #1F3864 !important;
+    padding: 5pt 9pt; margin-bottom: 7pt; font-size: 9pt;
     -webkit-print-color-adjust: exact; print-color-adjust: exact;
   }
-  .secao-titulo h2 { color: #1F3864 !important; font-size: 9pt; }
+  .epigrafe .cit { color: #1F3864 !important; }
+  .epigrafe .atrib { color: #4D4D4D !important; }
 
-  .id-grid .campo { border-bottom-color: #C0C0C0 !important; }
-  .id-grid .campo label { color: #1F3864 !important; }
-  .turma-opts .opt::before, .bancada-opts .opt::before { border-color: #808080 !important; }
+  .checklist { margin-bottom: 7pt; }
+  .checklist-titulo { color: #1F3864 !important; font-size: 7.2pt; margin-bottom: 3pt; }
+  .checklist-fases { gap: 6pt; }
+  .fase {
+    border: .5pt solid #B5B5B5 !important; border-top: 1.5pt solid #1F3864 !important;
+    padding: 4pt 6pt 4.5pt; break-inside: avoid;
+  }
+  .fase-nome { color: #1F3864 !important; font-size: 7.4pt; margin-bottom: 3pt; }
+  .fase-oas { gap: 3pt 7pt; }
+  .oa-item { font-size: 7pt; }
+  .oa-box { width: 7pt; height: 7pt; border: .75pt solid #1A1A1A !important; }
+  .oa-sigla { color: #000000 !important; }
+  .oa-nome { color: #4D4D4D !important; }
 
-  .check-list li::before { border-color: #808080 !important; }
-  .check-list.seg li::before { border-color: #C0392B !important; }
-
-  .assinatura { color: #1F3864 !important; }
-  .assinatura .linha-ass { border-bottom-color: #C0392B !important; }
+  .secao { margin-bottom: 7pt; }
+  .secao-titulo { margin-bottom: 5pt; gap: 6pt; }
+  .secao-titulo .num {
+    background: #E8EDF4 !important; color: #1F3864 !important;
+    border: .75pt solid #1F3864;
+    width: 15pt; height: 15pt; font-size: 8pt;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .secao-titulo h2 { color: #1F3864 !important; font-size: 9.5pt; }
+  .secao-titulo .hint { color: #808080 !important; font-size: 7pt; }
 
   .alerta-seg {
     background: #FDEDEC !important; border-color: #C0392B !important;
+    padding: 4pt 8pt; margin-bottom: 4pt;
     -webkit-print-color-adjust: exact; print-color-adjust: exact;
   }
   .alerta-seg strong { color: #C0392B !important; }
+  .check-list li { font-size: 8.2pt; padding: 2pt 0; }
+  .check-list li::before { width: 10pt; height: 10pt; border: 1pt solid #808080 !important; }
+  .check-list.seg li::before { border-color: #C0392B !important; }
+  .assinatura { color: #1F3864 !important; margin-top: 4pt; }
+  .assinatura .linha-ass { border-bottom-color: #C0392B !important; }
 
   .lembrete {
     background: #FFF5E0 !important; border-color: #C8922A !important;
+    padding: 4pt 8pt; margin-bottom: 5pt;
     -webkit-print-color-adjust: exact; print-color-adjust: exact;
   }
-  .lembrete strong { color: #C8922A !important; }
+  .lembrete strong { color: #8A6A18 !important; }
+  .protocolo-lista li { font-size: 8.2pt; padding: 1.5pt 0 1.5pt 14pt; }
+  .protocolo-lista li::before { color: #1F3864 !important; font-size: 7.6pt; }
+  .nota-metodo { color: #808080 !important; font-size: 7.4pt; }
 
-  .protocolo-lista li::before { color: #1F3864 !important; }
-
+  .tabela-rotulo { color: #4D4D4D !important; font-size: 7.6pt; margin: 3pt 0 2pt; }
+  table { font-size: 8.2pt; margin: 2pt 0 5pt; }
   th {
-    background: #F0F0F0 !important; color: #1A1A1A !important;
+    background: #E8EDF4 !important; color: #1F3864 !important;
+    border: .5pt solid #9AA7BD !important; padding: 3pt 3pt;
     -webkit-print-color-adjust: exact; print-color-adjust: exact;
-    border: 1px solid #C0C0C0;
   }
-  td { border-color: #C0C0C0 !important; }
+  td { border: .5pt solid #9AA7BD !important; height: 11mm; padding: 3pt 4pt; }
   tr.voce td {
-    background: #E8EDF4 !important;
-    border-color: #1F3864 !important;
+    background: #E8EDF4 !important; border-color: #1F3864 !important;
     -webkit-print-color-adjust: exact; print-color-adjust: exact;
   }
   tr.voce td:first-child { color: #1F3864 !important; }
-  .escalas-nota { color: #808080 !important; }
 
-  .calc-bloco { background: #F8F8F8 !important; }
+  .calc-bloco { background: #F8F8F8 !important; padding: 4pt 8pt; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .calc-formula { font-size: 8.4pt; margin: 4pt 0; }
   .calc-formula .label { color: #1F3864 !important; }
-  .calc-formula .eq { color: #808080 !important; }
+  .calc-formula .eq { color: #4D4D4D !important; }
   .calc-formula .campo-calc { border-bottom-color: #1F3864 !important; }
 
   .resultado-final {
-    background: #F4F4F4 !important;
-    border-color: #1F3864 !important;
+    background: #F4F6FA !important; border: 1pt solid #1F3864 !important;
+    padding: 5pt 9pt; margin-top: 4pt;
     -webkit-print-color-adjust: exact; print-color-adjust: exact;
   }
-  .resultado-final .titulo-res { color: #1F3864 !important; }
-  .resultado-final .formula-res { color: #1A1A1A !important; }
+  .resultado-final .titulo-res { color: #1F3864 !important; font-size: 7.4pt; }
+  .resultado-final .formula-res { color: #1A1A1A !important; font-size: 10pt; }
   .resultado-final .campo-res { border-bottom-color: #1F3864 !important; }
 
-  .c5-lista li { border-bottom-color: #D0D0D0 !important; }
+  .c5-lista { flex: 1 1 auto; display: flex; flex-direction: column; }
+  .c5-lista li { flex: 1 1 auto; border-bottom: .5pt dotted #9AA7BD !important; min-height: 8mm; }
+  .c5-lista li.fixo { flex: 0 0 auto; }
   .c5-lista li .passo-num { color: #1F3864 !important; }
-  .c5-lista li .passo-label { color: #2980B9 !important; }
-  .c5-lista li .campo-c5 { border-bottom-color: #D0D0D0 !important; }
-  .c5-esboco { border-color: #C0C0C0 !important; color: #808080 !important; }
+  .c5-lista li .passo-label { color: #2E5A8F !important; }
+  .c5-lista li .inline-resp { color: #1F3864 !important; }
+  .c5-esboco { border-color: #9AA7BD !important; color: #808080 !important; height: 12mm; }
 
+  .disc-item { flex: 1 1 auto; }
+  .disc-q { font-size: 8.2pt; }
   .disc-q strong { color: #1F3864 !important; }
-  .disc-linha { border-bottom-color: #D0D0D0 !important; }
+  .disc-linha { flex: 1 1 auto; border-bottom: .5pt dotted #9AA7BD !important; min-height: 7mm; }
 
   .normas-table td:first-child { color: #1F3864 !important; }
 
-  .citacao { color: #808080 !important; border-top-color: #D0D0D0 !important; }
+  .fechamento { border-top: .5pt solid #C0C0C0 !important; margin-top: 5pt; padding-top: 5pt; flex: 0 0 auto; }
+  .fechamento .frase { color: #1F3864 !important; font-size: 9.6pt; line-height: 1.4; }
+  .fechamento .frase strong { color: #1F3864 !important; }
 
-  .footer-tela { display: none; }
-  .footer-print {
-    display: block;
-    text-align: center;
-    font-size: 7pt;
-    color: #808080;
-    border-top: 1px solid #D0D0D0;
-    padding-top: 4px;
-    margin-top: 6px;
-  }
+  .monitoria { border: 1pt solid #1A1A1A !important; margin-top: 5pt; padding: 4pt 7pt 4.5pt; break-inside: avoid; }
+  .monitoria-titulo { color: #1A1A1A !important; font-size: 7pt; margin-bottom: 2pt; }
+  .monitoria-entrega { color: #000000 !important; font-size: 8.6pt; margin-bottom: 3.5pt; }
+  .monitoria-marcas { gap: 3pt 24pt; margin-bottom: 3.5pt; }
+  .marca { font-size: 7.8pt; color: #000000 !important; }
+  .marca .cx { width: 8.5pt; height: 8.5pt; border: .75pt solid #1A1A1A !important; }
+  .marca .data { color: #000000 !important; gap: 2pt; }
+  .marca .data i { border-bottom: .75pt solid #7A7A7A !important; height: .95em; }
+  .marca .data .d, .marca .data .m { width: 16pt; }
+  .marca .data .a { width: 26pt; }
+  .monitoria-obs { color: #4D4D4D !important; font-size: 6.6pt; }
+  .monitoria-linha { border-bottom: .5pt solid #7A7A7A !important; height: 6mm; }
+  .monitoria-assina { gap: 16pt; margin-top: 3pt; }
+  .monitoria-assina .campo { border-bottom: .75pt solid #7A7A7A !important; padding-bottom: 2.5pt; font-size: 7.8pt; }
+  .monitoria-assina label { color: #1A1A1A !important; font-size: 7.2pt; }
+
+  .barra-tela { display: none !important; }
 }
-
-/* ==== PADRAO FE — aplicado por padronizar_oa_fe.py ==== */
-body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
-.container { max-width: 800px; margin: 0 auto; padding: 24px 16px 80px; }
-/* HEADER */
-.header { background: var(--painel); border-top: 3px solid var(--epi); padding: 14px 20px; margin-bottom: 20px; }
-.header-inner { max-width: 800px; margin: 0 auto; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
-.header .marca { width: 52px; height: 52px; flex-shrink: 0; }
-.header h1 { font-size: 1.4rem; font-weight: 900; letter-spacing: -0.02em; flex: 1 1 240px; }
-.header h1 .trilha-code { color: var(--epi); }
-.badge {
-  display: inline-block;
-  background: var(--epi); color: oklch(0.13 0.01 260);
-  padding: 4px 12px; border-radius: var(--r-sm);
-  font-size: 0.68rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 2px;
-}
-.header-sub {
-  max-width: 800px; margin: 6px auto 0;
-  font-size: 0.88rem;
-  color: var(--cinza);
-}
-
-/* PIAZZI BAR */
-.piazzi-bar { display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; background:var(--painel); border:1px solid var(--cinza-borda); padding:10px 16px; margin-bottom:16px; font-size:.78rem; }
-.piazzi-bar .piazzi-ref { color:var(--cinza); }
-.piazzi-bar .piazzi-tag { display:inline-block; border:1px solid var(--epi); color:var(--epi); padding:2px 10px; font-size:.72rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; }
-.piazzi-bar .piazzi-text { color:var(--texto); font-style:italic; font-size:.74rem; }
-.piazzi-bar .piazzi-yt { display:inline-flex; align-items:center; gap:5px; background:var(--erro); color:var(--branco); padding:4px 12px; font-size:.72rem; font-weight:700; text-decoration:none; cursor:pointer; }
-.piazzi-bar .piazzi-yt::before { content:'\25B6'; font-size:.6rem; }
-
-/* INTRO */
-.intro-box {
-  display: flex;
-  align-items: flex-start;
-  gap: 18px;
-  background: var(--superficie);
-  border: 1px solid var(--cinza-borda);
-  border-left: 4px solid var(--aco);
-  padding: 16px 18px;
-  margin-bottom: 20px;
-  font-size: 0.88rem;
-  line-height: 1.6;
-  color: var(--texto);
-}
-.intro-box .vagoneta { width: 84px; height: auto; flex-shrink: 0; display: block; margin-top: 2px; }
-.intro-box strong { color: var(--epi); }
-
-/* ENCERRAMENTO */
-.encerramento { max-width:800px; margin:30px auto 10px; padding:20px 16px; border-top:2px solid var(--epi); text-align:center; }
-.encerramento .fecho-frase { font-family:var(--serif); font-size:1.02rem; line-height:1.5; }
-.encerramento .fecho-acao { color:var(--epi); font-size:.95rem; text-transform:uppercase; font-weight:700; margin-top:10px; line-height:1.5; }
-.encerramento .fecho-links { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:14px; }
-.encerramento .fecho-btn { display:inline-flex; align-items:center; gap:7px; padding:10px 18px; min-height:44px; background:var(--epi); color:oklch(0.13 0.01 260); font-family:var(--mono); font-size:.8rem; font-weight:700; text-decoration:none; letter-spacing:.03em; }
-.encerramento .fecho-btn::before { content:'\25B6'; font-size:.62rem; }
-.encerramento .fecho-btn:hover { background:var(--epi-claro); }
-.encerramento .fecho-btn.secundario { background:transparent; color:var(--aco); border:1px solid var(--aco); }
-.encerramento .fecho-btn.secundario::before { content:'\2630'; font-size:.72rem; }
-.encerramento .fecho-btn.secundario:hover { background:var(--aco-bg); }
-.encerramento .fecho-inst { color:var(--cinza); font-size:.85rem; margin-top:16px; line-height:1.5; }
-.footer-line { text-align:center; font-size:.85rem; color:var(--cinza); padding:16px 12px; line-height:1.5; }
-.header .badge { background: var(--epi); color: oklch(0.13 0.01 260); padding: 4px 12px; border-radius: var(--r-sm); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; }
-.header .header-inner h1 { font-size: 1.4rem; font-weight: 900; letter-spacing: -0.02em; flex: 1 1 240px; }
-.header .header-inner h1 .trilha-code { color: var(--epi); }
-
-.header .marca { width: 42px; height: 42px; flex-shrink: 0; }
-.header { display: flex; align-items: center; gap: 12px; }
-@media print { .header .marca { width: 38px; height: 38px; } }
 </style>
 </head>
 <body>
 
-<div class="page">
-
-<!-- ============ FOLHA 1 ============ -->
 <div class="folha">
 
-<!-- HEADER -->
-<div class="header">
-  <svg class="marca" viewBox="0 0 120 120" role="img" aria-label="Marca da F&iacute;sica Experimental 1">
-        <g fill="none" stroke="#AE5314" stroke-width="3">
-          <ellipse cx="60" cy="52" rx="46" ry="18"/>
-          <ellipse cx="60" cy="52" rx="46" ry="18" transform="rotate(60 60 52)"/>
-          <ellipse cx="60" cy="52" rx="46" ry="18" transform="rotate(120 60 52)"/>
-        </g>
-        <g fill="#AE5314">
-          <circle cx="53" cy="47" r="7"/>
-          <circle cx="67" cy="47" r="7"/>
-          <circle cx="60" cy="58" r="9"/>
-        </g>
-        <g stroke="#3D6E8F" stroke-width="3" stroke-linecap="square">
-          <line x1="26" y1="110" x2="94" y2="110"/>
-          <line x1="30" y1="110" x2="30" y2="104"/>
-          <line x1="40" y1="110" x2="40" y2="104"/>
-          <line x1="50" y1="110" x2="50" y2="104"/>
-          <line x1="60" y1="110" x2="60" y2="98"/>
-          <line x1="70" y1="110" x2="70" y2="104"/>
-          <line x1="80" y1="110" x2="80" y2="104"/>
-          <line x1="90" y1="110" x2="90" y2="104"/>
-        </g>
-      </svg>
-  <div class="header-left">
-    <h1>FE-T0A &middot; Roteiro de Bancada</h1>
-    <div class="sub">Metodologia Experimental &middot; Física Experimental 1 &middot; IFMG &mdash; Campus Ouro Preto</div>
-  </div>
-  <div class="header-right">
-    <div class="lab">Lab de Mecânica</div>
-    <div>Pavilhão de Física &middot; 90 min</div>
-  </div>
-</div>
+<!-- ═══════════════════════ PÁGINA 1 ═══════════════════════ -->
+<div class="pagina">
 
-<!-- IDENTIFICACAO -->
-<div class="secao">
-  <div class="secao-titulo">
-    <h2>Identificação</h2>
+  <div class="header">
+    <div class="header-left">
+      <h1>T0A · Metodologia Experimental</h1>
+      <div class="sub">Física Experimental 1 · IFMG — Campus Ouro Preto</div>
+    </div>
+    <div class="header-right">
+      <div class="badge">Roteiro de Bancada (RB)</div>
+      <div>Pavilhão de Física · 90 min</div>
+    </div>
   </div>
-  <div class="id-grid">
-    <div class="campo full">
-      <label>Nome:</label>
-      <div class="linha"></div>
-      <label>RA:</label>
-      <div class="linha ra"></div>
+
+  <div class="id-box">
+    <div class="id-box-titulo">Identificação</div>
+    <div class="campo-linha">
+      <label>Nome:</label><div class="linha"></div>
+      <label>RA:</label><div class="linha ra"></div>
     </div>
-    <div class="campo full">
-      <label>Curso:</label>
-      <div class="linha curso"></div>
-      <label>Professor(a):</label>
-      <div class="linha curso"></div>
+    <div class="campo-linha">
+      <label>Curso:</label><div class="linha meia"></div>
+      <label>Professor(a):</label><div class="linha"></div>
     </div>
-    <div class="campo full">
+    <div class="campo-linha">
       <label>Turma:</label>
-      <div class="turma-opts">
-        <span class="opt">1</span>
-        <span class="opt">2</span>
-        <span class="opt">3</span>
-      </div>
+      <div class="opts"><span class="opt">1</span><span class="opt">2</span><span class="opt">3</span></div>
       <label>Grupo:</label>
-      <div class="turma-opts">
-        <span class="opt">A</span>
-        <span class="opt">B</span>
-      </div>
+      <div class="opts"><span class="opt">A</span><span class="opt">B</span></div>
       <label>Bancada:</label>
-      <div class="bancada-opts">
-        <span class="opt">1</span>
-        <span class="opt">2</span>
-        <span class="opt">3</span>
-        <span class="opt">4</span>
+      <div class="opts"><span class="opt">1</span><span class="opt">2</span><span class="opt">3</span><span class="opt">4</span></div>
+    </div>
+    <div class="campo-linha">
+      <label>Colegas:</label><div class="linha"></div>
+      <label>Data:</label><span class="data-campo">______/______/_______</span>
+    </div>
+  </div>
+
+  <div class="piazzi">
+    <span>Estude <span class="mao">escrevendo à mão</span>, ouvindo música instrumental.</span>
+    <span>Pierluigi Piazzi, em <em>Aprendendo Inteligência</em></span>
+  </div>
+
+  <div class="epigrafe">
+    <span class="cit">"Quando se pode medir aquilo de que se fala, e exprimi-lo em números, sabe-se algo sobre ele."</span>
+    <span class="atrib">— William Thomson, Lord Kelvin (1883)</span>
+  </div>
+
+  <div class="checklist">
+    <div class="checklist-titulo">Minha trilha T0A — marque o que já concluiu</div>
+    <div class="checklist-fases">
+
+      <div class="fase">
+        <div class="fase-nome">Pré-Lab</div>
+        <div class="fase-oas">
+          <span class="oa-item"><span class="oa-box"></span><span class="oa-sigla">PP</span> <span class="oa-nome">Ponto de Partida</span></span>
+          <span class="oa-item"><span class="oa-box"></span><span class="oa-sigla">MD</span> <span class="oa-nome">Resumo em Áudio</span></span>
+          <span class="oa-item"><span class="oa-box"></span><span class="oa-sigla">TT</span> <span class="oa-nome">Texto Temático</span></span>
+          <span class="oa-item"><span class="oa-box"></span><span class="oa-sigla">SM</span> <span class="oa-nome">Simulações</span></span>
+          <span class="oa-item"><span class="oa-box"></span><span class="oa-sigla">TN</span> <span class="oa-nome">Testinho</span></span>
+        </div>
+      </div>
+
+      <div class="fase">
+        <div class="fase-nome">Lab</div>
+        <div class="fase-oas">
+          <span class="oa-item"><span class="oa-box"></span><span class="oa-sigla">RB</span> <span class="oa-nome">Roteiro de Bancada</span></span>
+          <span class="oa-item"><span class="oa-box"></span><span class="oa-sigla">AP</span> <span class="oa-nome">Apresentação do Lab</span></span>
+          <span class="oa-item"><span class="oa-box"></span><span class="oa-sigla">IG</span> <span class="oa-nome">Infográficos de Bancada</span></span>
+          <span class="oa-item"><span class="oa-box"></span><span class="oa-sigla">PR</span> <span class="oa-nome">Provinha</span></span>
+        </div>
+      </div>
+
+      <div class="fase">
+        <div class="fase-nome">Pós-Lab</div>
+        <div class="fase-oas">
+          <span class="oa-item"><span class="oa-box"></span><span class="oa-sigla">RM</span> <span class="oa-nome">Relatório Mínimo</span></span>
+          <span class="oa-item"><span class="oa-box"></span><span class="oa-sigla">RC</span> <span class="oa-nome">Relatório Completo</span></span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="secao">
+    <div class="secao-titulo">
+      <div class="num">0</div>
+      <h2>Segurança</h2>
+      <span class="hint">leia, marque e assine antes de tocar em qualquer instrumento</span>
+    </div>
+    <div class="alerta-seg">
+      <strong>&#9888; Assinar APÓS a leitura dos procedimentos de segurança.</strong> Sem assinatura, procedimento incompleto.
+    </div>
+    <ul class="check-list seg">
+      <li>Li o Tópico 5 (Segurança e NR-22) do Texto Temático (TT).</li>
+      <li>Sei onde fica o extintor (corredor de entrada do Pavilhão de Física).</li>
+      <li>Estou atenta(o) ao colega de bancada durante a medição.</li>
+      <li>Vou comunicar qualquer acidente ou quase-acidente ao professor (NR-22, 22.21).</li>
+    </ul>
+    <div class="assinatura">
+      <span>Assinatura:</span>
+      <div class="linha-ass"></div>
+    </div>
+  </div>
+
+  <div class="secao cresce">
+    <div class="secao-titulo">
+      <div class="num">1</div>
+      <h2>As 4 medições da mesma altura</h2>
+    </div>
+    <div class="lembrete">
+      <strong>TT-v8, Tópico 1:</strong> a mesma altura em duas escalas diferentes dá valores diferentes — é disso que nasce a incerteza.
+    </div>
+    <ol class="protocolo-lista">
+      <li data-n="1.">Posicionar o colega de costas na parede, calcanhar no rodapé, olhar reto.</li>
+      <li data-n="2.">Alinhar o esquadro em ângulo reto entre o topo da cabeça e a escala. Girar o esquadro para alinhar com a escala.</li>
+      <li data-n="3.">Colar a linha horizontal passando pela base do esquadro.</li>
+      <li data-n="4.">Fotografar dos pés à cabeça. Fotografar a linha passando pelas quatro escalas.</li>
+      <li data-n="5.">Ler o valor em metro, decímetro, centímetro e milímetro, com vírgula e o algarismo duvidoso. Atenção à paralaxe.</li>
+      <li data-n="6.">Registrar na tabela. Trocar de papel e medir o próximo colega.</li>
+    </ol>
+    <table class="estica">
+      <thead>
+        <tr>
+          <th style="text-align:left;min-width:100px">Colega medido</th>
+          <th>Escala #1 <span class="un">(m)</span></th>
+          <th>Escala #2 <span class="un">(dm)</span></th>
+          <th>Escala #3 <span class="un">(cm)</span></th>
+          <th>Fita métrica <span class="un">(mm)</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr class="voce"><td>Você</td><td></td><td></td><td></td><td></td></tr>
+      </tbody>
+    </table>
+    <div class="nota-metodo">Escalas: 1 (menor div. 1,0 m) &middot; 2 (1,0 dm) &middot; 3 (1,0 cm) &middot; Fita métrica (1,0 mm). Regra: medida = corretos + 1 duvidoso, sempre com unidade.</div>
+  </div>
+
+  <div class="rodape-print">
+    T0A · RB v5 (estudante) · página 1 de 3 · Física Experimental 1 · IFMG — Campus Ouro Preto
+  </div>
+</div><!-- /pagina 1 -->
+
+<!-- ═══════════════════════ PÁGINA 2 ═══════════════════════ -->
+<div class="pagina">
+
+  <div class="secao">
+    <div class="secao-titulo">
+      <div class="num">2</div>
+      <h2>Cálculos</h2>
+    </div>
+    <div class="calc-bloco">
+      <div class="calc-formula conv">
+        <span class="label">Converta para metros:</span>
+        <span class="conv-item"><span class="eq">h&#8321; =</span><span class="campo-calc"></span><span class="un-m">m</span></span>
+        <span class="conv-item"><span class="eq">h&#8322; =</span><span class="campo-calc"></span><span class="un-m">m</span></span>
+        <span class="conv-item"><span class="eq">h&#8323; =</span><span class="campo-calc"></span><span class="un-m">m</span></span>
+        <span class="conv-item"><span class="eq">h&#8324; =</span><span class="campo-calc"></span><span class="un-m">m</span></span>
+      </div>
+      <div class="calc-formula">
+        <span class="label">Média:</span>
+        <span class="eq">h&#772; = (h&#8321; + h&#8322; + h&#8323; + h&#8324;) / 4 =</span>
+        <span class="campo-calc"></span>
+        <span class="un-m">m</span>
+      </div>
+      <div class="calc-formula">
+        <span class="label">Incerteza:</span>
+        <span class="eq">&delta;h = (h<sub>max</sub> &minus; h<sub>min</sub>) / 2 =</span>
+        <span class="campo-calc"></span>
+        <span class="un-m">m</span>
       </div>
     </div>
-    <div class="campo full">
-      <label>Colegas:</label>
-      <div class="linha"></div>
-      <label>Data:</label>
-      <span class="data-campo">______/______/_______</span>
-    </div>
-  </div>
-</div>
-
-<!-- PARTE 0: SEGURANCA -->
-<div class="secao seg">
-  <div class="secao-titulo">
-    <div class="num">0</div>
-    <h2>Segurança</h2>
-  </div>
-  <div class="alerta-seg">
-    <strong>&#9888; Assinar, APÓS a leitura dos procedimentos de segurança.</strong> Sem assinatura, procedimento incompleto.
-  </div>
-  <ul class="check-list seg">
-    <li>Li o Tópico 5 (Segurança e NR-22) do Texto Temático (TT).</li>
-    <li>Sei onde fica o extintor (corredor de entrada do Pavilhao de Física).</li>
-    <li>Estou atenta(o) ao colega de bancada durante a medição.</li>
-    <li>Vou comunicar qualquer acidente ou quase-acidente ao professor (NR-22, 22.21).</li>
-  </ul>
-  <div class="assinatura">
-    <span>Assinatura:</span>
-    <div class="linha-ass"></div>
-  </div>
-</div>
-
-<!-- PARTE 1: MEDIÇÕES -->
-<div class="secao med">
-  <div class="secao-titulo">
-    <div class="num">1</div>
-    <h2>As 4 medição da mesma altura</h2>
-  </div>
-  <div class="lembrete">
-    <strong>Protocolo de medição:</strong>
-  </div>
-  <ol class="protocolo-lista">
-    <li data-n="1.">Posicionar colega de costas na parede, calcanhar no rodapé, olhar reto.</li>
-    <li data-n="2.">Alinhar esquadro em ângulo reto entre o topo da cabeça e a escala. Girar o esquadro para alinhar com a escala.</li>
-     <li data-n="3.">Colar linha horizontal passando pela base do esquadro</li>
-     <li data-n="4.">Fotografar dos pés a cabeça. Fotografar linha passando pelas quatro escalas.</li>
-    <li data-n="5.">Ler o valor em metros, decimetro, centimetro, milímetro com vírgule o algarismo duvidoso. Atenção a paralaxe.</li>
-    <li data-n="6.">Registrar na tabela. Trocar de papel e medir o próximo colega.</li>
-  </ol>
-  <table>
-    <thead>
-      <tr>
-        <th style="text-align:left;min-width:100px">Colega medido</th>
-        <th>Escala #1 <span class="un">(m)</span></th>
-        <th>Escala #2 <span class="un">(dm)</span></th>
-        <th>Escala #3 <span class="un">(cm)</span></th>
-        <th>Fita métrica <span class="un">(mm)</span></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr class="voce"><td>Você</td><td></td><td></td><td></td><td></td></tr>
-    </tbody>
-  </table>
-  <div class="escalas-nota">Escalas: 1 (menor div. 1,0 m) &middot; 2 (1,0 dm) &middot; 3 (1,0 cm) &middot; Fita métrica (1,0 mm).</div>
-  <div class="escalas-regra"> Regra: medida = corretos + 1 duvidoso, sempre com unidade.</div>
-</div>
-<!-- PARTE 2: CALCULOS -->
-<div class="secao calc">
-  <div class="secao-titulo">
-    <div class="num">2</div>
-    <h2>Cálculos</h2>
-  </div>
-  <div class="calc-bloco">
-    <div class="calc-formula conv">
-      <span class="label">Converta para metros:</span>
-      <span class="conv-item"><span class="eq">h&#8321; =</span><span class="campo-calc"></span><span class="un-m">m</span></span>
-      <span class="conv-item"><span class="eq">h&#8322; =</span><span class="campo-calc"></span><span class="un-m">m</span></span>
-      <span class="conv-item"><span class="eq">h&#8323; =</span><span class="campo-calc"></span><span class="un-m">m</span></span>
-      <span class="conv-item"><span class="eq">h&#8324; =</span><span class="campo-calc"></span><span class="un-m">m</span></span>
-    </div>
-    <div class="calc-formula">
-      <span class="label">Média:</span>
-      <span class="eq">h&#772; = (h&#8321; + h&#8322; + h&#8323; + h&#8324;) / 4 =</span>
-      <span class="campo-calc"></span>
-      <span style="font-size:.75rem">m</span>
-    </div>
-    <div class="calc-formula">
-      <span class="label">Incerteza:</span>
-      <span class="eq">&delta;h = (h<sub>max</sub> &minus; h<sub>min</sub>) / 2 =</span>
-      <span class="campo-calc"></span>
-      <span style="font-size:.75rem">m</span>
-    </div>
-  </div>
-  <div class="resultado-final">
-    <div class="titulo-res">Resultado final</div>
-    <div class="formula-res">
-      Minha altura = ( <span class="campo-res"></span> &plusmn; <span class="campo-res"></span> ) m
-    </div>
-  </div>
-</div>
-
-</div><!-- .folha 1 -->
-
-<!-- ============ FOLHA 2 ============ -->
-<div class="folha">
-
-<!-- PARTE 3: C5 -->
-<div class="secao c5">
-  <div class="secao-titulo">
-    <div class="num">3</div>
-    <h2>Metodologia Científica &minus; Protocolo C5 (8 passos)</h2>
-  </div>
-  <ol class="c5-lista">
-    <li style="min-height:50px">
-      <span class="passo-num">1.</span>
-      <span class="passo-label">O que está sendo pedido?</span>
-    </li>
-   <li style="min-height:50px">
-      <span class="passo-num">2.</span>
-      <span class="passo-label">Quais sao os dados?</span>
-    </li>
-     <li style="min-height:50px">
-      <span class="passo-num">3.</span>
-      <span class="passo-label">Quais sao as hipóteses?</span>
-    </li>
-    <li style="min-height:60px">
-      <span class="passo-num">4.</span>
-      <span class="passo-label">Desenho do problema</span>
-      <div class="c5-esboco">
-        <span>h<sub>min</sub></span>
-        <span>média</span>
-        <span>h<sub>max</sub></span>
+    <div class="resultado-final">
+      <div class="titulo-res">Resultado final</div>
+      <div class="formula-res">
+        Minha altura = ( <span class="campo-res"></span> &plusmn; <span class="campo-res"></span> ) m
       </div>
-    </li>
-    <li style="min-height:50px">
-      <span class="passo-num">5.</span>
-      <span class="passo-label">Equações</span>
-    </li>
-     <li style="min-height:50px">
-      <span class="passo-num">6.</span>
-      <span class="passo-label">Cálculos com unidades</span>
-    </li>
-     <li style="min-height:50px">
-      <span class="passo-num">7.</span>
-      <span class="passo-label">Analise de resultados</span>
-    </li>
-    <li style="min-height:50px">
-      <span class="passo-num">8.</span>
-      <span class="passo-label">Responda o que foi pedido:</span>
-      <span style="font-size:.8rem;font-family:var(--mono);color:var(--azul)">Minha altura = ( _______ &plusmn; _______ ) m</span>
+    </div>
+  </div>
+
+  <div class="secao cresce">
+    <div class="secao-titulo">
+      <div class="num">3</div>
+      <h2>Metodologia Científica — Protocolo C5 (8 passos)</h2>
+    </div>
+    <ol class="c5-lista">
+      <li>
+        <span class="passo-num">1.</span>
+        <span class="passo-label">O que está sendo pedido?</span>
+      </li>
+      <li>
+        <span class="passo-num">2.</span>
+        <span class="passo-label">Quais são os dados?</span>
+      </li>
+      <li>
+        <span class="passo-num">3.</span>
+        <span class="passo-label">Quais são as hipóteses?</span>
+      </li>
+      <li class="fixo">
+        <span class="passo-num">4.</span>
+        <span class="passo-label">Desenho do problema</span>
+        <div class="c5-esboco">
+          <span>h<sub>min</sub></span>
+          <span>média</span>
+          <span>h<sub>max</sub></span>
+        </div>
+      </li>
+      <li>
+        <span class="passo-num">5.</span>
+        <span class="passo-label">Equações</span>
+      </li>
+      <li>
+        <span class="passo-num">6.</span>
+        <span class="passo-label">Cálculos com unidades</span>
+      </li>
+      <li>
+        <span class="passo-num">7.</span>
+        <span class="passo-label">Análise de resultados</span>
+      </li>
+      <li>
+        <span class="passo-num">8.</span>
+        <span class="passo-label">Responda o que foi pedido:</span>
+        <span class="inline-resp">Minha altura = ( _______ &plusmn; _______ ) m</span>
+      </li>
+    </ol>
+  </div>
+
+  <div class="rodape-print">
+    T0A · RB v5 (estudante) · página 2 de 3 · Física Experimental 1 · IFMG — Campus Ouro Preto
+  </div>
+</div><!-- /pagina 2 -->
+
+<!-- ═══════════════════════ PÁGINA 3 ═══════════════════════ -->
+<div class="pagina">
+
+  <div class="secao cresce">
+    <div class="secao-titulo">
+      <div class="num">4</div>
+      <h2>Discussão</h2>
+    </div>
+    <div class="disc-item">
+      <div class="disc-q"><strong>1.</strong> Por que as 4 medidas são diferentes? Cite pelo menos 2 fontes de erro:</div>
       <div class="disc-linha"></div>
-    </li>
-  </ol>
+    </div>
+    <div class="disc-item">
+      <div class="disc-q"><strong>2.</strong> Qual é a sua altura, afinal? (frase com valor &plusmn; incerteza)</div>
+      <div class="disc-linha"></div>
+    </div>
+    <div class="disc-item">
+      <div class="disc-q"><strong>3.</strong> Uma regra de segurança que você proporia para o Lab de Mecânica:</div>
+      <div class="disc-linha"></div>
+    </div>
+  </div>
+
+  <div class="secao">
+    <div class="secao-titulo">
+      <div class="num">5</div>
+      <h2>Normas do Laboratório de Mecânica</h2>
+    </div>
+    <div class="lembrete">
+      <strong>Meta:</strong> pelo menos 5 regras. As aprovadas viram o primeiro cartaz oficial do Laboratório de Mecânica.
+    </div>
+    <table class="normas-table">
+      <thead>
+        <tr><th style="width:28px">#</th><th style="text-align:left">Regra proposta</th><th style="width:110px">Autores</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td></td><td></td></tr>
+        <tr><td>2</td><td></td><td></td></tr>
+        <tr><td>3</td><td></td><td></td></tr>
+        <tr><td>4</td><td></td><td></td></tr>
+        <tr><td>5</td><td></td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="secao">
+    <div class="secao-titulo">
+      <div class="num">&#10003;</div>
+      <h2>Conclusão</h2>
+    </div>
+    <ul class="check-list">
+      <li><span>Anotei a minha altura como média + incerteza, no formato padrão do SI: (valor &plusmn; incerteza) m.</span></li>
+      <li><span>Participei da construção das normas do Laboratório (Parte 5).</span></li>
+      <li><span>Sei o que trazer na T01: Caderno de Laboratório, régua, calculadora científica e celular.</span></li>
+    </ul>
+  </div>
+
+  <div class="fechamento">
+    <div class="frase">
+      "Terminamos por aqui, um abraço, e até o próximo encontro."<br>
+      Não esqueça de fazer o Relatório Mínimo no <strong>mesmo dia da aula no Laboratório</strong>.
+    </div>
+
+    <div class="monitoria">
+      <div class="monitoria-titulo">Espaço da Equipe de Monitoria</div>
+      <div class="monitoria-entrega">Entregue este Roteiro de Bancada na Monitoria.</div>
+      <div class="monitoria-marcas">
+        <span class="marca"><span class="cx"></span> No prazo
+          <span class="data"><i class="d"></i>/<i class="m"></i>/<i class="a"></i></span>
+        </span>
+        <span class="marca"><span class="cx"></span> Fora do prazo
+          <span class="data"><i class="d"></i>/<i class="m"></i>/<i class="a"></i></span>
+        </span>
+      </div>
+      <div class="monitoria-marcas">
+        <span class="marca"><span class="cx"></span> Completo</span>
+        <span class="marca"><span class="cx"></span> Incompleto</span>
+      </div>
+      <div class="monitoria-obs">Observações da monitoria</div>
+      <div class="monitoria-linha"></div>
+      <div class="monitoria-assina">
+        <div class="campo"><label>Monitor(a):</label><div class="linha"></div></div>
+        <div class="campo"><label>Data:</label><div class="linha"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rodape-print">
+    T0A · RB v5 (estudante) · página 3 de 3 · IFMG — Campus Ouro Preto · CODAFIS / NIDEC · Primeira edição · 2026
+  </div>
+</div><!-- /pagina 3 -->
+
+<div class="barra-tela">
+  <button class="btn" onclick="abrirParaImpressao()">Imprimir (A4 — 3 páginas)</button>
+  <div class="nota">
+    O botão abre uma <strong>janela nova</strong> só com a folha e já chama a impressão.
+    Em "Salvar como PDF", o navegador sugere o nome correto:
+    <strong>FE-T0A-RB-v5-estudante-impresso</strong>.<br>
+    Nas opções de impressão, mantenha <strong>"Gráficos de plano de fundo"</strong> ligado
+    — é o que preserva os fundos das caixas e os marcadores das seções.
+  </div>
 </div>
 
-<!-- PARTE 4: DISCUSSAO -->
-<div class="secao disc">
-  <div class="secao-titulo">
-    <div class="num">4</div>
-    <h2>Discussão</h2>
-  </div>
-  <div class="disc-q"><strong>1.</strong> Por que as 4 medidas sao diferentes? Cite pelo menos 2 fontes de erro:</div>
-  <div class="disc-linha"></div>
-  <div class="disc-q"><strong>2.</strong> Qual é a sua altura, afinal? (frase com valor &plusmn; incerteza)</div>
-  <div class="disc-linha"></div>
-  <div class="disc-q"><strong>3.</strong> Uma regra de segurança que você proporia para o Lab de Mecânica:</div>
-  <div class="disc-linha"></div>
-</div>
+</div><!-- .folha -->
 
-<!-- PARTE 5: NORMAS -->
-<div class="secao normas">
-  <div class="secao-titulo">
-    <div class="num">5</div>
-    <h2>Normas do Laboratório de Mecânica</h2>
-  </div>
-  <div class="lembrete">
-    <strong>Meta:</strong> pelo menos 5 regras. As aprovadas viram o primeiro cartaz oficial do Laboaratório de Mecânica &mdash;.
-  </div>
-  <table class="normas-table">
-    <thead>
-      <tr><th style="width:28px">#</th><th>Regra proposta</th><th style="width:100px">Autores</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>1</td><td></td><td></td></tr>
-      <tr><td>2</td><td></td><td></td></tr>
-      <tr><td>3</td><td></td><td></td></tr>
-      <tr><td>4</td><td></td><td></td></tr>
-      <tr><td>5</td><td></td><td></td></tr>
-    </tbody>
-  </table>
-</div>
+<script>
+/* Impressao em janela propria (padrao FA): o <title> vira o nome sugerido do
+   PDF, a barra de botoes fica de fora e o @page { margin: 0 } suprime o
+   cabecalho/rodape que o navegador injeta. */
+var NOME_ARQUIVO_PDF = 'FE-T0A-RB-v5-estudante-impresso';
 
-<!-- CONCLUSAO -->
-<div class="secao fech">
-  <div class="secao-titulo">
-    <div class="num">&#10003;</div>
-    <h2>Conclusão</h2>
-  </div>
-  <ul class="check-list">
-    <li>Colei/transcrevi esta folha no Caderno de Laboratório de Física Experimental 1.</li>
-    <li>Anotei a medida de minha altura como média + incerteza no formato padrão do SI(valor &plusmn; incerteza) m.</li>
-    <li>Participei da construção das normas do Laboratório (Parte 5).</li>
-    <li>Sei que o Relatório Mínimo (RM) desta trilha de aprendizagem deve ser feito ainda hoje.</li>
-    <li>Sei o que trazer na T01: Caderno de Laboratório, régua, <strong>calculadora científica</strong> e <strong>celular</strong>.</li>
-  </ul>
-  <div class="citacao">
-    &ldquo;Quando se pode medir aquilo de que se fala, e exprimi-lo em números, sabe-se algo sobre ele.&rdquo; &mdash; Lord Kelvin (1883)
-  </div>
-</div>
+function abrirParaImpressao() {
+  var folha = document.querySelector('.folha').cloneNode(true);
+  var barra = folha.querySelector('.barra-tela');
+  if (barra) { barra.parentNode.removeChild(barra); }
 
-<div class="footer-print">
-  T0A &middot; Metodologia Experimental &middot; Roteiro de Bancada (RB) &middot; IFMG &mdash; Campus Ouro Preto &middot; CODAFIS / NIDEC &middot; Primeira edição &middot; 2026
-</div>
+  var w = window.open('', '_blank');
+  if (!w) {
+    alert('O navegador bloqueou a janela de impressao.\n' +
+          'Libere os pop-ups para esta pagina e clique de novo.');
+    return;
+  }
 
-</div><!-- .folha 2 -->
+  w.document.open();
+  w.document.write(
+    '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8">' +
+    '<base href="' + document.baseURI + '">' +
+    '<title>' + NOME_ARQUIVO_PDF + '</title>' +
+    document.querySelector('style').outerHTML +
+    '</head><body>' + folha.outerHTML + '</body></html>'
+  );
+  w.document.close();
 
-</div><!-- .page -->
-
-<div class="footer-tela">
-  <button class="btn" onclick="window.print()">Imprimir (A4)</button>
-  <div class="creditos">
-    T0A &middot; Metodologia Experimental &middot; Roteiro de Bancada (RB) &middot; IFMG &mdash; Campus Ouro Preto &middot; CODAFIS / NIDEC &middot; Primeira edição &middot; 2026
-  </div>
-</div>
+  var imprimir = function () { w.focus(); w.print(); };
+  if (w.document.readyState === 'complete') { setTimeout(imprimir, 500); }
+  else { w.addEventListener('load', function () { setTimeout(imprimir, 500); }); }
+}
+</script>
 
 <!-- ABA-SITE (injetada na publicacao — nao existe no OA canonico) -->
 <style>
