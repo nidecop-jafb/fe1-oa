@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FE-T04 &middot; Cartões Didáticos — Movimento Retilíneo Uniforme</title>
+<style>
+:root {
+  --epi: #E07B39;
+  --epi-claro: #EE9A63;
+  --aco: #7FB2D6;
+  --verde: #27AE60;
+  --cinza: #7A8A99;
+  --cinza-claro: #2D3748;
+  --texto: #E8EDF2;
+  --fundo: #1A202C;
+  --superficie: #2D3748;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: var(--fundo);
+  color: var(--texto);
+  line-height: 1.6;
+  padding: 0;
+  margin: 0;
+}
+.header {
+  background: var(--superficie);
+  border-top: 3px solid var(--epi);
+  padding: 16px 20px;
+  margin-bottom: 20px;
+}
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.header h1 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+.header .badge {
+  display: inline-block;
+  background: var(--aco);
+  color: var(--fundo);
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-left: 12px;
+}
+.header-sub {
+  font-size: 0.75rem;
+  color: var(--cinza);
+  margin-top: 6px;
+}
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+}
+.info-box {
+  background: rgba(224, 123, 57, 0.1);
+  border-left: 3px solid var(--epi);
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+.info-box strong { color: var(--epi); }
+.cartoes-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  margin-bottom: 30px;
+}
+.cartao {
+  background: var(--superficie);
+  border: 1px solid var(--cinza-claro);
+  border-radius: 6px;
+  overflow: hidden;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.cartao:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+.cartao-header {
+  padding: 12px 16px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #FFF;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+/* Cores por categoria */
+.cartao.conceito .cartao-header { background: #185FA5; }
+.cartao.equacao .cartao-header { background: #C8922A; }
+.cartao.palavra .cartao-header { background: #3B6D11; }
+.cartao.conexao .cartao-header { background: #534AB7; }
+.cartao.aplicacao .cartao-header { background: #993C1D; }
+.cartao-body {
+  flex: 1;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.cartao-frente {
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.cartao-verso {
+  display: none;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--cinza);
+}
+.cartao.virado .cartao-frente { display: none; }
+.cartao.virado .cartao-verso { display: block; }
+.cartao-id {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+.footer {
+  text-align: center;
+  padding: 20px 16px;
+  color: var(--cinza);
+  font-size: 0.75rem;
+  border-top: 1px solid var(--cinza-claro);
+  margin-top: 30px;
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-inner">
+    <h1>FE-T04 — Cartões Didáticos <span class="badge">Estudante</span></h1>
+  </div>
+  <div class="header-sub">Física Experimental 1 · Técnico em Mineração · IFMG-OP · 2026</div>
+</div>
+<main>
+<div class="info-box">
+  <strong>📌 Instrução:</strong> Clique no cartão para virar e ver o verso. Todos os 25 cartões: 5 de Conceitos, 5 de Equações, 5 de Palavras-chave, 5 de Conexões e 5 de Aplicações.
+</div>
+<div class="cartoes-container">
+<!-- CATEGORIA 1: CONCEITO -->
+<div class="cartao conceito">
+  <div class="cartao-header"><span>C1</span><span>●</span></div>
+  <div class="cartao-body">
+    <div class="cartao-frente">O que é direção de um movimento?</div>
+    <div class="cartao-verso">A posição geométrica de uma linha reta. No tubo, a direção é a reta pouco inclinada do seu eixo. A direção não muda durante o MRU.</div>
+  </div>
+</div>
+
+<div class="cartao conceito">
+  <div class="cartao-header"><span>C2</span><span>●</span></div>
+  <div class="cartao-body">
+    <div class="cartao-frente">O que é sentido de um movimento?</div>
+    <div class="cartao-verso">Uma das duas orientações sobre a mesma direção. A esfera desce (sentido positivo) e a bolha sobe (sentido negativo).</div>
+  </div>
+</div>
+
+<div class="cartao conceito">
+  <div class="cartao-header"><span>C3</span><span>●</span></div>
+  <div class="cartao-body">
+    <div class="cartao-frente">O que é referencial em um movimento?</div>
+    <div class="cartao-verso">O conjunto de escolhas: origem das posições, sentido positivo, instante inicial e posição inicial. Sem referencial, não há medida.</div>
+  </div>
+</div>
+
+<div class="cartao conceito">
+  <div class="cartao-header"><span>C4</span><span>●</span></div>
+  <div class="cartao-body">
+    <div class="cartao-frente">O que é velocidade?</div>
+    <div class="cartao-verso">A grandeza que mede quanto de posição o móvel troca por unidade de tempo. No MRU, a velocidade é constante.</div>
+  </div>
+</div>
+
+<div class="cartao conceito">
+  <div class="cartao-header"><span>C5</span><span>●</span></div>
+  <div class="cartao-body">
+    <div class="cartao-frente">O que é movimento uniforme?</div>
+    <div class="cartao-verso">Movimento em que deslocamentos iguais acontecem em intervalos de tempo iguais. Valores compatíveis dentro da incerteza.</div>
+  </div>
+</div>
+
+<!-- CATEGORIA 2: EQUAÇÃO -->
+<div class="cartao equacao">
+  <div class="cartao-header"><span>E1</span><span>Σ</span></div>
+  <div class="cartao-body">
+    <div class="cartao-frente">Velocidade — qual é a equação?</div>
+    <div class="cartao-verso">v = Δs / Δt = (s − s₀) / (t − t₀)<br />Unidade SI: m/s (laboratório: cm/s)</div>
+  </div>
+</div>
+
+<div class="cartao equacao">
+  <div class="cartao-header"><span>E2</span><span>Σ</span></div>
+  <div class="cartao-body">
+    <div class="cartao-frente">Função horária no MRU — qual é a equação?</div>
+    <div class="cartao-verso">s = s₀ + v · t<br />Onde s = posição no instante t, s₀ = posição inicial, v = velocidade (constante)</div>
+  </div>
+</div>
+
+<div class="cartao equacao">
+  <div class="cartao-header"><span>E3</span><span>Σ</span></div>
+  <div class="cartao-body">
+    <div class="cartao-frente">Aceleração no MRU — qual é a equação?</div>
+    <div class="cartao-verso">a = Δv / Δt = 0<br />No MRU, a velocidade não troca. Logo, aceleração é zero.</div>
+  </div>
+</div>
+
+<div class="cartao equacao">
+  <div class="cartao-header"><span>E4</span><span>Σ</span></div>
+  <div class="cartao-body">
+    <div class="cartao-frente">Para a esfera: Qual é sua função horária?</div>
+    <div class="cartao-verso">s = 2,4 · t (cm)<br />Esfera começa em A (s₀ = 0) e desce com v = 2,4 cm/s</div>
+  </div>
+</div>
+
+<div class="cartao equacao">
+  <div class="cartao-header"><span>E5</span><span>Σ</span></div>
+  <div class="cartao-body">
+    <div class="cartao-frente">Para a bolha: Qual é sua função horária?</div>
+    <div class="cartao-verso">s = 40,0 − 8,5 · t (cm)<br />Bolha começa em E (s₀ = 40,0) e sobe com v = −8,5 cm/s</div>
+  </div>
+</div>
+
+<!-- CATEGORIA 3: PALAVRA-CHAVE -->
+<div class="cartao palavra">
+  <div class="cartao-header"><span>P1</span><span>◆</span></div>
+  <div class="cartao-body">
+    <div class="cartao-frente">GRÁFICO s × t</div>
+    <div class="cartao-verso">Mostra posição contra tempo. No MRU, é uma reta inclinada. A inclinação da reta é a velocidade.</div>
+  </div>
+</div>
+
+<div class="cartao palavra">
+  <div class="cartao-header"><span>P2</span><span>◆</span></div>
+  <div class="cartao-body">
+    <div class="cartao-frente">GRÁFICO v × t</div>
+    <div class="cartao-verso">Mostra velocidade contra tempo. No MRU, é uma reta horizontal. A área sob a reta é o deslocamento.</div>
+  </div>
+</div>
+
+<div class="cartao palavra">
+  <div class="cartao-header"><span>P3</span><span>◆</span></div>
+  <div class="cartao-body">
+    <div class="cartao-frente">GRÁFICO a × t</div>
+    <div class="cartao-verso">Mostra aceleração contra tempo. No MRU, é uma reta sobre o eixo (a = 0). É a assinatura do movimento uniforme.</div>
+  </div>
+</div>
+
+<div class="cartao palavra">
+  <div class="cartao-header"><span>P4</span><span>◆</span></div>
+  <div class="cartao-body">
+    <div class="cartao-frente">SINAL NEGATIVO na velocidade</div>
+    <div class="cartao-verso">v &lt; 0 significa movimento no sentido oposto ao positivo. Não é erro — é informação do referencial escolhido.</div>
+  </div>
+</div>
+
+<div class="cartao palavra">
+  <div class="cartao-header"><span>P5</span><span>◆</span></div>
+  <div class="cartao-body">
+    <div class="cartao-frente">COMPATIBILIDADE de medidas</div>
+    <div class="cartao-verso">Quando previsão e medida diferem menos que a incerteza, são compatíveis — o modelo descreve a realidade.</div>
+  </div>
+</div>
+
+<!-- CATEGORIA 4: CONEXÃO -->
+<div class="cartao conexao">
+  <div class="cartao-header"><span>X1</span><span>↔</span></div>
+  <div class="cartao-body">
+    <div class="cartao-frente">Física ↔ Mineração</div>
+    <div class="cartao-verso">Correia transportadora: velocidade constante, ritmo previsível. A fórmula s = s₀ + vt dimensiona britadores.</div>
+  </div>
+</div>
+
+<div class="cartao conexao">
+  <div class="cartao-header"><span>X2</span><span>↔</span></div>
+  <div class="cartao-body">
+    <div class="cartao-frente">Física ↔ História</div>
+    <div class="cartao-verso">Gráfico de marcha nas ferrovias do século XIX: onde dois trens se cruzam. O encontro refaz esse gesto histórico.</div>
+  </div>
+</div>
+
+<div class="cartao conexao">
+  <div class="cartao-header"><span>X3</span><span>↔</span></div>
+  <div class="cartao-body">
+    <div class="cartao-frente">Física ↔ Cotidiano</div>
+    <div class="cartao-verso">Aplicativo de mapa em tempo real: seta do ônibus avançando. Quando trava, a reta de posição ficou horizontal.</div>
+  </div>
+</div>
+
+<div class="cartao conexao">
+  <div class="cartao-header"><span>X4</span><span>↔</span></div>
+  <div class="cartao-body">
+    <div class="cartao-frente">Física ↔ Mineração (Flotação)</div>
+    <div class="cartao-verso">Bolhas de ar sobem em ritmo constante, carregando minério. A bolha do tubo é uma célula de flotação em miniatura.</div>
+  </div>
+</div>
+
+<div class="cartao conexao">
+  <div class="cartao-header"><span>X5</span><span>↔</span></div>
+  <div class="cartao-body">
+    <div class="cartao-frente">Física ↔ Arte</div>
+    <div class="cartao-verso">Quadro Gare Saint-Lazare (Monet, 1877): relógios monumentais simbolizam o tempo unificado que o trem MRU impôs.</div>
+  </div>
+</div>
+
+<!-- CATEGORIA 5: APLICAÇÃO -->
+<div class="cartao aplicacao">
+  <div class="cartao-header"><span>A1</span><span>★</span></div>
+  <div class="cartao-body">
+    <div class="cartao-frente">A esfera passou por A em t = 0 e em B em t = 5,0 s. Distância: 12,0 cm. Velocidade?</div>
+    <div class="cartao-verso">v = 12,0 ÷ 5,0 = 2,4 cm/s (sentido positivo)</div>
+  </div>
+</div>
+
+<div class="cartao aplicacao">
+  <div class="cartao-header"><span>A2</span><span>★</span></div>
+  <div class="cartao-body">
+    <div class="cartao-frente">Esfera: s₀ = 0 cm, v = 2,4 cm/s. Onde estará em t = 12,5 s?</div>
+    <div class="cartao-verso">s = 0 + 2,4 × 12,5 = 30,0 cm</div>
+  </div>
+</div>
+
+<div class="cartao aplicacao">
+  <div class="cartao-header"><span>A3</span><span>★</span></div>
+  <div class="cartao-body">
+    <div class="cartao-frente">Bolha começa em s₀ = 40,0 cm, sobe a 8,5 cm/s. Função horária?</div>
+    <div class="cartao-verso">s = 40,0 − 8,5 · t (v = −8,5 cm/s, sentido oposto)</div>
+  </div>
+</div>
+
+<div class="cartao aplicacao">
+  <div class="cartao-header"><span>A4</span><span>★</span></div>
+  <div class="cartao-body">
+    <div class="cartao-frente">Esfera: s = 2,4·t; Bolha: s = 40,0−8,5·t. Em que instante se encontram?</div>
+    <div class="cartao-verso">2,4·t = 40,0 − 8,5·t ⟹ 10,9·t = 40,0 ⟹ t ≈ 3,7 s</div>
+  </div>
+</div>
+
+<div class="cartao aplicacao">
+  <div class="cartao-header"><span>A5</span><span>★</span></div>
+  <div class="cartao-body">
+    <div class="cartao-frente">No encontro (t ≈ 3,7 s), qual é a posição predita?</div>
+    <div class="cartao-verso">s = 2,4 × 3,7 ≈ 8,8 cm (compatível com (8,8 ± 1,0) cm)</div>
+  </div>
+</div>
+
+</div>
+<div class="footer">
+  IFMG—OP · Coordenadoria da Área de Física (CODAFIS) · Núcleo de Inovação e Desenvolvimento de Experimentos Científicos (NIDEC) · Primeira edição · 2026
+</div>
+</main>
+<script>
+document.querySelectorAll('.cartao').forEach(cartao => {
+  cartao.addEventListener('click', function() {
+    this.classList.toggle('virado');
+  });
+});
+</script>
+<!-- ABA-SITE (injetada na publicacao — nao existe no OA canonico) -->
+<style>
+.aba-site-toggle { position: fixed; top: 56px; left: 0; z-index: 999; background: #1a1b1f; border: 1px solid #444; border-left: none; color: #bbb; font-size: .7rem; padding: 8px 10px; cursor: pointer; font-family: 'Courier New', monospace; writing-mode: vertical-rl; text-orientation: mixed; letter-spacing: 1px; text-transform: uppercase; transition: color .15s; border-radius: 0; }
+.aba-site-toggle:hover { color: #E07B39; }
+.aba-site-painel { position: fixed; top: 0; left: 0; z-index: 1001; width: 330px; max-width: 86vw; height: 100vh; overflow-y: auto; background: #1a1b1f; border-right: 1px solid #444; padding: 24px 22px 24px 42px; transform: translateX(-100%); transition: transform .25s; font-family: 'Segoe UI', system-ui, sans-serif; font-size: .92rem; color: #c4c4c4; line-height: 1.6; }
+.aba-site-painel.open { transform: translateX(0); }
+.aba-site-painel h3 { font-family: 'Courier New', monospace; font-size: .8rem; text-transform: uppercase; letter-spacing: 2px; color: #E07B39; border-bottom: 1px solid #444; padding-bottom: 8px; margin: 0 0 14px; }
+.aba-site-painel a.aba-site-btn { display: block; margin: 10px 0; padding: 11px 14px; border: 1px solid #444; color: #e8e8e8; text-decoration: none; font-family: 'Courier New', monospace; font-size: .85rem; }
+.aba-site-painel a.aba-site-btn:hover { border-color: #E07B39; color: #E07B39; }
+/* TT: abre espaco no topo do trilho e oculta a aba Figuras (decisao 2026-08-08) */
+.musica-toggle { top: 128px !important; }
+.ineditismo-toggle { top: 210px !important; }
+.toc-toggle { top: 330px !important; }
+.creditos-toggle { top: 418px !important; }
+.figuras-toggle, .figuras-sidebar { display: none !important; }
+/* Celular: a aba fica sobre o conteudo, porque em tela estreita o texto ocupa
+   a largura toda e o trilho e `position: fixed` na borda esquerda. Abrir uma
+   faixa no body empurra TUDO para a direita — vale para a aba Site e para o
+   trilho do TT (Musica/Ineditismo/Sumario/Creditos), todos em left: 0.
+   Com `box-sizing: border-box` (padrao nos OAs) nao cria rolagem lateral. */
+@media (max-width: 600px) {
+  body { padding-left: 30px; }
+  .aba-site-toggle { font-size: .6rem; padding: 6px 6px; }
+  .aba-site-painel { width: 86vw; }
+}
+@media print { .aba-site-toggle, .aba-site-painel { display: none !important; } }
+</style>
+<button class="aba-site-toggle" id="abaSiteToggle">Site</button>
+<aside class="aba-site-painel" id="abaSitePainel">
+  <h3>Site</h3>
+  <a class="aba-site-btn" href="https://nidecop-jafb.github.io/fe1-oa/#t04">Ver todos os OAs da trilha</a>
+  <a class="aba-site-btn" href="https://nidecop-jafb.github.io/fe1-oa/">Início do site</a>
+  <a class="aba-site-btn" href="https://nidecop-jafb.github.io/fc1-oa/">Disciplina irmã: FC1 — Física Conceitual 1</a>
+</aside>
+<script>
+(function () {
+  var t = document.getElementById('abaSiteToggle');
+  var p = document.getElementById('abaSitePainel');
+  var outras = '.metodo-sidebar,.musica-sidebar,.ineditismo-sidebar,.toc-sidebar,.projeto-sidebar,.creditos-sidebar,.figuras-sidebar';
+  t.addEventListener('click', function () {
+    p.classList.toggle('open');
+    document.querySelectorAll(outras).forEach(function (s) { s.classList.remove('open'); });
+  });
+  document.addEventListener('click', function (e) {
+    if (!p.contains(e.target) && e.target !== t) { p.classList.remove('open'); }
+  });
+})();
+</script>
+</body>
+</html>

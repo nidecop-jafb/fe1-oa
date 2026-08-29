@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FE-T04 · Movimento Retil&iacute;neo Uniforme (MRU) — Estudante</title>
+<style>
+:root {
+  --azul: #7FB2D6;
+  --azul-claro: #A7CCE6;
+  --azul-bg: oklch(0.28 0.05 240);
+  --ouro: #E07B39;
+  --ouro-claro: oklch(0.28 0.06 55);
+  --verde: oklch(0.7 0.15 150);
+  --verde-claro: oklch(0.25 0.04 150);
+  --erro: oklch(0.6 0.22 25);
+  --erro-claro: oklch(0.22 0.05 25);
+  --cinza: oklch(0.55 0.02 260);
+  --cinza-claro: oklch(0.18 0.02 260);
+  --cinza-borda: oklch(0.38 0.02 260);
+  --texto: oklch(0.93 0 0);
+  --branco: oklch(0.93 0 0);
+  --superficie: oklch(0.24 0.02 260);
+  --input-bg: oklch(0.2 0.02 260);
+  --hover-bg: oklch(0.22 0.02 260);
+  --r: 0px;
+  --r-sm: 0px;
+  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'Space Mono', 'Cascadia Code', 'Consolas', monospace;
+  --serif: 'Georgia', 'Cambria', 'Times New Roman', serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font);
+  background: oklch(0.10 0.02 260);
+  color: var(--texto);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.container { max-width: 960px; margin: 0 auto; padding: 24px 16px 80px; }
+
+/* HEADER */
+.header { background: oklch(0.14 0.02 260); border-top: 3px solid var(--ouro); padding: 14px 20px; margin-bottom: 20px; }
+.header-inner { max-width: 960px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px; }
+.header h1 { font-size: 1.4rem; font-weight: 900; letter-spacing: -0.02em; }
+.header h1 .trilha-code { color: var(--azul); }
+.badge {
+  display: inline-block;
+  background: var(--azul); color: var(--branco);
+  padding: 4px 12px; border-radius: var(--r-sm);
+  font-size: 0.68rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 2px;
+}
+.header-sub { max-width: 960px; margin: 4px auto 0; font-size: 0.88rem; color: var(--cinza); }
+
+/* PIAZZI BAR */
+.piazzi-bar { display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; background:oklch(0.14 0.02 260); border:1px solid var(--cinza-borda); padding:10px 16px; margin-bottom:16px; font-size:.78rem; }
+.piazzi-bar .piazzi-ref { color:var(--cinza); }
+.piazzi-bar .piazzi-tag { display:inline-block; border:1px solid var(--ouro); color:var(--ouro); padding:2px 10px; font-size:.72rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; }
+.piazzi-bar .piazzi-text { color:var(--texto); font-style:italic; font-size:.74rem; }
+.piazzi-bar .piazzi-yt { display:inline-flex; align-items:center; gap:5px; background:var(--erro); color:var(--branco); padding:4px 12px; font-size:.72rem; font-weight:700; text-decoration:none; cursor:pointer; }
+.piazzi-bar .piazzi-yt::before { content:'\25B6'; font-size:.6rem; }
+
+/* APRESENTACAO */
+.intro-box { display:flex; gap:16px; align-items:flex-start; background:var(--superficie); border:1px solid var(--cinza-borda); border-left:3px solid var(--ouro); padding:16px 18px; margin-bottom:24px; }
+.intro-vagoneta { flex-shrink:0; width:52px; height:52px; }
+.intro-texto { font-size:.9rem; line-height:1.65; }
+.intro-texto strong { color: var(--ouro); }
+
+/* SECOES */
+.secao-titulo { font-family: var(--mono); font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: var(--azul-claro); border-bottom: 1px solid var(--cinza-borda); padding-bottom: 6px; margin: 32px 0 6px; }
+.secao-instrucao { font-size: .84rem; color: var(--cinza); margin-bottom: 14px; }
+.secao-instrucao strong { color: var(--ouro); }
+
+/* PAINEL 5 TOPICOS */
+.painel { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+@media (max-width: 900px) { .painel { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .painel { grid-template-columns: 1fr; } }
+.tp-card { background: var(--superficie); border: 1px solid var(--cinza-borda); display: flex; flex-direction: column; transition: border-color .15s, outline .15s; }
+.tp-card.alvo { cursor: pointer; }
+.tp-card.alvo:hover { border-color: var(--azul); }
+.tp-card.alvo-ativo { outline: 2px dashed var(--ouro); outline-offset: 2px; }
+.tp-head { display: flex; align-items: center; gap: 8px; padding: 9px 10px; border-bottom: 1px solid var(--cinza-borda); }
+.tp-head svg { flex-shrink: 0; }
+.tp-num { font-family: var(--mono); font-size: .66rem; color: var(--cinza); letter-spacing: .08em; }
+.tp-titulo { font-size: .78rem; font-weight: 700; line-height: 1.3; padding: 8px 10px 0; min-height: 3.2em; }
+.tp-conceito { font-size: .76rem; color: var(--cinza); line-height: 1.5; padding: 6px 10px 10px; flex: 1; }
+.tp-eq-slot { margin: 0 10px 8px; border: 1px dashed var(--cinza-borda); min-height: 44px; display: flex; align-items: center; justify-content: center; padding: 6px 8px; font-family: var(--mono); font-size: .74rem; text-align: center; color: var(--cinza); transition: all .15s; }
+.tp-eq-slot.preenchido { border-style: solid; color: var(--texto); background: var(--input-bg); }
+.tp-eq-slot.certo { border-color: var(--verde); color: var(--verde); background: var(--verde-claro); }
+.tp-eq-slot.errado { border-color: var(--erro); color: var(--erro); background: var(--erro-claro); }
+.tp-palavra { margin: 0 10px 12px; }
+.tp-palavra span { display: inline-block; font-family: var(--mono); font-size: .64rem; text-transform: uppercase; letter-spacing: .06em; border: 1px solid var(--ouro); color: var(--ouro); padding: 2px 8px; }
+.tp-c1 .tp-head { background: var(--azul-bg); } .tp-c1 .tp-head svg { stroke: var(--azul-claro); }
+.tp-c2 .tp-head { background: var(--azul-bg); } .tp-c2 .tp-head svg { stroke: var(--azul-claro); }
+.tp-c3 .tp-head { background: var(--ouro-claro); } .tp-c3 .tp-head svg { stroke: var(--ouro); }
+.tp-c4 .tp-head { background: var(--verde-claro); } .tp-c4 .tp-head svg { stroke: var(--verde); }
+.tp-c5 .tp-head { background: var(--erro-claro); } .tp-c5 .tp-head svg { stroke: var(--erro); }
+
+/* FICHAS DE EQUACAO */
+.fichas { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 8px; min-height: 44px; }
+.ficha { font-family: var(--mono); font-size: .78rem; background: var(--input-bg); border: 1px solid var(--ouro); color: var(--ouro); padding: 9px 13px; cursor: pointer; transition: all .15s; user-select: none; }
+.ficha:hover { background: var(--ouro-claro); }
+.ficha.ativa { background: var(--ouro); color: oklch(0.10 0.02 260); }
+.ficha.usada { display: none; }
+.fichas-vazio { font-size: .78rem; color: var(--cinza); font-style: italic; align-self: center; }
+
+/* GRAFICO VIVO */
+.vivo-box { background: var(--superficie); border: 1px solid var(--cinza-borda); padding: 16px; }
+.vivo-svg-wrap { overflow-x: auto; }
+.vivo-svg-wrap svg { width: 100%; height: auto; display: block; }
+.vivo-controles { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 12px; }
+.vivo-controles label { font-family: var(--mono); font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--cinza); }
+.vivo-controles input[type="range"] { flex: 1; min-width: 160px; accent-color: var(--azul); }
+.vivo-leitura { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+@media (max-width: 560px) { .vivo-leitura { grid-template-columns: 1fr; } }
+.vivo-val { background: var(--input-bg); border: 1px solid var(--cinza-borda); padding: 10px 12px; }
+.vivo-val .rotulo { font-family: var(--mono); font-size: .64rem; text-transform: uppercase; letter-spacing: .06em; color: var(--cinza); display: block; }
+.vivo-val .numero { font-family: var(--mono); font-size: 1.15rem; font-weight: 700; color: var(--azul-claro); }
+.vivo-val.destaque .numero { color: var(--ouro); }
+.vivo-msg { margin-top: 10px; font-size: .82rem; padding: 10px 12px; border-left: 3px solid var(--cinza-borda); color: var(--cinza); transition: all .2s; }
+.vivo-msg.tangente { border-color: var(--verde); background: var(--verde-claro); color: var(--verde); }
+
+/* VF */
+.vf-list { display: flex; flex-direction: column; gap: 10px; }
+.vf-item { display: flex; gap: 12px; align-items: flex-start; background: var(--input-bg); border: 1px solid var(--cinza-borda); padding: 12px 14px; transition: border-color .2s; }
+.vf-item.correct { border-color: var(--verde); background: var(--verde-claro); }
+.vf-item.incorrect { border-color: var(--erro); background: var(--erro-claro); }
+.vf-toggles { display: flex; gap: 4px; flex-shrink: 0; }
+.vf-btn { width: 36px; height: 36px; border: 2px solid var(--cinza-borda); background: transparent; color: var(--cinza); font-family: var(--mono); font-weight: 700; font-size: .8rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .15s; }
+.vf-btn:hover { border-color: var(--azul); color: var(--azul); }
+.vf-btn.selected { background: var(--azul-bg); border-color: var(--azul); color: var(--azul-claro); }
+.vf-btn.correct { background: var(--verde-claro); border-color: var(--verde); color: var(--verde); }
+.vf-btn.incorrect { background: var(--erro-claro); border-color: var(--erro); color: var(--erro); }
+.vf-texto { font-size: .88rem; line-height: 1.5; flex: 1; }
+.vf-just { display: none; font-size: .78rem; margin-top: 6px; padding-top: 6px; border-top: 1px dashed var(--cinza-borda); color: var(--cinza); }
+.vf-item.correct .vf-just, .vf-item.incorrect .vf-just { display: block; }
+
+/* ACOES + PLACAR */
+.acoes { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 24px; }
+.btn { font-family: var(--mono); font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; padding: 11px 20px; cursor: pointer; border: none; transition: opacity .2s; }
+.btn:hover { opacity: .85; }
+.btn-conferir { background: var(--ouro); color: oklch(0.10 0.02 260); }
+.btn-limpar { background: transparent; border: 1px solid var(--cinza-borda); color: var(--cinza); }
+.btn-print { background: transparent; border: 1px solid var(--cinza-borda); color: var(--cinza); }
+.placar { font-family: var(--mono); font-size: .85rem; font-weight: 700; color: var(--ouro); margin-left: auto; }
+.placar-nota { font-size: .72rem; color: var(--cinza); font-weight: 400; display: block; }
+
+/* ENCERRAMENTO / FOOTER */
+.encerramento { border-top: 2px solid var(--ouro); margin-top: 48px; padding-top: 20px; text-align: center; }
+.fecho-frase { font-family: var(--serif); font-size: .88rem; }
+.fecho-acao { color: var(--ouro); font-size: .82rem; text-transform: uppercase; font-weight: 700; margin-top: 8px; }
+.fecho-nidec { color: var(--cinza); font-size: .82rem; margin-top: 14px; line-height: 1.55; }
+.footer-line { text-align: center; font-size: .85rem; color: var(--cinza); padding: 16px 12px; line-height: 1.5; }
+
+/* PRINT */
+@media print {
+  body { background: #fff; color: #111; }
+  .piazzi-bar, .acoes, .vivo-controles, .btn, .fichas, .secao-instrucao { display: none !important; }
+  .header, .intro-box, .tp-card, .vivo-box, .vf-item { background: #fff; border-color: #999; color: #111; }
+  .tp-conceito, .vf-texto, .intro-texto { color: #222; }
+  .tp-eq-slot { color: #111; border-color: #666; }
+}
+
+/* IDENTIDADE FE (adaptador gerar_ig_fe.py) */
+.header .marca { width: 46px; height: 46px; flex-shrink: 0; }
+.encerramento .fecho-links { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 14px; }
+.encerramento .fecho-btn { display: inline-flex; align-items: center; gap: 7px; padding: 10px 18px; min-height: 44px; background: var(--ouro); color: oklch(0.13 0.01 260); font-family: var(--mono); font-size: .8rem; font-weight: 700; text-decoration: none; letter-spacing: .03em; }
+.encerramento .fecho-btn::before { content: '\25B6'; font-size: .62rem; }
+.encerramento .fecho-btn:hover { opacity: .85; }
+.encerramento .fecho-btn.secundario { background: transparent; border: 1px solid var(--ouro); color: var(--ouro); }
+.encerramento .fecho-inst { color: var(--cinza); font-size: .82rem; margin-top: 14px; line-height: 1.55; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <svg class="marca" viewBox="0 0 120 120" role="img" aria-label="Marca da F&iacute;sica Experimental 1">
+            <g fill="none" stroke="#E07B39" stroke-width="3">
+              <ellipse cx="60" cy="52" rx="46" ry="18"/>
+              <ellipse cx="60" cy="52" rx="46" ry="18" transform="rotate(60 60 52)"/>
+              <ellipse cx="60" cy="52" rx="46" ry="18" transform="rotate(120 60 52)"/>
+            </g>
+            <g fill="#E07B39">
+              <circle cx="53" cy="47" r="7"/>
+              <circle cx="67" cy="47" r="7"/>
+              <circle cx="60" cy="58" r="9"/>
+            </g>
+            <g stroke="#7FB2D6" stroke-width="3" stroke-linecap="square">
+              <line x1="26" y1="110" x2="94" y2="110"/>
+              <line x1="30" y1="110" x2="30" y2="104"/>
+              <line x1="40" y1="110" x2="40" y2="104"/>
+              <line x1="50" y1="110" x2="50" y2="104"/>
+              <line x1="60" y1="110" x2="60" y2="98"/>
+              <line x1="70" y1="110" x2="70" y2="104"/>
+              <line x1="80" y1="110" x2="80" y2="104"/>
+              <line x1="90" y1="110" x2="90" y2="104"/>
+            </g>
+          </svg>
+    <h1><span class="trilha-code">FE-T04</span> &middot; Movimento Retil&iacute;neo Uniforme (MRU)</h1>
+    <span class="badge">Infogr&aacute;fico (IG)</span>
+  </div>
+  <div class="header-sub">Painel visual da trilha &middot; 5 t&oacute;picos &middot; 2 desafios + 1 encontro vivo &middot; sem nota</div>
+</header>
+
+<div class="container">
+
+  <div class="piazzi-bar">
+    <span class="piazzi-ref">Pierluigi Piazzi recomenda em <em>Aprendendo Intelig&ecirc;ncia</em>:</span>
+    <span class="piazzi-tag">Ler</span>
+    <span class="piazzi-tag">Escrever</span>
+    <span class="piazzi-tag">Medir</span>
+    <span class="piazzi-text">ouvindo m&uacute;sica instrumental</span>
+    <a class="piazzi-yt" href="https://music.youtube.com/playlist?list=PLH9GvshumD2s" target="_blank" rel="noopener">YouTube Music</a>
+    <span class="piazzi-text">Filarm&ocirc;nica de Minas Gerais &mdash; sele&ccedil;&atilde;o instrumental &middot; orquestra sinf&ocirc;nica</span>
+  </div>
+
+  <div class="intro-box">
+    <svg class="intro-vagoneta" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="color:var(--ouro)">
+      <path d="M10 26 L54 26 L48 44 L16 44 Z"/>
+      <circle cx="22" cy="52" r="5"/><circle cx="42" cy="52" r="5"/>
+      <path d="M16 26 L20 16 M32 26 L32 14 M48 26 L44 16"/>
+    </svg>
+    <div class="intro-texto">
+      Este &eacute; o <strong>mapa visual da aula</strong>: os cinco t&oacute;picos da trilha num painel s&oacute;.
+      Ele n&atilde;o vale nota &mdash; use quantas vezes quiser. Complete o painel associando cada
+      <strong>equa&ccedil;&atilde;o</strong> ao seu t&oacute;pico, mexa no <strong>gr&aacute;fico vivo</strong> para ver a
+      velocidade m&eacute;dia virar instant&acirc;nea e feche com o <strong>verdadeiro ou falso</strong>.
+    </div>
+  </div>
+
+  <!-- ============ PAINEL ============ -->
+  <div class="secao-titulo">O painel da trilha</div>
+  <div class="secao-instrucao">A T04 &eacute; quantitativa: as fichas trazem a <strong>regra ou equa&ccedil;&atilde;o central</strong> de cada t&oacute;pico. Toque numa ficha e depois no t&oacute;pico onde ela mora.</div>
+
+  <div class="fichas" id="fichas"></div>
+
+  <div class="painel" id="painel">
+    <div class="tp-card tp-c1" data-topico="1">
+      <div class="tp-head">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>
+        <span class="tp-num">T&Oacute;PICO 1</span>
+      </div>
+      <div class="tp-titulo">Refer&ecirc;ncia antes da medida</div>
+      <div class="tp-conceito">As quatro escolhas &mdash; origem, sentido positivo, cron&ocirc;metro zerado, posi&ccedil;&atilde;o inicial &mdash; v&ecirc;m ANTES de qualquer medida. Dire&ccedil;&atilde;o &eacute; a reta do tubo; sentido &eacute; uma das duas orienta&ccedil;&otilde;es dela.</div>
+      <div class="tp-eq-slot" data-slot="1">toque para colocar a ficha</div>
+      <div class="tp-palavra"><span>refer&ecirc;ncia</span></div>
+    </div>
+
+    <div class="tp-card tp-c2" data-topico="2">
+      <div class="tp-head">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="18" r="2"/><path d="M8 16l10-10M18 6h-5M18 6v5"/></svg>
+        <span class="tp-num">T&Oacute;PICO 2</span>
+      </div>
+      <div class="tp-titulo">Velocidade e posi&ccedil;&atilde;o da esfera</div>
+      <div class="tp-conceito">A velocidade m&eacute;dia v = &Delta;s/&Delta;t = 2,4 cm/s vira a fun&ccedil;&atilde;o hor&aacute;ria s = s&#8320; + v&middot;t. No MRU, deslocamentos iguais em tempos iguais &mdash; e a acelera&ccedil;&atilde;o &eacute; zero.</div>
+      <div class="tp-eq-slot" data-slot="2">toque para colocar a ficha</div>
+      <div class="tp-palavra"><span>s = s&#8320; + v&middot;t</span></div>
+    </div>
+
+    <div class="tp-card tp-c3" data-topico="3">
+      <div class="tp-head">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M4 19h16M4 19V5"/><path d="M7 15l4-6 3 3 5-8"/></svg>
+        <span class="tp-num">T&Oacute;PICO 3</span>
+      </div>
+      <div class="tp-titulo">Gr&aacute;ficos do MRU</div>
+      <div class="tp-conceito">Tr&ecirc;s retas contam a mesma hist&oacute;ria: s&times;t inclinada (a inclina&ccedil;&atilde;o &eacute; v), v&times;t horizontal (a &aacute;rea &eacute; &Delta;s) e a&times;t sobre o eixo (a = 0).</div>
+      <div class="tp-eq-slot" data-slot="3">toque para colocar a ficha</div>
+      <div class="tp-palavra"><span>reta = uniforme</span></div>
+    </div>
+
+    <div class="tp-card tp-c4" data-topico="4">
+      <div class="tp-head">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="15" r="4"/><path d="M12 9V3M9 6l3-3 3 3"/></svg>
+        <span class="tp-num">T&Oacute;PICO 4</span>
+      </div>
+      <div class="tp-titulo">Movimento da bolha</div>
+      <div class="tp-conceito">Mesmo referencial, sentido oposto: s = 40,0 &minus; 8,5&middot;t. O sinal negativo n&atilde;o &eacute; erro &mdash; &eacute; o sentido de subida dentro do referencial da descida.</div>
+      <div class="tp-eq-slot" data-slot="4">toque para colocar a ficha</div>
+      <div class="tp-palavra"><span>sentido oposto</span></div>
+    </div>
+
+    <div class="tp-card tp-c5" data-topico="5">
+      <div class="tp-head">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M3 6l7 7M21 6l-7 7M12 13v8"/><circle cx="12" cy="13" r="1.5" fill="currentColor" stroke="none"/></svg>
+        <span class="tp-num">T&Oacute;PICO 5</span>
+      </div>
+      <div class="tp-titulo">Encontro: modelo prev&ecirc;, a bancada confere</div>
+      <div class="tp-conceito">Igualando s_esfera = s_bolha, o modelo prev&ecirc; t_enc &asymp; 3,7 s e s_enc = (8,8 &plusmn; 1,0) cm. A corrida de verifica&ccedil;&atilde;o de cada bancada &eacute; que diz se a previs&atilde;o se confirma.</div>
+      <div class="tp-eq-slot" data-slot="5">toque para colocar a ficha</div>
+      <div class="tp-palavra"><span>previs&atilde;o &plusmn; incerteza</span></div>
+    </div>
+  </div>
+
+  <!-- ============ GRAFICO VIVO ============ -->
+  <div class="secao-titulo">O encontro em c&acirc;mera lenta</div>
+  <div class="secao-instrucao">Arraste o tempo e acompanhe a esfera (descendo, +2,4 cm/s) e a bolha (subindo, &minus;8,5 cm/s) no MESMO tubo, no MESMO referencial do T&oacute;pico 1. Pare perto de t &asymp; 3,7 s e veja o encontro que o C5 previu no T&oacute;pico 5.</div>
+
+  <div class="vivo-box">
+    <div class="vivo-svg-wrap">
+      <svg id="vivoSvg" viewBox="0 0 640 210" role="img" aria-label="Tubo com a esfera descendo e a bolha subindo, marcas A a E">
+        <rect x="0" y="0" width="640" height="210" fill="oklch(0.14 0.01 260)"/>
+        <text x="60" y="80" font-family="monospace" font-size="12" fill="oklch(0.62 0.01 260)">A &middot; s = 0,0 cm</text>
+        <text x="580" y="80" font-family="monospace" font-size="12" text-anchor="end" fill="oklch(0.62 0.01 260)">E &middot; s = 40,0 cm</text>
+        <rect x="60" y="95" width="520" height="40" fill="oklch(0.30 0.05 70)" stroke="oklch(0.45 0.04 70)" stroke-width="2"/>
+        <g id="vivoTicks"></g>
+        <circle id="vivoBolhaPt" cx="580" cy="115" r="9" fill="#E07B39" stroke="#AE5314" stroke-width="2"/>
+        <circle id="vivoEsferaPt" cx="60" cy="115" r="11" fill="#7FB2D6" stroke="#1A4E8C" stroke-width="2"/>
+      </svg>
+    </div>
+    <div class="vivo-controles">
+      <label for="vivoSlider">Instante <span id="vivoTempo">0,0</span> s (arraste)</label>
+      <input type="range" id="vivoSlider" min="0" max="17" value="0" step="0.1" aria-label="Instante em segundos, de 0,0 a 17,0">
+    </div>
+    <div class="vivo-leitura">
+      <div class="vivo-val"><span class="rotulo">Posi&ccedil;&atilde;o da esfera (desce)</span><span class="numero" id="vivoEsfera">s = 0,0 cm</span></div>
+      <div class="vivo-val"><span class="rotulo">Posi&ccedil;&atilde;o da bolha (sobe)</span><span class="numero" id="vivoBolha">s = 40,0 cm</span></div>
+      <div class="vivo-val destaque"><span class="rotulo">Dist&acirc;ncia entre elas</span><span class="numero" id="vivoDist">40,0 cm</span></div>
+    </div>
+    <div class="vivo-msg" id="vivoMsg">Arraste o tempo e acompanhe: s_esfera = 2,4&middot;t (Equa&ccedil;&atilde;o 2) e s_bolha = 40,0 &minus; 8,5&middot;t (Equa&ccedil;&atilde;o 4), no mesmo referencial do T&oacute;pico 1.</div>
+  </div>
+
+  <!-- ============ VF ============ -->
+  <div class="secao-titulo">Verdadeiro ou falso &mdash; um por t&oacute;pico</div>
+  <div class="secao-instrucao">Marque <strong>V</strong> ou <strong>F</strong> e clique em Conferir. Errou? Leia a justificativa, toque de novo e refa&ccedil;a.</div>
+
+  <div class="vf-list" id="vfList"></div>
+
+  <div class="acoes">
+    <button class="btn btn-conferir" id="btnConferir">Conferir</button>
+    <button class="btn btn-limpar" id="btnLimpar">Recome&ccedil;ar</button>
+    <button class="btn btn-print" onclick="window.print()">Imprimir painel</button>
+    <div class="placar" id="placar">&mdash;<span class="placar-nota">sem nota &middot; refa&ccedil;a &agrave; vontade</span></div>
+  </div>
+
+</div>
+
+<div class="encerramento">
+  <div class="fecho-frase">Terminamos por aqui, um abra&ccedil;o, e at&eacute; o pr&oacute;ximo encontro.</div>
+  <div class="fecho-acao">Bancada encerrada! Feche o ciclo com o <strong>Relat&oacute;rio M&iacute;nimo (RM)</strong> hoje.</div>
+  <div class="fecho-links">
+    <a class="fecho-btn" href="https://nidecop-jafb.github.io/fe1-oa/#t04" target="_blank" rel="noopener">Ver todos os OAs da trilha</a>
+  </div>
+  <div class="fecho-nidec">Trilhas de Aprendizagem em F&iacute;sica &eacute; uma metodologia que faz parte de um esfor&ccedil;o do NIDEC+CODAFIS em inovar no ensino de f&iacute;sica aplicada ao ensino t&eacute;cnico em Minera&ccedil;&atilde;o.</div>
+  <div class="fecho-inst">IFMG &mdash; Campus Ouro Preto &middot; Coordenadoria da &Aacute;rea de F&iacute;sica (CODAFIS) &middot; N&uacute;cleo de Inova&ccedil;&atilde;o e Desenvolvimento de Experimentos Cient&iacute;ficos (NIDEC)</div>
+</div>
+<div class="footer-line">
+  T04 &middot; Movimento Retil&iacute;neo Uniforme (MRU) &middot; Infogr&aacute;fico (IG) &middot; Painel da trilha &middot; Primeira edi&ccedil;&atilde;o &middot; 2026
+</div>
+
+<script>
+'use strict';
+var STORAGE_KEY = 'ifmg_fe1_t04_ig_v2';
+
+/* ---------- dados ---------- */
+var EQUACOES = [
+  { id: 'e3', html: 'inclina&ccedil;&atilde;o = v', topico: 3 },
+  { id: 'e5', html: 't<sub>enc</sub> &asymp; 3,7 s', topico: 5 },
+  { id: 'e1', html: 'quatro escolhas antes de medir', topico: 1 },
+  { id: 'e4', html: 's = 40,0 &minus; 8,5&middot;t', topico: 4 },
+  { id: 'e2', html: 's = s&#8320; + v&middot;t', topico: 2 },
+];
+var VF = [
+  { t: 1, texto: 'A esfera descendo e a bolha subindo se movem em dire&ccedil;&otilde;es diferentes dentro do tubo.', resp: false,
+    just: 'FALSA. As duas seguem a MESMA dire&ccedil;&atilde;o &mdash; a reta do tubo. O que muda &eacute; o SENTIDO: a esfera segue o sentido positivo (descendo) e a bolha, o sentido oposto (subindo). Dire&ccedil;&atilde;o &eacute; a reta; sentido &eacute; uma das suas duas orienta&ccedil;&otilde;es (T&oacute;pico 1).' },
+  { t: 2, texto: 'Os quatro valores de velocidade da esfera trecho a trecho (2,4 / 2,5 / 2,4 / 2,3 cm/s) precisam ser id&ecirc;nticos para o movimento ser chamado de uniforme.', resp: false,
+    just: 'FALSA. Nenhuma medida real repete o valor exato &mdash; os quatro oscilam em torno de 2,4 cm/s DENTRO da incerteza da bancada. &ldquo;Uniforme&rdquo; significa valores COMPAT&Iacute;VEIS, n&atilde;o id&ecirc;nticos (T&oacute;pico 2, Quadro 1).' },
+  { t: 3, texto: 'No gr&aacute;fico v &times; t do MRU, a &aacute;rea sob a reta at&eacute; um instante t corresponde ao deslocamento &Delta;s naquele intervalo.', resp: true,
+    just: 'VERDADEIRA. Para a esfera, a &aacute;rea do ret&acirc;ngulo entre 0 e 16,78 s &eacute; 2,4 &times; 16,78 &asymp; 40,0 cm &mdash; exatamente o percurso de A at&eacute; E (T&oacute;pico 3, Quadro 2).' },
+  { t: 4, texto: 'A velocidade da bolha &eacute; &minus;8,5 cm/s; o sinal negativo indica um erro de medi&ccedil;&atilde;o na bancada.', resp: false,
+    just: 'FALSA. O sinal negativo n&atilde;o &eacute; erro &mdash; &eacute; informa&ccedil;&atilde;o de SENTIDO. No referencial da bancada (positivo = esfera descendo), a bolha sobe a 8,5 cm/s, e isso se escreve &minus;8,5 cm/s (T&oacute;pico 4).' },
+  { t: 5, texto: 'A bancada j&aacute; mediu o instante e a posi&ccedil;&atilde;o do encontro: o valor registrado foi t_enc = 3,7 s e s_enc = 8,8 cm, sem nenhuma incerteza envolvida.', resp: false,
+    just: 'FALSA. Esses s&atilde;o os valores do MODELO (Passo 6 do C5), com faixa esperada de &plusmn;1,0 cm em torno de 8,8 cm &mdash; a MEDIDA real vem da corrida de verifica&ccedil;&atilde;o que cada bancada faz no Roteiro de Bancada (RB); comparar modelo e medida, com a incerteza declarada, &eacute; o gesto central da F&iacute;sica Experimental (T&oacute;pico 5, Passo 8).' },
+];
+
+/* ---------- estado ---------- */
+var estado = { slots: {}, vf: {} };
+try { var s = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); if (s.slots) estado = s; } catch (e) {}
+function salvar() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(estado)); } catch (e) {} }
+
+/* ---------- fichas de equacao ---------- */
+var fichaAtiva = null;
+function eqPorId(id) { for (var i = 0; i < EQUACOES.length; i++) if (EQUACOES[i].id === id) return EQUACOES[i]; return null; }
+
+function renderFichas() {
+  var box = document.getElementById('fichas');
+  box.innerHTML = '';
+  var restantes = 0;
+  EQUACOES.forEach(function (eq) {
+    var usada = false;
+    for (var k in estado.slots) if (estado.slots[k] === eq.id) usada = true;
+    if (usada) return;
+    restantes++;
+    var b = document.createElement('button');
+    b.className = 'ficha' + (fichaAtiva === eq.id ? ' ativa' : '');
+    b.innerHTML = eq.html;
+    b.onclick = function () {
+      fichaAtiva = (fichaAtiva === eq.id) ? null : eq.id;
+      renderFichas(); marcarAlvos();
+    };
+    box.appendChild(b);
+  });
+  if (!restantes) {
+    var fim = document.createElement('span');
+    fim.className = 'fichas-vazio';
+    fim.textContent = 'Todas as fichas est&atilde;o no painel &mdash; clique em Conferir.';
+    box.appendChild(fim);
+  }
+}
+function marcarAlvos() {
+  document.querySelectorAll('.tp-card').forEach(function (c) {
+    c.classList.toggle('alvo', !!fichaAtiva);
+    c.classList.remove('alvo-ativo');
+  });
+}
+function renderSlots() {
+  document.querySelectorAll('.tp-eq-slot').forEach(function (slot) {
+    var n = slot.getAttribute('data-slot');
+    var eqId = estado.slots[n];
+    slot.classList.remove('preenchido', 'certo', 'errado');
+    if (eqId) {
+      slot.innerHTML = eqPorId(eqId).html;
+      slot.classList.add('preenchido');
+    } else {
+      slot.textContent = 'toque para colocar a ficha';
+    }
+  });
+}
+document.querySelectorAll('.tp-card').forEach(function (card) {
+  card.addEventListener('click', function () {
+    var n = card.getAttribute('data-topico');
+    if (fichaAtiva) {
+      estado.slots[n] = fichaAtiva;
+      fichaAtiva = null;
+      salvar(); renderFichas(); renderSlots(); marcarAlvos();
+    } else if (estado.slots[n]) {
+      delete estado.slots[n];           /* devolve a ficha */
+      salvar(); renderFichas(); renderSlots();
+    }
+  });
+});
+
+/* ---------- VF ---------- */
+function renderVF() {
+  var list = document.getElementById('vfList');
+  list.innerHTML = '';
+  VF.forEach(function (q, i) {
+    var item = document.createElement('div');
+    item.className = 'vf-item';
+    item.setAttribute('data-vf', i);
+    var sel = estado.vf[i];
+    item.innerHTML =
+      '<div class="vf-toggles">' +
+        '<button class="vf-btn' + (sel === true ? ' selected' : '') + '" data-val="V" aria-label="Verdadeiro">V</button>' +
+        '<button class="vf-btn' + (sel === false ? ' selected' : '') + '" data-val="F" aria-label="Falso">F</button>' +
+      '</div>' +
+      '<div class="vf-texto">' + q.texto + '<div class="vf-just">' + q.just + '</div></div>';
+    item.querySelectorAll('.vf-btn').forEach(function (b) {
+      b.onclick = function () {
+        estado.vf[i] = (b.getAttribute('data-val') === 'V');
+        item.classList.remove('correct', 'incorrect');
+        salvar(); renderVF();
+      };
+    });
+    list.appendChild(item);
+  });
+}
+
+/* ---------- conferir ---------- */
+document.getElementById('btnConferir').onclick = function () {
+  var acertos = 0, total = EQUACOES.length + VF.length;
+  document.querySelectorAll('.tp-eq-slot').forEach(function (slot) {
+    var n = parseInt(slot.getAttribute('data-slot'), 10);
+    var eqId = estado.slots[n];
+    slot.classList.remove('certo', 'errado');
+    if (!eqId) return;
+    var ok = eqPorId(eqId).topico === n;
+    slot.classList.add(ok ? 'certo' : 'errado');
+    if (ok) acertos++; else { delete estado.slots[n]; }   /* errada volta para as fichas */
+  });
+  document.querySelectorAll('.vf-item').forEach(function (item) {
+    var i = parseInt(item.getAttribute('data-vf'), 10);
+    item.classList.remove('correct', 'incorrect');
+    if (!(i in estado.vf)) return;
+    var ok = estado.vf[i] === VF[i].resp;
+    item.classList.add(ok ? 'correct' : 'incorrect');
+    item.querySelectorAll('.vf-btn').forEach(function (b) {
+      b.classList.remove('correct', 'incorrect');
+      if (b.classList.contains('selected')) b.classList.add(ok ? 'correct' : 'incorrect');
+    });
+    if (ok) acertos++;
+  });
+  salvar();
+  setTimeout(function () { renderFichas(); renderSlots(); reaplicarConferencia(); }, 600);
+  document.getElementById('placar').innerHTML =
+    acertos + ' de ' + total + '<span class="placar-nota">sem nota &middot; refa&ccedil;a &agrave; vontade</span>';
+};
+function reaplicarConferencia() {
+  document.querySelectorAll('.tp-eq-slot').forEach(function (slot) {
+    var n = parseInt(slot.getAttribute('data-slot'), 10);
+    if (estado.slots[n] && eqPorId(estado.slots[n]).topico === n) slot.classList.add('certo');
+  });
+}
+document.getElementById('btnLimpar').onclick = function () {
+  estado = { slots: {}, vf: {} };
+  fichaAtiva = null;
+  salvar(); renderFichas(); renderSlots(); renderVF(); marcarAlvos();
+  document.getElementById('placar').innerHTML = '&mdash;<span class="placar-nota">sem nota &middot; refa&ccedil;a &agrave; vontade</span>';
+};
+
+/* ---------- grafico vivo ---------- */
+var RX0 = 60, RW = 520; /* tubo de s = 0,0 cm (A) a s = 40,0 cm (E) */
+(function montarTubo() {
+  var g = document.getElementById('vivoTicks'), s = '';
+  var marcas = [0, 10, 20, 30, 40];
+  var letras = ['A', 'B', 'C', 'D', 'E'];
+  for (var i = 0; i < marcas.length; i++) {
+    var cm = marcas[i];
+    var x = RX0 + cm / 40 * RW;
+    s += '<line x1="' + x + '" y1="135" x2="' + x + '" y2="150" stroke="#7FB2D6" stroke-width="2"/>';
+    s += '<text x="' + x + '" y="168" text-anchor="middle" font-family="monospace" font-size="12" fill="oklch(0.62 0.01 260)">' + letras[i] + '</text>';
+  }
+  g.innerHTML = s;
+})();
+function atualizarVivo() {
+  var t = parseFloat(document.getElementById('vivoSlider').value);
+  var sEsf = 2.4 * t;
+  var sBol = 40.0 - 8.5 * t;
+  if (sBol < 0) sBol = 0;
+  if (sEsf > 40) sEsf = 40;
+  var xEsf = RX0 + sEsf / 40 * RW;
+  var xBol = RX0 + sBol / 40 * RW;
+  document.getElementById('vivoEsferaPt').setAttribute('cx', xEsf);
+  document.getElementById('vivoBolhaPt').setAttribute('cx', xBol);
+  document.getElementById('vivoTempo').textContent = t.toFixed(1).replace('.', ',');
+  document.getElementById('vivoEsfera').textContent = 's = ' + sEsf.toFixed(1).replace('.', ',') + ' cm';
+  document.getElementById('vivoBolha').textContent = 's = ' + sBol.toFixed(1).replace('.', ',') + ' cm';
+  var dist = Math.abs(sEsf - sBol);
+  document.getElementById('vivoDist').textContent = dist.toFixed(1).replace('.', ',') + ' cm';
+  var msg = document.getElementById('vivoMsg');
+  if (Math.abs(t - 3.67) < 0.05) {
+    msg.className = 'vivo-msg tangente';
+    msg.innerHTML = 'Encontro previsto pelo modelo! t<sub>enc</sub> &asymp; 3,7 s e s<sub>enc</sub> = (8,8 &plusmn; 1,0) cm &mdash; a corrida de verifica&ccedil;&atilde;o da SUA bancada &eacute; que diz se a natureza concorda (Passo 8 do C5, T&oacute;pico 5).';
+  } else if (dist < 3) {
+    msg.className = 'vivo-msg';
+    msg.innerHTML = 'Quase l&aacute; &mdash; a esfera descendo (+2,4 cm/s) e a bolha subindo (&minus;8,5 cm/s) se aproximam. Arraste at&eacute; t &asymp; 3,7 s para ver o encontro previsto pelo modelo.';
+  } else {
+    msg.className = 'vivo-msg';
+    msg.innerHTML = 'Arraste o tempo e acompanhe: s_esfera = 2,4&middot;t (Equa&ccedil;&atilde;o 2) e s_bolha = 40,0 &minus; 8,5&middot;t (Equa&ccedil;&atilde;o 4), no mesmo referencial do T&oacute;pico 1.';
+  }
+}
+document.getElementById('vivoSlider').addEventListener('input', atualizarVivo);
+document.getElementById('vivoSlider').addEventListener('change', atualizarVivo);
+
+/* ---------- boot ---------- */
+renderFichas(); renderSlots(); renderVF(); atualizarVivo();
+</script>
+<!-- ABA-SITE (injetada na publicacao — nao existe no OA canonico) -->
+<style>
+.aba-site-toggle { position: fixed; top: 56px; left: 0; z-index: 999; background: #1a1b1f; border: 1px solid #444; border-left: none; color: #bbb; font-size: .7rem; padding: 8px 10px; cursor: pointer; font-family: 'Courier New', monospace; writing-mode: vertical-rl; text-orientation: mixed; letter-spacing: 1px; text-transform: uppercase; transition: color .15s; border-radius: 0; }
+.aba-site-toggle:hover { color: #E07B39; }
+.aba-site-painel { position: fixed; top: 0; left: 0; z-index: 1001; width: 330px; max-width: 86vw; height: 100vh; overflow-y: auto; background: #1a1b1f; border-right: 1px solid #444; padding: 24px 22px 24px 42px; transform: translateX(-100%); transition: transform .25s; font-family: 'Segoe UI', system-ui, sans-serif; font-size: .92rem; color: #c4c4c4; line-height: 1.6; }
+.aba-site-painel.open { transform: translateX(0); }
+.aba-site-painel h3 { font-family: 'Courier New', monospace; font-size: .8rem; text-transform: uppercase; letter-spacing: 2px; color: #E07B39; border-bottom: 1px solid #444; padding-bottom: 8px; margin: 0 0 14px; }
+.aba-site-painel a.aba-site-btn { display: block; margin: 10px 0; padding: 11px 14px; border: 1px solid #444; color: #e8e8e8; text-decoration: none; font-family: 'Courier New', monospace; font-size: .85rem; }
+.aba-site-painel a.aba-site-btn:hover { border-color: #E07B39; color: #E07B39; }
+/* TT: abre espaco no topo do trilho e oculta a aba Figuras (decisao 2026-08-08) */
+.musica-toggle { top: 128px !important; }
+.ineditismo-toggle { top: 210px !important; }
+.toc-toggle { top: 330px !important; }
+.creditos-toggle { top: 418px !important; }
+.figuras-toggle, .figuras-sidebar { display: none !important; }
+/* Celular: a aba fica sobre o conteudo, porque em tela estreita o texto ocupa
+   a largura toda e o trilho e `position: fixed` na borda esquerda. Abrir uma
+   faixa no body empurra TUDO para a direita — vale para a aba Site e para o
+   trilho do TT (Musica/Ineditismo/Sumario/Creditos), todos em left: 0.
+   Com `box-sizing: border-box` (padrao nos OAs) nao cria rolagem lateral. */
+@media (max-width: 600px) {
+  body { padding-left: 30px; }
+  .aba-site-toggle { font-size: .6rem; padding: 6px 6px; }
+  .aba-site-painel { width: 86vw; }
+}
+@media print { .aba-site-toggle, .aba-site-painel { display: none !important; } }
+</style>
+<button class="aba-site-toggle" id="abaSiteToggle">Site</button>
+<aside class="aba-site-painel" id="abaSitePainel">
+  <h3>Site</h3>
+  <a class="aba-site-btn" href="https://nidecop-jafb.github.io/fe1-oa/#t04">Ver todos os OAs da trilha</a>
+  <a class="aba-site-btn" href="https://nidecop-jafb.github.io/fe1-oa/">Início do site</a>
+  <a class="aba-site-btn" href="https://nidecop-jafb.github.io/fc1-oa/">Disciplina irmã: FC1 — Física Conceitual 1</a>
+</aside>
+<script>
+(function () {
+  var t = document.getElementById('abaSiteToggle');
+  var p = document.getElementById('abaSitePainel');
+  var outras = '.metodo-sidebar,.musica-sidebar,.ineditismo-sidebar,.toc-sidebar,.projeto-sidebar,.creditos-sidebar,.figuras-sidebar';
+  t.addEventListener('click', function () {
+    p.classList.toggle('open');
+    document.querySelectorAll(outras).forEach(function (s) { s.classList.remove('open'); });
+  });
+  document.addEventListener('click', function (e) {
+    if (!p.contains(e.target) && e.target !== t) { p.classList.remove('open'); }
+  });
+})();
+</script>
+</body>
+</html>

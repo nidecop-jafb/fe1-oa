@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FE-T04 · Movimento Retilíneo Uniforme (MRU) — Texto Temático</title>
+<style>
+:root {
+  --fs-base: 1.05rem;
+  /* Paleta FE — _identidade/paleta-fe.md
+     laranja-EPI (primario) + azul-aco (acento) */
+  --epi: #E07B39;
+  --epi-claro: #EE9A63;
+  --epi-bg: oklch(0.28 0.06 55);
+  --aco: #7FB2D6;
+  --aco-claro: #A7CCE6;
+  --aco-bg: oklch(0.28 0.05 240);
+  --verde: oklch(0.7 0.15 150);
+  --verde-claro: oklch(0.25 0.04 150);
+  --erro: oklch(0.6 0.22 25);
+  --erro-claro: oklch(0.22 0.05 25);
+  --cinza: oklch(0.62 0.01 260);
+  --cinza-claro: oklch(0.18 0.01 260);
+  --cinza-borda: oklch(0.40 0.01 260);
+  --texto: oklch(0.93 0 0);
+  --branco: oklch(0.96 0 0);
+  --superficie: oklch(0.22 0.01 260);
+  --input-bg: oklch(0.18 0.01 260);
+  --hover-bg: oklch(0.25 0.01 260);
+  --fundo: oklch(0.13 0.01 260);
+  --painel: oklch(0.16 0.01 260);
+  --r: 0px;
+  --r-sm: 0px;
+  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'Courier New', 'Cascadia Code', 'Consolas', monospace;
+  --serif: 'Georgia', 'Cambria', 'Times New Roman', serif;
+  /* nomes herdados dos OAs de 2026-07 — apontam para a paleta FE */
+  --azul: var(--epi);
+  --azul-claro: var(--epi-claro);
+  --azul-bg: var(--epi-bg);
+  --ouro: var(--aco);
+  --ouro-claro: var(--aco-bg);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font); background: oklch(0.12 0.02 260); color: var(--texto); line-height: 1.8; min-height: 100vh; padding-bottom: 80px; }
+
+.progress-top { position: fixed; top: 0; left: 0; width: 100%; height: 3px; z-index: 100; background: oklch(0.2 0.02 260); }
+.progress-top .bar { height: 100%; background: var(--ouro); width: 0%; transition: width .1s; }
+
+.capa { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 20px; background: linear-gradient(180deg, oklch(0.14 0.03 45) 0%, oklch(0.12 0.02 260) 100%); }
+.capa-disciplina { font-size: 2.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; color: var(--azul); margin-bottom: 6px; }
+.capa-curso { font-size: 1.15rem; letter-spacing: 1.5px; color: var(--cinza); margin-bottom: 24px; max-width: 680px; margin-left: auto; margin-right: auto; }
+.capa-img { max-width: 100%; margin: 0 auto 28px; border: 1px solid var(--cinza-borda); }
+.capa-img img { max-width: 100%; height: auto; display: block; }
+.capa-trilha { font-size: 1.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--ouro); margin-bottom: 8px; }
+.capa-titulo { font-family: var(--serif); font-size: 2.2rem; font-weight: 400; font-style: italic; line-height: 1.25; color: var(--branco); margin-bottom: 28px; max-width: 540px; }
+.capa-autores { font-size: 1rem; color: var(--cinza); }
+.capa-autores strong { color: var(--texto); }
+.capa-inst { font-size: .8rem; color: var(--cinza-borda); margin-top: 20px; letter-spacing: .5px; line-height: 1.5; max-width: 720px; margin-left: auto; margin-right: auto; }
+.capa-scroll { margin-top: 40px; font-size: .75rem; color: var(--cinza-borda); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100% { opacity: .4; } 50% { opacity: 1; } }
+
+.audio-hint { max-width: 720px; margin: -40px auto 40px; padding: 6px 0; text-align: center; font-size: .88rem; line-height: 1.5; color: var(--cinza); cursor: pointer; }
+.audio-hint strong { color: var(--ouro); }
+.audio-hint:hover { color: var(--texto); }
+
+.conteudo { max-width: 720px; margin: 0 auto; padding: 0 20px; }
+
+.epigrafe { padding: 40px 0; text-align: center; border-bottom: 1px solid var(--cinza-borda); margin-bottom: 40px; }
+.epigrafe blockquote { font-family: var(--serif); font-style: italic; font-size: 1.4rem; line-height: 1.7; color: oklch(0.78 0 0); max-width: 520px; margin: 0 auto; }
+.epigrafe .autor { font-size: .9rem; color: var(--ouro); margin-top: 12px; font-style: normal; }
+.epigrafe .nota { font-size: .8rem; color: var(--cinza); margin-top: 8px; max-width: 480px; margin-left: auto; margin-right: auto; font-style: normal; }
+
+.ato { margin-bottom: 48px; }
+.ato-titulo { font-size: 1.2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; color: var(--azul); padding: 16px 0; border-top: 2px solid var(--azul-bg); margin-bottom: 24px; }
+.ato-subtitulo { font-family: var(--serif); font-size: 1.8rem; font-weight: 400; font-style: italic; color: var(--branco); margin-bottom: 20px; }
+
+.topico { margin-bottom: 36px; }
+.topico-titulo { font-size: 1.5rem; font-weight: 700; color: var(--ouro); margin-bottom: 16px; padding-bottom: 6px; border-bottom: 1px solid var(--ouro-claro); }
+
+p { font-size: var(--fs-base); line-height: 1.85; margin-bottom: 16px; color: oklch(0.85 0 0); }
+p .termo { color: var(--ouro); font-weight: 600; }
+p .citacao { font-style: italic; color: var(--azul-claro); }
+
+.eixo { margin-bottom: 14px; padding-left: 14px; border-left: 2px solid var(--cinza-borda); }
+.eixo-label { font-size: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.eixo-tecnico .eixo-label { color: var(--azul); }
+.eixo-historico .eixo-label { color: var(--ouro); }
+.eixo-cotidiano .eixo-label { color: var(--verde); }
+.eixo p { font-size: 1.1rem; margin-bottom: 8px; }
+
+.definicao { background: var(--superficie); padding: 16px 20px; margin: 16px 0; border-left: 3px solid var(--ouro); }
+.definicao p { font-size: 1.2rem; margin-bottom: 6px; }
+.definicao .def-termo { color: var(--ouro); font-weight: 700; text-transform: uppercase; font-size: 1.05rem; }
+
+.destaque { background: oklch(0.16 0.04 45); padding: 14px 20px; margin: 16px 0; font-size: 1.1rem; font-style: italic; color: var(--azul-claro); border-left: 3px solid var(--azul); }
+
+.quadro { background: var(--superficie); padding: 14px 16px; margin: 16px 0; overflow-x: auto; }
+.quadro table { width: 100%; border-collapse: collapse; font-size: 1rem; }
+.quadro th { padding: 8px 10px; text-align: left; font-weight: 600; color: var(--ouro); border-bottom: 1px solid var(--cinza-borda); font-size: 1rem; text-transform: uppercase; }
+.quadro td { padding: 8px 10px; border-bottom: 1px solid oklch(0.22 0.02 260); color: oklch(0.82 0 0); }
+
+.ascii-graf { background: var(--superficie); padding: 14px 16px; margin: 16px 0; overflow-x: auto; font-family: var(--mono); font-size: 0.82rem; line-height: 1.5; color: oklch(0.82 0 0); white-space: pre; }
+[data-theme="light"] .ascii-graf { color: oklch(0.30 0 0); }
+
+.equacao { background: oklch(0.16 0.02 260); padding: 16px 20px; margin: 16px 0; text-align: center; font-family: var(--serif); font-size: 1.4rem; color: var(--branco); border: 1px solid var(--cinza-borda); }
+
+.c5-passos { background: var(--superficie); padding: 16px 20px; margin: 16px 0; }
+.c5-passos .passo { display: flex; gap: 10px; margin: 6px 0; font-size: 1.1rem; }
+.c5-passos .passo-num { font-family: var(--mono); font-weight: 700; color: var(--azul); min-width: 24px; }
+.c5-passos .passo-texto { color: oklch(0.82 0 0); }
+
+.explore { background: oklch(0.16 0.03 150); padding: 18px 22px; margin: 20px 0; border: 1px solid oklch(0.28 0.06 150); }
+.explore-titulo { font-size: .85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--verde); margin-bottom: 8px; }
+.explore p { font-size: 1.05rem; }
+.explore a { color: var(--verde); }
+
+.fig { margin: 28px 0; text-align: center; }
+.fig img { max-width: 100%; height: auto; border: 1px solid var(--cinza-borda); display: block; margin: 0 auto; }
+.fig-caption { font-size: 1rem; color: var(--cinza); margin-top: 8px; font-style: italic; max-width: 520px; margin-left: auto; margin-right: auto; }
+
+
+.ciencia-arte { padding: 40px 0; border-top: 2px solid var(--ouro-claro); margin-top: 40px; text-align: center; }
+.ciencia-arte .ca-titulo { font-size: 1.4rem; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; color: var(--ouro); margin-bottom: 24px; }
+.ciencia-arte blockquote { font-family: var(--serif); font-style: italic; font-size: 1.2rem; color: oklch(0.78 0 0); max-width: 480px; margin: 0 auto 12px; }
+.ciencia-arte .ca-autor { font-size: .9rem; color: var(--ouro); }
+.ciencia-arte .ca-obra { font-size: 1.05rem; margin-top: 20px; font-weight: 600; color: var(--branco); }
+.ciencia-arte .ca-desc { font-size: 1.05rem; color: oklch(0.75 0 0); max-width: 520px; margin: 10px auto 0; }
+
+.refs { padding: 32px 0; border-top: 1px solid var(--cinza-borda); margin-top: 32px; }
+.refs-titulo { font-size: .9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--cinza); margin-bottom: 12px; }
+.refs p { font-size: 1rem; color: var(--cinza); margin-bottom: 4px; line-height: 1.6; }
+
+.separador { width: 60px; height: 1px; background: var(--cinza-borda); margin: 32px auto; }
+
+.ineditismo { padding: 32px 0; border-top: 1px solid var(--cinza-borda); margin-top: 32px; }
+.ineditismo p { font-size: 1rem; color: oklch(0.7 0 0); line-height: 1.7; margin-bottom: 12px; }
+
+
+
+/* ==== CHROME PADRAO DO TT DIGITAL (portado do T08-TT-v1-digital.html) ==== */
+[data-theme="light"] {
+  --epi: #AE5314;
+  --epi-claro: #C56A2B;
+  --epi-bg: oklch(0.92 0.04 55);
+  --aco: oklch(0.45 0.10 240);
+  --aco-claro: oklch(0.55 0.08 240);
+  --aco-bg: oklch(0.90 0.03 240);
+  --verde: oklch(0.45 0.15 150);
+  --verde-claro: oklch(0.92 0.03 150);
+  --erro: oklch(0.50 0.22 25);
+  --cinza: oklch(0.50 0.02 260);
+  --cinza-claro: oklch(0.92 0.02 260);
+  --cinza-borda: oklch(0.75 0.02 260);
+  --texto: oklch(0.20 0 0);
+  --branco: oklch(0.20 0 0);
+  --superficie: oklch(0.95 0.01 260);
+  --fundo: oklch(0.98 0.005 260);
+  --painel: oklch(0.96 0.01 260);
+  --input-bg: oklch(0.93 0.01 260);
+  --hover-bg: oklch(0.90 0.01 260);
+}
+[data-theme="light"] .progress-top { background: oklch(0.88 0.02 260); }
+[data-theme="light"] .capa { background: linear-gradient(180deg, oklch(0.93 0.03 55) 0%, var(--fundo) 100%); }
+[data-theme="light"] .audio-hint { background: oklch(0.94 0.03 55); color: oklch(0.30 0 0); }
+[data-theme="light"] p { color: oklch(0.25 0 0); }
+[data-theme="light"] .epigrafe blockquote { color: oklch(0.35 0 0); }
+[data-theme="light"] .destaque { background: oklch(0.94 0.03 55); }
+[data-theme="light"] .quadro td { color: oklch(0.30 0 0); border-bottom-color: oklch(0.88 0.01 260); }
+[data-theme="light"] .equacao { background: oklch(0.95 0.01 260); }
+[data-theme="light"] .c5-passos .passo-texto { color: oklch(0.30 0 0); }
+[data-theme="light"] .explore { background: oklch(0.94 0.03 150); border-color: oklch(0.80 0.05 150); }
+[data-theme="light"] .ciencia-arte blockquote { color: oklch(0.35 0 0); }
+[data-theme="light"] .ciencia-arte .ca-desc { color: oklch(0.35 0 0); }
+[data-theme="light"] .ineditismo p { color: oklch(0.40 0 0); }
+
+/* TOOLBAR (fonte + tema) */
+.toolbar {
+  position: fixed; top: 3px; right: 0; z-index: 999;
+  display: flex; gap: 2px; padding: 6px 10px;
+  background: var(--superficie); border-bottom: 1px solid var(--cinza-borda); border-left: 1px solid var(--cinza-borda);
+}
+.toolbar button {
+  background: none; border: 1px solid var(--cinza-borda); color: var(--cinza);
+  font-family: var(--font); font-size: 0.75rem; padding: 4px 8px; cursor: pointer;
+  border-radius: 0; transition: color 0.15s, border-color 0.15s;
+}
+.toolbar button:hover { color: var(--texto); border-color: var(--texto); }
+.toolbar button.active { color: var(--ouro); border-color: var(--ouro); }
+
+/* CREDITOS */
+.projeto-toggle {
+  position: fixed; top: 427px; left: 0; z-index: 998;
+  background: var(--superficie); border: 1px solid var(--cinza-borda); border-left: none;
+  color: var(--cinza); font-size: 0.7rem; padding: 8px 10px; cursor: pointer;
+  font-family: var(--font); writing-mode: vertical-rl; text-orientation: mixed;
+  letter-spacing: 1px; text-transform: uppercase; border-radius: 0;
+  transition: color 0.15s;
+}
+.projeto-toggle:hover { color: var(--ouro); }
+.projeto-sidebar {
+  position: fixed; top: 0; left: 0; z-index: 996;
+  width: 340px; height: 100vh; overflow-y: auto;
+  background: var(--superficie); border-right: 1px solid var(--cinza-borda);
+  padding: 24px 20px 24px 40px; transform: translateX(-100%); transition: transform 0.25s;
+  font-family: var(--font); font-size: 0.95rem; line-height: 1.7;
+  color: var(--texto);
+}
+.projeto-sidebar.open { transform: translateX(0); }
+.projeto-sidebar .projeto-titulo {
+  font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 2px; color: var(--ouro); margin-bottom: 16px;
+  border-bottom: 1px solid var(--cinza-borda); padding-bottom: 8px;
+}
+.projeto-sidebar p { font-size: 0.95rem; color: oklch(0.65 0 0); line-height: 1.7; margin-bottom: 10px; }
+[data-theme="light"] .projeto-sidebar p { color: oklch(0.40 0 0); }
+.projeto-sidebar .projeto-link {
+  display: inline-block; margin-top: 8px; padding: 8px 14px;
+  background: var(--ouro); color: oklch(0.12 0 0); font-weight: 700;
+  font-size: 0.8rem; text-decoration: none; letter-spacing: 0.5px;
+}
+.projeto-sidebar .projeto-link:hover { opacity: 0.85; }
+.projeto-sidebar .projeto-img { display: block; width: 100%; margin: 0 0 14px; border: 1px solid var(--cinza-borda); }
+
+.creditos-toggle {
+  position: fixed; top: 521px; left: 0; z-index: 998;
+  background: var(--superficie); border: 1px solid var(--cinza-borda); border-left: none;
+  color: var(--cinza); font-size: 0.7rem; padding: 8px 10px; cursor: pointer;
+  font-family: var(--font); writing-mode: vertical-rl; text-orientation: mixed;
+  letter-spacing: 1px; text-transform: uppercase; border-radius: 0;
+  transition: color 0.15s;
+}
+.creditos-toggle:hover { color: var(--ouro); }
+.creditos-sidebar {
+  position: fixed; top: 0; left: 0; z-index: 996;
+  width: 340px; height: 100vh; overflow-y: auto;
+  background: var(--superficie); border-right: 1px solid var(--cinza-borda);
+  padding: 24px 20px 24px 40px; transform: translateX(-100%); transition: transform 0.25s;
+  font-family: var(--font); font-size: 0.85rem; line-height: 1.7;
+  color: var(--texto);
+}
+.creditos-sidebar.open { transform: translateX(0); }
+.creditos-sidebar p { font-family: var(--font); font-size: 0.85rem; color: var(--texto); line-height: 1.6; margin-bottom: 4px; }
+.creditos-titulo {
+  font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 2px; color: var(--ouro); margin-bottom: 16px;
+  border-bottom: 1px solid var(--cinza-borda); padding-bottom: 8px;
+}
+.creditos-instituicao { font-weight: 700; font-size: 0.9rem; color: var(--branco); margin-bottom: 12px; }
+.creditos-cargo { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--cinza); margin-top: 10px; margin-bottom: 2px; }
+.creditos-nome { margin-bottom: 0; }
+
+/* MUSICA */
+.metodo-toggle {
+  position: fixed; top: 132px; left: 0; z-index: 998;
+  background: var(--superficie); border: 1px solid var(--cinza-borda); border-left: none;
+  color: var(--cinza); font-size: 0.7rem; padding: 8px 10px; cursor: pointer;
+  font-family: var(--font); writing-mode: vertical-rl; text-orientation: mixed;
+  letter-spacing: 1px; text-transform: uppercase; border-radius: 0;
+  transition: color 0.15s;
+}
+.metodo-toggle:hover { color: var(--ouro); }
+.metodo-sidebar {
+  position: fixed; top: 0; left: 0; z-index: 996;
+  width: 340px; height: 100vh; overflow-y: auto;
+  background: var(--superficie); border-right: 1px solid var(--cinza-borda);
+  padding: 24px 20px 24px 40px; transform: translateX(-100%); transition: transform 0.25s;
+  font-family: var(--font); font-size: 0.9rem; line-height: 1.6;
+  color: var(--texto);
+}
+.metodo-sidebar.open { transform: translateX(0); }
+.metodo-sidebar .metodo-titulo {
+  font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 2px; color: var(--ouro); margin-bottom: 12px;
+  border-bottom: 1px solid var(--cinza-borda); padding-bottom: 8px;
+}
+.metodo-sidebar .metodo-parada { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--azul); margin: 16px 0 4px; }
+.metodo-sidebar .metodo-quando { font-size: 0.78rem; font-style: italic; color: var(--cinza); margin-bottom: 8px; }
+.metodo-sidebar ol { margin: 0 0 8px 20px; padding: 0; }
+.metodo-sidebar ol li { margin-bottom: 6px; font-size: 0.85rem; }
+.metodo-sidebar .metodo-tag { display: block; font-size: 0.72rem; color: var(--cinza); }
+.metodo-sidebar .metodo-apoio { font-size: 0.8rem; color: var(--cinza); margin-bottom: 4px; }
+.metodo-sidebar .metodo-regra { margin-top: 16px; padding: 10px 12px; border-left: 3px solid var(--azul); background: var(--azul-bg); font-size: 0.82rem; line-height: 1.6; }
+.metodo-sidebar .metodo-regra strong { color: var(--azul-claro); }
+
+.musica-toggle {
+  position: fixed; top: 226px; left: 0; z-index: 998;
+  background: var(--superficie); border: 1px solid var(--cinza-borda); border-left: none;
+  color: var(--cinza); font-size: 0.7rem; padding: 8px 10px; cursor: pointer;
+  font-family: var(--font); writing-mode: vertical-rl; text-orientation: mixed;
+  letter-spacing: 1px; text-transform: uppercase; border-radius: 0;
+  transition: color 0.15s;
+}
+.musica-toggle:hover { color: var(--ouro); }
+.musica-sidebar {
+  position: fixed; top: 0; left: 0; z-index: 996;
+  width: 340px; height: 100vh; overflow-y: auto;
+  background: var(--superficie); border-right: 1px solid var(--cinza-borda);
+  padding: 24px 20px 24px 40px; transform: translateX(-100%); transition: transform 0.25s;
+  font-family: var(--font); font-size: 0.95rem; line-height: 1.7;
+  color: var(--texto);
+}
+.musica-sidebar.open { transform: translateX(0); }
+.musica-sidebar .musica-titulo {
+  font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 2px; color: var(--ouro); margin-bottom: 16px;
+  border-bottom: 1px solid var(--cinza-borda); padding-bottom: 8px;
+}
+.musica-sidebar .musica-ref { font-style: italic; color: var(--cinza); margin-bottom: 16px; display: block; }
+.musica-sidebar .musica-tags { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.musica-sidebar .musica-tag { background: var(--ouro); color: oklch(0.12 0 0); font-weight: 700; font-size: 0.75rem; padding: 4px 10px; text-transform: uppercase; letter-spacing: 1px; }
+.musica-sidebar .musica-album { font-weight: 700; color: var(--branco); margin-bottom: 8px; }
+.musica-sidebar .musica-detail { color: var(--cinza); font-size: 0.85rem; margin-bottom: 16px; }
+.musica-sidebar .musica-link {
+  display: inline-block; padding: 8px 16px; background: var(--erro);
+  color: oklch(0.98 0 0); font-weight: 700; font-size: 0.8rem;
+  text-decoration: none; letter-spacing: 0.5px; transition: opacity 0.15s;
+}
+.musica-sidebar .musica-link:hover { opacity: 0.85; }
+
+/* INEDITISMO */
+.ineditismo-toggle {
+  position: fixed; top: 316px; left: 0; z-index: 998;
+  background: var(--superficie); border: 1px solid var(--cinza-borda); border-left: none;
+  color: var(--cinza); font-size: 0.7rem; padding: 8px 10px; cursor: pointer;
+  font-family: var(--font); writing-mode: vertical-rl; text-orientation: mixed;
+  letter-spacing: 1px; text-transform: uppercase; border-radius: 0;
+  transition: color 0.15s;
+}
+.ineditismo-toggle:hover { color: var(--ouro); }
+.ineditismo-sidebar {
+  position: fixed; top: 0; left: 0; z-index: 996;
+  width: 340px; height: 100vh; overflow-y: auto;
+  background: var(--superficie); border-right: 1px solid var(--cinza-borda);
+  padding: 24px 20px 24px 40px; transform: translateX(-100%); transition: transform 0.25s;
+  font-family: var(--font); font-size: 0.95rem; line-height: 1.7;
+  color: var(--texto);
+}
+.ineditismo-sidebar.open { transform: translateX(0); }
+.ineditismo-sidebar .ineditismo-titulo {
+  font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 2px; color: var(--ouro); margin-bottom: 16px;
+  border-bottom: 1px solid var(--cinza-borda); padding-bottom: 8px;
+}
+.ineditismo-sidebar p { font-size: 0.95rem; color: oklch(0.65 0 0); line-height: 1.7; margin-bottom: 10px; }
+[data-theme="light"] .ineditismo-sidebar p { color: oklch(0.40 0 0); }
+
+@media (max-width: 600px) {
+  .capa-disciplina { font-size: 1.2rem; }
+  .capa-curso { font-size: .85rem; }
+  .capa-trilha { font-size: .95rem; }
+  .capa-titulo { font-size: 2rem; }
+  .capa-img { max-width: 280px; margin: 0 auto; }
+  .conteudo { padding: 0 14px 0 46px; }
+  .audio-hint { margin-left: 32px; }
+  .metodo-toggle, .musica-toggle, .ineditismo-toggle, .projeto-toggle, .creditos-toggle { font-size: 0.6rem; padding: 6px 6px; }
+  .metodo-sidebar, .musica-sidebar, .ineditismo-sidebar, .projeto-sidebar, .creditos-sidebar { width: 82vw; }
+  .toolbar { padding: 4px 8px; }
+}
+@media print {
+  body { background: white !important; color: #1A1A1A !important; padding-bottom: 0 !important; }
+  .progress-top, .capa-scroll, .audio-hint, .toolbar,
+  .metodo-toggle, .metodo-sidebar, .musica-toggle, .musica-sidebar,
+  .ineditismo-toggle, .ineditismo-sidebar, .projeto-toggle, .projeto-sidebar,
+  .creditos-toggle, .creditos-sidebar { display: none !important; }
+  .capa { min-height: auto !important; background: none !important; padding: 30px 20px !important; }
+  .ato-titulo { border-top-color: #CCC !important; color: #1F3864 !important; }
+  .topico-titulo { color: #8B6914 !important; border-bottom-color: #DDD !important; }
+  p { color: #333 !important; }
+  .definicao { background: #F5F5F5 !important; border-left-color: #8B6914 !important; }
+  .eixo { border-left-color: #CCC !important; }
+}
+
+/* ==== PADRAO FE — aplicado por padronizar_oa_fe.py ==== */
+body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
+.container { max-width: 800px; margin: 0 auto; padding: 24px 16px 80px; }
+/* HEADER */
+.header { background: var(--painel); border-top: 3px solid var(--epi); padding: 14px 20px; margin-bottom: 20px; }
+.header-inner { max-width: 800px; margin: 0 auto; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.header .marca { width: 52px; height: 52px; flex-shrink: 0; }
+.header h1 { font-size: 1.4rem; font-weight: 900; letter-spacing: -0.02em; flex: 1 1 240px; }
+.header h1 .trilha-code { color: var(--epi); }
+.badge {
+  display: inline-block;
+  background: var(--epi); color: oklch(0.13 0.01 260);
+  padding: 4px 12px; border-radius: var(--r-sm);
+  font-size: 0.68rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 2px;
+}
+.header-sub {
+  max-width: 800px; margin: 6px auto 0;
+  font-size: 0.88rem;
+  color: var(--cinza);
+}
+
+/* PIAZZI BAR */
+.piazzi-bar { display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; background:var(--painel); border:1px solid var(--cinza-borda); padding:10px 16px; margin-bottom:16px; font-size:.78rem; }
+.piazzi-bar .piazzi-ref { color:var(--cinza); }
+.piazzi-bar .piazzi-tag { display:inline-block; border:1px solid var(--epi); color:var(--epi); padding:2px 10px; font-size:.72rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; }
+.piazzi-bar .piazzi-text { color:var(--texto); font-style:italic; font-size:.74rem; }
+.piazzi-bar .piazzi-yt { display:inline-flex; align-items:center; gap:5px; background:var(--erro); color:var(--branco); padding:4px 12px; font-size:.72rem; font-weight:700; text-decoration:none; cursor:pointer; }
+.piazzi-bar .piazzi-yt::before { content:'\25B6'; font-size:.6rem; }
+
+/* INTRO */
+.intro-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  background: var(--superficie);
+  border: 1px solid var(--cinza-borda);
+  border-left: 4px solid var(--aco);
+  padding: 16px 18px;
+  margin-bottom: 20px;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--texto);
+}
+.intro-box .vagoneta { width: 84px; height: auto; flex-shrink: 0; display: block; margin-top: 2px; }
+.intro-box strong { color: var(--epi); }
+
+/* ENCERRAMENTO */
+.encerramento { max-width:800px; margin:30px auto 10px; padding:20px 16px; border-top:2px solid var(--epi); text-align:center; }
+.encerramento .fecho-frase { font-family:var(--serif); font-size:1.02rem; line-height:1.5; }
+.encerramento .fecho-acao { color:var(--epi); font-size:.95rem; text-transform:uppercase; font-weight:700; margin-top:10px; line-height:1.5; }
+.encerramento .fecho-links { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:14px; }
+.encerramento .fecho-btn { display:inline-flex; align-items:center; gap:7px; padding:10px 18px; min-height:44px; background:var(--epi); color:oklch(0.13 0.01 260); font-family:var(--mono); font-size:.8rem; font-weight:700; text-decoration:none; letter-spacing:.03em; }
+.encerramento .fecho-btn::before { content:'\25B6'; font-size:.62rem; }
+.encerramento .fecho-btn:hover { background:var(--epi-claro); }
+.encerramento .fecho-btn.secundario { background:transparent; color:var(--aco); border:1px solid var(--aco); }
+.encerramento .fecho-btn.secundario::before { content:'\2630'; font-size:.72rem; }
+.encerramento .fecho-btn.secundario:hover { background:var(--aco-bg); }
+.encerramento .fecho-inst { color:var(--cinza); font-size:.85rem; margin-top:16px; line-height:1.5; }
+.footer-line { text-align:center; font-size:.85rem; color:var(--cinza); padding:16px 12px; line-height:1.5; }
+.header .badge { background: var(--epi); color: oklch(0.13 0.01 260); padding: 4px 12px; border-radius: var(--r-sm); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; }
+.header .header-inner h1 { font-size: 1.4rem; font-weight: 900; letter-spacing: -0.02em; flex: 1 1 240px; }
+.header .header-inner h1 .trilha-code { color: var(--epi); }
+
+.capa-marca { margin-bottom: 18px; }
+.capa-marca .marca { width: 92px; height: 92px; }
+</style>
+</head>
+<body>
+
+<div class="progress-top"><div class="bar" id="progressBar"></div></div>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <button id="btnFontMinus" title="Diminuir fonte">A&minus;</button>
+  <button id="btnFontReset" title="Fonte padrão" class="active">A</button>
+  <button id="btnFontPlus" title="Aumentar fonte">A+</button>
+  <button id="btnTheme" title="Alternar tema claro/escuro">Tema</button>
+</div>
+
+<!-- ABAS LATERAIS · ordem: Método · Música · Ineditismo · Projeto · Créditos -->
+<button class="metodo-toggle" id="metodoToggle">Método</button>
+<aside class="metodo-sidebar" id="metodoSidebar">
+  <div class="metodo-titulo">Método de Estudo &mdash; FE1</div>
+
+  <div class="metodo-parada">Pré-Lab</div>
+  <div class="metodo-quando">fazer em casa, antes da aula de bancada</div>
+  <ol>
+    <li>Ponto de Partida (PP)<span class="metodo-tag">vale nota &middot; antes do Lab &middot; 10 min</span></li>
+    <li>Resumo em Áudio (MD)<span class="metodo-tag">ouvir &middot; 3 a 5 min</span></li>
+    <li>Texto Temático (TT)<span class="metodo-tag">ler &middot; a prática explicada &middot; você está aqui</span></li>
+    <li>Simulações (SM)<span class="metodo-tag">explorar &middot; errar sem risco antes da bancada</span></li>
+    <li>Testinho (TN)<span class="metodo-tag">vale nota &middot; antes do Lab &middot; 10 min</span></li>
+  </ol>
+  <div class="metodo-apoio"><strong>Apoio</strong> (sem número): Cartões Didáticos (CD) &middot; Mapa Conceitual (MC) &middot; Inventário de Equipamento (IE) &middot; Checklist de Segurança (CS)</div>
+
+  <div class="metodo-parada">Lab</div>
+  <div class="metodo-quando">na bancada, com o professor &middot; 100 min</div>
+  <ol>
+    <li>Roteiro de Bancada (RB)<span class="metodo-tag">execução &middot; registrar os dados</span></li>
+    <li>Apresentação do Lab (AP)<span class="metodo-tag">roteiro dos 100 min &middot; rever depois</span></li>
+    <li>Infográficos de Bancada (IG)<span class="metodo-tag">consulta durante a prática</span></li>
+    <li>Provinha (PR)<span class="metodo-tag">vale nota &middot; fechamento do Lab</span></li>
+  </ol>
+
+  <div class="metodo-parada">Pós-Lab</div>
+  <div class="metodo-quando">a partir do mesmo dia da prática</div>
+  <ol>
+    <li>Relatório Mínimo (RM)<span class="metodo-tag">vale nota &middot; no mesmo dia do Lab &middot; 1 página</span></li>
+    <li>Relatório Completo (RC)<span class="metodo-tag">vale nota &middot; até 3 dias após o Lab</span></li>
+  </ol>
+
+  <div class="metodo-regra"><strong>Não pule nenhum objeto de aprendizagem. Se pulou, volte.</strong><br>
+  Cada passo prepara o terreno do seguinte: sem o Ponto de Partida a leitura não encontra pergunta; sem o Pré-Lab a bancada vira receita seguida às cegas; sem o Relatório Mínimo do mesmo dia os dados esfriam antes de virar conclusão.</div>
+</aside>
+
+<button class="musica-toggle" id="musicaToggle">Música</button>
+<aside class="musica-sidebar" id="musicaSidebar">
+  <div class="musica-titulo">Música desta trilha</div>
+  <div class="musica-detail">Por que estudar ouvindo? Miguel Nicolelis responde em <em>O Verdadeiro Criador de Tudo</em>: ciência e arte saem do mesmo lugar — o cérebro humano. E Pierluigi Piazzi, em <em>Aprendendo Inteligência</em>, acrescenta a parte prática: música sem letra não disputa com a leitura as áreas da linguagem. A palavra cantada rouba a palavra lida; a música instrumental sustenta, e some. Daí a regra do projeto: <strong>uma trilha, uma música</strong>.</div>
+  <div class="musica-tags"><span class="musica-tag">Ler</span><span class="musica-tag">Escrever</span><span class="musica-tag">Medir</span></div>
+  <div class="musica-album">&#9733; A desta trilha: Filarmônica de Minas Gerais &mdash; seleção instrumental</div>
+  <div class="musica-detail">Orquestra sinfônica &middot; ouça em repetição enquanto lê. Noventa músicos, um único referencial de tempo, erro na casa dos milissegundos: a mesma disciplina de sincronia que a esfera e a bolha exigem no tubo &mdash; um referencial só, um cronômetro só, dois movimentos medidos com a mesma régua de tempo.</div>
+  <a class="musica-link" href="https://music.youtube.com/playlist?list=PLH9GvshumD2s" target="_blank" rel="noopener">&#9654; YouTube Music</a>
+  <div class="musica-titulo" style="margin-top:20px;">O acervo — as sete playlists</div>
+  <div class="musica-detail"><strong>1 &middot; Baden Powell</strong> — nos Afro-sambas cabem a bossa, o candomblé e a harmonia de câmara. Somar mundos é o ofício de quem estuda Física: a bancada mede, o caderno deduz, a mina explica por que importa.</div>
+  <div class="musica-detail"><strong>2 &middot; Yamandu Costa</strong> — improvisa porque conhece a estrutura até o último traste. Improviso não é sorte: é o nome da liberdade de quem estudou.</div>
+  <div class="musica-detail"><strong>3 &middot; Orquestra Ouro Preto</strong> — fundada em 2000 por Ronaldo R. B. Toffolo, ex-aluno, professor e diretor-geral desta escola. Estudar Física com ela ao fundo é estudar ouvindo a própria escola.</div>
+  <div class="musica-detail"><strong>4 &middot; Filarmônica de Minas Gerais</strong> — noventa músicos, um único referencial de tempo, erro na casa dos milissegundos: ordem de grandeza, sincronia, medida. É a playlist desta trilha.</div>
+  <div class="musica-detail"><strong>5 &middot; J. S. Bach</strong> — a fuga é a definição de sistema físico: muitas vozes, uma lei só. É a playlist da T0A.</div>
+  <div class="musica-detail"><strong>6 &middot; W. A. Mozart</strong> — nada sobra, nada falta. Elegância é saber o que pode ser retirado sem quebrar o todo — no pentagrama e na montagem experimental.</div>
+  <div class="musica-detail"><strong>7 &middot; L. van Beethoven</strong> — de quatro notas, uma sinfonia; de duas ou três letras, uma lei. Muda a escala; a lei, não. E a Nona, composta já na surdez, lembra: o modelo vem antes da medida.</div>
+  <div class="musica-detail" style="margin-top:8px;">Na FE1, as playlists 1 a 4 giram em ciclo pelas trilhas T01-T16; a T0A fica fora do ciclo, com Bach.</div>
+  <div class="musica-titulo" style="margin-top:20px;">Ampliando o acervo — em preparação</div>
+  <div class="musica-detail"><strong>Marco Antônio Araújo</strong> (Belo Horizonte, 1949 — 1986) — primeiro violoncelista contratado da Sinfônica de Minas e, no estúdio, compositor que fez o barroco mineiro, a modinha e a seresta caberem no rock progressivo. Quatro discos autorais entre 1981 e 1985; morreu aos 36 anos, na véspera de receber o prêmio de melhor músico instrumental do país.</div>
+  <div class="musica-detail"><strong>Raphael Rabello</strong> (Petrópolis, 1962 — Rio de Janeiro, 1995) — primeiro registro profissional aos treze anos; discípulo de Dino 7 Cordas e parceiro de Radamés Gnattali, levou o violão de sete cordas do acompanhamento ao centro do palco. Morreu aos 32 anos.</div>
+  <div class="musica-detail">Os dois deixaram obras relevantes e inacabadas — e é exatamente isso que elas ensinam: nenhum experimento termina; toda medida com incerteza é um convite à medida seguinte.</div>
+</aside>
+
+<button class="ineditismo-toggle" id="ineditismoToggle">Ineditismo</button>
+<aside class="ineditismo-sidebar" id="ineditismoSidebar">
+  <div class="ineditismo-titulo">Ineditismo</div>
+  <p>Trilhas de Aprendizagem é uma metodologia que faz parte do esforço do projeto Física Conceitual 1 + Física Experimental 1, aprovados pela Coordenadoria da Área de Física, em inovar na publicação didática da física aplicada aos cursos técnicos ofertados gratuitamente pelo IFMG &mdash; Campus Ouro Preto, fazendo dialogar narrativa, contextualização tripla (técnica, histórico-cultural, cotidiana), metodologia experimental rigorosa e modelagem científica.</p>
+  <p>Até onde a pesquisa dos autores alcançou, este é o primeiro Texto Temático de Física aplicada ao ensino técnico em mineração integrado ao ensino médio estruturado em Trilhas de Aprendizagem publicado no Brasil. Os livros didáticos de física aprovados pelo PNLD abordam a física do ensino médio, mas não há uma linguagem e nem aplicações em contexto de cursos técnicos em mineração.</p>
+</aside>
+
+<button class="projeto-toggle" id="projetoToggle">Projeto</button>
+<aside class="projeto-sidebar" id="projetoSidebar">
+  <div class="projeto-titulo">Projeto</div>
+  <img class="projeto-img" src="../_imagens/FE-T0A-IT-12-v6.png" alt="O Homem Vitruviano — capa do Projeto Executivo">
+  <p><strong>Trilhas de Aprendizagem &mdash; Física Experimental 1: Versão Executiva.</strong></p>
+  <p>O projeto pedagógico em 20 páginas, escrito para colegas das Áreas de Mineração, Química, Biologia e Matemática, para a equipe, a coordenação e a direção: as camadas do ecossistema, o Método de Estudo, o Protocolo C5 e os limites declarados da proposta.</p>
+  <a class="projeto-link" href="https://nidecop-jafb.github.io/fe1-oa/projeto/" target="_blank" rel="noopener">&#9654; Abrir o Projeto Executivo</a>
+</aside>
+
+<button class="creditos-toggle" id="creditosToggle">Créditos</button>
+<aside class="creditos-sidebar" id="creditosSidebar">
+  <div class="creditos-titulo">Créditos</div>
+  <p class="creditos-cargo">Reitor</p>
+  <p class="creditos-nome">Rafael Bastos Teixeira</p>
+  <p class="creditos-cargo">Pró-Reitor de Ensino</p>
+  <p class="creditos-nome">Mário Luiz Viana Alvarenga</p>
+  <p class="creditos-cargo">Diretor-Geral do Campus Ouro Preto</p>
+  <p class="creditos-nome">Reginato Fernandes dos Santos</p>
+  <p class="creditos-cargo">Diretora de Ensino</p>
+  <p class="creditos-nome">Talita Valadares</p>
+  <p class="creditos-cargo">Coordenador do Curso Técnico em Mineração Integrado ao Ensino Médio</p>
+  <p class="creditos-nome">Salatiel Assis Resende</p>
+  <p class="creditos-cargo">Coordenador da Área de Física (CODAFIS)</p>
+  <p class="creditos-nome">Lázaro Souza Lima</p>
+  <p class="creditos-cargo">Autor da Trilha</p>
+  <p class="creditos-nome">Julio Azevedo &mdash; Professor do Ensino Técnico e Tecnológico do IFMG, atuando na Área de Física do campus Ouro Preto desde 1985. Criador do Núcleo de Inovação e Desenvolvimento de Experimentos Científicos (NIDEC) em 2016. Ex-aluno do Curso de Engenharia de Minas e do Curso de Física, ambos da UFOP.</p>
+  <p class="creditos-cargo">Colaborador</p>
+  <p class="creditos-nome">Felipe Beato &mdash; Professor, pesquisador, colaborador do Núcleo de Inovação e Desenvolvimento de Experimentos Científicos do IFMG campus Ouro Preto. Licenciado em Física, Mestre em Física dos Materiais.</p>
+  <p class="creditos-cargo">Edição</p>
+  <p class="creditos-nome">1.ª edição &mdash; Ouro Preto, 2026</p>
+</aside>
+
+
+
+<!-- CAPA -->
+<div class="capa">
+  <div class="capa-marca"><svg class="marca" viewBox="0 0 120 120" role="img" aria-label="Marca da Física Experimental 1">
+        <g fill="none" stroke="#E07B39" stroke-width="3">
+          <ellipse cx="60" cy="52" rx="46" ry="18"/>
+          <ellipse cx="60" cy="52" rx="46" ry="18" transform="rotate(60 60 52)"/>
+          <ellipse cx="60" cy="52" rx="46" ry="18" transform="rotate(120 60 52)"/>
+        </g>
+        <g fill="#E07B39">
+          <circle cx="53" cy="47" r="7"/>
+          <circle cx="67" cy="47" r="7"/>
+          <circle cx="60" cy="58" r="9"/>
+        </g>
+        <g stroke="#7FB2D6" stroke-width="3" stroke-linecap="square">
+          <line x1="26" y1="110" x2="94" y2="110"/>
+          <line x1="30" y1="110" x2="30" y2="104"/>
+          <line x1="40" y1="110" x2="40" y2="104"/>
+          <line x1="50" y1="110" x2="50" y2="104"/>
+          <line x1="60" y1="110" x2="60" y2="98"/>
+          <line x1="70" y1="110" x2="70" y2="104"/>
+          <line x1="80" y1="110" x2="80" y2="104"/>
+          <line x1="90" y1="110" x2="90" y2="104"/>
+        </g>
+      </svg></div>
+  <div class="capa-disciplina">Física Aplicada à Mineração</div>
+  <div class="capa-curso">Física Experimental 1 - Curso Técnico em Mineração Integrado ao Ensino Médio</div>
+  <div class="capa-img"><img style="border:none" src="../_imagens/_web/FE-T04-IT-00-v11.png" alt="Símbolo da trilha — reta inclinada no plano s × t, esfera descendo e bolha subindo"></div>
+  <div class="capa-trilha">Trilha de Aprendizagem T04</div>
+  <div class="capa-titulo">A reta que o tempo desenha</div>
+  <div class="capa-autores"><strong>Júlio Azevedo</strong> &middot; colaboração de <strong>Felipe Beato</strong></div>
+  <div class="capa-inst">IFMG campus Ouro Preto - Coordenadoria da Área de Física (CODAFIS) - Núcleo de Inovação e Desenvolvimento de Experimentos Científicos (NIDEC) &middot; FE1 &middot; T04 &middot; Primeira edição &middot; 2026</div>
+  <div class="capa-scroll">&#x25BC; role para ler</div>
+</div>
+
+<!-- AUDIO HINT -->
+<div class="audio-hint" id="audioHint" role="button" tabindex="0">&#9834; <em>Leia ouvindo</em> &mdash; clique aqui ou na aba <strong>MÚSICA</strong> e conheça a recomendação de Piazzi.</div>
+
+<div class="conteudo">
+
+<!-- EPIGRAFE -->
+<div class="epigrafe" id="epigrafe">
+  <blockquote>"Medir é saber."</blockquote>
+  <div class="autor">— William Thomson, Lord Kelvin (1824–1907)</div>
+  <div class="nota">Físico e engenheiro britânico, professor em Glasgow por 53 anos. Formulou a escala absoluta de temperatura que leva seu nome (Kelvin). A frase-lema resume sua convicção, repetida na palestra de 1883 em Londres, de que só conhecemos de verdade aquilo que conseguimos exprimir em números.</div>
+</div>
+
+<div class="fig" id="fig-00b"><img style="border:none" src="../_imagens/_web/FE-T04-IT-00-v11.png" alt="Fig. 00 — Símbolo da trilha"><div class="fig-caption">Fig. 00 — Símbolo da trilha: uma reta inclinada atravessando um plano cartesiano s × t, com uma esfera descendo e uma bolha subindo nas extremidades.</div></div>
+
+<!-- ATO I -->
+<div class="ato" id="ato-i">
+  <div class="ato-titulo">Ato I — O Gancho</div>
+
+  <p>Na quarta trilha de aprendizagem a bancada lateral do Laboratório de Mecânica estava diferente. Sobre ela, um objeto que não estava lá nas três semanas anteriores: um <span class="termo">tubo transparente</span>, com cerca de meio metro de comprimento, fechado nas duas pontas e apoiado num suporte, pouco inclinado em relação à bancada, cheio de um líquido transparente — <span class="termo">óleo mineral</span>. Dentro dele, duas coisas pequenas: uma <span class="termo">esfera de aço</span>, parada no fundo, e uma <span class="termo">bolha de ar</span>, presa no topo, do tamanho de uma unha.</p>
+
+  <div class="fig" id="fig-01"><img src="../_imagens/_web/FE-T04-IT-01-v11.jpg" alt="Fig. 01 — Início da jornada"><div class="fig-caption">Fig. 01 — Início da jornada: professor e os três protagonistas de costas, diante da bancada onde o tubo transparente espera no suporte, pouco inclinado.</div></div>
+
+  <p>Ao longo do tubo, cinco pequenas marcas escritas à caneta vermelha: <span class="termo">A, B, C, D e E</span>. Sofia deitou ao lado do tubo a régua branca de 50 cm que o acompanhava — parente próxima das réguas da T01 — com o zero alinhado à marca A, e conferiu: as marcas estavam espaçadas de <span class="termo">(10,0 ± 0,2) cm</span> uma da outra, de A (na ponta erguida sobre o bloco de madeira) até E (na ponta baixa).</p>
+
+  <p>O Prof. Julio, de camisa polo, esperou os três se acomodarem e fez o gesto que abriria a manhã: segurou o tubo pelas extremidades, o <span class="termo">inverteu de ponta-cabeça</span> e o apoiou no bloco de madeira.</p>
+
+  <p>O que aconteceu em seguida parecia coreografado. A esfera de aço, agora no alto, começou a <span class="termo">descer</span> pelo óleo — sem pressa, sem acelerar, num ritmo que dava para acompanhar com o olho. A bolha de ar, agora embaixo, começou a <span class="termo">subir</span> — mais rápida que a esfera, mas igualmente regular. Em algum ponto do tubo, as duas <span class="termo">se cruzaram</span>: a esfera descendo, a bolha subindo, cada uma seguindo seu caminho como se a outra não existisse.</p>
+
+  <p>— De novo — pediu Pedro, antes que o professor dissesse qualquer coisa.</p>
+
+  <p>O Prof. Julio inverteu o tubo outra vez. De novo a esfera desceu no mesmo ritmo. De novo a bolha subiu. De novo se cruzaram — e Pedro teve a impressão de que o cruzamento acontecia <span class="termo">sempre na mesma posição do tubo</span>.</p>
+
+  <p>👦 <strong>Pedro</strong> <em>(prático, direto)</em>: — <span class="citacao">Isso lembra a correia transportadora da britagem, professor. O minério anda em cima dela sempre na mesma velocidade, do silo até a pilha. Se eu sei a velocidade da correia, eu sei quando o minério chega. Serve pra isso, né? Prever chegada.</span></p>
+
+  <p>👩 <strong>Sofia</strong> <em>(perguntadora, observadora)</em>: — <span class="citacao">Espera. Todo mundo está dizendo "mesma velocidade", mas ninguém mediu nada ainda. Como é que a gente sabe que a velocidade não muda? A T01 me ensinou a medir comprimento, a T03 me ensinou a medir tempo... será que juntando as duas dá para medir isso — uma velocidade?</span></p>
+
+  <p>🧑‍🎨 <strong>Lucas</strong> <em>(paciente, reflexivo)</em>: — <span class="citacao">Meu avô dizia que o trem da Estrada de Ferro descia para Mariana "no ritmo de reza": sempre igual, dava para acertar o relógio da estação por ele. Quem precisou primeiro dessa regularidade? Antes de existir fórmula, alguém já vivia disso.</span></p>
+
+  <p>O Prof. Julio sorriu — as três frases juntas eram exatamente a aula que ele tinha planejado.</p>
+
+  <p>— Pedro quer <span class="termo">usar</span>, Sofia quer <span class="termo">medir</span>, Lucas quer <span class="termo">entender de onde veio</span>. Hoje vocês vão fazer os três. Este tubo é o laboratório mais honesto que existe para o assunto de hoje: o <span class="termo">Movimento Retilíneo Uniforme</span>, o MRU. Reta porque o caminho é reto. Uniforme porque o ritmo não muda. Até o fim da manhã, cada um de vocês vai ter medido a velocidade da esfera, escrito a fórmula da posição dela, desenhado os gráficos, feito o mesmo para a bolha — e vai <span class="termo">prever com papel e lápis</span> o ponto onde as duas se cruzam. Depois a gente inverte o tubo e confere: <span class="termo">o modelo de vocês contra a natureza</span>. Quem ganha?</p>
+
+  <div class="fig" id="fig-03"><img src="../_imagens/_web/FE-T04-IT-03-v11.jpg" alt="Fig. 03 — Momento-chave"><div class="fig-caption">Fig. 03 — Momento-chave: o tubo invertido em close, a esfera de aço descendo e a bolha de ar subindo, prestes a se cruzar diante das marcas A, B, C, D, E.</div></div>
+
+  <p>Sofia recebeu o Roteiro de Bancada e observou, na primeira página, a pergunta do dia: <span class="citacao">"Onde a esfera encontra a bolha?"</span></p>
+
+  <div class="explore">
+    <div class="explore-titulo">🗺️ Explore — Mina do Paschoal (Palácio d'Ouro)</div>
+    <div class="fig" id="fig-02" style="margin-top:0;"><img src="../_imagens/_web/FE-T04-IT-02-v11.jpg" alt="Fig. 02 — Rosários de caçambas"><div class="fig-caption">Fig. 02 — Rosários de caçambas subiam água em ritmo constante.</div></div>
+    <p>A Mina do Paschoal é um dos grandes tesouros do Palácio d'Ouro — uma mina de ouro original do século XVIII, preservada dentro do complexo e integrada ao percurso da visitação mediada. Ao entrar em seu interior, o visitante se aproxima da realidade da antiga Vila Rica, compreendendo como o ouro moldou cidades, movimentou impérios e transformou profundamente a história do Brasil.</p>
+    <p>Mais do que um espaço subterrâneo, a mina é um testemunho vivo do esforço humano, da técnica minerária e da vida cotidiana dos trabalhadores que atuaram na região há quase três séculos. Um complexo arquitetônico e minerador do século XVIII em Ouro Preto, onde história, arte, ciência e memória se encontram.</p>
+    <p>Para saber mais, acesse: <a href="https://www.palaciodouro.com.br/mina-de-ouro-pal%C3%A1cio-d-ouro" target="_blank" rel="noopener">palaciodouro.com.br — Mina de Ouro</a></p>
+    <p>🔗 <a href="https://www.google.com/maps/dir/IFMG+-+Instituto+Federal+Minas+Gerais+Campus+Ouro+Preto,+Rua+Pandi%C3%A1+Cal%C3%B3geras,+898+-+Bauxita+-+Morro+do+Cruzeiro,+Ouro+Preto+-+MG,+35400-000/R.+Conselheiro+Quintiliano,+627+-+Ant%C3%B4nio+Dias,+Ouro+Preto+-+MG,+35400-000/@-20.3891682,-43.5032733,1061m/data=!3m1!1e3!4m13!4m12!1m5!1m1!1s0xa40ac32ea7a331:0x68afe08164c2f2c7!2m2!1d-43.5033556!2d-20.3952964!1m5!1m1!1s0xa40b26d62c787d:0xd0b5964e2c5d3f13!2m2!1d-43.4977368!2d-20.3841861?entry=ttu" target="_blank" rel="noopener">Visite — trajeto do IFMG campus Ouro Preto até a Mina do Paschoal no Google Maps</a></p>
+  </div>
+</div>
+
+<div class="separador"></div>
+
+<!-- ATO II -->
+<div class="ato" id="ato-ii">
+  <div class="ato-titulo">Ato II — O Desenvolvimento</div>
+  <div class="ato-subtitulo">Cinco tópicos, um alicerce</div>
+
+  <p>Inverter o tubo foi o gancho — agora começa o trabalho. Os cinco tópicos desta trilha formam a primeira modelagem matemática completa da disciplina: nas trilhas T01, T02 e T03 você aprendeu a medir comprimento, massa e tempo, uma grandeza de cada vez; aqui, pela primeira vez, duas dessas medidas — <span class="termo">posição</span> e <span class="termo">instante</span> — se combinam para descrever um <span class="termo">movimento</span>. E descrever um movimento com números é o primeiro passo para o gesto mais poderoso da Física: <span class="termo">prever o que ainda não aconteceu</span>.</p>
+
+  <!-- TOPICO 1 -->
+  <div class="topico" id="topico-1">
+    <div class="topico-titulo">Tópico 1 — Estudo Matemático dos Movimentos: as quatro escolhas antes da primeira medida</div>
+
+    <p>Antes de disparar o cronômetro, há decisões a tomar — e este tópico existe para mostrar que <em>nenhum estudo de movimento começa medindo: começa escolhendo</em>. As escolhas parecem burocráticas, mas são elas que fazem duas equipes diferentes chegarem a números comparáveis.</p>
+
+    <div class="eixo eixo-tecnico">
+      <div class="eixo-label">Eixo Técnico — Mineração</div>
+      <p>Quando uma mineradora instala uma correia transportadora, o projeto define primeiro o <span class="termo">marco zero</span> da correia (a origem), o <span class="termo">sentido positivo</span> do fluxo (do silo para a pilha) e o <span class="termo">instante de referência</span> da operação (o disparo da sirene de partida). Só depois disso os sensores de posição fazem sentido. Um relatório da Agência Nacional de Mineração (ANM) que diga "o material estava a 40 m" sem dizer <em>a partir de onde</em> e <em>em que sentido</em> é um relatório inútil — e reprovado em auditoria.</p>
+    </div>
+
+    <div class="eixo eixo-historico">
+      <div class="eixo-label">Eixo Histórico-Cultural — Ouro Preto</div>
+      <p>Nas galerias do século XVIII, os mineradores marcavam as paredes com entalhes a cada braça, contada <span class="termo">a partir da boca da mina</span> — uma origem escolhida por convenção, não pela natureza. Os carros de minério da Mina da Passagem, já no século XIX, desciam trilhos retos com marcos numerados: quem lê "marco 12" sabe onde o carro está <em>porque alguém escolheu onde ficava o marco zero</em>. A escolha de referencial é mais antiga que a fórmula.</p>
+    </div>
+
+    <div class="eixo eixo-cotidiano">
+      <div class="eixo-label">Eixo Cotidiano — Você, 15–16 anos</div>
+      <p>"Minha casa fica a 3 quadras" — a partir de onde? "Chego em 10 minutos" — contados desde quando? Toda localização que você dá no dia a dia carrega, escondidas, as mesmas escolhas que o laboratório exige explícitas: uma origem, um sentido, um zero do relógio.</p>
+    </div>
+
+    <p><strong>As quatro escolhas da nossa bancada</strong> — registradas no Roteiro de Bancada antes de qualquer medida:</p>
+
+    <div class="quadro">
+      <table>
+        <thead><tr><th>#</th><th>Escolha</th><th>Decisão da bancada</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Origem das posições</td><td>O ponto <strong>A</strong> (a ponta de cima do tubo, erguida sobre o bloco) é a origem: s<sub>A</sub> = 0,0 cm — o zero da régua alinhado a A</td></tr>
+          <tr><td>2</td><td>Sentido positivo</td><td>O sentido <strong>da esfera descendo</strong> (de A para E) é o positivo</td></tr>
+          <tr><td>3</td><td>Cronômetro</td><td>Disparado <strong>zerado</strong>: t<sub>0</sub> = 0,0 s</td></tr>
+          <tr><td>4</td><td>Posição inicial da esfera</td><td>No disparo do cronômetro, a esfera passa por <strong>A</strong>: s<sub>0</sub> = 0,0 cm</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="destaque">Atenção ao vocabulário da T04 em diante: a <strong>direção</strong> do movimento no tubo é uma só — a posição geométrica de uma linha (horizontal, vertical ou inclinada); aqui, a reta pouco inclinada do tubo apoiado no suporte. O que distingue a esfera da bolha é o <strong>sentido</strong>: sobre a mesma direção, a esfera segue o sentido escolhido como positivo (descendo) e a bolha segue o sentido oposto (subindo). Direção é a posição da linha reta; sentido é uma das duas orientações da reta que o móvel percorre.</div>
+
+    <p>Com as escolhas feitas, a equipe mediu — e mediu como manda o método: <strong>três vezes com cada instrumento</strong>. Numa rodada, um estudante cantava as passagens ("A!... B!... C!...") e outro operava o <span class="termo">cronômetro analógico</span> que esperava sobre o bloco de madeira (alcance de 60 s, resolução 0,1 s), disparado zerado quando a esfera passa por A. Na outra, o instrumento era o <span class="termo">cronômetro digital do celular</span> em modo volta (lap) — que registra cada instante <em>sem parar a cronometragem</em> (resolução 0,01 s). São as medições reais feitas pela turma na manhã desta trilha:</p>
+
+    <p><strong>Tabela 1 — Descida da esfera: régua e cronômetro analógico (3 medições)</strong></p>
+    <div class="quadro">
+      <table>
+        <thead><tr><th>Marca</th><th>s (cm)</th><th>t<sub>1</sub> (s)</th><th>t<sub>2</sub> (s)</th><th>t<sub>3</sub> (s)</th><th>t&#772; (s)</th></tr></thead>
+        <tbody>
+          <tr><td>A</td><td>0,0</td><td>0,0</td><td>0,0</td><td>0,0</td><td>0,0</td></tr>
+          <tr><td>B</td><td>+10,0</td><td>4,5</td><td>4,5</td><td>5,0</td><td>4,7</td></tr>
+          <tr><td>C</td><td>+20,0</td><td>9,0</td><td>9,0</td><td>9,0</td><td>9,0</td></tr>
+          <tr><td>D</td><td>+30,0</td><td>13,5</td><td>13,0</td><td>12,8</td><td>13,1</td></tr>
+          <tr><td>E</td><td>+40,0</td><td>18,0</td><td>17,0</td><td>16,0</td><td>17,0</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><strong>Tabela 2 — Descida da esfera: régua e cronômetro digital do celular (3 medições)</strong></p>
+    <div class="quadro">
+      <table>
+        <thead><tr><th>Marca</th><th>s (cm)</th><th>t<sub>1</sub> (s)</th><th>t<sub>2</sub> (s)</th><th>t<sub>3</sub> (s)</th><th>t&#772; (s)</th></tr></thead>
+        <tbody>
+          <tr><td>A</td><td>0,0</td><td>0,00</td><td>0,00</td><td>0,00</td><td>0,00</td></tr>
+          <tr><td>B</td><td>+10,0</td><td>4,14</td><td>4,15</td><td>4,22</td><td>4,17</td></tr>
+          <tr><td>C</td><td>+20,0</td><td>8,38</td><td>8,06</td><td>8,15</td><td>8,20</td></tr>
+          <tr><td>D</td><td>+30,0</td><td>12,52</td><td>12,46</td><td>12,24</td><td>12,41</td></tr>
+          <tr><td>E</td><td>+40,0</td><td>17,07</td><td>16,66</td><td>16,60</td><td>16,78</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Olhe primeiro para as <strong>colunas</strong>, não para as médias: as três medições nunca são idênticas — na marca E do analógico a diferença chega a 2,0 s. É a lição da T03 aparecendo no movimento: a incerteza dominante do tempo não é a resolução do aparelho, é o <span class="termo">tempo de reação</span> de quem aciona (~0,2 s por gesto), e por isso se mede três vezes e se trabalha com a média. Nas posições, as marcas foram assinaladas com incerteza de <strong>0,2 cm</strong>, e a leitura na régua de 50 cm (divisão de 1,0 cm) carrega δs = 0,5 cm.</p>
+
+    <p><strong>Aplicação.</strong> É este o protocolo que você repetirá a vida inteira, em qualquer bancada e em qualquer mina: <em>escolher o referencial, registrar as escolhas, só então medir</em>. Duas equipes com escolhas diferentes obterão tabelas diferentes para o mesmo tubo — e ambas estarão certas, cada uma dentro do seu referencial.</p>
+  </div>
+
+  <!-- TOPICO 2 -->
+  <div class="topico" id="topico-2">
+    <div class="topico-titulo">Tópico 2 — Fórmulas válidas para o movimento da esfera</div>
+
+    <p>As Tabelas 1 e 2 são honestas, mas são mudas: as linhas não dizem onde a esfera estava em t = 10,0 s, nem quando passará por um ponto sem marca. Este tópico transforma a tabela em <span class="termo">fórmula</span> — e a fórmula responde o que a tabela cala.</p>
+
+    <div class="fig" id="fig-04"><img src="../_imagens/_web/FE-T04-IT-04-v11.jpg" alt="Fig. 04 — Medições na bancada"><div class="fig-caption">Fig. 04 — Medições na bancada: um estudante canta a passagem da esfera, outro registra voltas no cronômetro do celular, roteiro de bancada aberto entre eles.</div></div>
+
+    <div class="eixo eixo-tecnico">
+      <div class="eixo-label">Eixo Técnico — Mineração</div>
+      <p>A correia transportadora TCLD de uma britagem típica do Quadrilátero Ferrífero opera em torno de 1,5 m/s, constante. O engenheiro não consulta uma tabela para saber onde está o minério que embarcou há 40 s: multiplica 1,5 × 40 e sabe — 60 m adiante do ponto de carga. A fórmula do MRU é a ferramenta de previsão mais usada da operação mineral contínua.</p>
+    </div>
+
+    <div class="eixo eixo-historico">
+      <div class="eixo-label">Eixo Histórico-Cultural — Ouro Preto</div>
+      <p>Os sistemas de drenagem das minas coloniais de Ouro Preto — os "rosários" de caçambas que subiam água em ritmo constante — eram dimensionados por regra de três: tantas caçambas por volta, tantas voltas por hora, tanta água por dia. Era o MRU aplicado <em>sem o nome e sem o formalismo</em>, com precisão prática notável: errar o ritmo era inundar a galeria.</p>
+    </div>
+
+    <div class="eixo eixo-cotidiano">
+      <div class="eixo-label">Eixo Cotidiano — Você, 15–16 anos</div>
+      <p>A barrinha de download que estima "faltam 2 minutos" usa exatamente a conta deste tópico: mede o ritmo (bytes por segundo), supõe o ritmo constante e projeta a posição futura. Quando a estimativa erra, é porque a hipótese de uniformidade falhou — a sua internet não é um MRU.</p>
+    </div>
+
+    <p><strong>Primeiro, o conceito verbal:</strong> a velocidade mede quanto de posição o móvel troca por unidade de tempo. <strong>Depois, a relação qualitativa:</strong> no MRU, deslocamentos iguais acontecem em intervalos de tempo iguais — dobrou o tempo, dobrou o deslocamento. <strong>Só então, a expressão matemática:</strong></p>
+
+    <p><strong>Equação 1 — Velocidade média:</strong></p>
+    <div class="equacao">v = Δs / Δt = (s &minus; s<sub>0</sub>) / (t &minus; t<sub>0</sub>)</div>
+    <div class="quadro">
+      <table>
+        <thead><tr><th>Símbolo</th><th>Significado</th><th>Unidade</th></tr></thead>
+        <tbody>
+          <tr><td>v</td><td>Velocidade do móvel</td><td>cm/s (SI: m/s)</td></tr>
+          <tr><td>Δs</td><td>Deslocamento (s &minus; s<sub>0</sub>)</td><td>cm (SI: m)</td></tr>
+          <tr><td>Δt</td><td>Intervalo de tempo (t &minus; t<sub>0</sub>)</td><td>s</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Aplicando a Equação 1 a cada trecho, com os tempos médios da Tabela 2 (o digital, de resolução mais fina, dá a melhor estimativa):</p>
+
+    <p><strong>Quadro 1 — A velocidade da esfera, trecho a trecho (médias do cronômetro digital)</strong></p>
+    <div class="quadro">
+      <table>
+        <thead><tr><th>Trecho</th><th>Δs (cm)</th><th>Δt&#772; (s)</th><th>v (cm/s)</th></tr></thead>
+        <tbody>
+          <tr><td>A → B</td><td>10,0</td><td>4,17</td><td>2,4</td></tr>
+          <tr><td>B → C</td><td>10,0</td><td>4,03</td><td>2,5</td></tr>
+          <tr><td>C → D</td><td>10,0</td><td>4,21</td><td>2,4</td></tr>
+          <tr><td>D → E</td><td>10,0</td><td>4,37</td><td>2,3</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Os quatro valores não são idênticos — nenhuma medida real é — mas oscilam em torno de um mesmo centro, dentro da incerteza da bancada. A melhor estimativa é a média global: v = 40,0/16,78 = 2,4 cm/s. E o cronômetro analógico? Pela Tabela 1, v = 40,0/17,0 = 2,4 cm/s — <strong>os dois instrumentos, com resoluções tão diferentes, concordam na média</strong>. É isso que "uniforme" significa no laboratório: não "valores idênticos", e sim "valores compatíveis dentro da incerteza".</p>
+
+    <p>Com s<sub>0</sub> = 0,0 cm (escolha 4), t<sub>0</sub> = 0,0 s (escolha 3) e v = 2,4 cm/s, isolamos s na Equação 1 e nasce a fórmula que responde tudo:</p>
+
+    <p><strong>Equação 2 — Função horária da posição no MRU:</strong></p>
+    <div class="equacao">s = s<sub>0</sub> + v · t</div>
+    <div class="quadro">
+      <table>
+        <thead><tr><th>Símbolo</th><th>Significado</th><th>Unidade</th></tr></thead>
+        <tbody>
+          <tr><td>s</td><td>Posição no instante t</td><td>cm</td></tr>
+          <tr><td>s<sub>0</sub></td><td>Posição inicial (no disparo do cronômetro)</td><td>cm</td></tr>
+          <tr><td>v</td><td>Velocidade (constante no MRU)</td><td>cm/s</td></tr>
+          <tr><td>t</td><td>Instante de tempo</td><td>s</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Para a nossa esfera: s<sub>esfera</sub> = 2,4 · t (com s em cm e t em s). Teste contra a tabela: em t&#772; = 12,41 s, a fórmula dá s = 2,4 × 12,41 = 29,8 cm — a marca D (30,0 cm), dentro da incerteza. Confere.</p>
+
+    <p><strong>E a aceleração?</strong> Aceleração mede quanto de velocidade o móvel troca por unidade de tempo. No MRU a velocidade não troca — logo:</p>
+
+    <p><strong>Equação 3 — Aceleração no MRU:</strong></p>
+    <div class="equacao">a = Δv / Δt = 0</div>
+    <div class="quadro">
+      <table>
+        <thead><tr><th>Símbolo</th><th>Significado</th><th>Unidade</th></tr></thead>
+        <tbody>
+          <tr><td>a</td><td>Aceleração do móvel</td><td>cm/s² (SI: m/s²)</td></tr>
+          <tr><td>Δv</td><td>Variação de velocidade</td><td>cm/s</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>No MRU, Δv = 0 em qualquer intervalo, portanto a = 0 cm/s². A esfera no óleo atinge esse regime porque o arrasto do líquido equilibra o peso aparente — assunto para as trilhas de dinâmica; por ora, a bancada nos entrega o fato: <span class="termo">velocidade constante, aceleração nula</span>.</p>
+
+    <div class="explore">
+      <div class="explore-titulo">🎮 SIMULE — 3 minutos no laboratório virtual</div>
+      <p>Abra as animações de <strong>Movimento</strong> (capítulo I) do professor Vladimír Vaščák. Escolha a animação de movimento uniforme, ajuste a velocidade do móvel para um valor à sua escolha e <strong>pause a cada segundo</strong>, anotando a posição como fizemos nas Tabelas 1 e 2. Calcule Δs / Δt em dois trechos diferentes: os valores coincidem? É o critério do Quadro 1 funcionando na tela.</p>
+      <p><a href="https://www.vascak.cz/?id=1&language=pt#kapitoly" target="_blank" rel="noopener">vascak.cz — Física animada, capítulo Movimento</a></p>
+    </div>
+
+    <p><strong>Aplicação.</strong> A fórmula s = s<sub>0</sub> + v t é o primeiro <span class="termo">modelo matemático</span> completo que você constrói a partir de dados próprios. Guarde o método — tabela → velocidade média → função horária — porque ele se repete, com outras equações, em todas as trilhas de cinemática.</p>
+  </div>
+
+  <!-- TOPICO 3 -->
+  <div class="topico" id="topico-3">
+    <div class="topico-titulo">Tópico 3 — Gráficos do Movimento Uniforme</div>
+
+    <p>Uma fórmula fala com quem sabe álgebra; um gráfico fala com qualquer um que saiba olhar. Este tópico desenha o MRU três vezes — posição, velocidade e aceleração contra o tempo — e mostra que as três figuras contam a mesma história.</p>
+
+    <div class="fig" id="fig-05"><img src="../_imagens/_web/FE-T04-IT-05-v11.jpg" alt="Fig. 05 — O gráfico nasce"><div class="fig-caption">Fig. 05 — O gráfico nasce: papel milimetrado sobre a bancada, os cinco pontos médios da esfera alinhados numa reta subindo, a régua apoiada sobre eles.</div></div>
+
+    <div class="eixo eixo-tecnico">
+      <div class="eixo-label">Eixo Técnico — Mineração</div>
+      <p>A sala de controle de uma mina moderna não exibe tabelas: exibe <span class="termo">gráficos de tendência</span>. O operador reconhece uma correia saudável pelo aspecto da curva de posição dos sensores — uma reta firme. Quando a reta "entorta", algo mudou de ritmo: material acumulando, motor perdendo torque. Ler gráficos de movimento é competência de sala de controle, não enfeite de aula.</p>
+    </div>
+
+    <div class="eixo eixo-historico">
+      <div class="eixo-label">Eixo Histórico-Cultural — Ouro Preto</div>
+      <p>Os horários das estações da Estrada de Ferro que serviu Ouro Preto e Mariana no século XIX eram, na prática, gráficos posição × tempo em forma de tabela: cada linha, uma estação; cada coluna, um instante. Engenheiros ferroviários da época desenhavam os "gráficos de marcha" — retas inclinadas num papel quadriculado — para descobrir <em>onde dois trens se cruzariam</em> e evitar que fosse na mesma linha. O Tópico 5 desta trilha refaz exatamente esse gesto.</p>
+    </div>
+
+    <div class="eixo eixo-cotidiano">
+      <div class="eixo-label">Eixo Cotidiano — Você, 15–16 anos</div>
+      <p>O aplicativo de mapas do seu celular mostra a seta do ônibus avançando pela rota: é um gráfico de posição sendo desenhado em tempo real. Quando a chegada prevista "trava" no mesmo minuto por muito tempo, a reta da posição ficou horizontal — o ônibus parou.</p>
+    </div>
+
+    <p><strong>Os três gráficos da esfera</strong>, construídos com os tempos médios da Tabela 2 e as Equações 2 e 3:</p>
+
+    <div class="ascii-graf"> s (cm)                          v (cm/s)                  a (cm/s²)
+ 40 |             * E             4 |                       2 |
+ 30 |         * D                 3 |                       1 |
+ 20 |       * C                   2,4|*---*---*---*---*     0 |*---*---*---*---*--
+ 10 |   * B                       1 |                      -1 |
+  0 *A_______________ t (s)       0 |______________ t (s)     |______________ t (s)
+    0   4   8  12  16               0   4   8  12  16         0   4   8  12  16
+   Posição × tempo:              Velocidade × tempo:       Aceleração × tempo:
+   reta inclinada                reta horizontal            reta sobre o eixo</div>
+
+    <p><strong>Quadro 2 — O que cada gráfico do MRU revela</strong></p>
+    <div class="quadro">
+      <table>
+        <thead><tr><th>Gráfico</th><th>Forma no MRU</th><th>O que se lê nele</th></tr></thead>
+        <tbody>
+          <tr><td>s × t</td><td>Reta inclinada</td><td>A <strong>inclinação</strong> é a velocidade: v = Δs/Δt; o ponto onde corta o eixo vertical é s<sub>0</sub></td></tr>
+          <tr><td>v × t</td><td>Reta horizontal</td><td>A altura da reta é o valor de v; a <strong>área</strong> sob a reta até o instante t é o deslocamento Δs</td></tr>
+          <tr><td>a × t</td><td>Reta sobre o eixo</td><td>a = 0 em todos os instantes — a assinatura do movimento uniforme</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Duas verificações que amarram tudo: a inclinação da reta s × t da esfera é 40,0 / 16,78 = 2,4 cm/s — a mesma velocidade do Quadro 1; e a área sob a reta v × t entre 0 e 16,78 s é o retângulo 2,4 × 16,78 ≈ 40 cm — exatamente o comprimento percorrido de A até E. <strong>Gráfico, tabela e fórmula são três línguas para o mesmo fato.</strong></p>
+
+    <div class="explore">
+      <div class="explore-titulo">🎮 SIMULE — 3 minutos no laboratório virtual</div>
+      <p>Nas animações de <strong>Movimento</strong> (capítulo I), abra uma simulação que desenhe o gráfico s × t enquanto o móvel anda. Rode uma vez com velocidade pequena e outra com o dobro dela, e compare as duas retas: o que dobrou foi a <strong>inclinação</strong>. Depois pause no meio do caminho e confira se posição lida no gráfico e posição do móvel na tela coincidem.</p>
+      <p><a href="https://www.vascak.cz/?id=1&language=pt#kapitoly" target="_blank" rel="noopener">vascak.cz — Física animada, capítulo Movimento</a></p>
+    </div>
+
+    <p><strong>Aplicação.</strong> Diante de qualquer gráfico s × t, sua primeira pergunta profissional será: <em>é reta?</em> Se for, o movimento é uniforme e a inclinação entrega a velocidade sem nenhuma conta adicional. Se não for, a velocidade muda — e esse é o assunto das próximas trilhas.</p>
+  </div>
+
+  <!-- TOPICO 4 -->
+  <div class="topico" id="topico-4">
+    <div class="topico-titulo">Tópico 4 — Movimento da bolha de ar</div>
+
+    <p>A esfera tem um rival silencioso subindo em sentido contrário. Este tópico repete, para a bolha, tudo o que os Tópicos 1 a 3 construíram para a esfera — e ao fazê-lo revela o poder das quatro escolhas do Tópico 1: <span class="termo">o mesmo referencial descreve os dois movimentos, sem mudar nada</span>.</p>
+
+    <div class="fig" id="fig-06"><img src="../_imagens/_web/FE-T04-IT-06-v11.jpg" alt="Fig. 06 — A rival de baixo"><div class="fig-caption">Fig. 06 — A rival de baixo: close da bolha de ar subindo pelo óleo âmbar, deformada em lente, com as marcas do tubo desfocadas ao fundo.</div></div>
+
+    <div class="eixo eixo-tecnico">
+      <div class="eixo-label">Eixo Técnico — Mineração</div>
+      <p>Na flotação — a etapa em que a mineração separa o minério útil da ganga — <span class="termo">bolhas de ar sobem em ritmo aproximadamente constante</span> através da polpa, carregando partículas de minério grudadas nelas. O engenheiro de processo precisa saber a velocidade de subida das bolhas para dimensionar a altura das células de flotação. A bolha do nosso tubo é a célula de flotação em miniatura.</p>
+    </div>
+
+    <div class="eixo eixo-historico">
+      <div class="eixo-label">Eixo Histórico-Cultural — Ouro Preto</div>
+      <p>Os garimpeiros coloniais de Ouro Preto conheciam o fenômeno inverso: na bateia parada, o ouro <span class="termo">desce</span> pela água em ritmo próprio, mais depressa que a areia. Separar por velocidade de queda em fluido — a decantação — sustentou a economia do século XVIII sem que ninguém escrevesse uma função horária. A física estava lá; faltava a linguagem.</p>
+    </div>
+
+    <div class="eixo eixo-cotidiano">
+      <div class="eixo-label">Eixo Cotidiano — Você, 15–16 anos</div>
+      <p>As bolhas do refrigerante sobem pelo copo em fila, cada uma no seu ritmo regular. Repare da próxima vez: depois de um dedo de subida, cada bolha vira um pequeno MRU vertical — o mesmo do nosso tubo, em versão de mesa de lanchonete.</p>
+    </div>
+
+    <p>Mantidas as <strong>mesmas quatro escolhas</strong> do Tópico 1 (origem em A, positivo descendo, cronômetro zerado no disparo), a equipe inverteu o tubo de novo e mediu só a bolha — de novo, três vezes com cada instrumento. No instante do disparo, a bolha estava na marca E — logo, para ela, s<sub>0</sub> = 40,0 cm:</p>
+
+    <p><strong>Tabela 3 — Subida da bolha: régua e cronômetro analógico (3 medições)</strong></p>
+    <div class="quadro">
+      <table>
+        <thead><tr><th>Marca</th><th>s (cm)</th><th>t<sub>1</sub> (s)</th><th>t<sub>2</sub> (s)</th><th>t<sub>3</sub> (s)</th><th>t&#772; (s)</th></tr></thead>
+        <tbody>
+          <tr><td>E</td><td>+40,0</td><td>0,0</td><td>0,0</td><td>0,0</td><td>0,0</td></tr>
+          <tr><td>D</td><td>+30,0</td><td>1,2</td><td>1,3</td><td>1,2</td><td>1,2</td></tr>
+          <tr><td>C</td><td>+20,0</td><td>2,5</td><td>2,3</td><td>2,4</td><td>2,4</td></tr>
+          <tr><td>B</td><td>+10,0</td><td>3,5</td><td>3,4</td><td>3,4</td><td>3,4</td></tr>
+          <tr><td>A</td><td>0,0</td><td>4,7</td><td>4,8</td><td>4,8</td><td>4,8</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><strong>Tabela 4 — Subida da bolha: régua e cronômetro digital do celular (3 medições)</strong></p>
+    <div class="quadro">
+      <table>
+        <thead><tr><th>Marca</th><th>s (cm)</th><th>t<sub>1</sub> (s)</th><th>t<sub>2</sub> (s)</th><th>t<sub>3</sub> (s)</th><th>t&#772; (s)</th></tr></thead>
+        <tbody>
+          <tr><td>E</td><td>+40,0</td><td>0,00</td><td>0,00</td><td>0,00</td><td>0,00</td></tr>
+          <tr><td>D</td><td>+30,0</td><td>1,25</td><td>1,29</td><td>1,32</td><td>1,29</td></tr>
+          <tr><td>C</td><td>+20,0</td><td>2,54</td><td>2,42</td><td>2,38</td><td>2,45</td></tr>
+          <tr><td>B</td><td>+10,0</td><td>3,52</td><td>3,44</td><td>3,39</td><td>3,45</td></tr>
+          <tr><td>A</td><td>0,0</td><td>4,68</td><td>4,78</td><td>4,66</td><td>4,71</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Repare no tamanho da diferença: a bolha atravessa o tubo inteiro em menos de 5 segundos — o que a esfera leva quase 17 para fazer. A velocidade trecho a trecho (Equação 1, médias da Tabela 4): E→D dá (30,0−40,0)/1,29 = −7,8 cm/s; D→C dá −8,6; C→B dá −10,0; B→A dá −7,9. A dispersão aqui é maior que a da esfera — a bolha é rápida, e 0,2 s de reação pesam muito num trecho de ~1 s; um trecho chega a destoar. É a média global que dá a melhor estimativa: v = −40,0/4,71, ou seja,</p>
+
+    <div class="equacao">v<sub>bolha</sub> = &minus;8,5 cm/s</div>
+
+    <p>(pelo cronômetro analógico, −40,0/4,8 = −8,3 cm/s — de novo os dois instrumentos concordam dentro da incerteza).</p>
+
+    <p><strong>O sinal negativo não é erro — é informação.</strong> Ele diz que a bolha percorre a mesma direção (a reta pouco inclinada do tubo) no <span class="termo">sentido oposto</span> ao escolhido como positivo. A velocidade dela é 8,5 cm/s <em>de subida</em>; no nosso referencial, isso se escreve −8,5 cm/s.</p>
+
+    <p><strong>Equação 4 — Função horária da bolha:</strong></p>
+    <div class="equacao">s<sub>bolha</sub> = 40,0 &minus; 8,5 · t</div>
+    <div class="quadro">
+      <table>
+        <thead><tr><th>Símbolo</th><th>Significado</th><th>Valor na bancada</th></tr></thead>
+        <tbody>
+          <tr><td>s<sub>0</sub></td><td>Posição inicial da bolha (marca E)</td><td>40,0 cm</td></tr>
+          <tr><td>v</td><td>Velocidade da bolha (sentido negativo)</td><td>&minus;8,5 cm/s</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><strong>Quadro 3 — Esfera e bolha, lado a lado</strong></p>
+    <div class="quadro">
+      <table>
+        <thead><tr><th>Característica</th><th>Esfera</th><th>Bolha</th></tr></thead>
+        <tbody>
+          <tr><td>Função horária</td><td>s = 2,4 t</td><td>s = 40,0 &minus; 8,5 t</td></tr>
+          <tr><td>Gráfico s × t</td><td>Reta <strong>subindo</strong> (inclinação +2,4) partindo de 0</td><td>Reta <strong>descendo</strong> (inclinação &minus;8,5) partindo de 40,0</td></tr>
+          <tr><td>Gráfico v × t</td><td>Reta horizontal em +2,4 cm/s</td><td>Reta horizontal em &minus;8,5 cm/s</td></tr>
+          <tr><td>Gráfico a × t</td><td>Reta sobre o eixo (a=0)</td><td>Reta sobre o eixo (a=0)</td></tr>
+          <tr><td>Tipo de movimento</td><td>MRU no sentido positivo</td><td>MRU no sentido negativo (e ~3,5× mais rápida)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="explore">
+      <div class="explore-titulo">🎮 SIMULE — 3 minutos no laboratório virtual</div>
+      <p>Nas animações de <strong>Movimento</strong> (capítulo I), procure uma simulação com <strong>dois móveis</strong> partindo de pontos diferentes em sentidos opostos. Configure um rápido e um lento, dispare e observe as duas retas no gráfico s × t se aproximando uma da outra. Antes de deixá-las se tocarem, <strong>pause e chute o ponto de cruzamento</strong> — o Tópico 5 vai lhe ensinar a acertar esse chute com álgebra.</p>
+      <p><a href="https://www.vascak.cz/?id=1&language=pt#kapitoly" target="_blank" rel="noopener">vascak.cz — Física animada, capítulo Movimento</a></p>
+    </div>
+
+    <p><strong>Aplicação.</strong> Dois móveis, um referencial: essa é a disciplina mental deste tópico. Quem muda de referencial no meio do problema — ora medindo a bolha "de baixo para cima", ora a esfera "de cima para baixo" — nunca consegue juntá-los na mesma equação. E juntá-los é exatamente o que faremos agora.</p>
+  </div>
+
+  <!-- TOPICO 5 -->
+  <div class="topico" id="topico-5">
+    <div class="topico-titulo">Tópico 5 — Encontro da esfera com a bolha: o modelo contra a medida</div>
+
+    <p>Chegou a hora da aposta do Prof. Julio. Duas funções horárias no mesmo referencial, um lápis, e a pergunta do dia impressa no Roteiro de Bancada de Sofia: <span class="termo">onde a esfera encontra a bolha?</span> Este tópico constrói a resposta do modelo — e entrega à sua bancada a palavra final: a corrida de verificação que mede a distância entre previsão e realidade, o <span class="termo">erro</span>.</p>
+
+    <div class="fig" id="fig-07"><img src="../_imagens/_web/FE-T04-IT-07-v11.jpg" alt="Fig. 07 — O instante do encontro"><div class="fig-caption">Fig. 07 — O instante do encontro: esfera e bolha lado a lado no ponto previsto, a régua branca ao lado do tubo marcando a posição, três rostos jovens colados no vidro.</div></div>
+
+    <p>A metodologia experimental que usamos em toda a Física Experimental 1 tem oito passos — o <span class="termo">Protocolo C5</span>, o mesmo das trilhas anteriores e o mesmo que você aplicará sozinho no Projeto Investigativo:</p>
+
+    <p><strong>Metodologia Experimental em 8 passos — Protocolo C5</strong></p>
+    <div class="c5-passos">
+      <div class="passo"><span class="passo-num">1</span><span class="passo-texto">O que está sendo pedido?</span></div>
+      <div class="passo"><span class="passo-num">2</span><span class="passo-texto">Quais são os dados?</span></div>
+      <div class="passo"><span class="passo-num">3</span><span class="passo-texto">Quais são as hipóteses?</span></div>
+      <div class="passo"><span class="passo-num">4</span><span class="passo-texto">Qual é o desenho do problema?</span></div>
+      <div class="passo"><span class="passo-num">5</span><span class="passo-texto">Quais são as equações?</span></div>
+      <div class="passo"><span class="passo-num">6</span><span class="passo-texto">Cálculos com unidades</span></div>
+      <div class="passo"><span class="passo-num">7</span><span class="passo-texto">Análise de resultados</span></div>
+      <div class="passo"><span class="passo-num">8</span><span class="passo-texto">Responda o que foi pedido</span></div>
+    </div>
+
+    <div class="fig" id="fig-08"><img src="../_imagens/_web/FE-T04-IT-08-v11.jpg" alt="Fig. 08 — Espinha dorsal do método"><div class="fig-caption">Fig. 08 — Espinha dorsal do método: os oito passos do C5 em coluna, ligando a pergunta do encontro à resposta com incerteza.</div></div>
+
+    <p><strong>Resolução modelo C5 — o encontro</strong></p>
+
+    <p><strong>Passo 1 — O que está sendo pedido?</strong> Prever o instante t<sub>enc</sub> e a posição s<sub>enc</sub> em que a esfera (descendo) e a bolha (subindo) se cruzam no tubo, e comparar a previsão com a medida experimental.</p>
+
+    <p><strong>Passo 2 — Quais são os dados?</strong> Do Tópico 2: s<sub>esfera</sub> = 2,4 t. Do Tópico 4: s<sub>bolha</sub> = 40,0 − 8,5 t. Incertezas da bancada: marcas ±0,2 cm; leitura de posição δs = 0,5 cm; tempo de reação ~0,2 s.</p>
+
+    <p><strong>Passo 3 — Quais são as hipóteses?</strong> (i) Os dois movimentos são uniformes durante toda a corrida — as velocidades medidas nos Quadros 1 e 3 valem também no trecho entre as marcas; (ii) esfera e bolha partem <strong>no mesmo instante</strong> t = 0, quando o tubo termina de ser invertido; (iii) o cruzamento não perturba nenhum dos dois movimentos.</p>
+
+    <p><strong>Passo 4 — Qual é o desenho do problema?</strong></p>
+    <div class="ascii-graf"> t = 0 s                       t = t_enc
+ A ● esfera (desce, +2,4)      A
+ B                             B  &larr;  &#9679;&#9675;  encontro (s_enc = ?)
+ C                             C
+ D                             D
+ E &#9675; bolha (sobe, &minus;8,5)      E</div>
+
+    <p><strong>Passo 5 — Quais são as equações?</strong> No encontro, os dois móveis ocupam a <strong>mesma posição no mesmo instante</strong>:</p>
+    <div class="equacao">s<sub>esfera</sub> = s<sub>bolha</sub> &nbsp;⇒&nbsp; 2,4 · t<sub>enc</sub> = 40,0 &minus; 8,5 · t<sub>enc</sub></div>
+
+    <p><strong>Passo 6 — Cálculos com unidades.</strong></p>
+    <div class="equacao">2,4 t<sub>enc</sub> + 8,5 t<sub>enc</sub> = 40,0 cm &nbsp;⇒&nbsp; 10,9 cm/s · t<sub>enc</sub> = 40,0 cm</div>
+    <div class="equacao">t<sub>enc</sub> = 40,0 cm / 10,9 cm/s = 3,67 s ≈ 3,7 s &nbsp;&nbsp; s<sub>enc</sub> = 2,4 cm/s × 3,67 s = 8,8 cm</div>
+
+    <p><strong>Passo 7 — Análise de resultados.</strong> A previsão cai entre as marcas A (0,0 cm) e B (10,0 cm), pertinho de B — plausível: a bolha é ~3,5 vezes mais rápida que a esfera, então o encontro tem de acontecer <strong>no primeiro quarto do tubo</strong>, no pequeno território que a esfera consegue percorrer antes de a bolha varrer o resto. E qual a confiança nessa previsão? Ela herda as incertezas dos dados: a leitura de posição (δs = 0,5 cm) mais o efeito do tempo de reação sobre a esfera (2,4 × 0,2 = 0,5 cm) dão uma <strong>faixa esperada de ±1,0 cm</strong> em torno de 8,8 cm.</p>
+    <div class="equacao">E% = |s<sub>exp</sub> &minus; s<sub>teo</sub>| / s<sub>teo</sub> × 100% &mdash; a régua que você aplicará ao SEU valor medido</div>
+
+    <p><strong>Passo 8 — Responda o que foi pedido.</strong> O modelo prevê o encontro em s<sub>enc</sub> = (8,8 ± 1,0) cm, no instante t<sub>enc</sub> = (3,7 ± 0,2) s. A palavra final é da bancada: a <span class="termo">corrida de verificação</span> — inverter o tubo e filmar o cruzamento em câmera lenta diante da régua — é o gesto que fecha a prática no Roteiro de Bancada (RB). Se o seu valor cair na faixa prevista, o modelo do MRU sobreviveu ao teste; se cair fora, os três suspeitos de sempre entram na sala: o <span class="termo">tempo de reação</span> ao declarar o "instante zero" da inversão, a <span class="termo">paralaxe</span> na leitura do cruzamento (T0A) e a fração de segundo que a bolha leva para atingir o ritmo constante — a hipótese (i) é boa, mas não perfeita.</p>
+
+    <p><strong>Quadro 4 — Modelo teórico vs. medida da bancada</strong></p>
+    <div class="quadro">
+      <table>
+        <thead><tr><th>Grandeza</th><th>Modelo (fórmula)</th><th>Medida (a sua bancada)</th><th>Critério</th></tr></thead>
+        <tbody>
+          <tr><td>Instante do encontro</td><td>(3,7 ± 0,2) s</td><td>a registrar na corrida de verificação</td><td>dentro da faixa = compatível</td></tr>
+          <tr><td>Posição do encontro</td><td>(8,8 ± 1,0) cm</td><td>a registrar na corrida de verificação</td><td>entre 7,8 e 9,8 cm = compatível</td></tr>
+          <tr><td>Erro relativo em s</td><td>—</td><td>calcular com a fórmula do Passo 7</td><td>explicar as causas, não escondê-las</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="eixo eixo-tecnico">
+      <div class="eixo-label">Eixo Técnico — Mineração</div>
+      <p>Prever encontro entre dois móveis é rotina de segurança na mineração: dois trens de minério na mesma via singela, um carregado descendo e um vazio subindo, só se cruzam <span class="termo">onde o gráfico de marcha diz que há desvio</span>. A faixa de ±1,0 cm que a bancada declara vira, na ferrovia, margem de segurança calculada — e a NR-22 exige que ela exista por escrito.</p>
+    </div>
+
+    <div class="eixo eixo-historico">
+      <div class="eixo-label">Eixo Histórico-Cultural — Ouro Preto</div>
+      <p>Foi para não errar esse cálculo que as ferrovias do século XIX — inclusive a que servia Ouro Preto — padronizaram seus relógios e seus gráficos de marcha. O encontro de dois trens previsto no papel, e conferido na realidade, é o ancestral direto do encontro da esfera com a bolha.</p>
+    </div>
+
+    <div class="eixo eixo-cotidiano">
+      <div class="eixo-label">Eixo Cotidiano — Você, 15–16 anos</div>
+      <p>Você faz essa conta de cabeça quando atravessa a rua: estima a velocidade do carro que vem, a sua, e decide se o "encontro" acontece antes ou depois de você chegar à outra calçada. A diferença é que a bancada declara a incerteza — e o pedestre aposta a própria plausibilidade.</p>
+    </div>
+
+    <p><strong>Aplicação.</strong> Confrontar modelo e medida — e explicar a diferença — é o gesto que define a Física Experimental. Um modelo nunca é "certo": é <span class="termo">compatível com os dados dentro da incerteza</span> ou é descartado. O do MRU já sobreviveu duas vezes hoje (dois instrumentos, mesma velocidade média); a terceira prova, a do encontro, é sua.</p>
+  </div>
+
+</div>
+
+<div class="separador"></div>
+
+<!-- ATO III -->
+<div class="ato" id="ato-iii">
+  <div class="ato-titulo">Ato III — O Fechamento</div>
+  <div class="ato-subtitulo">Quem fecha o Roteiro de Bancada não é quem o recebeu</div>
+
+  <p>A mesma bancada, o mesmo tubo — mas quem fecha o Roteiro de Bancada não é quem o recebeu. A pergunta do dia, impressa na primeira página há 100 minutos, agora tem resposta com incerteza, anotada por Sofia: <span class="citacao">"modelo prevê o encontro em (8,8 ± 1,0) cm, aos (3,7 ± 0,2) s — um palmo abaixo da marca B. A corrida de verificação vai dizer se a natureza concorda."</span></p>
+
+  <div class="fig" id="fig-09"><img src="../_imagens/_web/FE-T04-IT-09-v11.jpg" alt="Fig. 09 — Volta ao mundo de fora"><div class="fig-caption">Fig. 09 — Volta ao mundo de fora: os três saindo do laboratório com os roteiros de bancada, o tubo em repouso na bancada, a esfera de novo no fundo, à espera da próxima turma.</div></div>
+
+  <p>Pedro releu o Quadro 4 e reconheceu o que procurava desde a primeira frase da manhã: — Serve pra isso. A correia, o trem, a flotação: se o ritmo é constante, eu <span class="termo">prevejo</span>. E se a previsão bate com a medida, eu <span class="termo">confio</span>. É assim que se decide na mina.</p>
+
+  <p>Sofia percorreu as quatro páginas do Roteiro de Bancada — as quatro escolhas, as quatro tabelas, os três gráficos, o C5 completo — e escreveu na última linha: <span class="citacao">"Medir comprimento (T01) + medir tempo (T03) = medir movimento (T04). As trilhas se somam."</span> Depois acrescentou, honesta como a bancada exige: <span class="citacao">"Os três cronômetros nunca deram o mesmo número. É por isso que medimos três vezes — a dispersão não é fracasso, é o tamanho da nossa honestidade."</span></p>
+
+  <p>Lucas foi o último a sair, como sempre. Olhou o tubo em repouso e pensou nos trens que desciam para Mariana no ritmo de reza, nos rosários de caçambas das minas coloniais, nas bolhas da flotação que sustentam a mineração de hoje. Anotou: <span class="citacao">"O MRU é velho. O que é novo é a gente saber escrever a fórmula dele — e conferir."</span></p>
+
+  <p>Antes de liberar a turma, o Prof. Julio fez três pedidos:</p>
+  <div class="c5-passos">
+    <div class="passo"><span class="passo-num">1</span><span class="passo-texto"><strong>Refaçam em casa os gráficos da esfera e da bolha</strong> no mesmo par de eixos s × t, com os tempos médios das Tabelas 2 e 4 — o ponto onde as duas retas se cruzam é a resposta do Tópico 5 desenhada. Levem à próxima aula.</span></div>
+    <div class="passo"><span class="passo-num">2</span><span class="passo-texto"><strong>Guardem o Quadro 4</strong> — o hábito de confrontar modelo e medida vai valer nota no Relatório Mínimo e no Relatório Completo desta trilha.</span></div>
+    <div class="passo"><span class="passo-num">3</span><span class="passo-texto"><strong>Lembrem-se da epígrafe</strong> — medir é saber. Hoje vocês mediram um movimento inteiro. Portanto, hoje vocês sabem o que é um MRU — não porque alguém disse, mas porque o tubo confirmou.</span></div>
+  </div>
+
+  <p>Os três saíram pela mesma porta do Pavilhão de Física, e Ouro Preto os recebeu com suas ladeiras — onde, eles agora sabiam, nenhum movimento é uniforme por muito tempo. Mas essa já é a pergunta de outra trilha.</p>
+</div>
+
+<div class="separador"></div>
+
+<!-- CIÊNCIA E ARTE -->
+<div class="ciencia-arte">
+  <div class="ca-titulo">Ciência e Arte</div>
+  <div class="ca-obra">Pintura: Gare Saint-Lazare (1877) — Claude Monet (1840–1926)</div>
+
+  <div class="fig" id="fig-10"><img src="../_imagens/_web/FE-T04-IT-10-v11.jpg" alt="Fig. 10 — O relógio monumental da estação"><div class="fig-caption">Fig. 10 — O relógio monumental da estação sobre a plataforma enevoada de vapor — o instante impressionista e o movimento contínuo dos trens.<br><em>Gare Saint-Lazare</em> (1877), Claude Monet. Fonte: Universal History Archive / Universal Images Group via Getty Images.</div></div>
+
+  <div class="ca-desc">A presença imponente dos relógios monumentais nas estações ferroviárias do século XIX simboliza o momento histórico em que a física do movimento e a estética da modernidade se entrelaçaram. Antes de a malha ferroviária se expandir, cada cidade regulava seus ponteiros pelo meio-dia solar local; o trem a vapor, operando com velocidade aproximadamente constante em longos trechos retilíneos, transformou essa realidade — horários previsíveis exigiram tempo unificado, e o MRU do trem impôs o relógio comum. Ao retratar a Gare Saint-Lazare, Claude Monet capturou a atmosfera efêmera do vapor, da luz e do ritmo pontual das chegadas e partidas: a pintura impressionista registrava a fração de segundo visual, enquanto a física da estação regia o deslocamento contínuo dos corpos no espaço. Sofia, Pedro e Lucas fizeram na bancada o que a estação fazia em escala de cidade: transformaram um movimento regular em relógio — e um relógio em previsão.</div>
+
+  <div class="ca-desc" style="margin-top:16px;"><strong>Claude Monet</strong> (Paris, 1840 — Giverny, 1926) foi um pintor francês, fundador do Impressionismo — o movimento batizado a partir de sua tela <em>Impressão, nascer do sol</em> (1872). Na série de doze telas da Gare Saint-Lazare (1877), pintou a estação parisiense tomada pelo vapor das locomotivas, buscando fixar o instante fugaz de luz e movimento. A série é o encontro visual entre a arte moderna e a era ferroviária — a mesma era que exigiu da física o tempo padronizado e o gráfico de marcha.</div>
+</div>
+
+<!-- REFERÊNCIAS -->
+<div class="refs" id="refs">
+  <div class="refs-titulo">Bibliografia Básica</div>
+  <p>BONJORNO, J. R. Identidade Saraiva: Física. São Paulo: Saraiva, 2024.</p>
+  <p>MÁXIMO, A. et al. Física: contexto & aplicações. São Paulo: Scipione, 2013.</p>
+  <p>TALAVEIRA, A. C. et al. Física: ensino médio, v. único. São Paulo: Nova Geração, 2005.</p>
+  <div class="refs-titulo" style="margin-top:12px;">Bibliografia Pedagógica</div>
+  <p>BLOOM, Benjamin S. (org.). O desenvolvimento de talentos na juventude. Porto Alegre: Globo, 1988.</p>
+  <p>HEWITT, Paul G. Física conceitual. 12. ed. Porto Alegre: Bookman, 2015.</p>
+  <p>NICOLELIS, Miguel. O verdadeiro criador de tudo. São Paulo: Planeta, 2020.</p>
+  <p>PIAZZI, Pierluigi. Aprendendo inteligência. São Paulo: Aleph, 2008.</p>
+  <p>PIAZZI, Pierluigi. Inteligência em concursos. São Paulo: Aleph, 2013.</p>
+  <div class="refs-titulo" style="margin-top:12px;">Bibliografia Complementar</div>
+  <p>BRASIL. Ministério do Trabalho. NR-22 — Segurança e Saúde Ocupacional na Mineração. Brasília, 2002 (com alterações até 2021).</p>
+  <p>THOMSON, William (Lord Kelvin). Electrical Units of Measurement. Lecture at the Institution of Civil Engineers, London, 03 maio 1883.</p>
+  <p>VAŠČÁK, Vladimír. Física na escola — animações de Física (capítulo Movimento). Disponível em: https://www.vascak.cz/?id=1&language=pt. Acesso em: agosto 2026.</p>
+  <p>UNIVERSIDADE FEDERAL DE OURO PRETO. História da Escola de Minas. Ouro Preto: UFOP, 2026.</p>
+</div>
+
+
+
+<script>
+// ─── READING PROGRESS ───
+window.addEventListener('scroll', () => {
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = h > 0 ? (window.scrollY / h) * 100 : 0;
+  document.getElementById('progressBar').style.width = pct + '%';
+});
+</script>
+<div class="encerramento">
+  <div class="fecho-frase">Terminamos por aqui, um abra&ccedil;o, e at&eacute; o pr&oacute;ximo encontro.</div>
+  <div class="fecho-acao">Continue a sua prepara&ccedil;&atilde;o: explore as <strong>Simula&ccedil;&otilde;es (SM)</strong> da trilha &mdash; passo 4 do Pr&eacute;-Lab.</div>
+  <div class="fecho-links">
+    <a class="fecho-btn" href="https://nidecop-jafb.github.io/fe1-oa/t04/sm/" target="_blank" rel="noopener">Abrir as Simula&ccedil;&otilde;es</a>
+    <a class="fecho-btn secundario" href="https://nidecop-jafb.github.io/fe1-oa/" target="_blank" rel="noopener">Voltar ao in&iacute;cio do site</a>
+    <a class="fecho-btn secundario" href="https://nidecop-jafb.github.io/fe1-oa/#t04" target="_blank" rel="noopener">Ver todos os OAs da trilha</a>
+  </div>
+  <div class="fecho-inst">IFMG &mdash; Campus Ouro Preto &middot; Coordenadoria da &Aacute;rea de F&iacute;sica (CODAFIS) &middot; N&uacute;cleo de Inova&ccedil;&atilde;o e Desenvolvimento de Experimentos Cient&iacute;ficos (NIDEC)</div>
+</div>
+
+<div class="footer-line">
+  T04 &middot; Movimento Retil&iacute;neo Uniforme (MRU) &middot; Texto Tem&aacute;tico (TT) &middot; Primeira edi&ccedil;&atilde;o &middot; 2026
+</div>
+
+</div><!-- fim .conteudo -->
+
+
+<script>
+// ==== CHROME PADRAO DO TT DIGITAL (portado do T08-TT-v1-digital.html) ====
+var STORAGE_KEY = 'FE-T04-TT-v5';
+window.addEventListener('beforeunload', function() {
+  try { localStorage.setItem(STORAGE_KEY + '-scroll', window.scrollY); } catch(e) {}
+});
+window.addEventListener('load', function() {
+  try {
+    var saved = localStorage.getItem(STORAGE_KEY + '-scroll');
+    if (saved) { setTimeout(function() { window.scrollTo(0, parseInt(saved)); }, 100); }
+  } catch(e) {}
+});
+
+var fontSteps = [0.95, 1.05, 1.2];
+var fontIdx = 1;
+try {
+  var savedFont = localStorage.getItem(STORAGE_KEY + '-font');
+  if (savedFont !== null) fontIdx = parseInt(savedFont);
+} catch(e) {}
+function applyFontSize() {
+  document.documentElement.style.setProperty('--fs-base', fontSteps[fontIdx] + 'rem');
+  document.getElementById('btnFontMinus').classList.toggle('active', fontIdx === 0);
+  document.getElementById('btnFontReset').classList.toggle('active', fontIdx === 1);
+  document.getElementById('btnFontPlus').classList.toggle('active', fontIdx === 2);
+  try { localStorage.setItem(STORAGE_KEY + '-font', fontIdx); } catch(e) {}
+}
+applyFontSize();
+document.getElementById('btnFontMinus').addEventListener('click', function() { fontIdx = 0; applyFontSize(); });
+document.getElementById('btnFontReset').addEventListener('click', function() { fontIdx = 1; applyFontSize(); });
+document.getElementById('btnFontPlus').addEventListener('click', function() { fontIdx = 2; applyFontSize(); });
+
+function getTheme() {
+  try { var saved = localStorage.getItem(STORAGE_KEY + '-theme'); if (saved) return saved; } catch(e) {}
+  return 'dark';
+}
+function setTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  try { localStorage.setItem(STORAGE_KEY + '-theme', t); } catch(e) {}
+}
+setTheme(getTheme());
+document.getElementById('btnTheme').addEventListener('click', function() {
+  var current = document.documentElement.getAttribute('data-theme');
+  setTheme(current === 'dark' ? 'light' : 'dark');
+});
+
+var metodoBtn = document.getElementById('metodoToggle');
+var metodoSidebar = document.getElementById('metodoSidebar');
+var musicaBtn = document.getElementById('musicaToggle');
+var musicaSidebar = document.getElementById('musicaSidebar');
+var ineditismoBtn = document.getElementById('ineditismoToggle');
+var ineditismoSidebar = document.getElementById('ineditismoSidebar');
+var projetoBtn = document.getElementById('projetoToggle');
+var projetoSidebar = document.getElementById('projetoSidebar');
+var creditosBtn = document.getElementById('creditosToggle');
+var creditosSidebar = document.getElementById('creditosSidebar');
+var abas = [
+  [metodoBtn, metodoSidebar], [musicaBtn, musicaSidebar],
+  [ineditismoBtn, ineditismoSidebar], [projetoBtn, projetoSidebar],
+  [creditosBtn, creditosSidebar]
+];
+abas.forEach(function(par) {
+  par[0].addEventListener('click', function() {
+    abas.forEach(function(outro) {
+      if (outro[1] === par[1]) { outro[1].classList.toggle('open'); }
+      else { outro[1].classList.remove('open'); }
+    });
+  });
+});
+document.addEventListener('click', function(e) {
+  abas.forEach(function(par) {
+    if (!par[1].contains(e.target) && e.target !== par[0]) { par[1].classList.remove('open'); }
+  });
+});
+var audioHint = document.getElementById('audioHint');
+if (audioHint) {
+  audioHint.addEventListener('click', function(e) {
+    e.stopPropagation();
+    abas.forEach(function(par) { par[1].classList.remove('open'); });
+    musicaSidebar.classList.add('open');
+  });
+}
+</script>
+<!-- ABA-SITE (injetada na publicacao — nao existe no OA canonico) -->
+<style>
+.aba-site-toggle { position: fixed; top: 56px; left: 0; z-index: 999; background: #1a1b1f; border: 1px solid #444; border-left: none; color: #bbb; font-size: .7rem; padding: 8px 10px; cursor: pointer; font-family: 'Courier New', monospace; writing-mode: vertical-rl; text-orientation: mixed; letter-spacing: 1px; text-transform: uppercase; transition: color .15s; border-radius: 0; }
+.aba-site-toggle:hover { color: #E07B39; }
+.aba-site-painel { position: fixed; top: 0; left: 0; z-index: 1001; width: 330px; max-width: 86vw; height: 100vh; overflow-y: auto; background: #1a1b1f; border-right: 1px solid #444; padding: 24px 22px 24px 42px; transform: translateX(-100%); transition: transform .25s; font-family: 'Segoe UI', system-ui, sans-serif; font-size: .92rem; color: #c4c4c4; line-height: 1.6; }
+.aba-site-painel.open { transform: translateX(0); }
+.aba-site-painel h3 { font-family: 'Courier New', monospace; font-size: .8rem; text-transform: uppercase; letter-spacing: 2px; color: #E07B39; border-bottom: 1px solid #444; padding-bottom: 8px; margin: 0 0 14px; }
+.aba-site-painel a.aba-site-btn { display: block; margin: 10px 0; padding: 11px 14px; border: 1px solid #444; color: #e8e8e8; text-decoration: none; font-family: 'Courier New', monospace; font-size: .85rem; }
+.aba-site-painel a.aba-site-btn:hover { border-color: #E07B39; color: #E07B39; }
+/* Celular: a aba fica sobre o conteudo, porque em tela estreita o texto ocupa
+   a largura toda e o trilho e `position: fixed` na borda esquerda. Abrir uma
+   faixa no body empurra TUDO para a direita — vale para a aba Site e para o
+   trilho do TT (Musica/Ineditismo/Sumario/Creditos), todos em left: 0.
+   Com `box-sizing: border-box` (padrao nos OAs) nao cria rolagem lateral. */
+@media (max-width: 600px) {
+  body { padding-left: 30px; }
+  .aba-site-toggle { font-size: .6rem; padding: 6px 6px; }
+  .aba-site-painel { width: 86vw; }
+}
+@media print { .aba-site-toggle, .aba-site-painel { display: none !important; } }
+</style>
+<button class="aba-site-toggle" id="abaSiteToggle">Site</button>
+<aside class="aba-site-painel" id="abaSitePainel">
+  <h3>Site</h3>
+  <a class="aba-site-btn" href="https://nidecop-jafb.github.io/fe1-oa/#t04">Ver todos os OAs da trilha</a>
+  <a class="aba-site-btn" href="https://nidecop-jafb.github.io/fe1-oa/">Início do site</a>
+  <a class="aba-site-btn" href="https://nidecop-jafb.github.io/fc1-oa/">Disciplina irmã: FC1 — Física Conceitual 1</a>
+</aside>
+<script>
+(function () {
+  var t = document.getElementById('abaSiteToggle');
+  var p = document.getElementById('abaSitePainel');
+  var outras = '.metodo-sidebar,.musica-sidebar,.ineditismo-sidebar,.toc-sidebar,.projeto-sidebar,.creditos-sidebar,.figuras-sidebar';
+  t.addEventListener('click', function () {
+    p.classList.toggle('open');
+    document.querySelectorAll(outras).forEach(function (s) { s.classList.remove('open'); });
+  });
+  document.addEventListener('click', function (e) {
+    if (!p.contains(e.target) && e.target !== t) { p.classList.remove('open'); }
+  });
+})();
+</script>
+</body>
+</html>
