@@ -80,6 +80,12 @@
   @media (max-width: 560px) {
     .parada { font-size: 1.05rem; padding: 11px 12px; margin: 28px 0 12px; }
     .parada span { display: block; margin-top: 3px; }
+    /* Linhas de OA maiores no celular (pedido do autor, 2026-08-28): nome legivel
+       e a tag (vale nota - quando - duracao) numa linha propria, alinhada ao nome. */
+    a.oa, .oa.offline { font-size: 1.08rem; line-height: 1.5; }
+    .oa.sub { font-size: 1.02rem; }
+    a.oa .tag, .oa.offline .tag { display: block; font-size: .95rem; margin-left: 2.2em; margin-top: 2px; }
+    a.oa.extra .tag { margin-left: 0; }
   }
   .oa .num { display: inline-block; min-width: 1.6em; color: var(--epi); }
   .oa.sub { font-size: .92rem; }  /* sem recuo: todos os OAs alinhados a esquerda (decisao 2026-08-19) */
