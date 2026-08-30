@@ -614,7 +614,7 @@ body {
       <h1><span class="trilha-code">FE-T04</span> &middot; Movimento Retil&iacute;neo Uniforme (MRU)</h1>
       <span class="badge">Provinha (PR)</span>
     </div>
-    <div class="header-sub">Fechamento do Lab &middot; 2 quest&otilde;es (10,0 pontos) &middot; 15 min &middot; sem consulta &middot; tentativa &uacute;nica</div>
+    <div class="header-sub">2 quest&otilde;es &middot; 10 pontos &middot; 15 min</div>
   </header>
 
   <!-- PIAZZI BAR -->
@@ -642,14 +642,15 @@ body {
   </div>
 
   <!-- SELETOR DE VERSAO A/B/C -->
-  <div class="versao-box">
-    <div class="versao-titulo">Vers&atilde;o da Provinha</div>
-    <div class="versao-opcoes" id="versaoOpcoes">
+  <div class="versao-box" id="versaoBox">
+    <!-- v2: versao OCULTA para dificultar a cola — definida em silencio pelo
+         RA (CFG 'auto'); os botoes so aparecem se o professor liberar 'livre' -->
+    <div class="versao-opcoes" id="versaoOpcoes" style="display:none">
       <button class="versao-btn" data-v="A" onclick="selecionarVersao('A')">Vers&atilde;o A</button>
       <button class="versao-btn" data-v="B" onclick="selecionarVersao('B')">Vers&atilde;o B</button>
       <button class="versao-btn" data-v="C" onclick="selecionarVersao('C')">Vers&atilde;o C</button>
     </div>
-    <div class="versao-nota" id="versaoNota">Digite o seu RA acima de tudo: a vers&atilde;o &eacute; definida automaticamente a partir dele.</div>
+    <div class="versao-nota" id="versaoNota">Digite o seu RA acima: as quest&otilde;es carregam automaticamente.</div>
   </div>
 
   <!-- PROGRESS BAR -->
@@ -1009,10 +1010,13 @@ function aplicarPrecargaOA() {
   var modo = OA_CFG.versao_precarga;
   var nota = document.getElementById('versaoNota');
 
+  var box = document.getElementById('versaoBox');
+  var opcoes = document.getElementById('versaoOpcoes');
+
   if (modo === 'A' || modo === 'B' || modo === 'C') {
     versaoTravada = true;
     if (versao !== modo) selecionarVersao(modo, true);
-    nota.innerHTML = 'Vers&atilde;o <strong>' + modo + '</strong> definida pelo professor para esta turma.';
+    if (box) box.style.display = 'none';   /* versao oculta (anti-cola) */
     atualizarSeletorVersao();
     return;
   }
@@ -1023,17 +1027,20 @@ function aplicarPrecargaOA() {
       var v = ['A', 'B', 'C'][parseInt(ra, 10) % 3];
       versaoTravada = true;
       if (versao !== v) selecionarVersao(v, true);
-      nota.innerHTML = 'Vers&atilde;o definida automaticamente a partir do seu RA: <strong>vers&atilde;o ' + v + '</strong>. As tr&ecirc;s vers&otilde;es t&ecirc;m a mesma estrutura, o mesmo n&iacute;vel e a mesma pontua&ccedil;&atilde;o.';
+      if (box) box.style.display = 'none';   /* versao oculta (anti-cola) */
     } else {
       versaoTravada = false;
-      nota.innerHTML = 'Digite o seu RA acima: a vers&atilde;o &eacute; definida automaticamente a partir dele.';
+      if (box) box.style.display = '';
+      nota.innerHTML = 'Digite o seu RA acima: as quest&otilde;es carregam automaticamente.';
     }
     atualizarSeletorVersao();
     return;
   }
 
-  /* livre */
+  /* livre (liberado pelo professor): reexibe os botoes A/B/C */
   versaoTravada = false;
+  if (box) box.style.display = '';
+  if (opcoes) opcoes.style.display = '';
   nota.innerHTML = 'Escolha uma vers&atilde;o. As tr&ecirc;s t&ecirc;m a mesma estrutura, o mesmo n&iacute;vel e a mesma pontua&ccedil;&atilde;o.';
   atualizarSeletorVersao();
 }
@@ -1279,7 +1286,7 @@ function mostrarCorrecao() {
 
   document.getElementById('placar').textContent = fmtNota(pontuacaoTotal()) + ' / 10';
   document.getElementById('placarDetalhe').innerHTML =
-    'Vers&atilde;o ' + versao + ' &middot; Q1: ' + fmtNota(pontosQ1()) + ' de 4,0 &middot; ' +
+    'Q1: ' + fmtNota(pontosQ1()) + ' de 4,0 &middot; ' +
     'Q2: ' + fmtNota(pontosQ2()) + ' de 6,0 (' + acertosQ2() + ' de 5 afirma&ccedil;&otilde;es)';
 }
 
@@ -1382,7 +1389,7 @@ function exportJSON() {
   var url = URL.createObjectURL(blob);
   var a = document.createElement('a');
   a.href = url;
-  a.download = 'FE-T04-PR-v1-' + (data.estudante.ra || 'SEMRA') + '-' + (data.estudante.turma || 'SEM') + (data.estudante.grupo || '') + '-' + versao + '-' + data.estudante.nome.replace(/\s+/g, '_').substring(0,30) + '-' + ts + '.json';
+  a.download = 'FE-T04-PR-v2-' + (data.estudante.ra || 'SEMRA') + '-' + (data.estudante.turma || 'SEM') + (data.estudante.grupo || '') + '-' + data.estudante.nome.replace(/\s+/g, '_').substring(0,30) + '-' + ts + '.json';
   a.click();
   URL.revokeObjectURL(url);
   toast('success', 'Comprovante exportado com sucesso');
