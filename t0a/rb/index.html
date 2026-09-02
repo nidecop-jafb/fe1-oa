@@ -6,8 +6,17 @@
 <title>T0A · Metodologia Experimental — RB Estudante (impresso, 3 páginas)</title>
 <style>
 /* ============================================================
-   FE-T0A-RB-v5-estudante-impresso.html
+   FE-T0A-RB-v6-estudante-impresso.html
    Roteiro de Bancada — 3 paginas A4, para ESCRITA A MAO na bancada.
+   Mudancas v6 (2026-09-02, replicando o padrao do RB v5 da T04):
+     (1) TIPOGRAFIA DE TELA — bloco @media screen (piso .8rem);
+         a IMPRESSAO nao muda.
+     (2) IMAGENS DE FUNDO no padrao da FA impressa da T10/FC1
+         (.anot-fundo): grayscale, opacidade .34 tela / .26 impresso,
+         via ../_imagens/_web/ (derivadas leves).
+     (3) "Resolucao Cientifica do Problema" SEMPRE precede
+         "Protocolo C5 (8 passos)" — regra de toda a FE1.
+     (4) Fecho "Terminamos por aqui..." em destaque colorido.
    Alinhado ao padrao da T04 (formatacao da FA impressa da FC1,
    decisao do autor em 2026-08-29):
      pag 1  cabecalho FA + caixa IDENTIFICACAO + linha Piazzi + epigrafe
@@ -205,6 +214,19 @@ body {
 }
 .nota-metodo { font-size: .74rem; color: var(--cinza); font-style: italic; margin-top: 4px; }
 
+/* ── IMAGEM DE FUNDO DA SECAO (padrao .anot-fundo da FA impressa
+   da T10/FC1): a ilustracao IT fica ATRAS da area de escrita, em
+   escala de cinza e opacidade baixa — o estudante escreve por cima.
+   Valores de tela e de impressao copiados VERBATIM da FA. ── */
+.com-fundo { position: relative; overflow: hidden; }
+.fundo-ilustra {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  opacity: .34; filter: grayscale(1) contrast(.9);
+  pointer-events: none;
+}
+.com-fundo > :not(.fundo-ilustra) { position: relative; }
+
 /* ── TABELAS DE DADOS ── */
 .tabela-rotulo { font-size: .74rem; color: var(--cinza); font-style: italic; margin: 6px 0 3px; }
 table { width: 100%; border-collapse: collapse; font-size: .8rem; margin: 4px 0 8px; }
@@ -306,6 +328,8 @@ tr.voce td:first-child { font-weight: 700; color: var(--azul); }
   text-align: center; font-size: .92rem; font-style: italic; color: var(--texto); line-height: 1.55;
 }
 .fechamento .frase strong { color: var(--ouro); font-style: normal; }
+/* v6: o fecho da despedida ganha destaque de cor e corpo maior */
+.fechamento .fecho-destaque { color: var(--azul); font-weight: 700; font-size: 1.08rem; }
 
 /* ── ESPACO DA EQUIPE DE MONITORIA (padrao FA) ── */
 .monitoria { border: 1.5px solid var(--verde); margin-top: 10px; padding: 8px 10px 9px; }
@@ -343,6 +367,59 @@ tr.voce td:first-child { font-weight: 700; color: var(--azul); }
 }
 .barra-tela .btn:hover { filter: brightness(1.1); }
 .barra-tela .nota { font-size: .8rem; color: var(--cinza); margin-top: 8px; line-height: 1.5; }
+
+/* ============================================================
+   TIPOGRAFIA DE TELA — padrao FE1 movel (v6): piso de .8rem e
+   corpos maiores para leitura no celular, como na atualizacao
+   do indice do site fe1-oa (nome 1.08rem / tag .95rem) e no
+   Espaco da Monitoria (A4.36). SO a tela cresce: o @media print
+   abaixo permanece intacto e a paginacao impressa nao muda.
+   REPLICAR este bloco identico nos RB das demais trilhas.
+   ============================================================ */
+@media screen {
+  body { font-size: 1.02rem; }
+  .header-left h1 { font-size: 1.2rem; }
+  .header-left .sub { font-size: .84rem; }
+  .header-right { font-size: .8rem; }
+  .header-right .badge { font-size: .9rem; }
+  .id-box-titulo { font-size: .8rem; }
+  .id-box .campo-linha { font-size: .92rem; }
+  .id-box label { font-size: .84rem; }
+  .opts { font-size: .84rem; }
+  .data-campo { font-size: .88rem; }
+  .piazzi { font-size: .84rem; }
+  .epigrafe { font-size: .95rem; }
+  .epigrafe .atrib { font-size: .8rem; }
+  .checklist-titulo { font-size: .8rem; }
+  .fase-nome { font-size: .8rem; }
+  .oa-item { font-size: .8rem; }
+  .secao-titulo .num { width: 26px; height: 26px; font-size: .86rem; }
+  .secao-titulo h2 { font-size: 1.02rem; }
+  .secao-titulo .hint { font-size: .8rem; }
+  .alerta-seg { font-size: .86rem; }
+  .check-list li { font-size: .92rem; }
+  .assinatura { font-size: .9rem; }
+  .lembrete { font-size: .86rem; }
+  .protocolo-lista li { font-size: .92rem; }
+  .protocolo-lista li::before { font-size: .84rem; }
+  .nota-metodo { font-size: .84rem; }
+  .tabela-rotulo { font-size: .84rem; }
+  table { font-size: .92rem; }
+  th { font-size: .8rem; }
+  .resultado-final .titulo-res { font-size: .8rem; }
+  .resultado-final .formula-res { font-size: 1.15rem; }
+  .c5-lista li { font-size: .92rem; }
+  .c5-lista li .passo-num { font-size: .92rem; }
+  .c5-lista li .inline-resp { font-size: .88rem; }
+  .c5-esboco { font-size: .84rem; }
+  .calc-formula { font-size: .92rem; }
+  .calc-formula .eq { font-size: .88rem; }
+  .calc-formula .un-m { font-size: .82rem; }
+  .disc-q { font-size: .92rem; }
+  .fechamento .frase { font-size: 1.02rem; }
+  .fechamento .fecho-destaque { font-size: 1.2rem; }
+  .barra-tela .nota { font-size: .84rem; }
+}
 
 /* ============================================================
    IMPRESSAO — paleta azul sobre branco (padrao T04):
@@ -457,6 +534,16 @@ tr.voce td:first-child { font-weight: 700; color: var(--azul); }
   .protocolo-lista li::before { color: #1F3864 !important; font-size: 7.6pt; }
   .nota-metodo { color: #808080 !important; font-size: 7.4pt; }
 
+  /* Imagem de fundo: visivel o bastante para ilustrar, clara o bastante
+     para a caneta passar por cima — mesmos valores calibrados da FA
+     impressa da T10/FC1 (a impressora P&B clareia meios-tons; o valor
+     de tela nao serve aqui). */
+  .fundo-ilustra {
+    opacity: .26 !important;
+    filter: grayscale(1) contrast(.95) brightness(1.02) !important;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+
   .tabela-rotulo { color: #4D4D4D !important; font-size: 7.6pt; margin: 3pt 0 2pt; }
   table { font-size: 8.2pt; margin: 2pt 0 5pt; }
   th {
@@ -504,6 +591,8 @@ tr.voce td:first-child { font-weight: 700; color: var(--azul); }
   .fechamento { border-top: .5pt solid #C0C0C0 !important; margin-top: 5pt; padding-top: 5pt; flex: 0 0 auto; }
   .fechamento .frase { color: #1F3864 !important; font-size: 9.6pt; line-height: 1.4; }
   .fechamento .frase strong { color: #1F3864 !important; }
+  /* v6: destaque do fecho no laranja de impressao da FE (#AE5314, 4,89:1) */
+  .fechamento .fecho-destaque { color: #AE5314 !important; font-size: 11pt; }
 
   .monitoria { border: 1pt solid #1A1A1A !important; margin-top: 4pt; padding: 3pt 7pt 3pt; break-inside: avoid; }
   .monitoria-titulo { color: #1A1A1A !important; font-size: 7.5pt; margin-bottom: 1.5pt; }
@@ -636,7 +725,8 @@ tr.voce td:first-child { font-weight: 700; color: var(--azul); }
     </div>
   </div>
 
-  <div class="secao cresce">
+  <div class="secao cresce com-fundo">
+    <div class="fundo-ilustra" style="background-image:url('../_imagens/_web/FE-T0A-IT-04-v8.jpg');"></div>
     <div class="secao-titulo">
       <div class="num">1</div>
       <h2>As 4 medições da mesma altura</h2>
@@ -673,7 +763,7 @@ tr.voce td:first-child { font-weight: 700; color: var(--azul); }
   </div>
 
   <div class="rodape-print">
-    T0A · RB v5 (estudante) · página 1 de 3 · Física Experimental 1 · IFMG — Campus Ouro Preto
+    T0A · RB v6 (estudante) · página 1 de 3 · Física Experimental 1 · IFMG — Campus Ouro Preto
   </div>
 </div><!-- /pagina 1 -->
 
@@ -714,10 +804,11 @@ tr.voce td:first-child { font-weight: 700; color: var(--azul); }
     </div>
   </div>
 
-  <div class="secao cresce">
+  <div class="secao cresce com-fundo">
+    <div class="fundo-ilustra" style="background-image:url('../_imagens/_web/FE-T0A-IT-08-v6.jpg');"></div>
     <div class="secao-titulo">
       <div class="num">3</div>
-      <h2>Metodologia Científica — Protocolo C5 (8 passos)</h2>
+      <h2>Resolução Científica do Problema — Protocolo C5 (8 passos)</h2>
     </div>
     <ol class="c5-lista">
       <li>
@@ -762,14 +853,15 @@ tr.voce td:first-child { font-weight: 700; color: var(--azul); }
   </div>
 
   <div class="rodape-print">
-    T0A · RB v5 (estudante) · página 2 de 3 · Física Experimental 1 · IFMG — Campus Ouro Preto
+    T0A · RB v6 (estudante) · página 2 de 3 · Física Experimental 1 · IFMG — Campus Ouro Preto
   </div>
 </div><!-- /pagina 2 -->
 
 <!-- ═══════════════════════ PÁGINA 3 ═══════════════════════ -->
 <div class="pagina">
 
-  <div class="secao cresce">
+  <div class="secao cresce com-fundo">
+    <div class="fundo-ilustra" style="background-image:url('../_imagens/_web/FE-T0A-IT-06-v7.jpg');"></div>
     <div class="secao-titulo">
       <div class="num">4</div>
       <h2>Discussão</h2>
@@ -824,7 +916,7 @@ tr.voce td:first-child { font-weight: 700; color: var(--azul); }
 
   <div class="fechamento">
     <div class="frase">
-      "Terminamos por aqui, um abraço, e até o próximo encontro."<br>
+      <span class="fecho-destaque">"Terminamos por aqui, um abraço, e até o próximo encontro."</span><br>
       Não esqueça de fazer o Relatório Mínimo no <strong>mesmo dia da aula no Laboratório</strong>.
     </div>
 
@@ -855,7 +947,7 @@ tr.voce td:first-child { font-weight: 700; color: var(--azul); }
   </div>
 
   <div class="rodape-print">
-    T0A · RB v5 (estudante) · página 3 de 3 · IFMG — Campus Ouro Preto · CODAFIS / NIDEC · Primeira edição · 2026
+    T0A · RB v6 (estudante) · página 3 de 3 · IFMG — Campus Ouro Preto · CODAFIS / NIDEC · Primeira edição · 2026
   </div>
 </div><!-- /pagina 3 -->
 
@@ -864,7 +956,7 @@ tr.voce td:first-child { font-weight: 700; color: var(--azul); }
   <div class="nota">
     O botão abre uma <strong>janela nova</strong> só com a folha e já chama a impressão.
     Em "Salvar como PDF", o navegador sugere o nome correto:
-    <strong>FE-T0A-RB-v5-estudante-impresso</strong>.<br>
+    <strong>FE-T0A-RB-v6-estudante-impresso</strong>.<br>
     Nas opções de impressão, mantenha <strong>"Gráficos de plano de fundo"</strong> ligado
     — é o que preserva os fundos das caixas e os marcadores das seções.
   </div>
@@ -876,7 +968,7 @@ tr.voce td:first-child { font-weight: 700; color: var(--azul); }
 /* Impressao em janela propria (padrao FA): o <title> vira o nome sugerido do
    PDF, a barra de botoes fica de fora e o @page { margin: 0 } suprime o
    cabecalho/rodape que o navegador injeta. */
-var NOME_ARQUIVO_PDF = 'FE-T0A-RB-v5-estudante-impresso';
+var NOME_ARQUIVO_PDF = 'FE-T0A-RB-v6-estudante-impresso';
 
 function abrirParaImpressao() {
   var folha = document.querySelector('.folha').cloneNode(true);
