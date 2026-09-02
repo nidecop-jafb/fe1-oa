@@ -6,17 +6,29 @@
 <title>T04 · O Movimento Retilíneo Uniforme (MRU) — RB Estudante (impresso, 4 páginas)</title>
 <style>
 /* ============================================================
-   FE-T04-RB-v4-estudante-impresso.html
+   FE-T04-RB-v5-estudante-impresso.html
    Roteiro de Bancada — 4 paginas A4, para ESCRITA A MAO na bancada.
    Formatacao espelhada da Folha de Atividades impressa da FC1
    (padrao T10-FA-v1-estudante-impressa.html), por decisao do autor
    em 2026-08-29 — imagem de referencia com os blocos novos:
      pag 1  cabecalho FA + caixa IDENTIFICACAO + linha Piazzi + epigrafe
             + Minha Trilha (Pre-Lab/Lab/Pos-Lab) + Seguranca + 4 escolhas
-     pag 2  Medicao da esfera (Tabelas 1 e 2 + Quadro 1)
-     pag 3  Medicao da bolha (Tabelas 3 e 4 + Quadro 3)
-     pag 4  Protocolo C5 + Verificacao + Discussao + Conclusao
-            + fecho + Espaco da Equipe de Monitoria
+            + Figura 1 (IT-04)
+     pag 2  Medicao da esfera (Tabelas 1 e 2 + Quadro 1) + Figura 2 (IT-03)
+     pag 3  Medicao da bolha (Tabelas 3 e 4 + Quadro 3) + Figura 3 (IT-06)
+     pag 4  Resolucao Cientifica do Problema — Protocolo C5 + Verificacao
+            + Discussao OBJETIVA + Conclusao + fecho em destaque
+            + Espaco da Equipe de Monitoria
+   Mudancas v5 (2026-09-02, decisao do autor):
+     (1) TIPOGRAFIA DE TELA — bloco @media screen no fim do CSS de
+         tela (piso .8rem, padrao do site FE1); a IMPRESSAO nao muda.
+     (2) FIGURAS no padrao da FA (moldura fina + legenda italica),
+         referenciando ../_imagens/_web/ (derivadas leves, as mesmas
+         do site — o PDF nao embute os masters de 1200 px).
+     (3) "Resolucao Cientifica do Problema" SEMPRE precede
+         "Protocolo C5 (8 passos)" — regra de toda a FE1.
+     (4) Discussao em questoes OBJETIVAS (2 corretas em 4 opcoes).
+     (5) Fecho "Terminamos por aqui..." em destaque colorido.
    Sem espaco morto no pe da pagina: a folga vira linha de escrita
    (classe .cresce — regra da FA/TR), e o rodape cola na base.
    ============================================================ */
@@ -199,6 +211,19 @@ body {
 .esc-linha { border-bottom: 1px dotted var(--cinza-borda); min-height: 22px; }
 .nota-metodo { font-size: .74rem; color: var(--cinza); font-style: italic; margin-top: 4px; }
 
+/* ── FIGURAS (formatacao herdada da FA impressa: moldura fina
+   + legenda italica, mesma familia visual dos rotulos de tabela) ── */
+.figura { margin: 8px 0 10px; text-align: center; }
+.figura img {
+  display: block; margin: 0 auto;
+  max-width: 100%; max-height: 340px;
+  border: 1px solid var(--cinza-borda);
+}
+.figura .legenda {
+  font-size: .74rem; color: var(--cinza); font-style: italic;
+  margin-top: 4px; text-align: center;
+}
+
 /* ── TABELAS DE DADOS ── */
 .tabela-rotulo { font-size: .74rem; color: var(--cinza); font-style: italic; margin: 6px 0 3px; }
 table { width: 100%; border-collapse: collapse; font-size: .8rem; margin: 4px 0 8px; }
@@ -274,11 +299,34 @@ td:first-child { text-align: left; padding-left: 8px; }
 .calc-formula .campo-calc { border-bottom: 1.5px solid var(--azul); min-width: 80px; height: 1.1em; display: inline-block; }
 .calc-formula .un-m { font-size: .72rem; }
 
-/* ── DISCUSSAO ── */
+/* ── DISCUSSAO (v5: questoes objetivas — assinalar 2 corretas em 4) ── */
 .disc-item { display: flex; flex-direction: column; margin-bottom: 4px; }
 .disc-q { font-size: .8rem; margin: 4px 0 2px; }
 .disc-q strong { color: var(--azul); }
 .disc-linha { border-bottom: 1px dotted var(--cinza-borda); min-height: 24px; }
+.disc-opts {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 4px 14px; padding: 2px 0 4px 4px;
+}
+.disc-opt {
+  display: flex; align-items: flex-start; gap: 7px;
+  font-size: .78rem; line-height: 1.3;
+}
+.disc-opt::before {
+  content: '';
+  display: inline-block;
+  width: 13px; height: 13px;
+  border: 1.5px solid var(--cinza-borda);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.disc-resp {
+  font-family: var(--mono); font-size: .8rem; color: var(--azul);
+  padding: 4px 0 2px 16px;
+}
+@media (max-width: 560px) {
+  .disc-opts { grid-template-columns: 1fr; }
+}
 
 /* ── FECHAMENTO (padrao FA) ── */
 .fechamento { border-top: 1px solid var(--cinza-borda); margin-top: 10px; padding-top: 9px; }
@@ -286,6 +334,8 @@ td:first-child { text-align: left; padding-left: 8px; }
   text-align: center; font-size: .92rem; font-style: italic; color: var(--texto); line-height: 1.55;
 }
 .fechamento .frase strong { color: var(--ouro); font-style: normal; }
+/* v5: o fecho da despedida ganha destaque de cor e corpo maior */
+.fechamento .fecho-destaque { color: var(--azul); font-weight: 700; font-size: 1.08rem; }
 
 /* ── ESPACO DA EQUIPE DE MONITORIA (padrao FA) ── */
 .monitoria { border: 1.5px solid var(--verde); margin-top: 10px; padding: 8px 10px 9px; }
@@ -323,6 +373,61 @@ td:first-child { text-align: left; padding-left: 8px; }
 }
 .barra-tela .btn:hover { filter: brightness(1.1); }
 .barra-tela .nota { font-size: .8rem; color: var(--cinza); margin-top: 8px; line-height: 1.5; }
+
+/* ============================================================
+   TIPOGRAFIA DE TELA — padrao FE1 movel (v5): piso de .8rem e
+   corpos maiores para leitura no celular, como na atualizacao
+   do indice do site fe1-oa (nome 1.08rem / tag .95rem) e no
+   Espaco da Monitoria (A4.36). SO a tela cresce: o @media print
+   abaixo permanece intacto e a paginacao impressa nao muda.
+   REPLICAR este bloco identico nos RB das demais trilhas.
+   ============================================================ */
+@media screen {
+  body { font-size: 1.02rem; }
+  .header-left h1 { font-size: 1.2rem; }
+  .header-left .sub { font-size: .84rem; }
+  .header-right { font-size: .8rem; }
+  .header-right .badge { font-size: .9rem; }
+  .id-box-titulo { font-size: .8rem; }
+  .id-box .campo-linha { font-size: .92rem; }
+  .id-box label { font-size: .84rem; }
+  .opts { font-size: .84rem; }
+  .data-campo { font-size: .88rem; }
+  .piazzi { font-size: .84rem; }
+  .epigrafe { font-size: .95rem; }
+  .epigrafe .atrib { font-size: .8rem; }
+  .checklist-titulo { font-size: .8rem; }
+  .fase-nome { font-size: .8rem; }
+  .oa-item { font-size: .8rem; }
+  .secao-titulo .num { width: 26px; height: 26px; font-size: .86rem; }
+  .secao-titulo h2 { font-size: 1.02rem; }
+  .secao-titulo .hint { font-size: .8rem; }
+  .alerta-seg { font-size: .86rem; }
+  .check-list li { font-size: .92rem; }
+  .assinatura { font-size: .9rem; }
+  .lembrete { font-size: .86rem; }
+  .esc-item { font-size: .92rem; }
+  .nota-metodo { font-size: .84rem; }
+  .figura .legenda { font-size: .82rem; }
+  .tabela-rotulo { font-size: .84rem; }
+  table { font-size: .92rem; }
+  th { font-size: .8rem; }
+  .resultado-final .titulo-res { font-size: .8rem; }
+  .resultado-final .formula-res { font-size: 1.15rem; }
+  .c5-lista li { font-size: .92rem; }
+  .c5-lista li .passo-num { font-size: .92rem; }
+  .c5-lista li .inline-resp { font-size: .88rem; }
+  .c5-esboco { font-size: .84rem; }
+  .calc-formula { font-size: .92rem; }
+  .calc-formula .eq { font-size: .88rem; }
+  .calc-formula .un-m { font-size: .82rem; }
+  .disc-q { font-size: .92rem; }
+  .disc-opt { font-size: .9rem; }
+  .disc-resp { font-size: .9rem; }
+  .fechamento .frase { font-size: 1.02rem; }
+  .fechamento .fecho-destaque { font-size: 1.2rem; }
+  .barra-tela .nota { font-size: .84rem; }
+}
 
 /* ============================================================
    IMPRESSAO — paleta azul sobre branco (imagem de referencia:
@@ -439,6 +544,10 @@ td:first-child { text-align: left; padding-left: 8px; }
   .esc-linha { flex: 1 1 auto; border-bottom: .75pt solid #9AA7BD !important; min-height: 6mm; }
   .nota-metodo { color: #808080 !important; font-size: 7.4pt; flex: 0 0 auto; }
 
+  .figura { margin: 3pt 0 4pt; break-inside: avoid; flex: 0 0 auto; }
+  .figura img { border: .5pt solid #9AA7BD !important; max-height: 30mm; width: auto; }
+  .figura .legenda { color: #4D4D4D !important; font-size: 7.4pt; margin-top: 2pt; }
+
   .tabela-rotulo { color: #4D4D4D !important; font-size: 7.6pt; margin: 3pt 0 2pt; }
   table { font-size: 8.2pt; margin: 2pt 0 5pt; }
   th {
@@ -458,12 +567,12 @@ td:first-child { text-align: left; padding-left: 8px; }
   .resultado-final .campo-res { border-bottom-color: #1F3864 !important; }
 
   .c5-lista { flex: 1 1 auto; display: flex; flex-direction: column; }
-  .c5-lista li { flex: 1 1 auto; border-bottom: .5pt dotted #9AA7BD !important; min-height: 8mm; }
+  .c5-lista li { flex: 1 1 auto; border-bottom: .5pt dotted #9AA7BD !important; min-height: 7mm; }
   .c5-lista li.fixo { flex: 0 0 auto; }
   .c5-lista li .passo-num { color: #1F3864 !important; }
   .c5-lista li .passo-label { color: #2E5A8F !important; }
   .c5-lista li .inline-resp { color: #1F3864 !important; }
-  .c5-esboco { border-color: #9AA7BD !important; color: #808080 !important; height: 12mm; }
+  .c5-esboco { border-color: #9AA7BD !important; color: #808080 !important; height: 10mm; }
 
   .calc-bloco { background: #F8F8F8 !important; padding: 4pt 8pt; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .calc-formula { font-size: 8.4pt; margin: 4pt 0; }
@@ -475,10 +584,16 @@ td:first-child { text-align: left; padding-left: 8px; }
   .disc-q { font-size: 8.2pt; }
   .disc-q strong { color: #1F3864 !important; }
   .disc-linha { flex: 1 1 auto; border-bottom: .5pt dotted #9AA7BD !important; min-height: 7mm; }
+  .disc-opts { gap: 1.5pt 10pt; padding: 1pt 0 2pt 2pt; }
+  .disc-opt { font-size: 7.6pt; gap: 5pt; }
+  .disc-opt::before { width: 9pt; height: 9pt; border: .75pt solid #808080 !important; margin-top: .5pt; }
+  .disc-resp { color: #1F3864 !important; font-size: 8.6pt; padding: 2pt 0 2pt 12pt; }
 
   .fechamento { border-top: .5pt solid #C0C0C0 !important; margin-top: 5pt; padding-top: 5pt; flex: 0 0 auto; }
   .fechamento .frase { color: #1F3864 !important; font-size: 9.6pt; line-height: 1.4; }
   .fechamento .frase strong { color: #1F3864 !important; }
+  /* v5: destaque do fecho no laranja de impressao da FE (#AE5314, 4,89:1) */
+  .fechamento .fecho-destaque { color: #AE5314 !important; font-size: 11pt; }
 
   .monitoria { border: 1pt solid #1A1A1A !important; margin-top: 4pt; padding: 3pt 7pt 3pt; break-inside: avoid; }
   .monitoria-titulo { color: #1A1A1A !important; font-size: 7.5pt; margin-bottom: 1.5pt; }
@@ -626,10 +741,14 @@ td:first-child { text-align: left; padding-left: 8px; }
       <li class="esc-item"><span class="esc-label"><span class="n">4.</span>Posição inicial da esfera:</span><div class="esc-linha"></div></li>
     </ol>
     <div class="nota-metodo">Direção vs. sentido: a direção do tubo é uma só (a reta pouco inclinada do tubo); a esfera e a bolha seguem sentidos opostos dessa mesma reta.</div>
+    <figure class="figura">
+      <img src="../_imagens/_web/FE-T04-IT-04-v11.jpg" alt="A equipe registrando a passagem da esfera pelas marcas do tubo, com cronômetro e régua ao lado">
+      <figcaption class="legenda">Figura 1 — Três mãos, um só instante: a equipe registra a passagem da esfera pelas marcas do tubo.</figcaption>
+    </figure>
   </div>
 
   <div class="rodape-print">
-    T04 · RB v4 (estudante) · página 1 de 4 · Física Experimental 1 · IFMG — Campus Ouro Preto
+    T04 · RB v5 (estudante) · página 1 de 4 · Física Experimental 1 · IFMG — Campus Ouro Preto
   </div>
 </div><!-- /pagina 1 -->
 
@@ -677,10 +796,14 @@ td:first-child { text-align: left; padding-left: 8px; }
       <div class="titulo-res">Velocidade média (global, digital) · função horária da esfera</div>
       <div class="formula-res">v<sub>esfera</sub> = <span class="campo-res"></span> cm/s &nbsp;&nbsp; s<sub>esfera</sub> = <span class="campo-res"></span> · t</div>
     </div>
+    <figure class="figura">
+      <img src="../_imagens/_web/FE-T04-IT-03-v11.jpg" alt="Close do tubo pouco inclinado: a esfera desce e a bolha sobe, prestes a se cruzar">
+      <figcaption class="legenda">Figura 2 — A esfera desce, a bolha sobe: dois sentidos na mesma direção, prestes a se cruzar.</figcaption>
+    </figure>
   </div>
 
   <div class="rodape-print">
-    T04 · RB v4 (estudante) · página 2 de 4 · Física Experimental 1 · IFMG — Campus Ouro Preto
+    T04 · RB v5 (estudante) · página 2 de 4 · Física Experimental 1 · IFMG — Campus Ouro Preto
   </div>
 </div><!-- /pagina 2 -->
 
@@ -728,10 +851,14 @@ td:first-child { text-align: left; padding-left: 8px; }
       <div class="titulo-res">Velocidade média (global, digital) · função horária da bolha</div>
       <div class="formula-res">v<sub>bolha</sub> = <span class="campo-res"></span> cm/s &nbsp;&nbsp; s<sub>bolha</sub> = 40,0 <span class="campo-res"></span> · t</div>
     </div>
+    <figure class="figura">
+      <img src="../_imagens/_web/FE-T04-IT-06-v11.jpg" alt="Macro da bolha de ar subindo pelo óleo mineral âmbar dentro do tubo">
+      <figcaption class="legenda">Figura 3 — A rival de baixo: a bolha sobe em ritmo próprio, no sentido oposto ao escolhido como positivo.</figcaption>
+    </figure>
   </div>
 
   <div class="rodape-print">
-    T04 · RB v4 (estudante) · página 3 de 4 · Física Experimental 1 · IFMG — Campus Ouro Preto
+    T04 · RB v5 (estudante) · página 3 de 4 · Física Experimental 1 · IFMG — Campus Ouro Preto
   </div>
 </div><!-- /pagina 3 -->
 
@@ -741,7 +868,7 @@ td:first-child { text-align: left; padding-left: 8px; }
   <div class="secao">
     <div class="secao-titulo">
       <div class="num">4</div>
-      <h2>Protocolo C5 (8 passos) — o encontro</h2>
+      <h2>Resolução Científica do Problema — Protocolo C5 (8 passos) — o encontro</h2>
     </div>
     <ol class="c5-lista">
       <li>
@@ -820,16 +947,26 @@ td:first-child { text-align: left; padding-left: 8px; }
       <h2>Discussão</h2>
     </div>
     <div class="disc-item">
-      <div class="disc-q"><strong>1.</strong> De onde vem o erro entre o modelo e a medida? Cite pelo menos 2 fontes:</div>
-      <div class="disc-linha"></div>
+      <div class="disc-q"><strong>1.</strong> De onde vem o erro entre o modelo e a medida? <em>Assinale as 2 fontes corretas entre as quatro opções:</em></div>
+      <div class="disc-opts">
+        <span class="disc-opt">Tempo de reação de quem dispara e para o cronômetro.</span>
+        <span class="disc-opt">Paralaxe na leitura da posição na régua.</span>
+        <span class="disc-opt">O sinal negativo da velocidade da bolha é um erro de medição.</span>
+        <span class="disc-opt">A equação do MRU não vale quando há dois sentidos no mesmo tubo.</span>
+      </div>
     </div>
     <div class="disc-item">
-      <div class="disc-q"><strong>2.</strong> Onde a esfera encontra a bolha, afinal? (frase comparando modelo e medida)</div>
-      <div class="disc-linha"></div>
+      <div class="disc-q"><strong>2.</strong> Onde a esfera encontra a bolha, afinal?</div>
+      <div class="disc-resp">s<sub>E</sub> = ( _______ &plusmn; _______ ) cm &nbsp;&nbsp;&nbsp; t<sub>E</sub> = ( _______ &plusmn; _______ ) s</div>
     </div>
     <div class="disc-item">
-      <div class="disc-q"><strong>3.</strong> Uma aplicação do MRU na mineração ou no cotidiano:</div>
-      <div class="disc-linha"></div>
+      <div class="disc-q"><strong>3.</strong> Uma aplicação do MRU na mineração e outra no cotidiano — <em>assinale as 2 aplicações corretas entre as quatro opções:</em></div>
+      <div class="disc-opts">
+        <span class="disc-opt">Correia transportadora levando minério em ritmo constante até a pilha.</span>
+        <span class="disc-opt">Escada rolante deslocando pessoas com velocidade constante.</span>
+        <span class="disc-opt">Caminhão de minério freando na descida da mina.</span>
+        <span class="disc-opt">Pedra caindo em queda livre de um mirante.</span>
+      </div>
     </div>
   </div>
 
@@ -839,14 +976,14 @@ td:first-child { text-align: left; padding-left: 8px; }
       <h2>Conclusão</h2>
     </div>
     <ul class="check-list">
-      <li>Refarei em casa os gráficos s &times; t da esfera e da bolha no mesmo par de eixos.</li>
+      <li>Irei fazer em casa os gráficos s &times; t da esfera e da bolha no mesmo par de eixos no Relatório Mínimo.</li>
       <li>Guardei o quadro comparativo (modelo vs. medida) — vale nota no Relatório Mínimo.</li>
     </ul>
   </div>
 
   <div class="fechamento">
     <div class="frase">
-      "Terminamos por aqui, um abraço, e até o próximo encontro."<br>
+      <span class="fecho-destaque">"Terminamos por aqui, um abraço, e até o próximo encontro."</span><br>
       Não esqueça de fazer o Relatório Mínimo no <strong>mesmo dia da aula no Laboratório</strong>.
     </div>
 
@@ -877,7 +1014,7 @@ td:first-child { text-align: left; padding-left: 8px; }
   </div>
 
   <div class="rodape-print">
-    T04 · RB v4 (estudante) · página 4 de 4 · IFMG — Campus Ouro Preto · CODAFIS / NIDEC · Primeira edição · 2026
+    T04 · RB v5 (estudante) · página 4 de 4 · IFMG — Campus Ouro Preto · CODAFIS / NIDEC · Primeira edição · 2026
   </div>
 </div><!-- /pagina 4 -->
 
@@ -886,7 +1023,7 @@ td:first-child { text-align: left; padding-left: 8px; }
   <div class="nota">
     O botão abre uma <strong>janela nova</strong> só com a folha e já chama a impressão.
     Em "Salvar como PDF", o navegador sugere o nome correto:
-    <strong>FE-T04-RB-v4-estudante-impresso</strong>.<br>
+    <strong>FE-T04-RB-v5-estudante-impresso</strong>.<br>
     Nas opções de impressão, mantenha <strong>"Gráficos de plano de fundo"</strong> ligado
     — é o que preserva os fundos das caixas e os marcadores das seções.
   </div>
@@ -898,7 +1035,7 @@ td:first-child { text-align: left; padding-left: 8px; }
 /* Impressao em janela propria (padrao FA): o <title> vira o nome sugerido do
    PDF, a barra de botoes fica de fora e o @page { margin: 0 } suprime o
    cabecalho/rodape que o navegador injeta. */
-var NOME_ARQUIVO_PDF = 'FE-T04-RB-v4-estudante-impresso';
+var NOME_ARQUIVO_PDF = 'FE-T04-RB-v5-estudante-impresso';
 
 function abrirParaImpressao() {
   var folha = document.querySelector('.folha').cloneNode(true);
