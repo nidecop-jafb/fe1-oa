@@ -154,11 +154,12 @@ main { max-width: 800px; margin: 0 auto; padding: 16px; }
 .campo { margin-bottom: 14px; }
 .campo label {
   display: block;
-  font-size: .8rem; font-weight: 600;
+  font-size: .8rem; font-weight: 700;
   color: var(--azul);
   margin-bottom: 4px;
-  text-transform: uppercase;
-  letter-spacing: .5px;
+  /* grafia SI: caixa alta destruiria as unidades — (m) viraria (M) */
+  text-transform: none;
+  letter-spacing: .3px;
 }
 .campo-hint {
   font-size: .75rem; color: var(--cinza);
@@ -225,10 +226,11 @@ input.invalido, select.invalido { border-color: var(--erro); }
   background: var(--azul);
   color: var(--branco);
   padding: 8px 10px;
-  font-size: .75rem;
-  text-transform: uppercase;
-  letter-spacing: .5px;
-  font-weight: 600;
+  font-size: .8rem;
+  /* grafia SI: caixa alta destruiria as unidades — (m) viraria (M) */
+  text-transform: none;
+  letter-spacing: .3px;
+  font-weight: 700;
   text-align: left;
 }
 .tabela-escalas th:first-child { border-radius: var(--r-sm) 0 0 0; }
@@ -502,7 +504,8 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
 
 /* ENCERRAMENTO */
 .encerramento { max-width:800px; margin:30px auto 10px; padding:20px 16px; border-top:2px solid var(--epi); text-align:center; }
-.encerramento .fecho-frase { font-family:var(--serif); font-size:1.02rem; line-height:1.5; }
+/* fecho em destaque (padrao RB v5): cor da familia FE e corpo maior */
+.encerramento .fecho-frase { font-family:var(--serif); font-size:1.15rem; line-height:1.5; color:var(--epi); font-weight:700; }
 .encerramento .fecho-acao { color:var(--epi); font-size:.95rem; text-transform:uppercase; font-weight:700; margin-top:10px; line-height:1.5; }
 .encerramento .fecho-links { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:14px; }
 .encerramento .fecho-btn { display:inline-flex; align-items:center; gap:7px; padding:10px 18px; min-height:44px; background:var(--epi); color:oklch(0.13 0.01 260); font-family:var(--mono); font-size:.8rem; font-weight:700; text-decoration:none; letter-spacing:.03em; }
@@ -520,6 +523,56 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
 /* RA em monoespacada: o estudante confere digito a digito */
 .id-box #ra, .id-card #ra { font-family: var(--mono); letter-spacing: .08em; }
 .id-box .campo.aviso label, .id-card .campo.aviso label { color: var(--erro); }
+
+/* ============================================================
+   TIPOGRAFIA DE TELA — padrao FE1 movel (RC v4): piso de .8rem e
+   corpos maiores para leitura no celular, como na atualizacao do
+   indice do site fe1-oa (nome 1.08rem / tag .95rem) e no RB v5
+   impresso da T04. SO a tela cresce: o @media print (quando ha)
+   permanece intacto.
+   REPLICAR este bloco identico no RC das demais trilhas.
+   ============================================================ */
+@media screen {
+  body { font-size: 1.02rem; }
+  .header-sub { font-size: .92rem; }
+  .header .badge { font-size: .8rem; }
+  .banner-texto { font-size: .95rem; }
+  .banner .btn-sm { font-size: .85rem; }
+  .secao-titulo { font-size: 1.05rem; }
+  .secao-num { font-size: .86rem; }
+  .secao-peso { font-size: .8rem; }
+  .campo label { font-size: .9rem; }
+  .campo-hint { font-size: .9rem; }
+  input[type="text"], input[type="number"], input[type="date"], select, textarea { font-size: 1rem; }
+  .msg-erro { font-size: .84rem; }
+  .grupo-radio label { font-size: .95rem; }
+  .grupo-check label { font-size: .95rem; }
+  .tabela-escalas th { font-size: .84rem; }
+  .tabela-escalas .rotulo { font-size: .92rem; }
+  .tabela-escalas td.fixo { font-size: .9rem; }
+  .tabela-escalas .calc-cel { font-size: .95rem; }
+  .tabela-escalas input[type="number"], .tabela-escalas select { font-size: .95rem; }
+  .calc-label { font-size: .92rem; }
+  .calc-formula { font-size: .9rem; }
+  .calc-result { font-size: 1.08rem; }
+  .nota-ref { font-size: .9rem; }
+  .equacao { font-size: 1rem; }
+  .veredito { font-size: .86rem; }
+  .resultado-titulo { font-size: .84rem; }
+  .contador-palavras { font-size: .82rem; }
+  .pergunta-preview { font-size: .9rem; }
+  .btn { font-size: .95rem; }
+  .toast { font-size: .9rem; }
+  .creditos { font-size: .8rem; }
+  .piazzi-bar { font-size: .84rem; }
+  .piazzi-bar .piazzi-tag { font-size: .8rem; }
+  .piazzi-bar .piazzi-text { font-size: .82rem; }
+  .piazzi-bar .piazzi-yt { font-size: .8rem; }
+  .intro-box { font-size: .95rem; }
+  .encerramento .fecho-btn { font-size: .85rem; }
+  .encerramento .fecho-inst { font-size: .9rem; }
+  .footer-line { font-size: .9rem; }
+}
 /* ── Coleta FE1 (envio ao Apps Script) ── */
 .coleta-status { margin: 14px 0; padding: 12px 16px; border: 1px solid #555; font-family: var(--mono, monospace); font-size: .85rem; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .coleta-status[hidden], .coleta-retry[hidden] { display: none !important; }
@@ -558,7 +611,7 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
     <h1><span class="trilha-code">FE-T0A</span> &middot; Metodologia Experimental</h1>
     <span class="badge">Relat&oacute;rio Completo (RC)</span>
   </div>
-  <div class="header-sub">8 se&ccedil;&otilde;es &middot; peso 5% &middot; P&oacute;s-Lab &middot; aprofundamento do Relat&oacute;rio M&iacute;nimo</div>
+  <div class="header-sub">8 se&ccedil;&otilde;es &middot; vale nota &middot; peso 5% &middot; P&oacute;s-Lab &middot; entregar em at&eacute; 3 dias ap&oacute;s o Lab</div>
   <div class="progress-bar" id="progressBar">
     <div class="seg" data-sec="1"></div>
     <div class="seg" data-sec="2"></div>
@@ -610,25 +663,34 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
   </div>
   <div class="secao-corpo">
     <div class="secao-conteudo">
-      <div class="campo">
-        <label for="inp-nome">Nome completo</label>
-        <input type="text" id="inp-nome" data-campo="nome" placeholder="Seu nome completo" autocomplete="name" required>
-      </div>
+      <p class="campo-hint" style="margin-bottom:10px">
+        No site, você digita <strong>só o RA</strong> — nome, curso, turma, grupo e professor(a) são preenchidos automaticamente pela lista da turma. Confira e siga em frente. Os campos ficam abertos como plano B, para quem preencher fora do site.
+      </p>
       <div class="grid-2">
-      <div class="campo">
-          <label for="inp-curso">Curso</label>
-          <select id="inp-curso" data-campo="curso"><option value="">Selecione</option><option value="Mineracao">Minera&ccedil;&atilde;o</option><option value="Metalurgia">Metalurgia</option><option value="Edificacoes">Edifica&ccedil;&otilde;es</option><option value="Automacao Industrial">Automa&ccedil;&atilde;o Industrial</option><option value="Administracao">Administra&ccedil;&atilde;o</option></select>
-        </div>
-      <div class="campo">
-          <label for="inp-professor">Professor(a)</label>
-          <select id="inp-professor" data-campo="professor"><option value="">Selecione</option><option value="Julio Azevedo">Julio Azevedo</option><option value="Felipe Beato">Felipe Beato</option></select>
-        </div>
-      </div>
-      <div class="grid-3">
         <div class="campo">
           <label for="inp-ra">RA</label>
           <input type="text" id="inp-ra" data-campo="ra" inputmode="numeric" maxlength="7" placeholder="7 d&iacute;gitos" required>
         </div>
+        <div class="campo">
+          <label for="inp-data">Data da aula (T0A)</label>
+          <input type="date" id="inp-data" required>
+        </div>
+      </div>
+      <div class="campo">
+        <label for="inp-nome">Nome completo</label>
+        <input type="text" id="inp-nome" data-campo="nome" placeholder="Preenchido pelo RA" autocomplete="name" required>
+      </div>
+      <div class="grid-2">
+        <div class="campo">
+          <label for="inp-curso">Curso</label>
+          <select id="inp-curso" data-campo="curso"><option value="">Selecione</option><option value="Mineracao">Minera&ccedil;&atilde;o</option><option value="Metalurgia">Metalurgia</option><option value="Edificacoes">Edifica&ccedil;&otilde;es</option><option value="Automacao Industrial">Automa&ccedil;&atilde;o Industrial</option><option value="Administracao">Administra&ccedil;&atilde;o</option></select>
+        </div>
+        <div class="campo">
+          <label for="inp-professor">Professor(a)</label>
+          <select id="inp-professor" data-campo="professor"><option value="">Selecione</option><option value="Julio Azevedo">Julio Azevedo</option><option value="Felipe Beato">Felipe Beato</option></select>
+        </div>
+      </div>
+      <div class="grid-2">
         <div class="campo">
           <label for="inp-turma">Turma</label>
           <select id="inp-turma" data-campo="turma" required>
@@ -636,22 +698,15 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
           </select>
         </div>
         <div class="campo">
-          <label>Grupo</label>
-          <div class="grupo-radio">
-            <label><input type="radio" name="grupo" value="A"><span>A</span></label>
-            <label><input type="radio" name="grupo" value="B"><span>B</span></label>
-          </div>
+          <label for="inp-grupo">Grupo</label>
+          <select id="inp-grupo" data-campo="grupo" required>
+            <option value="">Selecione</option><option value="A">Grupo A</option><option value="B">Grupo B</option>
+          </select>
         </div>
       </div>
-      <div class="grid-2">
-        <div class="campo">
-          <label for="inp-data">Data da aula (T0A)</label>
-          <input type="date" id="inp-data" required>
-        </div>
-        <div class="campo">
-          <label for="inp-colegas">Colegas de bancada</label>
-          <input type="text" id="inp-colegas" placeholder="Nomes separados por virgula">
-        </div>
+      <div class="campo">
+        <label for="inp-colegas">Colegas de bancada</label>
+        <input type="text" id="inp-colegas" placeholder="Nomes separados por virgula">
       </div>
     </div>
   </div>
@@ -1112,7 +1167,7 @@ function verificarSec1() {
   const nome = document.getElementById('inp-nome').value.trim();
   const ra = document.getElementById('inp-ra').value.trim();
   const turma = document.getElementById('inp-turma').value;
-  const grupo = document.querySelector('input[name="grupo"]:checked');
+  const grupo = document.getElementById('inp-grupo').value;
   const data = document.getElementById('inp-data').value;
   return !!(nome.length > 2 && /^[0-9]{7}$/.test(ra) && turma && grupo && data);
 }
@@ -1264,7 +1319,7 @@ function coletarEstado() {
     curso: document.getElementById('inp-curso').value,
     professor: document.getElementById('inp-professor').value,
     turma: document.getElementById('inp-turma').value,
-    grupo: (document.querySelector('input[name="grupo"]:checked') || {}).value || '',
+    grupo: document.getElementById('inp-grupo').value,
     data: document.getElementById('inp-data').value,
     colegas: document.getElementById('inp-colegas').value,
     objetivo: document.getElementById('inp-objetivo').value,
@@ -1308,10 +1363,7 @@ function restaurarEstado() {
     document.getElementById('inp-curso').value = e.curso || '';
     document.getElementById('inp-professor').value = e.professor || '';
     document.getElementById('inp-turma').value = e.turma || '';
-    if (e.grupo) {
-      const r = document.querySelector('input[name="grupo"][value="' + e.grupo + '"]');
-      if (r) r.checked = true;
-    }
+    document.getElementById('inp-grupo').value = e.grupo || '';
     document.getElementById('inp-data').value = e.data || '';
     document.getElementById('inp-colegas').value = e.colegas || '';
     document.getElementById('inp-objetivo').value = e.objetivo || '';
@@ -1512,13 +1564,10 @@ function init() {
   document.querySelectorAll('.sel-div').forEach(sel => {
     sel.addEventListener('change', () => { recalcular(); agendarSalvar(); });
   });
-  ['inp-nome','inp-ra','inp-curso','inp-turma','inp-professor','inp-data','inp-colegas'].forEach(id => {
+  ['inp-nome','inp-ra','inp-curso','inp-turma','inp-grupo','inp-professor','inp-data','inp-colegas'].forEach(id => {
     const el = document.getElementById(id);
     el.addEventListener('input', agendarSalvar);
     el.addEventListener('change', agendarSalvar);
-  });
-  document.querySelectorAll('input[name="grupo"]').forEach(r => {
-    r.addEventListener('change', agendarSalvar);
   });
   document.querySelectorAll('.chk-conceito').forEach(c => {
     c.addEventListener('change', () => { atualizarProgresso(); agendarSalvar(); });
@@ -1577,7 +1626,7 @@ window.OA_COLETA = {
    Sem COLETA_URL, tudo abaixo vira no-op e o OA funciona offline.
    ============================================================ */
 var COLETA_URL = (typeof window !== 'undefined' && window.COLETA && window.COLETA.url) || '';
-var ARQUIVO_FONTE = 'FE-T0A-RC-v3-estudante.html';
+var ARQUIVO_FONTE = 'FE-T0A-RC-v4-estudante.html';
 var coletaEnviando = false;
 var coletaComprovante = null;
 
