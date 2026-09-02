@@ -163,11 +163,12 @@ main {
 .campo { margin-bottom: 14px; }
 .campo label {
   display: block;
-  font-size: .8rem; font-weight: 600;
+  font-size: .8rem; font-weight: 700;
   color: var(--azul);
   margin-bottom: 4px;
-  text-transform: uppercase;
-  letter-spacing: .5px;
+  /* grafia SI: caixa alta destruiria as unidades — (cm) viraria (CM) */
+  text-transform: none;
+  letter-spacing: .3px;
 }
 .campo-hint {
   font-size: .75rem; color: var(--cinza);
@@ -201,29 +202,6 @@ select.invalido + .msg-erro { display: block; }
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
 
-/* === GRUPO RADIO === */
-.grupo-radio {
-  display: flex; gap: 8px; flex-wrap: wrap;
-}
-.grupo-radio label {
-  text-transform: none; letter-spacing: 0;
-  font-weight: 500; font-size: .9rem;
-  display: flex; align-items: center; gap: 6px;
-  padding: 8px 16px;
-  border: 1.5px solid var(--cinza-borda);
-  border-radius: var(--r);
-  cursor: pointer;
-  transition: all .15s;
-  min-height: 44px;
-}
-.grupo-radio label:hover { border-color: var(--azul-claro); background: var(--hover-bg); }
-.grupo-radio input[type="radio"] { accent-color: var(--azul); width: 18px; height: 18px; }
-.grupo-radio input[type="radio"]:checked + span { color: var(--azul); font-weight: 600; }
-.grupo-radio label:has(input:checked) {
-  border-color: var(--azul);
-  background: var(--azul-bg);
-}
-
 /* === TABELA DADOS === */
 .tabela-escalas {
   width: 100%;
@@ -235,10 +213,11 @@ select.invalido + .msg-erro { display: block; }
   background: var(--azul);
   color: var(--branco);
   padding: 8px 10px;
-  font-size: .75rem;
-  text-transform: uppercase;
-  letter-spacing: .5px;
-  font-weight: 600;
+  font-size: .8rem;
+  /* grafia SI: caixa alta destruiria as unidades — (cm/s) viraria (CM/S) */
+  text-transform: none;
+  letter-spacing: .3px;
+  font-weight: 700;
   text-align: left;
 }
 .tabela-escalas th:first-child { border-radius: var(--r-sm) 0 0 0; }
@@ -602,6 +581,54 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
   .tabela-escalas .calc-cel { color: #1F3864 !important; }
   .veredito { color: #1A1A1A !important; border-color: #808080 !important; }
 }
+
+/* ============================================================
+   TIPOGRAFIA DE TELA — padrao FE1 movel (RM v4): piso de .8rem e
+   corpos maiores para leitura no celular, como na atualizacao do
+   indice do site fe1-oa (nome 1.08rem / tag .95rem) e no RB v5
+   impresso da T04. SO a tela cresce: o @media print acima
+   permanece intacto.
+   REPLICAR este bloco identico no RM das demais trilhas.
+   ============================================================ */
+@media screen {
+  body { font-size: 1.02rem; }
+  .header-sub { font-size: .92rem; }
+  .header .badge { font-size: .8rem; }
+  .banner-texto { font-size: .95rem; }
+  .banner .btn-sm { font-size: .85rem; }
+  .secao-titulo { font-size: 1.05rem; }
+  .secao-num { font-size: .86rem; }
+  .campo label { font-size: .9rem; }
+  .campo-hint { font-size: .9rem; }
+  input[type="text"], input[type="number"], input[type="date"], select, textarea { font-size: 1rem; }
+  .msg-erro { font-size: .84rem; }
+  .grupo-check label { font-size: .95rem; }
+  .tabela-escalas th { font-size: .84rem; }
+  .tabela-escalas .rotulo { font-size: .92rem; }
+  .tabela-escalas td.fixo { font-size: .9rem; }
+  .tabela-escalas .calc-cel { font-size: .95rem; }
+  .tabela-escalas input[type="number"], .tabela-escalas select { font-size: .95rem; }
+  .calc-label { font-size: .92rem; }
+  .calc-formula { font-size: .9rem; }
+  .calc-result { font-size: 1.08rem; }
+  .nota-ref { font-size: .9rem; }
+  .equacao { font-size: 1rem; }
+  .veredito { font-size: .86rem; }
+  .resultado-titulo { font-size: .84rem; }
+  .contador-palavras { font-size: .82rem; }
+  .pergunta-preview { font-size: .9rem; }
+  .btn { font-size: .95rem; }
+  .toast { font-size: .9rem; }
+  .creditos { font-size: .8rem; }
+  .piazzi-bar { font-size: .84rem; }
+  .piazzi-bar .piazzi-tag { font-size: .8rem; }
+  .piazzi-bar .piazzi-text { font-size: .82rem; }
+  .piazzi-bar .piazzi-yt { font-size: .8rem; }
+  .intro-box { font-size: .95rem; }
+  .encerramento .fecho-btn { font-size: .85rem; }
+  .encerramento .fecho-inst { font-size: .9rem; }
+  .footer-line { font-size: .9rem; }
+}
 /* ── Coleta FE1 (envio ao Apps Script) ── */
 .coleta-status { margin: 14px 0; padding: 12px 16px; border: 1px solid #555; font-family: var(--mono, monospace); font-size: .85rem; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .coleta-status[hidden], .coleta-retry[hidden] { display: none !important; }
@@ -692,9 +719,22 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
   </div>
   <div class="secao-corpo">
     <div class="secao-conteudo">
+      <p class="campo-hint" style="margin-bottom:10px">
+        No site, você digita <strong>só o RA</strong> — nome, curso, turma, grupo e professor(a) são preenchidos automaticamente pela lista da turma. Confira e siga em frente. Os campos ficam abertos como plano B, para quem preencher fora do site.
+      </p>
+      <div class="grid-2">
+        <div class="campo">
+          <label for="inp-ra">RA</label>
+          <input type="text" id="inp-ra" data-campo="ra" inputmode="numeric" maxlength="7" placeholder="7 dígitos" required>
+        </div>
+        <div class="campo">
+          <label for="inp-data">Data da aula (T04)</label>
+          <input type="date" id="inp-data" required>
+        </div>
+      </div>
       <div class="campo">
         <label for="inp-nome">Nome completo</label>
-        <input type="text" id="inp-nome" data-campo="nome" placeholder="Seu nome completo" autocomplete="name" required>
+        <input type="text" id="inp-nome" data-campo="nome" placeholder="Preenchido pelo RA" autocomplete="name" required>
       </div>
       <div class="grid-2">
         <div class="campo">
@@ -706,11 +746,7 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
           <select id="inp-professor" data-campo="professor"><option value="">Selecione</option><option value="Julio Azevedo">Julio Azevedo</option><option value="Felipe Beato">Felipe Beato</option></select>
         </div>
       </div>
-      <div class="grid-3">
-        <div class="campo">
-          <label for="inp-ra">RA</label>
-          <input type="text" id="inp-ra" data-campo="ra" inputmode="numeric" maxlength="7" placeholder="7 dígitos" required>
-        </div>
+      <div class="grid-2">
         <div class="campo">
           <label for="inp-turma">Turma</label>
           <select id="inp-turma" data-campo="turma" required>
@@ -718,16 +754,11 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
           </select>
         </div>
         <div class="campo">
-          <label>Grupo</label>
-          <div class="grupo-radio">
-            <label><input type="radio" name="grupo" value="A"><span>A</span></label>
-            <label><input type="radio" name="grupo" value="B"><span>B</span></label>
-          </div>
+          <label for="inp-grupo">Grupo</label>
+          <select id="inp-grupo" data-campo="grupo" required>
+            <option value="">Selecione</option><option value="A">Grupo A</option><option value="B">Grupo B</option>
+          </select>
         </div>
-      </div>
-      <div class="campo" style="max-width:220px">
-        <label for="inp-data">Data da aula (T04)</label>
-        <input type="date" id="inp-data" required>
       </div>
     </div>
   </div>
@@ -1166,7 +1197,7 @@ function verificarSec1() {
   const nome = document.getElementById('inp-nome').value.trim();
   const ra = document.getElementById('inp-ra').value.trim();
   const turma = document.getElementById('inp-turma').value;
-  const grupo = document.querySelector('input[name="grupo"]:checked');
+  const grupo = document.getElementById('inp-grupo').value;
   const data = document.getElementById('inp-data').value;
   return !!(nome.length > 2 && /^[0-9]{7}$/.test(ra) && turma && grupo && data);
 }
@@ -1499,7 +1530,7 @@ function coletarEstado() {
     curso: document.getElementById('inp-curso').value,
     professor: document.getElementById('inp-professor').value,
     turma: document.getElementById('inp-turma').value,
-    grupo: (document.querySelector('input[name="grupo"]:checked') || {}).value || '',
+    grupo: document.getElementById('inp-grupo').value,
     data: document.getElementById('inp-data').value,
     objetivo: document.getElementById('inp-objetivo').value,
     escolhas: ['esc1', 'esc2', 'esc3', 'esc4'].map(id => document.getElementById(id).value),
@@ -1525,10 +1556,7 @@ function restaurarEstado() {
     document.getElementById('inp-curso').value = e.curso || '';
     document.getElementById('inp-professor').value = e.professor || '';
     document.getElementById('inp-turma').value = e.turma || '';
-    if (e.grupo) {
-      const radio = document.querySelector('input[name="grupo"][value="' + e.grupo + '"]');
-      if (radio) radio.checked = true;
-    }
+    document.getElementById('inp-grupo').value = e.grupo || '';
     document.getElementById('inp-data').value = e.data || '';
     document.getElementById('inp-objetivo').value = e.objetivo || '';
     (e.escolhas || []).forEach((v, i) => {
@@ -1777,15 +1805,11 @@ function init() {
     });
   });
 
-  ['inp-nome', 'inp-ra', 'inp-curso', 'inp-turma', 'inp-professor',
+  ['inp-nome', 'inp-ra', 'inp-curso', 'inp-turma', 'inp-grupo', 'inp-professor',
    'inp-data', 'inp-objetivo', 'inp-outra-fonte'].forEach(id => {
     const el = document.getElementById(id);
     el.addEventListener('input', () => { atualizarProgresso(); agendarSalvar(); });
     el.addEventListener('change', () => { atualizarProgresso(); agendarSalvar(); });
-  });
-
-  document.querySelectorAll('input[name="grupo"]').forEach(r => {
-    r.addEventListener('change', () => { atualizarProgresso(); agendarSalvar(); });
   });
   document.querySelectorAll('input[name="fonte"]').forEach(c => {
     c.addEventListener('change', () => agendarSalvar());
@@ -1805,6 +1829,16 @@ function init() {
       }
     });
   });
+
+  /* RM e do MESMO DIA da pratica: a data ja nasce preenchida com hoje
+     (fuso local — toISOString viraria o dia as 21h no Brasil) */
+  const elData = document.getElementById('inp-data');
+  if (!elData.value) {
+    const hoje = new Date();
+    elData.value = hoje.getFullYear() + '-' +
+      String(hoje.getMonth() + 1).padStart(2, '0') + '-' +
+      String(hoje.getDate()).padStart(2, '0');
+  }
 
   verificarRascunhoSalvo();
   recalcular();
@@ -1828,7 +1862,7 @@ window.OA_COLETA = {
    Sem COLETA_URL, tudo abaixo vira no-op e o OA funciona offline.
    ============================================================ */
 var COLETA_URL = (typeof window !== 'undefined' && window.COLETA && window.COLETA.url) || '';
-var ARQUIVO_FONTE = 'FE-T04-RM-v3-estudante.html';
+var ARQUIVO_FONTE = 'FE-T04-RM-v4-estudante.html';
 var coletaEnviando = false;
 var coletaComprovante = null;
 
