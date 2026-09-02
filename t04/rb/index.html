@@ -22,8 +22,10 @@
    Mudancas v5 (2026-09-02, decisao do autor):
      (1) TIPOGRAFIA DE TELA — bloco @media screen no fim do CSS de
          tela (piso .8rem, padrao do site FE1); a IMPRESSAO nao muda.
-     (2) FIGURAS no padrao da FA (moldura fina + legenda italica),
-         referenciando ../_imagens/_web/ (derivadas leves, as mesmas
+     (2) IMAGENS DE FUNDO no padrao da FA impressa da T10/FC1
+         (.anot-fundo): absolute + cover + grayscale, opacidade .34
+         na tela e .26 na impressao — o estudante escreve POR CIMA.
+         Referenciam ../_imagens/_web/ (derivadas leves, as mesmas
          do site — o PDF nao embute os masters de 1200 px).
      (3) "Resolucao Cientifica do Problema" SEMPRE precede
          "Protocolo C5 (8 passos)" — regra de toda a FE1.
@@ -211,18 +213,18 @@ body {
 .esc-linha { border-bottom: 1px dotted var(--cinza-borda); min-height: 22px; }
 .nota-metodo { font-size: .74rem; color: var(--cinza); font-style: italic; margin-top: 4px; }
 
-/* ── FIGURAS (formatacao herdada da FA impressa: moldura fina
-   + legenda italica, mesma familia visual dos rotulos de tabela) ── */
-.figura { margin: 8px 0 10px; text-align: center; }
-.figura img {
-  display: block; margin: 0 auto;
-  max-width: 100%; max-height: 340px;
-  border: 1px solid var(--cinza-borda);
+/* ── IMAGEM DE FUNDO DA SECAO (padrao .anot-fundo da FA impressa
+   da T10/FC1): a ilustracao IT fica ATRAS da area de escrita, em
+   escala de cinza e opacidade baixa — o estudante escreve por cima.
+   Valores de tela e de impressao copiados VERBATIM da FA. ── */
+.com-fundo { position: relative; overflow: hidden; }
+.fundo-ilustra {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  opacity: .34; filter: grayscale(1) contrast(.9);
+  pointer-events: none;
 }
-.figura .legenda {
-  font-size: .74rem; color: var(--cinza); font-style: italic;
-  margin-top: 4px; text-align: center;
-}
+.com-fundo > :not(.fundo-ilustra) { position: relative; }
 
 /* ── TABELAS DE DADOS ── */
 .tabela-rotulo { font-size: .74rem; color: var(--cinza); font-style: italic; margin: 6px 0 3px; }
@@ -408,7 +410,6 @@ td:first-child { text-align: left; padding-left: 8px; }
   .lembrete { font-size: .86rem; }
   .esc-item { font-size: .92rem; }
   .nota-metodo { font-size: .84rem; }
-  .figura .legenda { font-size: .82rem; }
   .tabela-rotulo { font-size: .84rem; }
   table { font-size: .92rem; }
   th { font-size: .8rem; }
@@ -544,9 +545,15 @@ td:first-child { text-align: left; padding-left: 8px; }
   .esc-linha { flex: 1 1 auto; border-bottom: .75pt solid #9AA7BD !important; min-height: 6mm; }
   .nota-metodo { color: #808080 !important; font-size: 7.4pt; flex: 0 0 auto; }
 
-  .figura { margin: 3pt 0 4pt; break-inside: avoid; flex: 0 0 auto; }
-  .figura img { border: .5pt solid #9AA7BD !important; max-height: 30mm; width: auto; }
-  .figura .legenda { color: #4D4D4D !important; font-size: 7.4pt; margin-top: 2pt; }
+  /* Imagem de fundo: visivel o bastante para ilustrar, clara o bastante
+     para a caneta passar por cima — mesmos valores calibrados da FA
+     impressa da T10/FC1 (a impressora P&B clareia meios-tons; o valor
+     de tela nao serve aqui). */
+  .fundo-ilustra {
+    opacity: .26 !important;
+    filter: grayscale(1) contrast(.95) brightness(1.02) !important;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
 
   .tabela-rotulo { color: #4D4D4D !important; font-size: 7.6pt; margin: 3pt 0 2pt; }
   table { font-size: 8.2pt; margin: 2pt 0 5pt; }
@@ -726,7 +733,8 @@ td:first-child { text-align: left; padding-left: 8px; }
     </div>
   </div>
 
-  <div class="secao cresce">
+  <div class="secao cresce com-fundo">
+    <div class="fundo-ilustra" style="background-image:url('../_imagens/_web/FE-T04-IT-04-v11.jpg');"></div>
     <div class="secao-titulo">
       <div class="num">1</div>
       <h2>As quatro escolhas (antes de medir)</h2>
@@ -741,10 +749,6 @@ td:first-child { text-align: left; padding-left: 8px; }
       <li class="esc-item"><span class="esc-label"><span class="n">4.</span>Posição inicial da esfera:</span><div class="esc-linha"></div></li>
     </ol>
     <div class="nota-metodo">Direção vs. sentido: a direção do tubo é uma só (a reta pouco inclinada do tubo); a esfera e a bolha seguem sentidos opostos dessa mesma reta.</div>
-    <figure class="figura">
-      <img src="../_imagens/_web/FE-T04-IT-04-v11.jpg" alt="A equipe registrando a passagem da esfera pelas marcas do tubo, com cronômetro e régua ao lado">
-      <figcaption class="legenda">Figura 1 — Três mãos, um só instante: a equipe registra a passagem da esfera pelas marcas do tubo.</figcaption>
-    </figure>
   </div>
 
   <div class="rodape-print">
@@ -755,7 +759,8 @@ td:first-child { text-align: left; padding-left: 8px; }
 <!-- ═══════════════════════ PÁGINA 2 ═══════════════════════ -->
 <div class="pagina">
 
-  <div class="secao cresce">
+  <div class="secao cresce com-fundo">
+    <div class="fundo-ilustra" style="background-image:url('../_imagens/_web/FE-T04-IT-03-v11.jpg');"></div>
     <div class="secao-titulo">
       <div class="num">2</div>
       <h2>Medição da esfera (Tabelas 1 e 2)</h2>
@@ -796,10 +801,6 @@ td:first-child { text-align: left; padding-left: 8px; }
       <div class="titulo-res">Velocidade média (global, digital) · função horária da esfera</div>
       <div class="formula-res">v<sub>esfera</sub> = <span class="campo-res"></span> cm/s &nbsp;&nbsp; s<sub>esfera</sub> = <span class="campo-res"></span> · t</div>
     </div>
-    <figure class="figura">
-      <img src="../_imagens/_web/FE-T04-IT-03-v11.jpg" alt="Close do tubo pouco inclinado: a esfera desce e a bolha sobe, prestes a se cruzar">
-      <figcaption class="legenda">Figura 2 — A esfera desce, a bolha sobe: dois sentidos na mesma direção, prestes a se cruzar.</figcaption>
-    </figure>
   </div>
 
   <div class="rodape-print">
@@ -810,7 +811,8 @@ td:first-child { text-align: left; padding-left: 8px; }
 <!-- ═══════════════════════ PÁGINA 3 ═══════════════════════ -->
 <div class="pagina">
 
-  <div class="secao cresce">
+  <div class="secao cresce com-fundo">
+    <div class="fundo-ilustra" style="background-image:url('../_imagens/_web/FE-T04-IT-06-v11.jpg');"></div>
     <div class="secao-titulo">
       <div class="num">3</div>
       <h2>Medição da bolha (Tabelas 3 e 4)</h2>
@@ -851,10 +853,6 @@ td:first-child { text-align: left; padding-left: 8px; }
       <div class="titulo-res">Velocidade média (global, digital) · função horária da bolha</div>
       <div class="formula-res">v<sub>bolha</sub> = <span class="campo-res"></span> cm/s &nbsp;&nbsp; s<sub>bolha</sub> = 40,0 <span class="campo-res"></span> · t</div>
     </div>
-    <figure class="figura">
-      <img src="../_imagens/_web/FE-T04-IT-06-v11.jpg" alt="Macro da bolha de ar subindo pelo óleo mineral âmbar dentro do tubo">
-      <figcaption class="legenda">Figura 3 — A rival de baixo: a bolha sobe em ritmo próprio, no sentido oposto ao escolhido como positivo.</figcaption>
-    </figure>
   </div>
 
   <div class="rodape-print">
