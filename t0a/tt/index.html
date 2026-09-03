@@ -315,6 +315,11 @@ p .citacao { font-style: italic; color: var(--azul-claro); }
   text-decoration: none; letter-spacing: 0.5px; transition: opacity 0.15s;
 }
 .musica-sidebar .musica-link:hover { opacity: 0.85; }
+/* Padrao das abas (decisao do autor 2026-09-02): titulo do painel e nomes de
+   artista na cor PRIMARIA (laranja-EPI); secoes e chips seguem no aco. */
+.musica-sidebar > .musica-titulo:first-child { color: var(--epi); }
+.musica-sidebar .musica-album { color: var(--epi); }
+.musica-sidebar .musica-detail strong, .musica-sidebar .musica-detail b { color: var(--epi); }
 
 /* INEDITISMO */
 .ineditismo-toggle {
