@@ -3,30 +3,43 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FE-T0A · Metodologia Experimental — Apresentação (modo palco)</title>
+<title>FE-T0A &middot; Metodologia Experimental — Apresenta&ccedil;&atilde;o (modo palco)</title>
 <style>
 /* ═══ DESIGN SYSTEM: BRUTALISMO CIENTIFICO — MODO PALCO ═══ */
 :root {
-  --azul: oklch(0.72 0.09 240);
-  --azul-claro: oklch(0.78 0.08 240);
-  --azul-bg: oklch(0.28 0.04 240);
-  --ouro: oklch(0.72 0.15 55);
-  --ouro-claro: oklch(0.28 0.05 55);
-  --verde: oklch(0.72 0.16 150);
+  /* Paleta FE — _identidade/paleta-fe.md
+     laranja-EPI (primario) + azul-aco (acento) */
+  --epi: #E07B39;
+  --epi-claro: #EE9A63;
+  --epi-bg: oklch(0.28 0.06 55);
+  --aco: #7FB2D6;
+  --aco-claro: #A7CCE6;
+  --aco-bg: oklch(0.28 0.05 240);
+  --verde: oklch(0.7 0.15 150);
   --verde-claro: oklch(0.25 0.04 150);
-  --erro: oklch(0.65 0.24 25);
-  --cinza: oklch(0.60 0.02 260);
-  --cinza-claro: oklch(0.18 0.02 260);
-  --cinza-borda: oklch(0.40 0.02 260);
-  --texto: oklch(0.96 0 0);
-  --branco: oklch(0.98 0 0);
-  --superficie: oklch(0.20 0.02 260);
-  --fundo: oklch(0.09 0.02 260);
-  --input-bg: oklch(0.18 0.02 260);
+  --erro: oklch(0.6 0.22 25);
+  --erro-claro: oklch(0.22 0.05 25);
+  --cinza: oklch(0.62 0.01 260);
+  --cinza-claro: oklch(0.18 0.01 260);
+  --cinza-borda: oklch(0.40 0.01 260);
+  --texto: oklch(0.93 0 0);
+  --branco: oklch(0.96 0 0);
+  --superficie: oklch(0.22 0.01 260);
+  --input-bg: oklch(0.18 0.01 260);
+  --hover-bg: oklch(0.25 0.01 260);
+  --fundo: oklch(0.13 0.01 260);
+  --painel: oklch(0.16 0.01 260);
+  --r: 0px;
+  --r-sm: 0px;
   --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --mono: 'Space Mono', 'Cascadia Code', 'Consolas', monospace;
+  --mono: 'Courier New', 'Cascadia Code', 'Consolas', monospace;
   --serif: 'Georgia', 'Cambria', 'Times New Roman', serif;
-  --fs-palco: 1.5rem;   /* base do "modo palco" — maior que TT (1.15) */
+  /* nomes herdados — neste OA a cor principal era --ouro */
+  --ouro: var(--epi);
+  --ouro-claro: var(--epi-bg);
+  --azul: var(--aco);
+  --azul-claro: var(--aco-claro);
+  --azul-bg: var(--aco-bg);
 }
 
 [data-theme="light"] {
@@ -1039,6 +1052,76 @@ html, body {
 .slide[data-slide="10"] .col-img img { max-height: 34vh; }
 /* PADRAO-ABAS-CREDITOS (decisao do autor 2026-09-02): cargos na secundaria (aco --azul), caixa normal. */
 .cred-cargo { color: var(--azul); text-transform: none; }
+
+/* ==== PADRAO FE — aplicado por padronizar_oa_fe.py ==== */
+body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
+.container { max-width: 800px; margin: 0 auto; padding: 24px 16px 80px; }
+/* HEADER */
+.header { background: var(--painel); border-top: 3px solid var(--epi); padding: 14px 20px; margin-bottom: 20px; }
+.header-inner { max-width: 800px; margin: 0 auto; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.header .marca { width: 52px; height: 52px; flex-shrink: 0; }
+.header h1 { font-size: 1.4rem; font-weight: 900; letter-spacing: -0.02em; flex: 1 1 240px; }
+.header h1 .trilha-code { color: var(--epi); }
+.badge {
+  display: inline-block;
+  background: var(--epi); color: oklch(0.13 0.01 260);
+  padding: 4px 12px; border-radius: var(--r-sm);
+  font-size: 0.68rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 2px;
+}
+.header-sub {
+  max-width: 800px; margin: 6px auto 0;
+  font-size: 0.88rem;
+  color: var(--cinza);
+}
+
+/* PIAZZI BAR */
+.piazzi-bar { display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; background:var(--painel); border:1px solid var(--cinza-borda); padding:10px 16px; margin-bottom:16px; font-size:.78rem; }
+.piazzi-bar .piazzi-ref { color:var(--cinza); }
+.piazzi-bar .piazzi-tag { display:inline-block; border:1px solid var(--epi); color:var(--epi); padding:2px 10px; font-size:.72rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; }
+.piazzi-bar .piazzi-text { color:var(--texto); font-style:italic; font-size:.74rem; }
+.piazzi-bar .piazzi-yt { display:inline-flex; align-items:center; gap:5px; background:var(--erro); color:var(--branco); padding:4px 12px; font-size:.72rem; font-weight:700; text-decoration:none; cursor:pointer; }
+.piazzi-bar .piazzi-yt::before { content:'\25B6'; font-size:.6rem; }
+
+/* INTRO */
+.intro-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  background: var(--superficie);
+  border: 1px solid var(--cinza-borda);
+  border-left: 4px solid var(--aco);
+  padding: 16px 18px;
+  margin-bottom: 20px;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--texto);
+}
+.intro-box .vagoneta { width: 84px; height: auto; flex-shrink: 0; display: block; margin-top: 2px; }
+.intro-box strong { color: var(--epi); }
+
+/* ENCERRAMENTO */
+.encerramento { max-width:800px; margin:30px auto 10px; padding:20px 16px; border-top:2px solid var(--epi); text-align:center; }
+/* fecho em destaque (padrao RB v5): cor da familia FE e corpo maior */
+.encerramento .fecho-frase { font-family:var(--serif); font-size:1.15rem; line-height:1.5; color:var(--epi); font-weight:700; }
+.encerramento .fecho-acao { color:var(--epi); font-size:.95rem; text-transform:uppercase; font-weight:700; margin-top:10px; line-height:1.5; }
+.encerramento .fecho-links { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:14px; }
+.encerramento .fecho-btn { display:inline-flex; align-items:center; gap:7px; padding:10px 18px; min-height:44px; background:var(--epi); color:oklch(0.13 0.01 260); font-family:var(--mono); font-size:.8rem; font-weight:700; text-decoration:none; letter-spacing:.03em; }
+.encerramento .fecho-btn::before { content:'\25B6'; font-size:.62rem; }
+.encerramento .fecho-btn:hover { background:var(--epi-claro); }
+.encerramento .fecho-btn.secundario { background:transparent; color:var(--aco); border:1px solid var(--aco); }
+.encerramento .fecho-btn.secundario::before { content:'\2630'; font-size:.72rem; }
+.encerramento .fecho-btn.secundario:hover { background:var(--aco-bg); }
+.encerramento .fecho-inst { color:var(--cinza); font-size:.85rem; margin-top:16px; line-height:1.5; }
+.footer-line { text-align:center; font-size:.85rem; color:var(--cinza); padding:16px 12px; line-height:1.5; }
+.header .badge { background: var(--epi); color: oklch(0.13 0.01 260); padding: 4px 12px; border-radius: var(--r-sm); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; }
+.header .header-inner h1 { font-size: 1.4rem; font-weight: 900; letter-spacing: -0.02em; flex: 1 1 240px; }
+.header .header-inner h1 .trilha-code { color: var(--epi); }
+
+.capa-marca { margin-bottom: 18px; }
+.capa-marca .marca { width: 92px; height: 92px; }
+
+
 .fecho-marcas { display: flex; width: fit-content; gap: 14px; align-items: center; margin: 0 auto 10px; }
 .fecho-marcas svg { width: 30px; height: 30px; display: block; }
 .fecho-marcas a, .fa-marcas a { display: flex; }
@@ -1054,6 +1137,9 @@ html, body {
 
 <!-- ═══ TOOLBAR ═══ -->
 <div class="toolbar">
+  <a href="../../index.html" title="Voltar aos OAs da trilha" style="display:flex;align-items:center;text-decoration:none;">
+    <button style="background:none;border:1px solid var(--cinza-borda);color:var(--cinza);font-size:0.9rem;padding:6px 10px;cursor:pointer;border-radius:0;transition:color 0.15s,border-color 0.15s;letter-spacing:0.5px;font-weight:600;" title="Home">&#x1f3e0;</button>
+  </a>
   <button id="btn-overview" title="Overview grid (tecla O)">&#9638; O</button>
   <button id="btn-tema" title="Alternar tema (T)">Tema</button>
   <button id="btn-fullscreen" title="Tela cheia (F)">&#9974; F</button>
@@ -1104,7 +1190,7 @@ html, body {
 <!-- ═══ SIDEBAR: INEDITISMO ═══ -->
 <aside class="sidebar" id="sb-ineditismo">
   <h3>Ineditismo</h3>
-  <p>Trilhas de Aprendizagem &eacute; uma metodologia que faz parte do esfor&ccedil;o do projeto <strong>F&iacute;sica Conceitual 1 + F&iacute;sica Experimental 1</strong>, aprovados pela Coordenadoria da &Aacute;rea de F&iacute;sica, em inovar na publica&ccedil;&atilde;o did&aacute;tica da f&iacute;sica aplicada aos cursos t&eacute;cnicos ofertados gratuitamente pelo IFMG Campus Ouro Preto &mdash; fazendo dialogar narrativa, contextualiza&ccedil;&atilde;o tripla (t&eacute;cnica, hist&oacute;rico-cultural, cotidiana), metodologia experimental rigorosa e modelagem cient&iacute;fica.</p>
+  <p>Trilhas de Aprendizagem &eacute; uma metodologia que faz parte do esfor&ccedil;o do projeto <strong>F&iacute;sica Conceitual 1 + F&iacute;sica Experimental 1</strong>, aprovados pela Coordenadoria da &Aacute;rea de F&iacute;sica, em inovar na pública&ccedil;&atilde;o did&aacute;tica da f&iacute;sica aplicada aos cursos t&eacute;cnicos ofertados gratuitamente pelo IFMG Campus Ouro Preto &mdash; fazendo dialogar narrativa, contextualiza&ccedil;&atilde;o tripla (t&eacute;cnica, hist&oacute;rico-cultural, cotidiana), metodologia experimental rigorosa e modelagem cient&iacute;fica.</p>
   <p>At&eacute; onde a pesquisa dos autores alcan&ccedil;ou, esta &eacute; uma apresenta&ccedil;&atilde;o ancorada no primeiro Texto Tem&aacute;tico de F&iacute;sica Experimental aplicada ao ensino t&eacute;cnico em minera&ccedil;&atilde;o integrado ao ensino m&eacute;dio estruturado em Trilhas de Aprendizagem publicado no Brasil.</p>
   <p>Esta <strong>APRESENTA&Ccedil;&Atilde;O</strong> foi elaborada com aux&iacute;lio de intelig&ecirc;ncia artificial (Claude Fable 5, Anthropic, 2026; Claude Cowork, Anthropic, 2026).</p>
 </aside>
@@ -1196,7 +1282,29 @@ html, body {
   <section class="slide capa-slide ativo" data-slide="1" data-titulo="Capa">
     <div class="capa-bg" style="background-image: url('../_imagens/_web/FE-T0A-IT-00-v7-claro.jpg');"></div>
     <div class="capa-conteudo">
-      <div class="capa-disciplina">F&iacute;sica Experimental 1</div>
+      <div class="capa-marca"><svg class="marca" viewBox="0 0 120 120" role="img" aria-label="Marca da F&iacute;sica Experimental 1">
+        <g fill="none" stroke="#E07B39" stroke-width="3">
+          <ellipse cx="60" cy="52" rx="46" ry="18"/>
+          <ellipse cx="60" cy="52" rx="46" ry="18" transform="rotate(60 60 52)"/>
+          <ellipse cx="60" cy="52" rx="46" ry="18" transform="rotate(120 60 52)"/>
+        </g>
+        <g fill="#E07B39">
+          <circle cx="53" cy="47" r="7"/>
+          <circle cx="67" cy="47" r="7"/>
+          <circle cx="60" cy="58" r="9"/>
+        </g>
+        <g stroke="#7FB2D6" stroke-width="3" stroke-linecap="square">
+          <line x1="26" y1="110" x2="94" y2="110"/>
+          <line x1="30" y1="110" x2="30" y2="104"/>
+          <line x1="40" y1="110" x2="40" y2="104"/>
+          <line x1="50" y1="110" x2="50" y2="104"/>
+          <line x1="60" y1="110" x2="60" y2="98"/>
+          <line x1="70" y1="110" x2="70" y2="104"/>
+          <line x1="80" y1="110" x2="80" y2="104"/>
+          <line x1="90" y1="110" x2="90" y2="104"/>
+        </g>
+      </svg></div>
+  <div class="capa-disciplina">F&iacute;sica Experimental 1</div>
       <div class="capa-curso">T&eacute;cnico em Minera&ccedil;&atilde;o Integrado ao Ensino M&eacute;dio</div>
       <div class="capa-trilha">Trilha T0A</div>
       <div class="capa-titulo">Medir antes de afirmar</div>
@@ -1225,7 +1333,7 @@ html, body {
           <div class="tl"><span class="tl-t">96&ndash;100 min</span><span class="tl-d"><strong>Fechamento</strong> &mdash; checklist + lembrete T01</span></div>
         </div>
         <div class="col-img">
-          <img style="border:none" src="../_imagens/_web/FE-T0A-IT-01-v7.png" alt="Simbolo da trilha">
+          <img style="border:none" src="../_imagens/_web/FE-T0A-IT-01-v7.png" alt="Símbolo da trilha">
           <div class="col-img-legenda"><span class="fig-num">Figura 1</span>Duas r&eacute;guas em &ldquo;V&rdquo; sobre o Caderno: o bras&atilde;o da trilha &mdash; o compromisso de medir e registrar</div>
         </div>
       </div>
@@ -1251,7 +1359,7 @@ html, body {
           </div>
         </div>
         <div class="col-img">
-          <img src="../_imagens/_web/FE-T0A-IT-02-v8.jpg" alt="A turma no Laboratorio de Mecanica">
+          <img src="../_imagens/_web/FE-T0A-IT-02-v8.jpg" alt="A turma no Laboratório de Mecânica">
           <div class="col-img-legenda"><span class="fig-num">Figura 2</span>A turma no Laborat&oacute;rio de Mec&acirc;nica: o Prof. J&uacute;lio apresenta a pr&aacute;tica do dia</div>
         </div>
       </div>
@@ -1279,7 +1387,7 @@ html, body {
           <p style="font-style:italic; color: var(--ouro);">Conclus&atilde;o: a escala define o limite &mdash; nunca invente casas decimais que o instrumento n&atilde;o sabe dizer.</p>
         </div>
         <div class="col-img">
-          <img src="../_imagens/_web/FE-T0A-IT-05-v7.jpg" alt="Quatro reguas na parede">
+          <img src="../_imagens/_web/FE-T0A-IT-05-v7.jpg" alt="Quatro réguas na parede">
           <div class="col-img-legenda"><span class="fig-num">Figura 3</span>Quatro r&eacute;guas lado a lado na parede &mdash; escalas diferentes, tra&ccedil;os mais grossos ou mais finos</div>
         </div>
       </div>
@@ -1306,7 +1414,7 @@ html, body {
           </div>
         </div>
         <div class="col-img">
-          <img src="../_imagens/_web/FE-T0A-IT-04-v8.jpg" alt="Protocolo de medicao em acao">
+          <img src="../_imagens/_web/FE-T0A-IT-04-v8.jpg" alt="Protocolo de medição em ação">
           <div class="col-img-legenda"><span class="fig-num">Figura 4</span>O protocolo em a&ccedil;&atilde;o: Pedro na parede, Sofia com o esquadro apoiado, Lucas registrando</div>
         </div>
       </div>
@@ -1362,7 +1470,7 @@ html, body {
           <p style="font-style:italic; color: var(--ouro);">Conclus&atilde;o: a resposta honesta &eacute; um intervalo &mdash; n&uacute;mero + unidade + incerteza. Faltando qualquer um, n&atilde;o &eacute; medida: &eacute; opini&atilde;o.</p>
         </div>
         <div class="col-img">
-          <img src="../_imagens/_web/FE-T0A-IT-07-v8.jpg" alt="Grafico da media e incerteza">
+          <img src="../_imagens/_web/FE-T0A-IT-07-v8.jpg" alt="Gráfico da média e incerteza">
           <div class="col-img-legenda"><span class="fig-num">Figura 6</span>Quatro medidas e uma faixa: a m&eacute;dia &plusmn; incerteza no gr&aacute;fico, com o trio em volta</div>
         </div>
       </div>
@@ -1392,7 +1500,7 @@ html, body {
           <p style="margin-top:8px;">Refor&ccedil;ar: <span class="hi">medi&ccedil;&atilde;o</span> &eacute; o processo (posicionar, alinhar, ler); <span class="hi">medida</span> &eacute; o resultado (n&uacute;mero + unidade + incerteza).</p>
         </div>
         <div class="col-img">
-          <img src="../_imagens/_web/FE-T0A-IT-09-v8.jpg" alt="O metodo em cena">
+          <img src="../_imagens/_web/FE-T0A-IT-09-v8.jpg" alt="O método em cena">
           <div class="col-img-legenda"><span class="fig-num">Figura 7</span>O m&eacute;todo em cena: as oito etapas aplicadas &agrave; pergunta &ldquo;qual &eacute; a sua altura?&rdquo;</div>
         </div>
       </div>
@@ -1499,7 +1607,7 @@ html, body {
           </div>
         </div>
         <div class="col-img">
-          <img src="../_imagens/_web/FE-T0A-IT-11-v6.jpg" alt="Trio saindo do laboratorio">
+          <img src="../_imagens/_web/FE-T0A-IT-11-v6.jpg" alt="Trio saindo do laboratório">
           <div class="col-img-legenda"><span class="fig-num">Figura 11</span>Os tr&ecirc;s protagonistas saindo do laborat&oacute;rio &mdash; &ldquo;aula dada, aula estudada hoje&rdquo;</div>
         </div>
       </div>
@@ -1783,7 +1891,7 @@ html, body {
     var parent = prov.parentNode;
     var inDesp = !!prov.closest('.despedida');
     /* Na despedida a Provinha e o 1o passo da revelacao do proprio slide:
-       nao leva wrapper nem botao "Proximo Passo" (decisao do autor). */
+       nao leva wrapper nem botao "Próximo Passo" (decisao do autor). */
     if (inDesp) return;
     var wrap = document.createElement('div');
     wrap.className = 'c5-solucao';
@@ -1976,7 +2084,7 @@ html, body {
   var btn = document.createElement('button');
   btn.id = 'btn-crono';
   btn.type = 'button';
-  btn.title = 'Cronometro por slide (C)';
+  btn.title = 'Cronômetro por slide (C)';
   btn.textContent = '⏱ C';
   toolbar.appendChild(btn);
 
