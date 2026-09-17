@@ -30,7 +30,7 @@
   --painel: oklch(0.16 0.01 260);
   --r: 0px;
   --r-sm: 0px;
-  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font: 'Courier New', Courier, monospace;
   --mono: 'Courier New', 'Cascadia Code', 'Consolas', monospace;
   --serif: 'Georgia', 'Cambria', 'Times New Roman', serif;
   /* nomes herdados dos OAs de 2026-07 — apontam para a paleta FE */
@@ -182,7 +182,8 @@ body {
 .encerramento .fecho-btn.secundario { background: transparent; border: 1px solid var(--ouro); color: var(--ouro); }
 .encerramento .fecho-inst { color: var(--cinza); font-size: .82rem; margin-top: 14px; line-height: 1.55; }
 
-/* ==== PADRAO FE — aplicado por padronizar_oa_fe.py ==== */
+  input, button, select, textarea { font-family: inherit; }
+  /* ==== PADRAO FE — aplicado por padronizar_oa_fe.py ==== */
 body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
 .container { max-width: 800px; margin: 0 auto; padding: 24px 16px 80px; }
 /* HEADER */
@@ -640,12 +641,12 @@ renderFichas(); renderSlots(); renderVF(); atualizarVivo();
 </script>
 <!-- ABA-SITE (injetada na publicacao — nao existe no OA canonico) -->
 <style>
-.aba-site-toggle { position: fixed; top: 56px; left: 0; z-index: 999; background: #1a1b1f; border: 1px solid #444; border-left: none; color: #bbb; font-size: .7rem; padding: 8px 10px; cursor: pointer; font-family: 'Courier New', monospace; writing-mode: vertical-rl; text-orientation: mixed; letter-spacing: 1px; text-transform: uppercase; transition: color .15s; border-radius: 0; }
+.aba-site-toggle { position: fixed; top: 56px; left: 0; z-index: 999; background: #1a1b1f; border: 1px solid #444; border-left: none; color: #bbb; font-size: .7rem; padding: 8px 10px; cursor: pointer; font-family: 'Courier New', Courier, monospace; writing-mode: vertical-rl; text-orientation: mixed; letter-spacing: 1px; text-transform: uppercase; transition: color .15s; border-radius: 0; }
 .aba-site-toggle:hover { color: #E07B39; }
-.aba-site-painel { position: fixed; top: 0; left: 0; z-index: 1001; width: 330px; max-width: 86vw; height: 100vh; overflow-y: auto; background: #1a1b1f; border-right: 1px solid #444; padding: 24px 22px 24px 42px; transform: translateX(-100%); transition: transform .25s; font-family: 'Segoe UI', system-ui, sans-serif; font-size: .92rem; color: #c4c4c4; line-height: 1.6; }
+.aba-site-painel { position: fixed; top: 0; left: 0; z-index: 1001; width: 330px; max-width: 86vw; height: 100vh; overflow-y: auto; background: #1a1b1f; border-right: 1px solid #444; padding: 24px 22px 24px 42px; transform: translateX(-100%); transition: transform .25s; font-family: 'Courier New', Courier, monospace; font-size: .92rem; color: #c4c4c4; line-height: 1.6; }
 .aba-site-painel.open { transform: translateX(0); }
-.aba-site-painel h3 { font-family: 'Courier New', monospace; font-size: .8rem; text-transform: uppercase; letter-spacing: 2px; color: #E07B39; border-bottom: 1px solid #444; padding-bottom: 8px; margin: 0 0 14px; }
-.aba-site-painel a.aba-site-btn { display: block; margin: 10px 0; padding: 11px 14px; border: 1px solid #444; color: #e8e8e8; text-decoration: none; font-family: 'Courier New', monospace; font-size: .85rem; }
+.aba-site-painel h3 { font-family: 'Courier New', Courier, monospace; font-size: .8rem; text-transform: uppercase; letter-spacing: 2px; color: #E07B39; border-bottom: 1px solid #444; padding-bottom: 8px; margin: 0 0 14px; }
+.aba-site-painel a.aba-site-btn { display: block; margin: 10px 0; padding: 11px 14px; border: 1px solid #444; color: #e8e8e8; text-decoration: none; font-family: 'Courier New', Courier, monospace; font-size: .85rem; }
 .aba-site-painel a.aba-site-btn:hover { border-color: #E07B39; color: #E07B39; }
 /* TT: abre espaco no topo do trilho e oculta a aba Figuras (decisao 2026-08-08) */
 .musica-toggle { top: 128px !important; }
