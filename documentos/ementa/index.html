@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ementa</title>
+<meta name="description" content="Ementa da Física Experimental I (FE1) — em vigor (PPC) e proposta v4, IFMG campus Ouro Preto.">
+<style>
+:root { --cor: #E07B39; --acento: #7FB2D6;
+--fundo: #0d0d0d; --texto: #e8e8e8; --cinza: #999; --linha: #444; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--fundo); color: var(--texto); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+.wrap { max-width: 820px; margin: 0 auto; padding: 40px 20px 64px; }
+
+.capa { text-align: center; border: 1px solid var(--linha); padding: 30px 26px 34px; margin-bottom: 40px; }
+.capa img { width: 100%; max-width: 620px; height: auto; display: block; margin: 0 auto 26px; border: 1px solid var(--linha); }
+.capa p { margin: 0 0 10px; color: #c4c4c4; font-size: .95rem; }
+
+.capa p:nth-of-type(2) strong { display: block; font-family: 'Courier New', monospace; font-size: .9rem; letter-spacing: .18em; color: var(--acento); text-transform: uppercase; font-weight: normal; }
+.capa p:nth-of-type(3) strong { display: block; font-family: 'Courier New', monospace; font-size: 1.5rem; letter-spacing: .04em; color: var(--cor); text-transform: uppercase; margin: 6px 0 4px; }
+.capa p:nth-of-type(4) strong { display: block; font-family: 'Courier New', monospace; font-size: .82rem; letter-spacing: .1em; color: #c4c4c4; text-transform: uppercase; font-weight: normal; margin-bottom: 18px; }
+
+.acoes { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 38px; }
+.acoes a { flex: 1 1 220px; display: block; padding: 13px 16px; border: 1px solid var(--linha); color: var(--texto); text-decoration: none; font-family: 'Courier New', monospace; font-size: .86rem; text-align: center; }
+.acoes a:hover { border-color: var(--cor); color: var(--cor); }
+.acoes a.destaque { border-style: dashed; }
+
+h1 { font-family: 'Courier New', monospace; font-size: 1.35rem; color: var(--cor); text-transform: uppercase; letter-spacing: .03em; border-bottom: 2px solid var(--cor); padding-bottom: 10px; margin: 48px 0 18px; scroll-margin-top: 20px; }
+h2 { font-family: 'Courier New', monospace; font-size: 1.02rem; color: var(--acento); margin: 32px 0 12px; letter-spacing: .02em; }
+h3 { font-family: 'Courier New', monospace; font-size: .92rem; color: #fff; margin: 24px 0 10px; }
+p { margin-bottom: 13px; }
+strong { color: #fff; }
+em { color: #ddd; }
+a { color: var(--cor); }
+ul, ol { margin: 0 0 14px 22px; }
+li { margin-bottom: 7px; }
+hr { border: none; border-top: 1px solid var(--linha); margin: 34px 0; }
+blockquote { border-left: 3px solid var(--cor); padding-left: 16px; margin: 0 0 14px; color: #c4c4c4; }
+
+#TOC { border: 1px solid var(--linha); padding: 20px 24px; margin-bottom: 40px; }
+#TOC::before { content: 'Sumário'; display: block; font-family: 'Courier New', monospace; font-size: .78rem; text-transform: uppercase; letter-spacing: .18em; color: var(--cor); border-bottom: 1px solid var(--linha); padding-bottom: 8px; margin-bottom: 14px; }
+#TOC ul { list-style: none; margin: 0; }
+#TOC li { margin-bottom: 8px; }
+#TOC a { color: var(--texto); text-decoration: none; font-family: 'Courier New', monospace; font-size: .84rem; }
+#TOC a:hover { color: var(--cor); }
+
+.tabela-rolagem { overflow-x: auto; margin-bottom: 20px; }
+table { border-collapse: collapse; width: 100%; font-size: .88rem; }
+th, td { border: 1px solid var(--linha); padding: 9px 11px; text-align: left; vertical-align: top; }
+th { font-family: 'Courier New', monospace; font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; color: var(--cor); background: #17171a; font-weight: normal; }
+tbody tr:nth-child(even) { background: #131316; }
+caption { caption-side: bottom; font-size: .78rem; color: var(--cinza); padding-top: 6px; }
+
+table.cip, table.cip td { border-color: var(--linha); }
+table.cip td { border-left: none; border-right: none; border-top: none; border-bottom: none; padding: 2px 14px; font-size: .84rem; }
+table.cip { border: 1px solid var(--linha); padding: 12px 0; }
+table.cip tbody tr { background: none; }
+
+pre { background: #131316; border: 1px solid var(--linha); padding: 14px 16px; overflow-x: auto; margin-bottom: 20px; }
+code { font-family: 'Courier New', Consolas, monospace; font-size: .78rem; color: #c4c4c4; }
+p code, li code, td code { background: #17171a; padding: 1px 5px; font-size: .84rem; color: var(--acento); }
+
+.rodape { margin-top: 56px; padding-top: 16px; border-top: 1px solid #333; font-size: .76rem; color: #888; font-family: 'Courier New', monospace; text-align: center; line-height: 1.7; }
+@media (max-width: 560px) {
+.wrap { padding: 24px 14px 48px; }
+.capa { padding: 20px 16px 24px; }
+.capa p:nth-of-type(3) strong { font-size: 1.15rem; }
+h1 { font-size: 1.12rem; }
+table { font-size: .82rem; }
+
+pre code { font-size: .58rem; }
+}
+
+@media print {
+body { background: #fff; color: #000; }
+.acoes, #TOC { display: none; }
+.wrap { max-width: none; padding: 0; }
+h1 { color: #000; border-bottom-color: #000; page-break-after: avoid; }
+h2, h3 { color: #000; page-break-after: avoid; }
+th { color: #000; background: #eee; }
+tbody tr:nth-child(even) { background: #f6f6f6; }
+pre { background: #f6f6f6; border-color: #999; }
+.capa { page-break-after: always; border-color: #999; }
+table, pre, figure { page-break-inside: avoid; }
+.rodape { color: #444; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+
+
+<div class="capa">
+<p>
+<img role="img" aria-label src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJNYXJjYSBkYSBGaXNpY2EgRXhwZXJpbWVudGFsIDEiPgogIDx0aXRsZT5GaXNpY2EgRXhwZXJpbWVudGFsIDEg4oCUIFRyaWxoYXMgZGUgQXByZW5kaXphZ2VtPC90aXRsZT4KICA8IS0tIEF0b21vOiBpZGVudGlkYWRlIGNvbXVtIGRhcyBUcmlsaGFzIGRlIEFwcmVuZGl6YWdlbSAoRkMgZSBGRSkgLS0+CiAgPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRTA3QjM5IiBzdHJva2Utd2lkdGg9IjMiPgogICAgPGVsbGlwc2UgY3g9IjYwIiBjeT0iNTIiIHJ4PSI0NiIgcnk9IjE4Ii8+CiAgICA8ZWxsaXBzZSBjeD0iNjAiIGN5PSI1MiIgcng9IjQ2IiByeT0iMTgiIHRyYW5zZm9ybT0icm90YXRlKDYwIDYwIDUyKSIvPgogICAgPGVsbGlwc2UgY3g9IjYwIiBjeT0iNTIiIHJ4PSI0NiIgcnk9IjE4IiB0cmFuc2Zvcm09InJvdGF0ZSgxMjAgNjAgNTIpIi8+CiAgPC9nPgogIDxnIGZpbGw9IiNFMDdCMzkiPgogICAgPGNpcmNsZSBjeD0iNTMiIGN5PSI0NyIgcj0iNyIvPgogICAgPGNpcmNsZSBjeD0iNjciIGN5PSI0NyIgcj0iNyIvPgogICAgPGNpcmNsZSBjeD0iNjAiIGN5PSI1OCIgcj0iOSIvPgogIDwvZz4KICA8IS0tIFJlZ3VhOiBhIGRpc2NpcGxpbmEgcXVlIG1lZGUuIE1hcmNhcyBhbHRhcyA9IG51bWVybyBkYSBkaXNjaXBsaW5hICgxKSAtLT4KICA8ZyBzdHJva2U9IiM3RkIyRDYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVjYXA9InNxdWFyZSI+CiAgICA8bGluZSB4MT0iMjYiIHkxPSIxMTAiIHgyPSI5NCIgeTI9IjExMCIvPgogICAgPGxpbmUgeDE9IjMwIiB5MT0iMTEwIiB4Mj0iMzAiIHkyPSIxMDQiLz4KICAgIDxsaW5lIHgxPSI0MCIgeTE9IjExMCIgeDI9IjQwIiB5Mj0iMTA0Ii8+CiAgICA8bGluZSB4MT0iNTAiIHkxPSIxMTAiIHgyPSI1MCIgeTI9IjEwNCIvPgogICAgPGxpbmUgeDE9IjYwIiB5MT0iMTEwIiB4Mj0iNjAiIHkyPSI5OCIvPgogICAgPGxpbmUgeDE9IjcwIiB5MT0iMTEwIiB4Mj0iNzAiIHkyPSIxMDQiLz4KICAgIDxsaW5lIHgxPSI4MCIgeTE9IjExMCIgeDI9IjgwIiB5Mj0iMTA0Ii8+CiAgICA8bGluZSB4MT0iOTAiIHkxPSIxMTAiIHgyPSI5MCIgeTI9IjEwNCIvPgogIDwvZz4KPC9zdmc+Cg==" alt>
+</p>
+<p>
+<strong>Curso Técnico em Mineração Integrado ao Ensino Médio · Física
+Experimental I (FE1)</strong>
+</p>
+<p>
+<strong>EMENTA</strong>
+</p>
+<p>
+<strong>Proposta v4 · 2026</strong>
+</p>
+</div>
+
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#ementa-em-vigor-ppc" id="toc-ementa-em-vigor-ppc">Ementa
+em vigor (PPC)</a></li>
+<li><a href="#proposta-de-nova-ementa-v4" id="toc-proposta-de-nova-ementa-v4">Proposta de nova ementa
+(v4)</a></li>
+</ul>
+</nav>
+<p>Duas versões, uma depois da outra: a <strong>ementa em
+vigor</strong>, texto oficial do PPC, e a <strong>proposta de nova
+ementa</strong>, encaminhada à Coordenadoria da Área de Física (CODAFIS)
+e, em seguida, à Coordenadoria da Área de Mineração (CODAMIN).</p>
+<h1 id="ementa-em-vigor-ppc">Ementa em vigor (PPC)</h1>
+<p><strong>Código:</strong> OPIMINE.0106 — <strong>Física Experimental
+I</strong> · Carga horária total: 30 h (CH teórica 0, CH prática 30)</p>
+<p><strong>Ementa:</strong> O conhecimento científico. As unidades de
+medida padrão e suas ordens de grandeza. Introdução a medidas.
+Experimentos relacionados aos conteúdos de Mecânica.</p>
+<p><strong>Objetivo(s):</strong> - Compreender códigos, símbolos e
+unidades de medida. - Familiarizar os estudantes com instrumentos de
+medidas e tratamento de medidas. - Auxiliar na compreensão dos conteúdos
+teóricos de Mecânica. - Desenvolver habilidades de escrita de relatório
+científico. - Desenvolver a capacidade de investigar. - Articular a
+Física com ensino profissional. - Compreender a Física na vida
+cotidiana. - Desenvolver a capacidade de utilizar tabelas, gráficos,
+equações para expressão do saber físico e de elaborar sínteses.</p>
+<p><strong>Bibliografia básica:</strong> Alvarenga; Máximo. <em>Curso de
+Física</em>, v. 1 · Guimarães; Boa. <em>Física para o 2º grau</em>, v. 1
+· Helou; Gualter; Newton. <em>Tópicos da Física</em>, v. 1.</p>
+<p><strong>Bibliografia complementar:</strong> Anjos. <em>Física para o
+Ensino Médio</em> · Fuke; Kazuhito. <em>Física para o Ensino Médio</em>
+· Nicolau <em>et al.</em> <em>Física Ciência e Tecnologia</em> · Paraná.
+<em>Série Novo Ensino Médio</em> · Ramalho; Nicolau; Toledo. <em>Os
+Fundamentos da Física</em>.</p>
+<p><em>Fonte: Projeto Pedagógico do Curso Técnico em Mineração Integrado
+(PPC), p. 33-34.</em></p>
+<h1 id="proposta-de-nova-ementa-v4">Proposta de nova ementa (v4)</h1>
+<blockquote>
+<p><strong>Proposta.</strong> Proponente: Julio Azevedo, 18/09/2026. Até
+a aprovação, vale a ementa em vigor.</p>
+</blockquote>
+<h2 id="quadro-da-ementa-proposta">1. Quadro da ementa proposta</h2>
+<div class="tabela-rolagem"><table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>1ª série</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Código:</strong> OPIMINE.0106</td>
+<td><strong>Nome da disciplina:</strong> Física Experimental I</td>
+</tr>
+<tr>
+<td><strong>Carga horária total:</strong> 30 h</td>
+<td><strong>Abordagem metodológica:</strong> Prática ·
+<strong>Natureza:</strong> Obrigatória</td>
+</tr>
+<tr>
+<td><strong>CH teórica:</strong> 0</td>
+<td><strong>CH prática:</strong> 30</td>
+</tr>
+<tr>
+<td><strong>Pré-requisitos:</strong> nenhum</td>
+<td><strong>Co-requisito:</strong> Física I (OPIMINE.0105)</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Ementa:</strong> O conhecimento científico e o método
+experimental. Medida, incerteza de medição e tratamento de dados:
+instrumentos, algarismos significativos, padrão estatístico, tabelas e
+gráficos, ajuste linear e não linear. Experimentos de forças e
+movimentos (leis de Newton, atrito, empuxo, plano inclinado, colisões,
+hidrostática), articulados aos conteúdos teóricos de Física I. Projeto
+integrador de aplicação autônoma dos temas cursados. Toda atividade
+experimental é contextualizada nos processos da mineração, no patrimônio
+histórico-científico de Ouro Preto e no cotidiano do estudante, e segue
+normas de segurança em laboratório (NR-22).</p>
+<p><strong>Objetivo(s):</strong> - Compreender códigos, símbolos e
+unidades de medida do Sistema Internacional; - Operar instrumentos de
+medida e tratar medições e suas incertezas; - Auxiliar na compreensão
+dos conteúdos teóricos de Física I (mecânica e fluidos); - Desenvolver a
+capacidade de investigar, coletando dados antes de aplicar a fórmula; -
+Redigir relatório científico segundo o protocolo formal de modelagem
+científica (Resolução Científica do Problema — Protocolo C5, 8 etapas);
+- Articular a Física com o ensino profissional em Mineração; -
+Compreender a Física na vida cotidiana e no patrimônio histórico de Ouro
+Preto; - Utilizar tabelas, gráficos e equações para expressar o saber
+físico e elaborar sínteses; - Aplicar normas de segurança (NR-22) e
+procedimentos de laboratório em toda atividade experimental; - Aplicar
+de forma autônoma, no projeto integrador, os temas cursados ao longo da
+disciplina.</p>
+<p><strong>Bibliografia básica:</strong> 1. BONJORNO, J. R.
+<strong>Identidade Saraiva: Física</strong>. São Paulo: Saraiva, 2024.
+2. LIMA, C. R. A.; ZAPPA, F. <strong>Análise de dados para laboratório
+de física</strong>. Juiz de Fora: UFJF, 2014. 57 p. Disponível em:
+https://www2.ufjf.br/carlos_lima/wp-content/uploads/sites/520/2019/01/analisedados.pdf.
+Acesso em: 13 set. 2026. 3. SANTORO, A. <em>et al</em>.
+<strong>Estimativas e erros em experimentos de física</strong>. 2.
+ed. Rio de Janeiro: EdUERJ, 2013.</p>
+<p><strong>Bibliografia complementar:</strong> 1. UNIVERSIDADE FEDERAL
+DO CEARÁ. <strong>Laboratório virtual de física</strong>: mecânica.
+Fortaleza: UFC, 2020. Disponível em:
+https://www.laboratoriovirtual.fisica.ufc.br/. Acesso em: 13 set. 2026.
+2. VAŠČÁK, V. <strong>Physics at school</strong>: I. Mechanics. Morávia:
+Vladimír Vaščák, [20–]. Disponível em:
+https://www.vascak.cz/?id=1&amp;language=it#kapitola3. Acesso em: 13
+set. 2026. 3. UNIVERSITY OF COLORADO BOULDER. <strong>PhET Interactive
+Simulations</strong>: movimento; trabalho, energia e potência; fenômenos
+quânticos; matemática e estatística. Boulder: University of Colorado
+Boulder, 2002-. Disponível em:
+https://phet.colorado.edu/pt_BR/simulations/filter?subjects=motion,work-energy-and-power,quantum-phenomena,math-and-statistics&amp;type=html.
+Acesso em: 13 set. 2026.</p>
+<p><strong>Bibliografia pedagógica e científica</strong> (fundamenta o
+método da disciplina, não o conteúdo de Física): 1. HEWITT, P. G.
+<strong>Física conceitual</strong>. 12. ed. Porto Alegre: Bookman, 2015.
+2. BLOOM, B. S. (org.). <strong>O desenvolvimento de talentos na
+juventude</strong>. Porto Alegre: Globo, 1988. 3. PIAZZI, P.
+<strong>Aprendendo inteligência</strong>: manual de instruções do
+cérebro para estudantes em geral. São Paulo: Aleph, 2008. 4. PIAZZI, P.
+<strong>Inteligência em concursos</strong>: manual de instruções do
+cérebro para concurseiros e universitários. São Paulo: Aleph, 2013. 5.
+NICOLELIS, M. <strong>O verdadeiro criador de tudo</strong>: como o
+cérebro humano esculpiu o universo que conhecemos. São Paulo: Planeta,
+2020.</p>
+<hr />
+<h2 id="justificativa-da-bibliografia">2. Justificativa da
+bibliografia</h2>
+<p><strong>Diagnóstico.</strong> A bibliografia vigente do PPC para
+OPIMINE.0106 (básica: Alvarenga/Máximo, Guimarães/Boa,
+Helou/Gualter/Newton; complementar: Anjos, Fuke/Kazuhito, Nicolau <em>et
+al.</em>, Paraná, Ramalho/Nicolau/Toledo) é formada por livros-texto
+generalistas de Física do Ensino Médio — repetem a bibliografia de
+Física I (teórica, cursada em co-requisito) e não tratam de método
+experimental: incerteza de medição, propagação de erro, ajuste de curva.
+Com CH teórica 0 e CH prática 30, a FE1 precisa de bibliografia própria
+de laboratório, que é a que o estudante consulta ao montar tabela,
+estimar incerteza e escrever o relatório (RB / Protocolo C5).</p>
+<h3 id="obras-que-saem">2.1 Obras que saem</h3>
+<div class="tabela-rolagem"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Obra</th>
+<th>Onde estava</th>
+<th>Por que sai</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ALVARENGA; MÁXIMO. <em>Curso de Física</em>, v. 1</td>
+<td>Básica</td>
+<td>Livro-texto de teoria; permanece na bibliografia de Física I,
+cursada em co-requisito</td>
+</tr>
+<tr>
+<td>GUIMARÃES; BOA. <em>Física para o 2º grau</em>, v. 1</td>
+<td>Básica</td>
+<td>Mesmo motivo</td>
+</tr>
+<tr>
+<td>HELOU; GUALTER; NEWTON. <em>Tópicos da Física</em>, v. 1</td>
+<td>Básica</td>
+<td>Mesmo motivo</td>
+</tr>
+<tr>
+<td>ANJOS. <em>Física para o Ensino Médio</em></td>
+<td>Complementar</td>
+<td>Livro de Ensino Médio generalista, redundante com Física I</td>
+</tr>
+<tr>
+<td>FUKE; KAZUHITO. <em>Física para o Ensino Médio</em></td>
+<td>Complementar</td>
+<td>Idem</td>
+</tr>
+<tr>
+<td>NICOLAU <em>et al.</em> <em>Física Ciência e Tecnologia</em></td>
+<td>Complementar</td>
+<td>Idem</td>
+</tr>
+<tr>
+<td>PARANÁ. <em>Série Novo Ensino Médio</em></td>
+<td>Complementar</td>
+<td>Idem</td>
+</tr>
+<tr>
+<td>RAMALHO; NICOLAU; TOLEDO. <em>Os Fundamentos da Física</em></td>
+<td>Complementar</td>
+<td>Idem</td>
+</tr>
+<tr>
+<td>VUOLO. <em>Fundamentos da teoria de erros</em></td>
+<td>Complementar (v3)</td>
+<td>Retirado pelo autor em 2026-09-18 — sem substituto indicado</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="obras-que-entram">2.2 Obras que entram</h3>
+<p><strong>Básica 1 — BONJORNO. <em>Identidade Saraiva: Física</em>
+(2024). Entra.</strong> Substitui os livros-texto saídos mantendo uma
+referência teórica de apoio, mas na simbologia do PNLD (s, Δs, s₀, t₀)
+já adotada no projeto a partir da Trilha T08 da disciplina-irmã FC1 —
+evita que a FE1 ensine com notação diferente da que o estudante vê no
+material didático oficial.</p>
+<p><strong>Básica 2 — LIMA; ZAPPA. <em>Análise de dados para laboratório
+de física</em> (UFJF, 2014). Entra.</strong> Cobre, num único texto
+gratuito, algarismos significativos, incerteza e propagação, gráficos
+lineares e ajuste por mínimos quadrados — exatamente a sequência do Tema
+1 (Entendendo as medidas). Mesma obra adotada na ILB e na LME, o que
+garante linguagem comum entre os laboratórios da família Trilhas.</p>
+<p><strong>Básica 3 — SANTORO <em>et al</em>. <em>Estimativas e erros em
+experimentos de física</em> (EdUERJ, 2013). Entra.</strong> Tratamento
+de erros sistemáticos e estatísticos e propagação de incertezas, na
+mesma nomenclatura da ILB/LME.</p>
+<p><strong>Complementares 1-3 — laboratórios virtuais da UFC, de Vaščák
+e PhET. Entram.</strong> Justificativa conjunta: acesso gratuito, sem
+cadastro; uso possível no Pré-Lab e no Pós-Lab, fora do horário de
+bancada; cobrem os experimentos de Mecânica dos Temas 1-2 (MRU/MRUV,
+leis de Newton, plano inclinado, colisões, hidrostática); o PhET roda em
+português e em HTML5, inclusive no celular, compatível com o público de
+15-16 anos do curso técnico integrado.</p>
+<p><strong>Bibliografia pedagógica e científica — categoria nova, sem
+equivalente na ementa vigente do PPC.</strong> O PPC lista só
+bibliografia de conteúdo; esta categoria referencia a origem de cada
+regra pedagógica inviolável fixada no CLAUDE.md da FE1: HEWITT
+(<em>Física conceitual</em>) fundamenta “Hewitt primeiro” — o conceito
+precede a fórmula; BLOOM fundamenta os níveis L2-L6 aplicados a toda
+atividade; PIAZZI (as duas obras) fundamenta as 3 paradas do método
+(Pré-Lab → Lab → Pós-Lab, “Piazzi sempre”); NICOLELIS soma o argumento
+de neurociência para a opção por “dados antes da fórmula” (regra 2 da
+FE1) — a experiência sensório-motora antes da abstração matemática.</p>
+<hr />
+<h2 id="critérios-e-procedimentos-de-avaliação">3. Critérios e
+procedimentos de avaliação</h2>
+<p>Regime institucional do IFMG (PPC, seção 8.3; Regulamento de Ensino,
+Resolução 01/2026, Art. 116-118), comum a todas as disciplinas do curso
+— não há peso específico de FE1 a definir nesta ementa:</p>
+<ul>
+<li>Avaliação contínua e cumulativa, em 3 etapas por série: 30 pontos
+(1ª etapa), 35 (2ª) e 35 (3ª).</li>
+<li>Nenhum instrumento avaliativo isolado ultrapassa 40% do total da
+etapa; no mínimo 2 tipos diversificados de instrumento por etapa (prova,
+trabalho, relatório, seminário, portfólio etc.).</li>
+<li>Frequência mínima de 75% da carga horária e rendimento mínimo de 60%
+para aprovação.</li>
+<li>Recuperação: 2 parciais (ao fim da 1ª e da 2ª etapa) + 1 final, para
+quem não atingir 60%.</li>
+<li>Revisão de avaliação: até 2 dias úteis após o lançamento da nota,
+por professor diferente do titular.</li>
+</ul>
+<p><strong>Nota sobre carga horária (autor, 2026-09-18):</strong> os
+dias de Provas Escritas (Etapa 1 e 2) e do Exame Final são dias letivos,
+mas SEM aula regular de nenhuma disciplina — Art. 41 (caput) do
+Regulamento de Ensino exige que componentes em formato de disciplina,
+caso da FE1, sejam organizados em semanas letivas regulares; a exceção
+do §2º do mesmo artigo vale só para componentes em formato distinto de
+disciplina. Por isso essas 6 aulas por data NÃO podem ser contadas como
+carga horária da FE1 (ver seção 4).</p>
+<p>O Plano de Ensino da FE1 (documento futuro, fora desta ementa)
+detalha como os instrumentos de FE1 — Roteiro de Bancada, relatório
+científico, etc. — se distribuem nessas 3 etapas.</p>
+<hr />
+<h2 id="anexo-temas-e-trilhas-base-do-plano-de-ensino">4. Anexo — Temas
+e trilhas (base do plano de ensino)</h2>
+<blockquote>
+<p>Matriz revisada pelo autor em 2026-09-18 (v7.0 de
+<code>01_matriz_16_trilhas_FE1.md</code>): reduz de 5 para 3 Temas
+experimentais (Conservação e Fluidos saem do escopo da FE1); o Projeto
+Integrador VOLTA como T12/Tema 3, depois de confirmado (seção 3 acima)
+que dias de prova/exame final não fecham a carga horária. Carga horária
+institucional continua 30h; 14 trilhas a 100 min cobrem ~23,3h — ainda
+falta ~6,7h, em aberto para o Plano de Ensino.</p>
+</blockquote>
+<p>14 trilhas em 4 Temas, todas no Lab de Mecânica (Pavilhão de Física),
+100 min/encontro, rodízio quinzenal por grupo:</p>
+<div class="tabela-rolagem"><table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Tema</th>
+<th>Nome</th>
+<th>Trilhas</th>
+<th>Quant.</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Boas-vindas ao mundo da Física Experimental</td>
+<td>T0A Primeiros Passos no Laboratório · T0B A Régua do Mundo</td>
+<td>2</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Entendendo as medidas</td>
+<td>T01 Como Medir as Coisas · T02 Lidando com a Incerteza · T03 Achando
+o Padrão na Bagunça · T04 Interpretando Linhas Retas · T05 Analisando
+Linhas Tortas</td>
+<td>5</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Brincando com Forças e Movimentos</td>
+<td>T06 Leis de Newton · T07 Pesando, Puxando, Empurrando e Esticando ·
+T08 Boiando, Lixando, Amassando e Voando · T09 Subindo e descendo em
+Rampas e Ladeiras · T10 Trombadas e Batidas · T11 A Física da Água
+Parada</td>
+<td>6</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Projeto Integrador</td>
+<td>T12 Projeto investigativo integrador</td>
+<td>1</td>
+</tr>
+</tbody>
+</table></div>
+<p>Cada trilha segue as 3 paradas do método (Pré-Lab 20 min → Lab 100
+min → Pós-Lab 40 min) e integra os 3 eixos obrigatórios: mineração,
+histórico-cultural (Ouro Preto) e cotidiano do estudante.</p>
+<blockquote>
+<p>Código “T12” e a diferença de ~6,7h de carga horária confirmados e
+aceitos pelo autor em 2026-09-18 — resolução da diferença fica para o
+Plano de Ensino.</p>
+</blockquote>
+<hr />
+<h2 id="encaminhamento-e-coordenação">5. Encaminhamento e
+coordenação</h2>
+<p><strong>Fluxo de aprovação (autor, 2026-09-18):</strong> 1º
+<strong>Coordenadoria da Área de Física (CODAFIS)</strong> — área de
+origem da proposta — depois 2º <strong>Coordenadoria da Área de
+Mineração (CODAMIN)</strong> — área que detém o curso Técnico em
+Mineração Integrado.</p>
+<p>O(A) Coordenador(a) do Curso Técnico em Mineração Integrado ao Ensino
+Médio (vinculado à CODAMIN) é eleito(a) pelos docentes da área de
+Mineração do campus, com mandato de 2 anos. <strong>Coordenador
+atual:</strong> Salatiel Assis Resende
+(salatiel.resende@ifmg.edu.br).</p>
+<p>O PPC vigente (<code>IFMG-OP-MIN-PPC.pdf</code>, seção 8.5.1, Quadro
+III) ainda registra Ariana Cristina Santos Almeida — nomeada pela
+Portaria nº 84/2024 — porque o documento não foi atualizado após a troca
+de mandato; o nome corrente foi informado pelo autor e já é o adotado
+nos demais materiais do projeto (créditos dos OAs). Depois de CODAFIS e
+CODAMIN, eventual tramitação segue ao Colegiado do curso (PPC, seção
+8.5.2).</p>
+
+<div class="acoes" style="margin-top:44px">
+  <a href="FE1-Ementa.pdf">Baixar em PDF (4 páginas)</a>
+  <a href="../../#abaDocumentos">Todos os documentos</a>
+  <a class="destaque" href="../../">Voltar ao índice das Trilhas</a>
+</div>
+
+<div class="rodape">
+  IFMG campus Ouro Preto - Coordenadoria da Área de Física (CODAFIS) - Núcleo de Inovação e Desenvolvimento de Experimentos Científicos (NIDEC) · Primeira edição · 2026
+</div>
+
+</div>
+</body>
+</html>
