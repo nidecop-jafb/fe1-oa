@@ -84,7 +84,347 @@ pre { background: #f6f6f6; border-color: #999; }
 table, pre, figure { page-break-inside: avoid; }
 .rodape { color: #444; }
 }
+/* ICONES-FE */
+.fe-cab-marcas { display: flex; gap: 10px; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-bottom: 14px; }
+.fe-cab-marcas svg { width: 52px; height: 52px; display: block; }
+.fe-inst-marcas { display: flex; gap: 14px; align-items: center; justify-content: center;
+  width: 100%; margin: 0 auto 10px; }
+.fe-inst-marcas a { display: flex; }
+.fe-inst-marcas svg { width: 30px; height: 30px; display: block; }
+.fe-agr-marca { display: flex; justify-content: center; width: 100%; margin: 0 auto 10px; }
+.fe-agr-marca a { display: flex; }
+.fe-agr-marca svg { width: 30px; height: 30px; display: block; }
+.fe-rodape { text-align: center; padding: 22px 16px 26px; font-size: .82rem; line-height: 1.6;
+  color: var(--cinza, #8a8f98); border-top: 1px solid var(--fio, #333); margin-top: 40px; }
+.fe-rodape a { color: inherit; }
+.fe-rodape-texto { max-width: 960px; margin: 0 auto; }
+@media print { .fe-agr-marca { display: none !important; } }
+/* URL longa no corpo (autolink do pandoc ou texto corrido, como na Bibliografia da
+   Ementa) quebra em vez de alargar a pagina no celular; tabelas ficam de fora */
+.wrap a.uri, .wrap > p, .wrap > ul > li, .wrap > ol > li, .wrap > blockquote p { overflow-wrap: anywhere; }
+/* /ICONES-FE */
 </style>
+<!-- DOC-FE:INICIO --><style>
+  /* ===== ILB e LME · aba Documentos ===== */
+  :root {
+    --mono: 'Courier New', Courier, monospace;
+    --sup1: #131417;   /* cartao   */
+    --sup2: #191b1f;   /* caixa    */
+    --sup3: #1f2328;   /* cabecalho de tabela */
+  }
+
+  /* --- fonte unica --- */
+  body, .capa p, p, li, td, th, blockquote, figcaption, caption,
+  h1, h2, h3, .acoes a, .rodape, #TOC a { font-family: var(--mono); }
+
+  /* --- capa: o icones_{ilb,lme}.py troca o <p> da imagem por uma <div> de marcas,
+         e as tres linhas de titulo deslizam de nth-of-type 2..4 para 1..3 --- */
+  .capa { background: var(--sup1); border-color: #555; }
+  .capa p:nth-of-type(1) strong {
+    display: block; font-size: .9rem; letter-spacing: .14em; color: var(--acento);
+    text-transform: uppercase; font-weight: normal;
+  }
+  .capa p:nth-of-type(2) strong {
+    display: block; font-size: clamp(1rem, 4.6vw, 1.4rem); letter-spacing: .04em;
+    color: var(--cor); text-transform: uppercase; margin: 8px 0 6px; font-weight: bold;
+  }
+  .capa p:nth-of-type(3) strong {
+    display: block; font-size: .82rem; letter-spacing: .1em; color: #c4c4c4;
+    text-transform: uppercase; font-weight: normal; margin-bottom: 4px;
+  }
+
+  /* --- metrica de leitura do paragrafo corrido --- */
+  body { font-size: 1.05rem; line-height: 1.85; letter-spacing: .005em; }
+  .wrap { max-width: 780px; }
+  p, li { max-width: 68ch; }
+  p { margin-bottom: 16px; }
+  li { margin-bottom: 9px; }
+  ul, ol { margin: 0 0 18px 24px; }
+
+  /* --- faixa de fundo por secao (sem numerar: os titulos ja vem
+         numerados do proprio .md) --- */
+  h1 {
+    background: linear-gradient(90deg, rgba(224,123,57,.22), rgba(224,123,57,0) 78%);
+    border-bottom: 2px solid var(--cor);
+    border-left: 4px solid var(--cor);
+    padding: 14px 16px 12px; margin: 52px 0 22px;
+    font-size: 1.22rem; line-height: 1.35;
+  }
+  h2 { border-left: 3px solid var(--acento); padding-left: 11px; }
+
+  /* --- Sumario: fica como esta (autor, 2026-09-17) --- */
+  #TOC li { max-width: none; }
+
+  /* --- caixas de destaque --- */
+  blockquote {
+    background: var(--sup2); border-left: 4px solid var(--acento);
+    padding: 14px 18px; margin: 0 0 18px; color: #d4d4d4;
+  }
+  blockquote p:last-child { margin-bottom: 0; }
+
+  /* --- tabelas com preenchimento --- */
+  th { background: var(--sup3); color: var(--cor); border-color: #555; font-size: .8rem; }
+  tbody tr:nth-child(even) { background: var(--sup1); }
+  tbody tr:hover { background: #1b1d21; }
+  td, th { padding: 10px 12px; }
+  table.cip tbody tr, table.cip tbody tr:hover { background: none; }
+
+  /* --- botoes com fundo --- */
+  .acoes a {
+    background: var(--sup2); border-color: #555;
+    padding: 14px 16px; letter-spacing: .02em;
+  }
+  .acoes a:hover { background: var(--cor); border-color: var(--cor); color: #0d0d0d; }
+  .acoes a.destaque { background: transparent; border-style: dashed; }
+  .acoes a.destaque:hover { background: var(--cor); color: #0d0d0d; }
+
+  /* --- rodape --- */
+  .rodape { font-size: .78rem; line-height: 1.8; }
+
+  @media (max-width: 560px) {
+    body { font-size: .98rem; line-height: 1.75; }
+    h1 { font-size: 1.05rem; padding: 11px 12px 10px; }
+    #TOC { padding: 16px 16px 14px; }
+  }
+
+  @media print {
+    body { font-size: 11pt; line-height: 1.55; }
+    h1 { background: none; border-left-color: #000; color: #000; }
+    h1::before { color: #444; }
+    h2 { border-left-color: #999; }
+    blockquote { background: #f2f2f2; border-left-color: #999; color: #000; }
+    th { background: #e8e8e8; color: #000; }
+    tbody tr:nth-child(even) { background: #f6f6f6; }
+    tbody tr:hover { background: #f6f6f6; }
+    .acoes a { background: none; }
+  }
+
+
+  /* ===== navegacao: barra fixa, painel do Sumario e cartao do contador =====
+     (autor, 2026-09-17, briefing PRE-site-navegacao-paginas-documentos) */
+  .doc-barra {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    background: var(--fundo); border-bottom: 1px solid var(--cor);
+    transform: translateY(-100%); transition: transform .18s ease;
+  }
+  .doc-barra.vis { transform: none; }
+  .doc-barra-in {
+    max-width: 780px; margin: 0 auto; padding: 8px 20px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .doc-barra-marca { display: flex; gap: 6px; flex: 0 0 auto; align-items: center; }
+  /* as marcas podem vir embrulhadas num <p> (capa do Projeto Executivo, onde o
+     pandoc junta as duas imagens num paragrafo so): sem isto elas empilham na
+     barra em vez de ficarem lado a lado (autor, 2026-09-17) */
+  .doc-barra-marca > p, .doc-barra-marca > div, .doc-barra-marca > span {
+    display: flex; gap: 6px; align-items: center; margin: 0; padding: 0;
+    max-width: none; flex: 0 0 auto;
+  }
+  /* marcas um pouco maiores na barra (autor, 2026-09-17) */
+  .doc-barra-marca svg, .doc-barra-marca img {
+    width: 32px; height: 32px; display: block; flex: 0 0 auto;
+  }
+  .doc-barra-nome {
+    flex: 1 1 auto; min-width: 0; color: var(--cor); font-size: .82rem;
+    letter-spacing: .04em; text-transform: uppercase;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .doc-barra-acoes { display: flex; gap: 6px; flex: 0 0 auto; }
+  .doc-bt {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--sup2); border: 1px solid #555; color: var(--texto);
+    font: inherit; font-size: .76rem; padding: 6px 10px; cursor: pointer;
+    text-decoration: none; white-space: nowrap;
+  }
+  .doc-bt:hover, .doc-bt[aria-expanded="true"] { background: var(--cor); border-color: var(--cor); color: #0d0d0d; }
+  .doc-bt svg { width: 14px; height: 14px; flex: 0 0 auto; }
+
+  .doc-toc-painel {
+    max-width: 780px; margin: 0 auto; padding: 0 20px 18px;
+    max-height: 62vh; overflow-y: auto;
+  }
+  .doc-toc-painel[hidden] { display: none; }
+  .doc-toc-painel ul { list-style: none; margin: 0; }
+  .doc-toc-painel li { margin: 0; max-width: none; }
+  .doc-toc-painel a {
+    display: block; padding: 8px 10px; color: var(--texto);
+    text-decoration: none; font-size: .84rem; border-bottom: 1px solid #262626;
+  }
+  .doc-toc-painel a:hover { background: var(--sup2); color: var(--cor); }
+
+  /* a barra nao pode cobrir o titulo quando o leitor salta para uma secao */
+  h1 { scroll-margin-top: 64px; }
+
+  /* --- cartao do contador, acima do rodape --- */
+  .doc-contador[hidden] { display: none; }
+  .doc-contador {
+    max-width: 780px; margin: 40px auto 0; padding: 14px 18px;
+    background: var(--sup1); border: 1px solid #555; border-left: 4px solid var(--cor);
+    display: flex; align-items: baseline; gap: 10px; justify-content: center;
+  }
+  .doc-contador-rot { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--cinza); }
+  .doc-contador #seloAcessos { color: var(--cor); font-size: 1rem; letter-spacing: .02em; }
+
+  @media (max-width: 620px) {
+    .doc-barra-in { padding: 7px 14px; gap: 8px; }
+    .doc-bt span { display: none; }              /* no celular, so os icones */
+    .doc-bt { padding: 7px 9px; }
+    .doc-barra-nome { font-size: .72rem; }
+    .doc-barra-marca svg, .doc-barra-marca img { width: 30px; height: 30px; }
+    .doc-toc-painel { padding: 0 14px 14px; }
+    h1 { scroll-margin-top: 56px; }
+  }
+
+  @media print {
+    .doc-barra { display: none !important; }
+    .doc-contador { display: none !important; }
+  }
+</style><script>
+(function () {
+  function pronto(fn) {
+    if (document.readyState !== 'loading') { fn(); }
+    else { document.addEventListener('DOMContentLoaded', fn); }
+  }
+
+  var IC = {
+    toc:  '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 4h12M2 8h12M2 12h8"/></svg>',
+    docs: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 4.5h4l1.2 1.5H14v6.5H2z"/></svg>',
+    casa: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 7.5 8 2.5l6 5V14H2z"/></svg>'
+  };
+
+  function botao(tag, icone, rotulo) {
+    var e = document.createElement(tag);
+    e.className = 'doc-bt';
+    e.innerHTML = icone + '<span>' + rotulo + '</span>';
+    return e;
+  }
+
+  function barra() {
+    // `.capa` nas paginas de documento e no Projeto Executivo; `[data-barra]` em
+    // paginas com cabecalho proprio, como a de instalar o site
+    var capa = document.querySelector('.capa, [data-barra]');
+    if (!capa) { return; }
+
+    // `.capa-doc` e `.capa-marcas`: capa do Projeto Executivo da ILB, que nao usa
+    // os mesmos ganchos das paginas de documento
+    var nome = capa.querySelector('p:nth-of-type(2) strong, .capa-doc');
+    var rotulo = capa.getAttribute('data-barra-nome');
+    // as marcas podem estar fora da ancora (pagina de instalar: cabecalho proprio)
+    var marcas = capa.querySelector('[class$="-cab-marcas"], .capa-marcas')
+               || document.querySelector('[class$="-cab-marcas"], .capa-marcas');
+    var toc = document.querySelector('#TOC ul');
+
+    var el = document.createElement('div');
+    el.className = 'doc-barra';
+    var linha = document.createElement('div');
+    linha.className = 'doc-barra-in';
+
+    if (marcas) {
+      var m = document.createElement('span');
+      m.className = 'doc-barra-marca';
+      m.innerHTML = marcas.innerHTML;
+      linha.appendChild(m);
+    }
+
+    var tit = document.createElement('span');
+    tit.className = 'doc-barra-nome';
+    tit.textContent = rotulo || (nome ? nome.textContent : (document.title || ''));
+    linha.appendChild(tit);
+
+    var acoes = document.createElement('nav');
+    acoes.className = 'doc-barra-acoes';
+
+    var painel = null;
+    if (toc) {
+      var bt = botao('button', IC.toc, 'Sumário');
+      bt.setAttribute('aria-expanded', 'false');
+      bt.type = 'button';
+      painel = document.createElement('div');
+      painel.className = 'doc-toc-painel';
+      painel.hidden = true;
+      painel.innerHTML = '<ul>' + toc.innerHTML + '</ul>';
+      function fecha() { painel.hidden = true; bt.setAttribute('aria-expanded', 'false'); }
+      bt.addEventListener('click', function () {
+        painel.hidden = !painel.hidden;
+        bt.setAttribute('aria-expanded', painel.hidden ? 'false' : 'true');
+      });
+      painel.addEventListener('click', function (ev) {
+        if (ev.target.closest('a')) { fecha(); }
+      });
+      document.addEventListener('keydown', function (ev) {
+        if (ev.key === 'Escape') { fecha(); }
+      });
+      acoes.appendChild(bt);
+    }
+
+    // os dois "voltar" ja existem no fim da pagina: no bloco `.acoes` das paginas de
+    // documento, ou como links soltos em paginas de cabecalho proprio
+    var links = document.querySelectorAll('.acoes a');
+    if (!links.length) { links = document.querySelectorAll('.wrap a'); }
+    var temDocs = false, temCasa = false;
+    for (var i = 0; i < links.length; i++) {
+      var a = links[i], txt = (a.textContent || '').trim();
+      if (/^(Todos os documentos|Os documentos)/.test(txt) && !temDocs) {
+        temDocs = true;
+        var d = botao('a', IC.docs, 'Documentos'); d.href = a.getAttribute('href'); acoes.appendChild(d);
+      } else if (/voltar/i.test(txt) && !temCasa) {
+        temCasa = true;
+        var c = botao('a', IC.casa, 'Trilhas'); c.href = a.getAttribute('href'); acoes.appendChild(c);
+      }
+    }
+
+    linha.appendChild(acoes);
+    el.appendChild(linha);
+    if (painel) { el.appendChild(painel); }
+    document.body.insertBefore(el, document.body.firstChild);
+
+    function mostra() {
+      var passou = (capa.getBoundingClientRect().bottom < 8);
+      el.classList.toggle('vis', passou);
+      if (!passou && painel && !painel.hidden) {
+        painel.hidden = true;
+        var b = acoes.querySelector('button');
+        if (b) { b.setAttribute('aria-expanded', 'false'); }
+      }
+    }
+    window.addEventListener('scroll', mostra, { passive: true });
+    window.addEventListener('resize', mostra);
+    mostra();
+  }
+
+  function contador() {
+    var selo = document.getElementById('seloAcessos');
+    var rodape = document.querySelector('[class$="-rodape"]');
+    if (!selo || !rodape) { return; }
+    var cartao = document.createElement('div');
+    cartao.className = 'doc-contador';
+    var rot = document.createElement('span');
+    rot.className = 'doc-contador-rot';
+    rot.textContent = 'Esta página';
+    cartao.appendChild(rot);
+    cartao.appendChild(selo);          // o mesmo elemento: o acessos.js segue achando o id
+    rodape.parentNode.insertBefore(cartao, rodape);
+
+    // o selo so aparece quando o numero chega; sem ele, o cartao nao fica vazio
+    function sincroniza() {
+      var vazio = !(selo.textContent || '').trim();
+      cartao.hidden = vazio;
+    }
+    sincroniza();
+    if (window.MutationObserver) {
+      new MutationObserver(sincroniza).observe(selo, {
+        attributes: true, attributeFilter: ['style', 'class'], childList: true, characterData: true, subtree: true
+      });
+    }
+  }
+
+  pronto(function () {
+    try { barra(); } catch (e) { /* sem barra, a pagina continua inteira */ }
+    try { contador(); } catch (e) { /* idem */ }
+  });
+})();
+</script><!-- DOC-FE:FIM -->
 </head>
 <body>
 <div class="wrap">
@@ -92,11 +432,7 @@ table, pre, figure { page-break-inside: avoid; }
 
 
 <div class="capa">
-<p style="display:flex;justify-content:center;align-items:center;gap:22px;margin-bottom:26px;">
-<img role="img" aria-label src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJDdXJzbyBUZWNuaWNvIGVtIE1pbmVyYWNhbyAtIFZhZ29uZXRhIChtb25vKSI+CiAgPGRlZnM+CiAgICA8ZmlsdGVyIGlkPSJzaFZtIiB4PSItMjAlIiB5PSItMjAlIiB3aWR0aD0iMTQwJSIgaGVpZ2h0PSIxNDAlIj4KICAgICAgPGZlRHJvcFNoYWRvdyBkeD0iMCIgZHk9IjQiIHN0ZERldmlhdGlvbj0iNCIgZmxvb2Qtb3BhY2l0eT0iMC4yIi8+CiAgICA8L2ZpbHRlcj4KICAgIDxwYXR0ZXJuIGlkPSJoYXRjaFYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHdpZHRoPSI2IiBoZWlnaHQ9IjYiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPgogICAgICA8bGluZSB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iNiIgc3Ryb2tlPSIjNUU1RTVFIiBzdHJva2Utd2lkdGg9IjEuMiIvPgogICAgPC9wYXR0ZXJuPgogIDwvZGVmcz4KCiAgPCEtLSBCYWRnZSAtLT4KICA8Y2lyY2xlIGN4PSIyNTYiIGN5PSIyNTYiIHI9IjI0MCIgZmlsbD0iI0ZGRkZGRiIgc3Ryb2tlPSIjMUExQTFBIiBzdHJva2Utd2lkdGg9IjYiLz4KICA8Y2lyY2xlIGN4PSIyNTYiIGN5PSIyNTYiIHI9IjIyMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNUU1RTVFIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWRhc2hhcnJheT0iNCA2Ii8+CgogIDwhLS0gU3BhcmtzIC0tPgogIDxnIGZpbGw9IiM1RTVFNUUiPgogICAgPGNpcmNsZSBjeD0iMTMwIiBjeT0iMTQwIiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSIxNTUiIGN5PSIxNzUiIHI9IjEuNSIvPgogICAgPGNpcmNsZSBjeD0iMzkwIiBjeT0iMTUwIiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSIzNjUiIGN5PSIxMjAiIHI9IjEuNSIvPgogICAgPGNpcmNsZSBjeD0iMTAwIiBjeT0iMjkwIiByPSIxLjgiLz4KICA8L2c+CgogIDwhLS0gTWluZXJpbyAoaGFjaHVyYWRvICsgY29udG9ybm8pIC0tPgogIDxnIGZpbHRlcj0idXJsKCNzaFZtKSI+CiAgICA8cG9seWdvbiBwb2ludHM9IjE1NSwxOTUgMTc1LDE2OCAxOTgsMTg2IDE3NSwyMDAiIGZpbGw9IiMxQTFBMUEiIHN0cm9rZT0iIzFBMUExQSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICA8cG9seWdvbiBwb2ludHM9IjE5OCwxODYgMjIwLDE1NiAyNDQsMTc2IDIyMCwxOTQiIGZpbGw9IiMxQTFBMUEiIHN0cm9rZT0iIzFBMUExQSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICA8cG9seWdvbiBwb2ludHM9IjI0NCwxNzYgMjY4LDE0OCAyOTQsMTcwIDI2OCwxOTAiIGZpbGw9IiMxQTFBMUEiIHN0cm9rZT0iIzFBMUExQSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICA8cG9seWdvbiBwb2ludHM9IjI5NCwxNzAgMzE4LDE1NiAzNDQsMTc4IDMxOCwxOTQiIGZpbGw9IiMxQTFBMUEiIHN0cm9rZT0iIzFBMUExQSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICA8cG9seWdvbiBwb2ludHM9IjM0NCwxNzggMzYyLDE2NiAzODQsMTkyIDM1OCwyMDAiIGZpbGw9IiMxQTFBMUEiIHN0cm9rZT0iIzFBMUExQSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPC9nPgoKICA8IS0tIENvcnBvIC0tPgogIDxnIGZpbHRlcj0idXJsKCNzaFZtKSI+CiAgICA8IS0tIEZhY2UgZnJvbnRhbCAoaGFjaHVyYWRhKSAtLT4KICAgIDxwb2x5Z29uIHBvaW50cz0iMTMyLDIwMCAzODAsMjAwIDM1MCwzMDUgMTYyLDMwNSIKICAgICAgICAgICAgIGZpbGw9InVybCgjaGF0Y2hWKSIgc3Ryb2tlPSIjMUExQTFBIiBzdHJva2Utd2lkdGg9IjMuNSIvPgogICAgPCEtLSBBYmEgc3VwZXJpb3IgKGJyYW5jYSwgYm9yZGEgcHJldGEgZ3Jvc3NhKSAtLT4KICAgIDxwb2x5Z29uIHBvaW50cz0iMTI2LDE4NiAzODYsMTg2IDM4MCwyMDYgMTMyLDIwNiIKICAgICAgICAgICAgIGZpbGw9IiNGRkZGRkYiIHN0cm9rZT0iIzFBMUExQSIgc3Ryb2tlLXdpZHRoPSIzIi8+CiAgICA8IS0tIExhdGVyYWwgKHPDs2xpZGEgY2luemEgbcOpZGlvIHAvIHBlcnNwZWN0aXZhKSAtLT4KICAgIDxwb2x5Z29uIHBvaW50cz0iMzgwLDIwMCAzOTgsMTg4IDM2OCwzMDMgMzUwLDMwNSIKICAgICAgICAgICAgIGZpbGw9IiNCMEIwQjAiIHN0cm9rZT0iIzFBMUExQSIgc3Ryb2tlLXdpZHRoPSIzIi8+CiAgICA8cG9seWdvbiBwb2ludHM9IjM4NiwxODYgMzk4LDE4OCAzODAsMjA2IiBmaWxsPSIjMUExQTFBIi8+CgogICAgPCEtLSBEaXZpc8OzcmlhcyAvIHJlYml0ZXMgLS0+CiAgICA8ZyBzdHJva2U9IiMxQTFBMUEiIHN0cm9rZS13aWR0aD0iMi4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiPgogICAgICA8bGluZSB4MT0iMTk4IiB5MT0iMjEyIiB4Mj0iMTk0IiB5Mj0iMjk4Ii8+CiAgICAgIDxsaW5lIHgxPSIyNTYiIHkxPSIyMTIiIHgyPSIyNTYiIHkyPSIyOTgiLz4KICAgICAgPGxpbmUgeDE9IjMxNCIgeTE9IjIxMiIgeDI9IjMxOCIgeTI9IjI5OCIvPgogICAgPC9nPgogICAgPGcgZmlsbD0iIzFBMUExQSI+CiAgICAgIDxjaXJjbGUgY3g9IjE0OCIgY3k9IjIxNSIgcj0iMyIvPgogICAgICA8Y2lyY2xlIGN4PSIxNDgiIGN5PSIyOTAiIHI9IjMiLz4KICAgICAgPGNpcmNsZSBjeD0iMzY0IiBjeT0iMjE1IiByPSIzIi8+CiAgICAgIDxjaXJjbGUgY3g9IjM2NCIgY3k9IjI5MCIgcj0iMyIvPgogICAgPC9nPgoKICAgIDwhLS0gQ2hhc3NpIC0tPgogICAgPHJlY3QgeD0iMTUwIiB5PSIzMDUiIHdpZHRoPSIyMTAiIGhlaWdodD0iOCIgZmlsbD0iIzFBMUExQSIvPgogIDwvZz4KCiAgPCEtLSBSb2RhcyAtLT4KICA8ZyBmaWx0ZXI9InVybCgjc2hWbSkiPgogICAgPGNpcmNsZSBjeD0iMTk2IiBjeT0iMzM4IiByPSIyNiIgZmlsbD0iI0ZGRkZGRiIgc3Ryb2tlPSIjMUExQTFBIiBzdHJva2Utd2lkdGg9IjMiLz4KICAgIDxjaXJjbGUgY3g9IjE5NiIgY3k9IjMzOCIgcj0iMTciIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzFBMUExQSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSIxOTYiIGN5PSIzMzgiIHI9IjUiIGZpbGw9IiMxQTFBMUEiLz4KICAgIDxnIHN0cm9rZT0iIzFBMUExQSIgc3Ryb2tlLXdpZHRoPSIyIj4KICAgICAgPGxpbmUgeDE9IjE5NiIgeTE9IjMxNyIgeDI9IjE5NiIgeTI9IjM1OSIvPgogICAgICA8bGluZSB4MT0iMTc1IiB5MT0iMzM4IiB4Mj0iMjE3IiB5Mj0iMzM4Ii8+CiAgICA8L2c+CiAgICA8Y2lyY2xlIGN4PSIzMTYiIGN5PSIzMzgiIHI9IjI2IiBmaWxsPSIjRkZGRkZGIiBzdHJva2U9IiMxQTFBMUEiIHN0cm9rZS13aWR0aD0iMyIvPgogICAgPGNpcmNsZSBjeD0iMzE2IiBjeT0iMzM4IiByPSIxNyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMUExQTFBIiBzdHJva2Utd2lkdGg9IjIiLz4KICAgIDxjaXJjbGUgY3g9IjMxNiIgY3k9IjMzOCIgcj0iNSIgZmlsbD0iIzFBMUExQSIvPgogICAgPGcgc3Ryb2tlPSIjMUExQTFBIiBzdHJva2Utd2lkdGg9IjIiPgogICAgICA8bGluZSB4MT0iMzE2IiB5MT0iMzE3IiB4Mj0iMzE2IiB5Mj0iMzU5Ii8+CiAgICAgIDxsaW5lIHgxPSIyOTUiIHkxPSIzMzgiIHgyPSIzMzciIHkyPSIzMzgiLz4KICAgIDwvZz4KICA8L2c+CgogIDwhLS0gVHJpbGhvcyAtLT4KICA8Zz4KICAgIDxnIGZpbGw9IiMxQTFBMUEiPgogICAgICA8cmVjdCB4PSIxMjAiIHk9IjM3MCIgd2lkdGg9IjE0IiBoZWlnaHQ9IjgiIHJ4PSIxIi8+CiAgICAgIDxyZWN0IHg9IjE1NiIgeT0iMzcwIiB3aWR0aD0iMTQiIGhlaWdodD0iOCIgcng9IjEiLz4KICAgICAgPHJlY3QgeD0iMTkyIiB5PSIzNzAiIHdpZHRoPSIxNCIgaGVpZ2h0PSI4IiByeD0iMSIvPgogICAgICA8cmVjdCB4PSIyMjgiIHk9IjM3MCIgd2lkdGg9IjE0IiBoZWlnaHQ9IjgiIHJ4PSIxIi8+CiAgICAgIDxyZWN0IHg9IjI2NCIgeT0iMzcwIiB3aWR0aD0iMTQiIGhlaWdodD0iOCIgcng9IjEiLz4KICAgICAgPHJlY3QgeD0iMzAwIiB5PSIzNzAiIHdpZHRoPSIxNCIgaGVpZ2h0PSI4IiByeD0iMSIvPgogICAgICA8cmVjdCB4PSIzMzYiIHk9IjM3MCIgd2lkdGg9IjE0IiBoZWlnaHQ9IjgiIHJ4PSIxIi8+CiAgICAgIDxyZWN0IHg9IjM3MiIgeT0iMzcwIiB3aWR0aD0iMTQiIGhlaWdodD0iOCIgcng9IjEiLz4KICAgIDwvZz4KICAgIDxyZWN0IHg9IjExMCIgeT0iMzY0IiB3aWR0aD0iMjkyIiBoZWlnaHQ9IjQiIGZpbGw9IiMxQTFBMUEiLz4KICA8L2c+Cjwvc3ZnPgo=" alt style="width:110px;height:110px;max-width:110px;border:none;margin:0;display:inline-block">
-<img role="img" aria-label src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJNYXJjYSBkYSBGaXNpY2EgRXhwZXJpbWVudGFsIDEiPgogIDx0aXRsZT5GaXNpY2EgRXhwZXJpbWVudGFsIDEg4oCUIFRyaWxoYXMgZGUgQXByZW5kaXphZ2VtPC90aXRsZT4KICA8IS0tIEF0b21vOiBpZGVudGlkYWRlIGNvbXVtIGRhcyBUcmlsaGFzIGRlIEFwcmVuZGl6YWdlbSAoRkMgZSBGRSkgLS0+CiAgPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRTA3QjM5IiBzdHJva2Utd2lkdGg9IjMiPgogICAgPGVsbGlwc2UgY3g9IjYwIiBjeT0iNTIiIHJ4PSI0NiIgcnk9IjE4Ii8+CiAgICA8ZWxsaXBzZSBjeD0iNjAiIGN5PSI1MiIgcng9IjQ2IiByeT0iMTgiIHRyYW5zZm9ybT0icm90YXRlKDYwIDYwIDUyKSIvPgogICAgPGVsbGlwc2UgY3g9IjYwIiBjeT0iNTIiIHJ4PSI0NiIgcnk9IjE4IiB0cmFuc2Zvcm09InJvdGF0ZSgxMjAgNjAgNTIpIi8+CiAgPC9nPgogIDxnIGZpbGw9IiNFMDdCMzkiPgogICAgPGNpcmNsZSBjeD0iNTMiIGN5PSI0NyIgcj0iNyIvPgogICAgPGNpcmNsZSBjeD0iNjciIGN5PSI0NyIgcj0iNyIvPgogICAgPGNpcmNsZSBjeD0iNjAiIGN5PSI1OCIgcj0iOSIvPgogIDwvZz4KICA8IS0tIFJlZ3VhOiBhIGRpc2NpcGxpbmEgcXVlIG1lZGUuIE1hcmNhcyBhbHRhcyA9IG51bWVybyBkYSBkaXNjaXBsaW5hICgxKSAtLT4KICA8ZyBzdHJva2U9IiM3RkIyRDYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVjYXA9InNxdWFyZSI+CiAgICA8bGluZSB4MT0iMjYiIHkxPSIxMTAiIHgyPSI5NCIgeTI9IjExMCIvPgogICAgPGxpbmUgeDE9IjMwIiB5MT0iMTEwIiB4Mj0iMzAiIHkyPSIxMDQiLz4KICAgIDxsaW5lIHgxPSI0MCIgeTE9IjExMCIgeDI9IjQwIiB5Mj0iMTA0Ii8+CiAgICA8bGluZSB4MT0iNTAiIHkxPSIxMTAiIHgyPSI1MCIgeTI9IjEwNCIvPgogICAgPGxpbmUgeDE9IjYwIiB5MT0iMTEwIiB4Mj0iNjAiIHkyPSI5OCIvPgogICAgPGxpbmUgeDE9IjcwIiB5MT0iMTEwIiB4Mj0iNzAiIHkyPSIxMDQiLz4KICAgIDxsaW5lIHgxPSI4MCIgeTE9IjExMCIgeDI9IjgwIiB5Mj0iMTA0Ii8+CiAgICA8bGluZSB4MT0iOTAiIHkxPSIxMTAiIHgyPSI5MCIgeTI9IjEwNCIvPgogIDwvZz4KPC9zdmc+Cg==" alt style="width:110px;height:110px;max-width:110px;border:none;margin:0;display:inline-block">
-</p>
-<p>
+<div class="fe-cab-marcas"><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Curso Tecnico em Mineracao - Vagoneta (mono)"> <defs> <filter id="cab-curso-shVm" x="-20%" y="-20%" width="140%" height="140%"> <feDropShadow dx="0" dy="4" stdDeviation="4" flood-opacity="0.2"/> </filter> <pattern id="cab-curso-hatchV" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"> <line x1="0" y1="0" x2="0" y2="6" stroke="#5E5E5E" stroke-width="1.2"/> </pattern> </defs> <circle cx="256" cy="256" r="240" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="6"/> <circle cx="256" cy="256" r="222" fill="none" stroke="#5E5E5E" stroke-width="1.5" stroke-dasharray="4 6"/> <g fill="#5E5E5E"> <circle cx="130" cy="140" r="2"/> <circle cx="155" cy="175" r="1.5"/> <circle cx="390" cy="150" r="2"/> <circle cx="365" cy="120" r="1.5"/> <circle cx="100" cy="290" r="1.8"/> </g> <g filter="url(#cab-curso-shVm)"> <polygon points="155,195 175,168 198,186 175,200" fill="#1A1A1A" stroke="#1A1A1A" stroke-width="2"/> <polygon points="198,186 220,156 244,176 220,194" fill="#1A1A1A" stroke="#1A1A1A" stroke-width="2"/> <polygon points="244,176 268,148 294,170 268,190" fill="#1A1A1A" stroke="#1A1A1A" stroke-width="2"/> <polygon points="294,170 318,156 344,178 318,194" fill="#1A1A1A" stroke="#1A1A1A" stroke-width="2"/> <polygon points="344,178 362,166 384,192 358,200" fill="#1A1A1A" stroke="#1A1A1A" stroke-width="2"/> </g> <g filter="url(#cab-curso-shVm)"> <polygon points="132,200 380,200 350,305 162,305" fill="url(#cab-curso-hatchV)" stroke="#1A1A1A" stroke-width="3.5"/> <polygon points="126,186 386,186 380,206 132,206" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="3"/> <polygon points="380,200 398,188 368,303 350,305" fill="#B0B0B0" stroke="#1A1A1A" stroke-width="3"/> <polygon points="386,186 398,188 380,206" fill="#1A1A1A"/> <g stroke="#1A1A1A" stroke-width="2.2" stroke-linecap="round"> <line x1="198" y1="212" x2="194" y2="298"/> <line x1="256" y1="212" x2="256" y2="298"/> <line x1="314" y1="212" x2="318" y2="298"/> </g> <g fill="#1A1A1A"> <circle cx="148" cy="215" r="3"/> <circle cx="148" cy="290" r="3"/> <circle cx="364" cy="215" r="3"/> <circle cx="364" cy="290" r="3"/> </g> <rect x="150" y="305" width="210" height="8" fill="#1A1A1A"/> </g> <g filter="url(#cab-curso-shVm)"> <circle cx="196" cy="338" r="26" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="3"/> <circle cx="196" cy="338" r="17" fill="none" stroke="#1A1A1A" stroke-width="2"/> <circle cx="196" cy="338" r="5" fill="#1A1A1A"/> <g stroke="#1A1A1A" stroke-width="2"> <line x1="196" y1="317" x2="196" y2="359"/> <line x1="175" y1="338" x2="217" y2="338"/> </g> <circle cx="316" cy="338" r="26" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="3"/> <circle cx="316" cy="338" r="17" fill="none" stroke="#1A1A1A" stroke-width="2"/> <circle cx="316" cy="338" r="5" fill="#1A1A1A"/> <g stroke="#1A1A1A" stroke-width="2"> <line x1="316" y1="317" x2="316" y2="359"/> <line x1="295" y1="338" x2="337" y2="338"/> </g> </g> <g> <g fill="#1A1A1A"> <rect x="120" y="370" width="14" height="8" rx="1"/> <rect x="156" y="370" width="14" height="8" rx="1"/> <rect x="192" y="370" width="14" height="8" rx="1"/> <rect x="228" y="370" width="14" height="8" rx="1"/> <rect x="264" y="370" width="14" height="8" rx="1"/> <rect x="300" y="370" width="14" height="8" rx="1"/> <rect x="336" y="370" width="14" height="8" rx="1"/> <rect x="372" y="370" width="14" height="8" rx="1"/> </g> <rect x="110" y="364" width="292" height="4" fill="#1A1A1A"/> </g> </svg><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Marca da Fisica Experimental 1"> <title>Fisica Experimental 1 — Trilhas de Aprendizagem</title> <g fill="none" stroke="#E07B39" stroke-width="3"> <ellipse cx="60" cy="52" rx="46" ry="18"/> <ellipse cx="60" cy="52" rx="46" ry="18" transform="rotate(60 60 52)"/> <ellipse cx="60" cy="52" rx="46" ry="18" transform="rotate(120 60 52)"/> </g> <g fill="#E07B39"> <circle cx="53" cy="47" r="7"/> <circle cx="67" cy="47" r="7"/> <circle cx="60" cy="58" r="9"/> </g> <g stroke="#7FB2D6" stroke-width="3" stroke-linecap="square"> <line x1="26" y1="110" x2="94" y2="110"/> <line x1="30" y1="110" x2="30" y2="104"/> <line x1="40" y1="110" x2="40" y2="104"/> <line x1="50" y1="110" x2="50" y2="104"/> <line x1="60" y1="110" x2="60" y2="98"/> <line x1="70" y1="110" x2="70" y2="104"/> <line x1="80" y1="110" x2="80" y2="104"/> <line x1="90" y1="110" x2="90" y2="104"/> </g> </svg></div><p>
 <strong>Curso Técnico em Mineração Integrado ao Ensino Médio · Física
 Experimental I (FE1)</strong>
 </p>
@@ -171,13 +507,12 @@ transferência, regime disciplinar), vale o <strong>PDF oficial</strong>
 
 <div class="acoes" style="margin-top:44px">
   <a href="IFMG-Regulamento-de-Ensino-2026.pdf">Baixar em PDF (37 páginas)</a>
+  <a href="_qr/">QR desta página · projetar ou imprimir</a>
   <a href="../../#abaDocumentos">Todos os documentos</a>
   <a class="destaque" href="../../">Voltar ao índice das Trilhas</a>
 </div>
 
-<div class="rodape">
-  IFMG campus Ouro Preto - Coordenadoria da Área de Física (CODAFIS) - Núcleo de Inovação e Desenvolvimento de Experimentos Científicos (NIDEC) · Primeira edição · 2026
-</div>
+<!-- RODAPE-FE:INICIO --><div class="fe-rodape"><div class="fe-inst-marcas"><a href="https://ouropreto.ifmg.edu.br/ouropreto" target="_blank" rel="noopener" title="IFMG — Campus Ouro Preto (abre em nova aba)"><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="-36.75 -4 258.5 258.5" role="img" aria-label="Instituto Federal de Minas Gerais"> <title>Instituto Federal de Minas Gerais</title> <circle cx="27" cy="27" r="30" fill="#C8191E"/> <g fill="#32A041"> <rect x="65.5" y="0" width="54" height="54"/> <rect x="131" y="0" width="54" height="54"/> <rect x="0" y="65.5" width="54" height="54"/> <rect x="65.5" y="65.5" width="54" height="54"/> <rect x="0" y="131" width="54" height="54"/> <rect x="65.5" y="131" width="54" height="54"/> <rect x="131" y="131" width="54" height="54"/> <rect x="0" y="196.5" width="54" height="54"/> <rect x="65.5" y="196.5" width="54" height="54"/> </g> </svg></a><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="NIDEC — Núcleo de Inovação e Desenvolvimento de Experimentos Científicos"> <title>NIDEC — Núcleo de Inovação e Desenvolvimento de Experimentos Científicos</title> <defs> <linearGradient id="inst-nidec-o1" gradientUnits="userSpaceOnUse" x1="8" y1="100" x2="192" y2="100" gradientTransform="rotate(-30 100 100)"> <stop offset="0" stop-color="#4A1F95"/><stop offset=".38" stop-color="#2C5AA4"/> <stop offset=".70" stop-color="#2CC2A2"/><stop offset="1" stop-color="#2C9E41"/> </linearGradient> <linearGradient id="inst-nidec-o2" gradientUnits="userSpaceOnUse" x1="8" y1="100" x2="192" y2="100" gradientTransform="rotate(-90 100 100)"> <stop offset="0" stop-color="#4A1F95"/><stop offset=".38" stop-color="#2C5AA4"/> <stop offset=".70" stop-color="#2CC2A2"/><stop offset="1" stop-color="#2C9E41"/> </linearGradient> <linearGradient id="inst-nidec-o3" gradientUnits="userSpaceOnUse" x1="8" y1="100" x2="192" y2="100" gradientTransform="rotate(-150 100 100)"> <stop offset="0" stop-color="#4A1F95"/><stop offset=".38" stop-color="#2C5AA4"/> <stop offset=".70" stop-color="#2CC2A2"/><stop offset="1" stop-color="#2C9E41"/> </linearGradient> <radialGradient id="inst-nidec-nucleo" cx="40%" cy="36%" r="70%"> <stop offset="0" stop-color="#A0EBE1"/> <stop offset=".45" stop-color="#2CC8C2"/> <stop offset="1" stop-color="#1E5DA5"/> </radialGradient> </defs> <g fill="none" stroke-width="8"> <g transform="rotate(30 100 100)" stroke="url(#inst-nidec-o1)"> <ellipse cx="100" cy="100" rx="88" ry="31"/> <circle cx="188" cy="100" r="8" fill="url(#inst-nidec-o1)" stroke="none"/> </g> <g transform="rotate(90 100 100)" stroke="url(#inst-nidec-o2)"> <ellipse cx="100" cy="100" rx="88" ry="31"/> <circle cx="12" cy="100" r="8" fill="url(#inst-nidec-o2)" stroke="none"/> </g> <g transform="rotate(150 100 100)" stroke="url(#inst-nidec-o3)"> <ellipse cx="100" cy="100" rx="88" ry="31"/> <circle cx="188" cy="100" r="8" fill="url(#inst-nidec-o3)" stroke="none"/> </g> </g> <circle cx="100" cy="100" r="23" fill="url(#inst-nidec-nucleo)"/> </svg></div><div class="fe-agr-marca"><a href="https://nidecop-jafb.github.io/fe1-oa/agradecimentos/" title="Agradecimentos &middot; F&iacute;sica e Poesia"><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Agradecimentos — Física e Poesia"> <g fill="none" stroke="#7FB2D6" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"> <path d="M 60 44 C 46 36 28 36 12 40 L 12 104 C 28 100 46 100 60 108 C 74 100 92 100 108 104 L 108 40 C 92 36 74 36 60 44 Z"/> <line x1="60" y1="44" x2="60" y2="108"/> </g> <g stroke="#7FB2D6" stroke-width="2" stroke-linecap="round" opacity=".7"> <line x1="22" y1="58" x2="50" y2="56"/><line x1="22" y1="70" x2="50" y2="68"/><line x1="22" y1="82" x2="44" y2="81"/> </g> <path d="M 68 70 C 72 62 76 62 80 70 S 88 78 92 70 S 98 62 100 66" fill="none" stroke="#E07B39" stroke-width="2.5" stroke-linecap="round"/> <path d="M 104 8 C 86 12 72 24 66 44 C 80 40 94 28 104 8 Z" fill="none" stroke="#E07B39" stroke-width="3" stroke-linejoin="round"/> <line x1="100" y1="13" x2="62" y2="56" stroke="#E07B39" stroke-width="3" stroke-linecap="round"/> </svg></a></div><div class="fe-rodape-texto">IFMG campus Ouro Preto - Coordenadoria da Área de Física (CODAFIS) - Núcleo de Inovação e Desenvolvimento de Experimentos Científicos (NIDEC) &middot; Primeira edição &middot; 2026</div></div><!-- RODAPE-FE:FIM -->
 
 </div>
 </body>
