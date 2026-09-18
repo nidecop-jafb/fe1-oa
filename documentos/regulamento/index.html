@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Regulamento de Ensino</title>
+<meta name="description" content="Regulamento de Ensino do Curso Tecnico em Mineracao Integrado, IFMG campus Ouro Preto — documento oficial.">
+<style>
+:root { --cor: #E07B39; --acento: #7FB2D6;
+--fundo: #0d0d0d; --texto: #e8e8e8; --cinza: #999; --linha: #444; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--fundo); color: var(--texto); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+.wrap { max-width: 820px; margin: 0 auto; padding: 40px 20px 64px; }
+
+.capa { text-align: center; border: 1px solid var(--linha); padding: 30px 26px 34px; margin-bottom: 40px; }
+.capa img { width: 100%; max-width: 620px; height: auto; display: block; margin: 0 auto 26px; border: 1px solid var(--linha); }
+.capa p { margin: 0 0 10px; color: #c4c4c4; font-size: .95rem; }
+
+.capa p:nth-of-type(2) strong { display: block; font-family: 'Courier New', monospace; font-size: .9rem; letter-spacing: .18em; color: var(--acento); text-transform: uppercase; font-weight: normal; }
+.capa p:nth-of-type(3) strong { display: block; font-family: 'Courier New', monospace; font-size: 1.5rem; letter-spacing: .04em; color: var(--cor); text-transform: uppercase; margin: 6px 0 4px; }
+.capa p:nth-of-type(4) strong { display: block; font-family: 'Courier New', monospace; font-size: .82rem; letter-spacing: .1em; color: #c4c4c4; text-transform: uppercase; font-weight: normal; margin-bottom: 18px; }
+
+.acoes { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 38px; }
+.acoes a { flex: 1 1 220px; display: block; padding: 13px 16px; border: 1px solid var(--linha); color: var(--texto); text-decoration: none; font-family: 'Courier New', monospace; font-size: .86rem; text-align: center; }
+.acoes a:hover { border-color: var(--cor); color: var(--cor); }
+.acoes a.destaque { border-style: dashed; }
+
+h1 { font-family: 'Courier New', monospace; font-size: 1.35rem; color: var(--cor); text-transform: uppercase; letter-spacing: .03em; border-bottom: 2px solid var(--cor); padding-bottom: 10px; margin: 48px 0 18px; scroll-margin-top: 20px; }
+h2 { font-family: 'Courier New', monospace; font-size: 1.02rem; color: var(--acento); margin: 32px 0 12px; letter-spacing: .02em; }
+h3 { font-family: 'Courier New', monospace; font-size: .92rem; color: #fff; margin: 24px 0 10px; }
+p { margin-bottom: 13px; }
+strong { color: #fff; }
+em { color: #ddd; }
+a { color: var(--cor); }
+ul, ol { margin: 0 0 14px 22px; }
+li { margin-bottom: 7px; }
+hr { border: none; border-top: 1px solid var(--linha); margin: 34px 0; }
+blockquote { border-left: 3px solid var(--cor); padding-left: 16px; margin: 0 0 14px; color: #c4c4c4; }
+
+#TOC { border: 1px solid var(--linha); padding: 20px 24px; margin-bottom: 40px; }
+#TOC::before { content: 'Sumário'; display: block; font-family: 'Courier New', monospace; font-size: .78rem; text-transform: uppercase; letter-spacing: .18em; color: var(--cor); border-bottom: 1px solid var(--linha); padding-bottom: 8px; margin-bottom: 14px; }
+#TOC ul { list-style: none; margin: 0; }
+#TOC li { margin-bottom: 8px; }
+#TOC a { color: var(--texto); text-decoration: none; font-family: 'Courier New', monospace; font-size: .84rem; }
+#TOC a:hover { color: var(--cor); }
+
+.tabela-rolagem { overflow-x: auto; margin-bottom: 20px; }
+table { border-collapse: collapse; width: 100%; font-size: .88rem; }
+th, td { border: 1px solid var(--linha); padding: 9px 11px; text-align: left; vertical-align: top; }
+th { font-family: 'Courier New', monospace; font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; color: var(--cor); background: #17171a; font-weight: normal; }
+tbody tr:nth-child(even) { background: #131316; }
+caption { caption-side: bottom; font-size: .78rem; color: var(--cinza); padding-top: 6px; }
+
+table.cip, table.cip td { border-color: var(--linha); }
+table.cip td { border-left: none; border-right: none; border-top: none; border-bottom: none; padding: 2px 14px; font-size: .84rem; }
+table.cip { border: 1px solid var(--linha); padding: 12px 0; }
+table.cip tbody tr { background: none; }
+
+pre { background: #131316; border: 1px solid var(--linha); padding: 14px 16px; overflow-x: auto; margin-bottom: 20px; }
+code { font-family: 'Courier New', Consolas, monospace; font-size: .78rem; color: #c4c4c4; }
+p code, li code, td code { background: #17171a; padding: 1px 5px; font-size: .84rem; color: var(--acento); }
+
+.rodape { margin-top: 56px; padding-top: 16px; border-top: 1px solid #333; font-size: .76rem; color: #888; font-family: 'Courier New', monospace; text-align: center; line-height: 1.7; }
+@media (max-width: 560px) {
+.wrap { padding: 24px 14px 48px; }
+.capa { padding: 20px 16px 24px; }
+.capa p:nth-of-type(3) strong { font-size: 1.15rem; }
+h1 { font-size: 1.12rem; }
+table { font-size: .82rem; }
+
+pre code { font-size: .58rem; }
+}
+
+@media print {
+body { background: #fff; color: #000; }
+.acoes, #TOC { display: none; }
+.wrap { max-width: none; padding: 0; }
+h1 { color: #000; border-bottom-color: #000; page-break-after: avoid; }
+h2, h3 { color: #000; page-break-after: avoid; }
+th { color: #000; background: #eee; }
+tbody tr:nth-child(even) { background: #f6f6f6; }
+pre { background: #f6f6f6; border-color: #999; }
+.capa { page-break-after: always; border-color: #999; }
+table, pre, figure { page-break-inside: avoid; }
+.rodape { color: #444; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+
+
+<div class="capa">
+<p>
+<img role="img" aria-label src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJNYXJjYSBkYSBGaXNpY2EgRXhwZXJpbWVudGFsIDEiPgogIDx0aXRsZT5GaXNpY2EgRXhwZXJpbWVudGFsIDEg4oCUIFRyaWxoYXMgZGUgQXByZW5kaXphZ2VtPC90aXRsZT4KICA8IS0tIEF0b21vOiBpZGVudGlkYWRlIGNvbXVtIGRhcyBUcmlsaGFzIGRlIEFwcmVuZGl6YWdlbSAoRkMgZSBGRSkgLS0+CiAgPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRTA3QjM5IiBzdHJva2Utd2lkdGg9IjMiPgogICAgPGVsbGlwc2UgY3g9IjYwIiBjeT0iNTIiIHJ4PSI0NiIgcnk9IjE4Ii8+CiAgICA8ZWxsaXBzZSBjeD0iNjAiIGN5PSI1MiIgcng9IjQ2IiByeT0iMTgiIHRyYW5zZm9ybT0icm90YXRlKDYwIDYwIDUyKSIvPgogICAgPGVsbGlwc2UgY3g9IjYwIiBjeT0iNTIiIHJ4PSI0NiIgcnk9IjE4IiB0cmFuc2Zvcm09InJvdGF0ZSgxMjAgNjAgNTIpIi8+CiAgPC9nPgogIDxnIGZpbGw9IiNFMDdCMzkiPgogICAgPGNpcmNsZSBjeD0iNTMiIGN5PSI0NyIgcj0iNyIvPgogICAgPGNpcmNsZSBjeD0iNjciIGN5PSI0NyIgcj0iNyIvPgogICAgPGNpcmNsZSBjeD0iNjAiIGN5PSI1OCIgcj0iOSIvPgogIDwvZz4KICA8IS0tIFJlZ3VhOiBhIGRpc2NpcGxpbmEgcXVlIG1lZGUuIE1hcmNhcyBhbHRhcyA9IG51bWVybyBkYSBkaXNjaXBsaW5hICgxKSAtLT4KICA8ZyBzdHJva2U9IiM3RkIyRDYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVjYXA9InNxdWFyZSI+CiAgICA8bGluZSB4MT0iMjYiIHkxPSIxMTAiIHgyPSI5NCIgeTI9IjExMCIvPgogICAgPGxpbmUgeDE9IjMwIiB5MT0iMTEwIiB4Mj0iMzAiIHkyPSIxMDQiLz4KICAgIDxsaW5lIHgxPSI0MCIgeTE9IjExMCIgeDI9IjQwIiB5Mj0iMTA0Ii8+CiAgICA8bGluZSB4MT0iNTAiIHkxPSIxMTAiIHgyPSI1MCIgeTI9IjEwNCIvPgogICAgPGxpbmUgeDE9IjYwIiB5MT0iMTEwIiB4Mj0iNjAiIHkyPSI5OCIvPgogICAgPGxpbmUgeDE9IjcwIiB5MT0iMTEwIiB4Mj0iNzAiIHkyPSIxMDQiLz4KICAgIDxsaW5lIHgxPSI4MCIgeTE9IjExMCIgeDI9IjgwIiB5Mj0iMTA0Ii8+CiAgICA8bGluZSB4MT0iOTAiIHkxPSIxMTAiIHgyPSI5MCIgeTI9IjEwNCIvPgogIDwvZz4KPC9zdmc+Cg==" alt>
+</p>
+<p>
+<strong>Curso Técnico em Mineração Integrado ao Ensino Médio · Física
+Experimental I (FE1)</strong>
+</p>
+<p>
+<strong>REGULAMENTO DE ENSINO</strong>
+</p>
+<p>
+<strong>Resolução 01/2026 · PDF oficial</strong>
+</p>
+</div>
+
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#frequência-e-rendimento" id="toc-frequência-e-rendimento">Frequência e rendimento</a></li>
+<li><a href="#avaliação" id="toc-avaliação">Avaliação</a></li>
+<li><a href="#recuperação" id="toc-recuperação">Recuperação</a></li>
+<li><a href="#carga-horária-de-componentes-em-formato-de-disciplina" id="toc-carga-horária-de-componentes-em-formato-de-disciplina">Carga
+horária de componentes em formato de disciplina</a></li>
+<li><a href="#onde-ler-o-regulamento-inteiro" id="toc-onde-ler-o-regulamento-inteiro">Onde ler o regulamento
+inteiro</a></li>
+</ul>
+</nav>
+<p>O Regulamento de Ensino dos Cursos Técnicos e de Graduação do IFMG
+(Resolução do Conselho Superior n.º 01, de 27 de janeiro de 2026) vale
+para todas as disciplinas do curso, incluindo a Física Experimental I
+(FE1). Aqui está um resumo do que rege diretamente o estudante — com o
+PDF oficial completo (37 páginas) para baixar.</p>
+<h1 id="frequência-e-rendimento">Frequência e rendimento</h1>
+<ul>
+<li><strong>Frequência mínima: 75%</strong> do total de horas de cada
+componente curricular (Art. 101-102).</li>
+<li><strong>Rendimento mínimo para aprovação: 60%</strong> em todos os
+componentes da série (Art. 123).</li>
+<li>Os dois critérios são cumulativos.</li>
+</ul>
+<h1 id="avaliação">Avaliação</h1>
+<ul>
+<li>Curso em <strong>regime seriado</strong>: 3 etapas por série —
+<strong>30 pontos</strong> na 1ª etapa, <strong>35</strong> na 2ª e
+<strong>35</strong> na 3ª (Art. 118, II).</li>
+<li><strong>Nenhum instrumento avaliativo isolado ultrapassa
+40%</strong> do total da etapa; no mínimo 2 tipos diversificados de
+instrumento por etapa (Art. 116).</li>
+</ul>
+<h1 id="recuperação">Recuperação</h1>
+<ul>
+<li><strong>2 recuperações parciais</strong> (fim da 1ª e da 2ª etapa) +
+<strong>1 recuperação final</strong>, para quem não atingir 60% (Art.
+127).</li>
+<li>A recuperação final exige frequência mínima de 75% (Art. 128).</li>
+</ul>
+<h1 id="carga-horária-de-componentes-em-formato-de-disciplina">Carga
+horária de componentes em formato de disciplina</h1>
+<ul>
+<li>Art. 41 (caput): componentes em <strong>formato de
+disciplina</strong> — caso da FE1 — são organizados em <strong>semanas
+letivas regulares</strong>, com hora-aula de 50 minutos.</li>
+<li>Art. 41 §2º: só componentes em formato <strong>distinto</strong> de
+disciplina podem ser ofertados em dias letivos sem aula prevista (ex.:
+dias de prova de outras disciplinas). Por isso dias de Provas Escritas e
+Exame Final <strong>não contam</strong> como carga horária da FE1.</li>
+<li>Art. 13 e Art. 129 §1º: o tempo de Exame Final fica
+<strong>fora</strong> da contagem de dias letivos do calendário, com 2
+dias úteis de intervalo até o fim do período letivo.</li>
+</ul>
+<h1 id="onde-ler-o-regulamento-inteiro">Onde ler o regulamento
+inteiro</h1>
+<p>Este resumo cobre os artigos que mais aparecem no dia a dia da
+disciplina. Para qualquer outra situação (matrícula, trancamento,
+transferência, regime disciplinar), vale o <strong>PDF oficial</strong>
+(baixe abaixo).</p>
+
+<div class="acoes" style="margin-top:44px">
+  <a href="IFMG-Regulamento-de-Ensino-2026.pdf">Baixar em PDF (37 páginas)</a>
+  <a href="../../#abaDocumentos">Todos os documentos</a>
+  <a class="destaque" href="../../">Voltar ao índice das Trilhas</a>
+</div>
+
+<div class="rodape">
+  IFMG campus Ouro Preto - Coordenadoria da Área de Física (CODAFIS) - Núcleo de Inovação e Desenvolvimento de Experimentos Científicos (NIDEC) · Primeira edição · 2026
+</div>
+
+</div>
+</body>
+</html>
