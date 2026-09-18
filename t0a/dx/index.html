@@ -30,7 +30,7 @@
   --painel: oklch(0.16 0.01 260);
   --r: 0px;
   --r-sm: 0px;
-  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font: 'Courier New', Courier, monospace;
   --mono: 'Courier New', 'Cascadia Code', 'Consolas', monospace;
   --serif: 'Georgia', 'Cambria', 'Times New Roman', serif;
   /* nomes herdados dos OAs de 2026-07 — apontam para a paleta FE */
@@ -387,7 +387,8 @@ main { max-width: 800px; margin: 0 auto; padding: 16px; }
   .caso, .id-card, .intro { background: white !important; }
 }
 
-/* ==== PADRAO FE — aplicado por padronizar_oa_fe.py ==== */
+  input, button, select, textarea { font-family: inherit; }
+  /* ==== PADRAO FE — aplicado por padronizar_oa_fe.py ==== */
 body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
 .container { max-width: 800px; margin: 0 auto; padding: 24px 16px 80px; }
 /* HEADER */
@@ -1206,7 +1207,7 @@ document.addEventListener('oa:enviado', function () { enviarColeta(); });
     display: flex; align-items: center; justify-content: center; padding: 16px; }
   #idfeOverlay[hidden] { display: none; }
   .idfe-card { background: #17181c; border-top: 3px solid #E07B39; max-width: 420px; width: 100%;
-    padding: 26px 22px; color: #e8e8e8; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; }
+    padding: 26px 22px; color: #e8e8e8; font-family: 'Courier New', Courier, monospace; }
   .idfe-card h2 { font-size: 1.05rem; margin: 0 0 6px; color: #E07B39; }
   .idfe-card p { font-size: .88rem; color: #aaa; margin: 0 0 14px; line-height: 1.5; }
   .idfe-card input { width: 100%; padding: 12px; font-size: 1.15rem; letter-spacing: .12em;
@@ -1221,7 +1222,7 @@ document.addEventListener('oa:enviado', function () { enviarColeta(); });
   #idfeConfirma strong { color: #E07B39; }
   #idfeChip { position: fixed; left: 10px; bottom: 10px; z-index: 8000; background: #17181c;
     border: 1px solid #444; border-left: 3px solid #E07B39; color: #bbb; font-size: .72rem;
-    font-family: system-ui, sans-serif; padding: 6px 10px; }
+    font-family: 'Courier New', Courier, monospace; padding: 6px 10px; }
   #idfeChip button { background: none; border: 0; color: #7FB2D6; font-size: .72rem;
     cursor: pointer; text-decoration: underline; padding: 0 0 0 6px; }
   @media print { #idfeChip, #idfeOverlay { display: none !important; } }
@@ -1398,12 +1399,12 @@ document.addEventListener('oa:enviado', function () { enviarColeta(); });
 </script>
 <!-- ABA-SITE (injetada na publicacao — nao existe no OA canonico) -->
 <style>
-.aba-site-toggle { position: fixed; top: 56px; left: 0; z-index: 999; background: #1a1b1f; border: 1px solid #444; border-left: none; color: #bbb; font-size: .7rem; padding: 8px 10px; cursor: pointer; font-family: 'Courier New', monospace; writing-mode: vertical-rl; text-orientation: mixed; letter-spacing: 1px; text-transform: uppercase; transition: color .15s; border-radius: 0; }
+.aba-site-toggle { position: fixed; top: 56px; left: 0; z-index: 999; background: #1a1b1f; border: 1px solid #444; border-left: none; color: #bbb; font-size: .7rem; padding: 8px 10px; cursor: pointer; font-family: 'Courier New', Courier, monospace; writing-mode: vertical-rl; text-orientation: mixed; letter-spacing: 1px; text-transform: uppercase; transition: color .15s; border-radius: 0; }
 .aba-site-toggle:hover { color: #E07B39; }
-.aba-site-painel { position: fixed; top: 0; left: 0; z-index: 1001; width: 330px; max-width: 86vw; height: 100vh; overflow-y: auto; background: #1a1b1f; border-right: 1px solid #444; padding: 24px 22px 24px 42px; transform: translateX(-100%); transition: transform .25s; font-family: 'Segoe UI', system-ui, sans-serif; font-size: .92rem; color: #c4c4c4; line-height: 1.6; }
+.aba-site-painel { position: fixed; top: 0; left: 0; z-index: 1001; width: 330px; max-width: 86vw; height: 100vh; overflow-y: auto; background: #1a1b1f; border-right: 1px solid #444; padding: 24px 22px 24px 42px; transform: translateX(-100%); transition: transform .25s; font-family: 'Courier New', Courier, monospace; font-size: .92rem; color: #c4c4c4; line-height: 1.6; }
 .aba-site-painel.open { transform: translateX(0); }
-.aba-site-painel h3 { font-family: 'Courier New', monospace; font-size: .8rem; text-transform: uppercase; letter-spacing: 2px; color: #E07B39; border-bottom: 1px solid #444; padding-bottom: 8px; margin: 0 0 14px; }
-.aba-site-painel a.aba-site-btn { display: block; margin: 10px 0; padding: 11px 14px; border: 1px solid #444; color: #e8e8e8; text-decoration: none; font-family: 'Courier New', monospace; font-size: .85rem; }
+.aba-site-painel h3 { font-family: 'Courier New', Courier, monospace; font-size: .8rem; text-transform: uppercase; letter-spacing: 2px; color: #E07B39; border-bottom: 1px solid #444; padding-bottom: 8px; margin: 0 0 14px; }
+.aba-site-painel a.aba-site-btn { display: block; margin: 10px 0; padding: 11px 14px; border: 1px solid #444; color: #e8e8e8; text-decoration: none; font-family: 'Courier New', Courier, monospace; font-size: .85rem; }
 .aba-site-painel a.aba-site-btn:hover { border-color: #E07B39; color: #E07B39; }
 /* TT: abre espaco no topo do trilho e oculta a aba Figuras (decisao 2026-08-08) */
 .musica-toggle { top: 128px !important; }
