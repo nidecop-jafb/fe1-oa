@@ -644,6 +644,13 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
 .header .badge { background: var(--epi); color: oklch(0.13 0.01 260); padding: 4px 12px; border-radius: var(--r-sm); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; }
 .header .header-inner h1 { font-size: 1.4rem; font-weight: 900; letter-spacing: -0.02em; flex: 1 1 240px; }
 .header .header-inner h1 .trilha-code { color: var(--epi); }
+/* ── Coleta FE1 (envio ao Apps Script) ── */
+.coleta-status { margin: 14px 0; padding: 12px 16px; border: 1px solid #555; font-family: var(--mono, monospace); font-size: .85rem; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.coleta-status[hidden], .coleta-retry[hidden] { display: none !important; }
+.coleta-status.ok { border-color: var(--verde, #4CAF7D); color: var(--verde, #4CAF7D); }
+.coleta-status.falha { border-color: var(--erro, #E05252); color: var(--erro, #E05252); }
+.coleta-retry { background: transparent; border: 1px solid var(--erro, #E05252); color: var(--erro, #E05252); font-family: var(--mono, monospace); font-size: .8rem; padding: 6px 12px; cursor: pointer; }
+@media print { .coleta-status { display: none !important; } }
 .fecho-marcas { display: flex; width: fit-content; gap: 14px; align-items: center; margin: 0 auto 10px; }
 .fecho-marcas svg { width: 30px; height: 30px; display: block; }
 .fecho-marcas a, .fa-marcas a { display: flex; }
@@ -805,7 +812,13 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
   </div>
 
   <!-- ACTIONS -->
-  <div class="actions" id="actionsBar">
+  <!-- COLETA STATUS -->
+  <div class="coleta-status" id="coletaStatus" hidden>
+    <span id="coletaStatusMsg"></span>
+    <button class="coleta-retry" id="coletaRetry" hidden onclick="enviarColeta(true)">Tentar novamente</button>
+  </div>
+
+  <div class="actions" data-coleta="acoes" id="actionsBar">
     <button class="btn btn-submit" id="btnSubmit" disabled onclick="submitPR()">Enviar Respostas</button>
     <button class="btn btn-export" id="btnExport" onclick="exportJSON()">Exportar Comprovante (.json)</button>
     <button class="btn btn-reset" id="btnReset" onclick="resetPR()">Recome&ccedil;ar</button>
@@ -827,6 +840,8 @@ body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
 </div>
 
 <div class="toast-container" id="toastContainer"></div>
+<script src="../../coleta-config.js"></script>
+
 
 <script>
 /* ============================================================
@@ -1411,10 +1426,19 @@ function submitPR() {
 
   var score = fmtNota(pontuacaoTotal());
   toast('success', 'Pontuação: ' + score + '/10');
+
+  /* avisa o coletor: daqui em diante o trabalho esta fechado */
+  document.dispatchEvent(new CustomEvent('oa:enviado'));
 }
 
 /* ---- EXPORT JSON ---- */
-function exportJSON() {
+
+/* --- Pacote canonico do OA ------------------------------------
+   Devolve o MESMO objeto do comprovante .json. Vive fora do
+   exportJSON() porque o coletor envia no momento do ENVIO, e nao no
+   do download: preso la dentro, nao havia como pedir o pacote sem
+   baixar arquivo. */
+function pacoteOA() {
   var now = new Date();
   var ts = now.toISOString().replace(/[:.]/g, '-');
   var q2 = BANCO[versao][1];
@@ -1463,6 +1487,12 @@ function exportJSON() {
     total: 10
   };
 
+  return data;
+}
+
+function exportJSON() {
+  var data = pacoteOA();
+  var ts = new Date().toISOString().replace(/[:.]/g, '-');
   var blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
   var url = URL.createObjectURL(blob);
   var a = document.createElement('a');
@@ -1472,6 +1502,7 @@ function exportJSON() {
   URL.revokeObjectURL(url);
   toast('success', 'Comprovante exportado com sucesso');
 }
+
 
 /* ---- RESET ---- */
 function resetPR() {
@@ -1660,6 +1691,141 @@ function toast(type, msg) {
   container.appendChild(el);
   setTimeout(function() { if (el.parentNode) el.parentNode.removeChild(el); }, 3000);
 }
+
+/* --- Contrato de coleta (A5.8) --------------------------------
+   O OA DECLARA o que o coletor precisa; o injetor le daqui em vez de
+   adivinhar nome de funcao e de id. Sem o modulo injetado isto e um
+   objeto inerte, e o OA segue funcionando offline. */
+window.OA_COLETA = {
+  trilha: 'T04',
+  oa: 'PR',
+  prefixo: PREFIX,
+  pacote: pacoteOA
+};
+
+/* ============================================================
+   COLETA FE1 — injetado por injetar_coletor_fe.py
+   Sem COLETA_URL, tudo abaixo vira no-op e o OA funciona offline.
+   ============================================================ */
+var COLETA_URL = (typeof window !== 'undefined' && window.COLETA && window.COLETA.url) || '';
+var ARQUIVO_FONTE = 'FE-T04-PR-v2-estudante.html';
+var coletaEnviando = false;
+var coletaComprovante = null;
+
+/* Contrato v2: o OA declarou o que precisamos. Sem ele, vale o caminho legado
+   (PP-v4), onde PREFIX e montarPacote() foram extraidos na injecao. */
+var OAC = (typeof window !== 'undefined' && window.OA_COLETA) || null;
+
+function coletaPrefixo() {
+  if (OAC && OAC.prefixo) return OAC.prefixo;
+  return (typeof PREFIX !== 'undefined') ? PREFIX : 'ifmg_fe1_';
+}
+
+function coletaPacote() {
+  if (OAC && typeof OAC.pacote === 'function') return OAC.pacote();
+  return montarPacote();
+}
+
+function coletaIdentidadeOA() {
+  if (OAC) return { trilha: OAC.trilha, oa: OAC.oa };
+  return (typeof OA_ID !== 'undefined') ? OA_ID : null;
+}
+
+/* CFG-OA v1: busca a configuracao de aplicacao no boot (endpoint publico). */
+(function buscarConfigOA() {
+  var ident = coletaIdentidadeOA();
+  if (!COLETA_URL || !ident || typeof aplicarConfigOA !== 'function') return;
+  fetch(COLETA_URL + '?cfg=1&trilha=' + encodeURIComponent(ident.trilha) +
+        '&oa=' + encodeURIComponent(ident.oa))
+    .then(function (r) { return r.json(); })
+    .then(function (j) { if (j && j.ok && j.cfg) aplicarConfigOA(j.cfg); })
+    .catch(function () { /* offline: vale o default embutido no OA */ });
+})();
+
+function coletaStatusUI(estado, msg) {
+  var box = document.getElementById('coletaStatus');
+  if (!box) return;
+  box.hidden = false;
+  box.className = 'coleta-status' + (estado ? ' ' + estado : '');
+  document.getElementById('coletaStatusMsg').textContent = msg;
+  var retry = document.getElementById('coletaRetry');
+  if (retry) retry.hidden = (estado !== 'falha');
+}
+
+/* Chave do comprovante por tentativa, para o reenvio nao sobrescrever o 1o. */
+function coletaComprovanteKey() {
+  var t = (typeof oaTentativaAtual === 'function') ? oaTentativaAtual() : 1;
+  return coletaPrefixo() + 'comprovante' + (t > 1 ? '_t' + t : '');
+}
+
+function coletaRestaurar() {
+  if (!COLETA_URL) return;
+  var c = null;
+  try { c = localStorage.getItem(coletaComprovanteKey()); } catch (e) {}
+  if (c) coletaStatusUI('ok', '\u2713 Respostas registradas \u2014 comprovante ' + c);
+}
+
+/* O RA e achado pelo PAPEL (data-campo="ra"), nao pelo id: os OAs da FE1 tem
+   convencoes de nome diferentes — `ra` num, `inp-ra` noutro, `inputRA` no PP.
+   `id="inputRA"` fica como legado. */
+function coletaCampoRA() {
+  var e = document.querySelector('[data-campo="ra"]') || document.getElementById('inputRA');
+  return e ? String(e.value || '').trim() : '';
+}
+
+/* Garante o RA no pacote. Sem ele o servidor recusa o envio — e o estudante
+   teria preenchido tudo certo para ver "RA fora da lista da turma". */
+function coletaGarantirRA(payload) {
+  var ra = coletaCampoRA();
+  if (!ra) return payload;
+  if (!payload.identificacao) payload.identificacao = {};
+  if (!payload.identificacao.ra) payload.identificacao.ra = ra;
+  if (!payload.ra) payload.ra = ra;
+  return payload;
+}
+
+function enviarColeta(isRetry) {
+  if (!COLETA_URL || coletaEnviando) return;
+  if (!isRetry && coletaComprovante) return;
+  coletaEnviando = true;
+  coletaStatusUI(null, 'Enviando respostas ao professor...');
+
+  var payload = coletaGarantirRA(coletaPacote());
+  payload.tentativa = (typeof oaTentativaAtual === 'function') ? oaTentativaAtual() : 1;
+  if (!payload.arquivo) payload.arquivo = ARQUIVO_FONTE;
+
+  fetch(COLETA_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },  /* evita preflight CORS */
+    body: JSON.stringify(payload)
+  })
+    .then(function (r) { return r.json(); })
+    .then(function (j) {
+      coletaEnviando = false;
+      if (!j || !j.ok) {
+        /* RA fora da lista da turma e recusado pelo servidor. O trabalho do
+           estudante nao se perde: o botao Exportar Comprovante aparece
+           sozinho quando este status entra em 'falha'. */
+        coletaStatusUI('falha', ((j && j.erro) || 'Falha ao registrar as respostas.') +
+          ' \u2014 exporte o comprovante abaixo e entregue ao professor.');
+        return;
+      }
+      coletaComprovante = j.comprovante;
+      try { localStorage.setItem(coletaComprovanteKey(), j.comprovante); } catch (e) {}
+      coletaStatusUI('ok', '\u2713 Respostas registradas \u2014 comprovante ' + j.comprovante);
+    })
+    .catch(function () {
+      coletaEnviando = false;
+      coletaStatusUI('falha', 'Sem conexao com o servidor \u2014 exporte o comprovante ' +
+        'e entregue ao professor.');
+    });
+}
+
+document.addEventListener('DOMContentLoaded', coletaRestaurar);
+
+/* Contrato v2: o OA avisa quando o trabalho fecha. No legado o gancho e uma
+   linha inserida logo depois do toast final do envio. */
+document.addEventListener('oa:enviado', function () { enviarColeta(); });
 </script>
 <!-- IDENTIFICACAO-RA (injetada na publicacao — nao existe no OA canonico) -->
 <style>
