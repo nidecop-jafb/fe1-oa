@@ -54,10 +54,11 @@
 .aba-toggle:hover { color: #E07B39; }
 #abaSiteT { top: 56px; }
 #abaMetodoT { top: 120px; }
-#abaMusicaT { top: 208px; }
-#abaIneditismoT { top: 296px; }
-#abaProjetoT { top: 432px; }
-#abaCreditosT { top: 532px; }
+#abaDocumentosT { top: 208px; }
+#abaMusicaT { top: 344px; }
+#abaIneditismoT { top: 432px; }
+#abaProjetoT { top: 568px; }
+#abaCreditosT { top: 668px; }
 .aba-painel { position: fixed; top: 0; left: 0; z-index: 997; width: 380px; max-width: 88vw; height: 100vh; overflow-y: auto; background: #1a1b1f; border-right: 1px solid #444; padding: 24px 22px 24px 42px; transform: translateX(-100%); transition: transform .25s; font-size: .92rem; color: #c4c4c4; line-height: 1.6; }
 .aba-painel.open { transform: translateX(0); }
 .aba-painel h3 { font-family: 'Courier New', monospace; font-size: .8rem; text-transform: uppercase; letter-spacing: 2px; color: #E07B39; border-bottom: 1px solid #444; padding-bottom: 8px; margin-bottom: 14px; }
@@ -180,6 +181,17 @@
     <li><b>Relatório Completo (RC)</b> — vale nota · até 6 dias após o Lab<br><span class="aba-nota">Repetição espaçada com elaboração: voltar aos dados quando a lembrança já começou a cair rende mais — e escrever a análise completa é gerar, não copiar.</span></li>
   </ol>
   <div class="regra"><strong>Não pule nenhum objeto de aprendizagem. Se pulou, volte.</strong><br>Cada passo prepara o terreno do seguinte: sem o Ponto de Partida a leitura não encontra pergunta; sem o Pré-Lab a bancada vira receita seguida às cegas; sem o Relatório Mínimo do mesmo dia os dados esfriam antes de virar conclusão. Pular um objeto de aprendizagem não adianta a trilha — atrasa. Se você pulou, volte ao passo que ficou para trás e siga dali.</div>
+</aside>
+
+<button class="aba-toggle" id="abaDocumentosT">Documentos</button>
+<aside class="aba-painel" id="abaDocumentos">
+  <h3>Documentos</h3>
+  <p>Os documentos que regem o seu curso e esta disciplina — PDF oficial de cada um.</p>
+  <a class="aba-btn" href="documentos/IFMG-OP-MIN-PPC.pdf">Projeto Pedagógico do Curso (PPC) · PDF integral</a>
+  <a class="aba-btn" href="documentos/IFMG-OP-MIN-Matriz.pdf">Matriz Curricular · PDF</a>
+  <a class="aba-btn" href="documentos/FE1-Ementa.pdf">Ementa · em vigor (PPC) e proposta</a>
+  <a class="aba-btn" href="documentos/IFMG-Regulamento-de-Ensino-2026.pdf">Regulamento de Ensino · PDF oficial</a>
+  <p class="aba-nota">A proposta de nova ementa está em análise pela Coordenação do Curso; até a aprovação, vale a ementa em vigor.</p>
 </aside>
 
 <button class="aba-toggle" id="abaMusicaT">Música</button>
@@ -411,6 +423,7 @@ if (location.protocol === 'file:') {
 (function () {
   var pares = [['abaSiteT', 'abaSite'],
                ['abaMetodoT', 'abaMetodo'],
+               ['abaDocumentosT', 'abaDocumentos'],
                ['abaMusicaT', 'abaMusica'],
                ['abaIneditismoT', 'abaIneditismo'],
                ['abaProjetoT', 'abaProjeto'],
