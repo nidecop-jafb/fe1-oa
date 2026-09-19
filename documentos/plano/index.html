@@ -423,6 +423,14 @@ h1, h2, h3, .acoes a, .rodape, #TOC a { font-family: var(--mono); }
   });
 })();
 </script>
+<!-- CELULAR-FE:INICIO --><style>
+@media (max-width: 560px) {
+  .tabela-rolagem { overflow-x: visible; }
+  .tabela-rolagem table { table-layout: fixed; width: 100%; }
+  .tabela-rolagem col { width: auto !important; }
+  .tabela-rolagem th, .tabela-rolagem td { padding: 6px 5px; overflow-wrap: anywhere; hyphens: auto; }
+}
+</style><!-- CELULAR-FE:FIM -->
 </head>
 <body data-pagina="documentos:plano">
 <div class="wrap">

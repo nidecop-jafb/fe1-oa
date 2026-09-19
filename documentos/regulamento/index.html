@@ -425,6 +425,14 @@ table, pre, figure { page-break-inside: avoid; }
   });
 })();
 </script><!-- DOC-FE:FIM -->
+<!-- CELULAR-FE:INICIO --><style>
+@media (max-width: 560px) {
+  .tabela-rolagem { overflow-x: visible; }
+  .tabela-rolagem table { table-layout: fixed; width: 100%; }
+  .tabela-rolagem col { width: auto !important; }
+  .tabela-rolagem th, .tabela-rolagem td { padding: 6px 5px; overflow-wrap: anywhere; hyphens: auto; }
+}
+</style><!-- CELULAR-FE:FIM -->
 </head>
 <body data-pagina="documentos:regulamento">
 <div class="wrap">
