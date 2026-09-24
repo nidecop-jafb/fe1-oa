@@ -68,6 +68,12 @@ p code, li code, td code { background: #17171a; padding: 1px 5px; font-size: .84
 h1 { font-size: 1.12rem; }
 table { font-size: .82rem; }
 
+.tabela-rolagem { overflow-x: visible; }
+.tabela-rolagem table { table-layout: fixed; width: 100%; }
+.tabela-rolagem col { width: auto !important; }
+.tabela-rolagem th, .tabela-rolagem td { padding: 6px 5px; overflow-wrap: anywhere; hyphens: auto; }
+.wrap p, .wrap li, .wrap a { overflow-wrap: anywhere; } 
+
 pre code { font-size: .58rem; }
 }
 
@@ -423,16 +429,8 @@ h1, h2, h3, .acoes a, .rodape, #TOC a { font-family: var(--mono); }
   });
 })();
 </script>
-<!-- CELULAR-FE:INICIO --><style>
-@media (max-width: 560px) {
-  .tabela-rolagem { overflow-x: visible; }
-  .tabela-rolagem table { table-layout: fixed; width: 100%; }
-  .tabela-rolagem col { width: auto !important; }
-  .tabela-rolagem th, .tabela-rolagem td { padding: 6px 5px; overflow-wrap: anywhere; hyphens: auto; }
-}
-</style><!-- CELULAR-FE:FIM -->
 </head>
-<body data-pagina="documentos:plano">
+<body>
 <div class="wrap">
 
 
@@ -510,8 +508,10 @@ estudantes</td>
 </tr>
 <tr>
 <td>Encontro</td>
-<td><strong>terça-feira</strong>, 100 min (2 aulas), rodízio quinzenal:
-um grupo no Lab de Mecânica, o outro em Química Experimental</td>
+<td>100 min (2 aulas), rodízio quinzenal: um grupo no Lab de Mecânica
+(FIS 102), o outro em Química Experimental (QUI 102) · <strong>turma 1:
+terça</strong>, 9h e 10h · <strong>turma 2: quinta</strong>, 7h e 8h ·
+<strong>turma 3: sexta</strong>, 7h e 8h</td>
 </tr>
 <tr>
 <td>Local</td>
@@ -586,7 +586,8 @@ Parada</td>
 <p>Cada trilha segue as três paradas do Método: <strong>Pré-Lab</strong>
 (20 min, em casa) → <strong>Lab</strong> (100 min, bancada) →
 <strong>Pós-Lab</strong> (40 min, em casa). A bancada é montada uma vez
-por trilha e atende os dois grupos em terças consecutivas.</p>
+por trilha e atende os dois grupos da turma em encontros
+consecutivos.</p>
 <h2 id="orçamento-do-encontro-de-100-min-vale-para-toda-trilha">5.1
 Orçamento do encontro de 100 min (vale para toda trilha)</h2>
 <div class="tabela-rolagem"><table>
@@ -869,28 +870,20 @@ trilha (acesso em 18/09/2026)</h2>
 </tbody>
 </table></div>
 <h1 id="cronograma-2026">7. Cronograma 2026</h1>
-<h2 id="datas-do-calendário-que-afetam-a-terça-feira">7.1 Datas do
-calendário que afetam a terça-feira</h2>
+<p>As datas vêm dos diários SUAP de cada turma (36 datas por diário,
+iguais nos Grupos A e B), conferidas com o Calendário Acadêmico. Cada
+data útil é de <strong>um</strong> grupo — 100 min de bancada —, em
+rodízio A/B. Semana de provas em bloco e sábado letivo ficam <strong>sem
+bancada</strong>.</p>
+<h2 id="datas-do-calendário-que-afetam-cada-dia">7.1 Datas do calendário
+que afetam cada dia</h2>
 <ul>
 <li><strong>Etapas:</strong> 1ª 15/04-11/07/2026 · 2ª 13/07-24/10/2026 ·
 3ª 26/10/2026-16/02/2027.</li>
-<li><strong>Provas em bloco (sem bancada):</strong> 03-11/07/2026 (terça
-07/07) · 17-24/10/2026 (terça 20/10) · 28/01-04/02/2027 (terça
-02/02).</li>
-<li><strong>Feriados e recessos em terça:</strong> 21/04 Tiradentes ·
-08/12 N. Sra. da Conceição · 22/12 e 29/12 recesso escolar · 09/02/2027
-Carnaval.</li>
-<li><strong>Dias letivos sem CH de disciplina:</strong> 21/07 (IV
-FestJEL) · 24/11 (Festival de Linguagens).</li>
-<li><strong>Férias docentes:</strong> 09-23/09/2026 (terças 15 e 22/09)
-· 04-08/01/2027 (terça 05/01).</li>
-<li><strong>Sábados letivos equivalentes a terça:</strong> 11/07/2026
-(prova em bloco) e 14/11/2026 (recuperação) — nenhum com bancada.</li>
+<li><strong>Provas em bloco (sem bancada):</strong> 03-11/07/2026 ·
+17-24/10/2026 · 28/01-04/02/2027.</li>
 <li><strong>Exames finais:</strong> 19-25/02/2027.</li>
 </ul>
-<p>Resultado: <strong>31 terças com bancada no ano</strong> — 16 do
-Grupo B, 15 do Grupo A.</p>
-<h2 id="já-ministrado-registro">7.2 Já ministrado (registro)</h2>
 <div class="tabela-rolagem"><table>
 <colgroup>
 <col style="width: 25%" />
@@ -900,31 +893,115 @@ Grupo B, 15 do Grupo A.</p>
 </colgroup>
 <thead>
 <tr>
-<th>Etapa</th>
-<th>Terças com bancada</th>
-<th>Encontros por grupo</th>
-<th>Trilhas</th>
+<th></th>
+<th>Terça · turma 1</th>
+<th>Quinta · turma 2</th>
+<th>Sexta · turma 3</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>1ª</td>
-<td>28/04 a 30/06 (10 terças)</td>
-<td>5 B · 5 A</td>
-<td>T0A a T04, em 9 encontros por grupo até 08/09</td>
+<td>Provas em bloco</td>
+<td>07/07 · 20/10 · 02/02</td>
+<td>09/07 · 22/10 · 28/01 e 04/02</td>
+<td>03/07 e 10/07 · 23/10 · 29/01</td>
 </tr>
 <tr>
-<td>2ª (até as férias)</td>
-<td>14/07, 28/07, 04/08, 11/08, 18/08, 25/08, 01/09, 08/09</td>
+<td>Feriados e recessos</td>
+<td>21/04 · 08/12 · 22/12 e 29/12 · 09/02</td>
+<td>04/06 · 24/12 e 31/12</td>
+<td>01/05 · 05/06 · 20/11 · 25/12 e 01/01</td>
+</tr>
+<tr>
+<td>Suspensão das atividades</td>
+<td>—</td>
+<td>21/05</td>
+<td>22/05</td>
+</tr>
+<tr>
+<td>Dia letivo sem CH de disciplina</td>
+<td>21/07 (IV FestJEL) · 24/11 (Festival de Linguagens)</td>
+<td>08/10 (Semana de Ciência e Tecnologia)</td>
+<td>09/10 (Semana de Ciência e Tecnologia)</td>
+</tr>
+<tr>
+<td>Dia que conta como segunda-feira</td>
+<td>—</td>
+<td>15/10 · 05/11</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Férias docentes</td>
+<td>15 e 22/09 · 05/01</td>
+<td>10 e 17/09 · 07/01</td>
+<td>11 e 18/09 · 08/01</td>
+</tr>
+<tr>
+<td>Sábado letivo equivalente (sem bancada)</td>
+<td>11/07 (prova) · 14/11 (recuperação)</td>
+<td>25/07 (recuperação) · 24/10 (prova)</td>
+<td>01/08 (recuperação) · 30/01 (prova)</td>
+</tr>
+<tr>
+<td><strong>Datas com bancada no ano</strong></td>
+<td><strong>31</strong></td>
+<td><strong>29</strong></td>
+<td><strong>29</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>Depois das provas da 3ª etapa ainda são letivas a quinta 11/02 e a
+sexta 12/02/2027, sem encontro previsto.</p>
+<h2 id="já-ministrado-registro">7.2 Já ministrado (registro)</h2>
+<p>T0A a T04 concluídas nos seis grupos. O rodízio é contado de trás
+para frente a partir da próxima data, que é do Grupo B nas três
+turmas.</p>
+<div class="tabela-rolagem"><table>
+<colgroup>
+<col style="width: 7%" />
+<col style="width: 29%" />
+<col style="width: 22%" />
+<col style="width: 22%" />
+<col style="width: 18%" />
+</colgroup>
+<thead>
+<tr>
+<th>Turma</th>
+<th>1ª etapa</th>
+<th>Encontros</th>
+<th>2ª etapa, até as férias</th>
+<th>Encontros</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 (terça)</td>
+<td>28/04 a 30/06 · 10 datas</td>
+<td>5 B · 5 A</td>
+<td>14/07 a 08/09 · 8 datas</td>
 <td>4 B · 4 A</td>
-<td>idem</td>
+</tr>
+<tr>
+<td>2 (quinta)</td>
+<td>16/04 a 02/07 · 10 datas</td>
+<td>5 B · 5 A</td>
+<td>16/07 a 03/09 · 8 datas</td>
+<td>4 B · 4 A</td>
+</tr>
+<tr>
+<td>3 (sexta)</td>
+<td>17/04 a 26/06 · 8 datas</td>
+<td>4 B · 4 A</td>
+<td>17/07 a 04/09 · 8 datas</td>
+<td>4 B · 4 A</td>
 </tr>
 </tbody>
 </table></div>
 <h2 id="a-partir-de-24092026-planejado">7.3 A partir de 24/09/2026
 (planejado)</h2>
-<p>Alternância estrita: o Grupo B abre cada trilha, e o A a repete na
-terça seguinte com a bancada montada.</p>
+<p>Em cada turma o Grupo B abre a trilha e o A a repete no encontro
+seguinte da turma, com a bancada montada.</p>
+<p><strong>Turma 1 — terça</strong></p>
 <div class="tabela-rolagem"><table>
 <colgroup>
 <col style="width: 25%" />
@@ -1053,42 +1130,324 @@ terça seguinte com a bancada montada.</p>
 <td>16/02</td>
 <td>B</td>
 <td>encontro de fechamento: plantão do PI e reposição (sem trilha nova;
-o Grupo A não tem terça correspondente)</td>
+o Grupo A não tem data correspondente)</td>
+<td>3ª</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Turma 2 — quinta</strong></p>
+<div class="tabela-rolagem"><table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Data</th>
+<th>Grupo</th>
+<th>Trilha</th>
+<th>Etapa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>24/09</td>
+<td>B</td>
+<td>T05 Analisando Linhas Tortas</td>
+<td>2ª</td>
+</tr>
+<tr>
+<td>01/10</td>
+<td>A</td>
+<td>T05</td>
+<td>2ª</td>
+</tr>
+<tr>
+<td>08/10</td>
+<td>—</td>
+<td>Semana de Ciência e Tecnologia — sem CH</td>
+<td>2ª</td>
+</tr>
+<tr>
+<td>15/10</td>
+<td>—</td>
+<td>conta como segunda-feira</td>
+<td>2ª</td>
+</tr>
+<tr>
+<td>22/10</td>
+<td>—</td>
+<td>provas em bloco — sem bancada</td>
+<td>2ª</td>
+</tr>
+<tr>
+<td>29/10</td>
+<td>B</td>
+<td>T06 Leis de Newton</td>
+<td>3ª</td>
+</tr>
+<tr>
+<td>05/11</td>
+<td>—</td>
+<td>conta como segunda-feira (a T06 fica montada)</td>
+<td>3ª</td>
+</tr>
+<tr>
+<td>12/11</td>
+<td>A</td>
+<td>T06</td>
+<td>3ª</td>
+</tr>
+<tr>
+<td>19/11</td>
+<td>B</td>
+<td>T07 Pesando, Puxando, Empurrando e Esticando</td>
+<td>3ª</td>
+</tr>
+<tr>
+<td>26/11</td>
+<td>A</td>
+<td>T07</td>
+<td>3ª</td>
+</tr>
+<tr>
+<td>03/12</td>
+<td>B</td>
+<td>T08 Boiando, Lixando, Amassando e Voando</td>
+<td>3ª</td>
+</tr>
+<tr>
+<td>10/12</td>
+<td>A</td>
+<td>T08</td>
+<td>3ª</td>
+</tr>
+<tr>
+<td>17/12</td>
+<td>B</td>
+<td>T09 Subindo e descendo em Rampas e Ladeiras</td>
+<td>3ª</td>
+</tr>
+<tr>
+<td>24/12-07/01</td>
+<td>—</td>
+<td>recesso e férias docentes (a T09 fica montada)</td>
+<td>3ª</td>
+</tr>
+<tr>
+<td>14/01/2027</td>
+<td>A</td>
+<td>T09</td>
+<td>3ª</td>
+</tr>
+<tr>
+<td>21/01</td>
+<td>B</td>
+<td>T10 Trombadas e Batidas</td>
+<td>3ª</td>
+</tr>
+<tr>
+<td>28/01 e 04/02</td>
+<td>—</td>
+<td>provas em bloco — sem bancada</td>
+<td>3ª</td>
+</tr>
+</tbody>
+</table></div>
+<p>O Grupo A da turma 2 não tem data para a T10: faz a <strong>T10 por
+simulação</strong> (Pré-Lab e Pós-Lab), entre 21/01 e 05/02.</p>
+<p><strong>Turma 3 — sexta</strong></p>
+<div class="tabela-rolagem"><table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Data</th>
+<th>Grupo</th>
+<th>Trilha</th>
+<th>Etapa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>25/09</td>
+<td>B</td>
+<td>T05 Analisando Linhas Tortas</td>
+<td>2ª</td>
+</tr>
+<tr>
+<td>02/10</td>
+<td>A</td>
+<td>T05</td>
+<td>2ª</td>
+</tr>
+<tr>
+<td>09/10</td>
+<td>—</td>
+<td>Semana de Ciência e Tecnologia — sem CH</td>
+<td>2ª</td>
+</tr>
+<tr>
+<td>16/10</td>
+<td>B</td>
+<td>T06 Leis de Newton</td>
+<td>2ª (nota na 3ª)</td>
+</tr>
+<tr>
+<td>23/10</td>
+<td>—</td>
+<td>provas em bloco — sem bancada (a T06 fica montada)</td>
+<td>2ª</td>
+</tr>
+<tr>
+<td>30/10</td>
+<td>A</td>
+<td>T06</td>
+<td>3ª</td>
+</tr>
+<tr>
+<td>06/11</td>
+<td>B</td>
+<td>T07 Pesando, Puxando, Empurrando e Esticando</td>
+<td>3ª</td>
+</tr>
+<tr>
+<td>13/11</td>
+<td>A</td>
+<td>T07</td>
+<td>3ª</td>
+</tr>
+<tr>
+<td>20/11</td>
+<td>—</td>
+<td>feriado</td>
+<td>3ª</td>
+</tr>
+<tr>
+<td>27/11</td>
+<td>B</td>
+<td>T08 Boiando, Lixando, Amassando e Voando</td>
+<td>3ª</td>
+</tr>
+<tr>
+<td>04/12</td>
+<td>A</td>
+<td>T08</td>
+<td>3ª</td>
+</tr>
+<tr>
+<td>11/12</td>
+<td>B</td>
+<td>T09 Subindo e descendo em Rampas e Ladeiras</td>
+<td>3ª</td>
+</tr>
+<tr>
+<td>18/12</td>
+<td>A</td>
+<td>T09</td>
+<td>3ª</td>
+</tr>
+<tr>
+<td>25/12-08/01</td>
+<td>—</td>
+<td>recesso, feriado e férias docentes</td>
+<td>3ª</td>
+</tr>
+<tr>
+<td>15/01/2027</td>
+<td>B</td>
+<td>T10 Trombadas e Batidas</td>
+<td>3ª</td>
+</tr>
+<tr>
+<td>22/01</td>
+<td>A</td>
+<td>T10</td>
+<td>3ª</td>
+</tr>
+<tr>
+<td>29/01</td>
+<td>—</td>
+<td>provas em bloco — sem bancada</td>
+<td>3ª</td>
+</tr>
+<tr>
+<td>05/02</td>
+<td>B</td>
+<td>encontro de fechamento: plantão do PI e reposição (sem trilha nova;
+o Grupo A não tem data correspondente)</td>
 <td>3ª</td>
 </tr>
 </tbody>
 </table></div>
 <ul>
-<li><strong>T11</strong> entra <strong>por simulação</strong>, para os
-dois grupos, entre 15/12 e 26/01 (Pré-Lab e Pós-Lab no Moodle): não
-sobra terça de bancada para ela, e ela é a única trilha sem roteiro de
-bancada testado.</li>
-<li><strong>T12 (PI):</strong> lançado em 03/11 (B) e 10/11 (A),
-desenvolvido no Pós-Lab, entregue até <strong>05/02/2027</strong>. Os
-encontros que sobram (16/02, só Grupo B) servem de plantão.</li>
+<li><strong>T11</strong> entra <strong>por simulação</strong>, nas três
+turmas e nos dois grupos, depois da T09 de cada grupo e até 29/01
+(Pré-Lab e Pós-Lab no Moodle): não sobra data de bancada para ela, e ela
+é a única trilha sem roteiro de bancada testado.</li>
+<li><strong>T12 (PI):</strong> lançado no encontro da T07 de cada grupo
+— turma 1: 03/11 (B) e 10/11 (A) · turma 2: 19/11 (B) e 26/11 (A) ·
+turma 3: 06/11 (B) e 13/11 (A) —, desenvolvido no Pós-Lab e entregue até
+<strong>05/02/2027</strong>. Os encontros de fechamento (16/02 na turma
+1 e 05/02 na turma 3, só Grupo B) servem de plantão.</li>
+<li><strong>Montagens:</strong> como as turmas estão defasadas, o Lab de
+Mecânica guarda <strong>duas montagens ao mesmo tempo</strong> nas
+semanas de 10-13/11 (T06 e T07), 17-19/11 (T07 e T08), 26-27/11 (T07 e
+T08), 10-11/12 (T08 e T09) e 12-15/01 (T09 e T10).</li>
 </ul>
 <h2 id="carga-horária">7.4 Carga horária</h2>
 <div class="tabela-rolagem"><table>
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+</colgroup>
 <thead>
 <tr>
 <th></th>
-<th style="text-align: right;">Grupo B</th>
-<th style="text-align: right;">Grupo A</th>
+<th style="text-align: right;">1 B</th>
+<th style="text-align: right;">1 A</th>
+<th style="text-align: right;">2 B</th>
+<th style="text-align: right;">2 A</th>
+<th style="text-align: right;">3 B</th>
+<th style="text-align: right;">3 A</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Encontros presenciais (100 min)</td>
+<td>Presencial</td>
 <td style="text-align: right;">16 → 26,7 h</td>
 <td style="text-align: right;">15 → 25,0 h</td>
+<td style="text-align: right;">15 → 25,0 h</td>
+<td style="text-align: right;">14 → 23,3 h</td>
+<td style="text-align: right;">15 → 25,0 h</td>
+<td style="text-align: right;">14 → 23,3 h</td>
 </tr>
 <tr>
-<td>T11 por simulação (equivalente a 1 encontro)</td>
-<td style="text-align: right;">1,7 h</td>
-<td style="text-align: right;">1,7 h</td>
+<td>Simulação</td>
+<td style="text-align: right;">T11 · 1,7 h</td>
+<td style="text-align: right;">T11 · 1,7 h</td>
+<td style="text-align: right;">T11 · 1,7 h</td>
+<td style="text-align: right;">T10+T11 · 3,3 h</td>
+<td style="text-align: right;">T11 · 1,7 h</td>
+<td style="text-align: right;">T11 · 1,7 h</td>
 </tr>
 <tr>
-<td>PI no Pós-Lab (2 encontros equivalentes)</td>
+<td>PI no Pós-Lab</td>
+<td style="text-align: right;">3,3 h</td>
+<td style="text-align: right;">3,3 h</td>
+<td style="text-align: right;">3,3 h</td>
+<td style="text-align: right;">3,3 h</td>
 <td style="text-align: right;">3,3 h</td>
 <td style="text-align: right;">3,3 h</td>
 </tr>
@@ -1096,12 +1455,19 @@ encontros que sobram (16/02, só Grupo B) servem de plantão.</li>
 <td><strong>Total</strong></td>
 <td style="text-align: right;"><strong>31,7 h</strong></td>
 <td style="text-align: right;"><strong>30,0 h</strong></td>
+<td style="text-align: right;"><strong>30,0 h</strong></td>
+<td style="text-align: right;"><strong>30,0 h</strong></td>
+<td style="text-align: right;"><strong>30,0 h</strong></td>
+<td style="text-align: right;"><strong>28,3 h</strong></td>
 </tr>
 </tbody>
 </table></div>
+<p>Presencial = encontros de 100 min · simulação = 1 encontro
+equivalente por trilha · PI no Pós-Lab = 2 encontros equivalentes.</p>
 <p>A conta fecha 30 h se a Coordenação aceitar a carga horária não
-presencial da T11 e do PI; se não aceitar, vale o <strong>Plano
-B</strong> (apêndice), com reposições presenciais.</p>
+presencial das simulações e do PI (o Grupo A da turma 3 fica em 28,3 h);
+o <strong>Plano B</strong> (apêndice), com reposições presenciais,
+iguala os seis grupos em 30 h.</p>
 <h1 id="recursos-didáticos">8. Recursos didáticos</h1>
 <p>Os 16 Objetos de Aprendizagem (OAs) do método por trilha, publicados
 em https://nidecop-jafb.github.io/fe1-oa/ · Inventário de Equipamento
@@ -1194,17 +1560,56 @@ etapa</td>
 </tbody>
 </table></div>
 <p>A nota da T06 vai inteira para a 3ª etapa nos dois grupos, embora o
-Grupo B faça a bancada em 13/10.</p>
+Grupo B das turmas 1 e 3 faça a bancada em 13/10 e 16/10.</p>
 <h1 id="recuperação-e-reposição">10. Recuperação e reposição</h1>
+<div class="tabela-rolagem"><table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th></th>
+<th>Turma 1 (terça)</th>
+<th>Turma 2 (quinta)</th>
+<th>Turma 3 (sexta)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Recuperação parcial da 2ª etapa (A e B)</td>
+<td>sábado <strong>14/11/2026</strong>, letivo equivalente a terça e
+reservado à recuperação</td>
+<td>um dos sábados de recuperação sem dia correspondente (28/11, 05/12,
+12/12, 19/12/2026 ou 16/01/2027), marcado pela Coordenação</td>
+<td>idem turma 2</td>
+</tr>
+<tr>
+<td>Recuperação da 3ª etapa</td>
+<td>exame final, 19-25/02/2027</td>
+<td>idem</td>
+<td>idem</td>
+</tr>
+<tr>
+<td>Encontro de fechamento (plantão do PI)</td>
+<td>16/02/2027, Grupo B</td>
+<td>—</td>
+<td>05/02/2027, Grupo B</td>
+</tr>
+</tbody>
+</table></div>
 <ul>
-<li><strong>Recuperação parcial da 2ª etapa:</strong> um dos sábados de
-recuperação do calendário (07/11, 14/11, 28/11, 05/12, 12/12, 19/12/2026
-ou 16/01/2027), marcado pela Coordenação.</li>
-<li><strong>Recuperação da 3ª etapa:</strong> exame final,
-19-25/02/2027.</li>
 <li><strong>Reposição de bancada perdida:</strong> por simulação da
-trilha (seção 6.1) + RM sobre o dado real de uma bancada da turma. Não
-há semana-tampão presencial.</li>
+trilha (seção 6.1) + Relatório Mínimo (RM) sobre o dado real de uma
+bancada da mesma turma. Não há semana-tampão presencial.</li>
+<li><strong>Grupo sem data para uma trilha</strong> (T10 da turma 2 A;
+T11 em todos): simulação no Pré-Lab e no Pós-Lab, com a mesma pontuação
+da seção 9.1.</li>
+<li><strong>Reposição presencial:</strong> só pelo Plano B (apêndice),
+às sextas à tarde, se a Coordenação não aceitar a CH não
+presencial.</li>
 </ul>
 <h1 id="bibliografia">11. Bibliografia</h1>
 <p>Conforme a Ementa v4 (básica: Bonjorno; Lima e Zappa; Santoro <em>et
@@ -1219,94 +1624,154 @@ I</strong>: práticas 1 a 9. Juiz de Fora: UFJF.</li>
 <h1 id="apêndice-plano-b-carga-horária-por-reposição">Apêndice · Plano B
 (carga horária por reposição)</h1>
 <p><strong>Quando vale:</strong> se a Coordenação <strong>não</strong>
-aceitar a carga horária não presencial da T11 e do Projeto Investigativo
-(PI) (seção 7.4). Este apêndice substitui só as seções 7.3 e 7.4; o
-resto do plano continua valendo.</p>
+aceitar a carga horária não presencial das trilhas por simulação e do
+Projeto Investigativo (PI) (seção 7.4). Este apêndice substitui só as
+seções 7.3 e 7.4; o resto do plano continua valendo.</p>
 <h2 id="b1.-a-conta">B1. A conta</h2>
 <div class="tabela-rolagem"><table>
 <colgroup>
-<col style="width: 27%" />
-<col style="width: 36%" />
-<col style="width: 36%" />
+<col style="width: 11%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
 </colgroup>
 <thead>
 <tr>
 <th></th>
-<th style="text-align: right;">Grupo B</th>
-<th style="text-align: right;">Grupo A</th>
+<th style="text-align: right;">1 B</th>
+<th style="text-align: right;">1 A</th>
+<th style="text-align: right;">2 B</th>
+<th style="text-align: right;">2 A</th>
+<th style="text-align: right;">3 B</th>
+<th style="text-align: right;">3 A</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Terças com bancada (seção 7.1)</td>
+<td>Encontros presenciais (seção 7.4)</td>
 <td style="text-align: right;">16</td>
 <td style="text-align: right;">15</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">14</td>
 </tr>
 <tr>
-<td>Reposições necessárias para 18 encontros (36 aulas = 30 h)</td>
+<td>Reposições para 18 encontros (36 aulas = 30 h)</td>
 <td style="text-align: right;"><strong>2</strong></td>
 <td style="text-align: right;"><strong>3</strong></td>
+<td style="text-align: right;"><strong>3</strong></td>
+<td style="text-align: right;"><strong>4</strong></td>
+<td style="text-align: right;"><strong>3</strong></td>
+<td style="text-align: right;"><strong>4</strong></td>
 </tr>
 <tr>
 <td><strong>Total</strong></td>
 <td style="text-align: right;"><strong>18 → 30 h</strong></td>
 <td style="text-align: right;"><strong>18 → 30 h</strong></td>
+<td style="text-align: right;"><strong>18 → 30 h</strong></td>
+<td style="text-align: right;"><strong>18 → 30 h</strong></td>
+<td style="text-align: right;"><strong>18 → 30 h</strong></td>
+<td style="text-align: right;"><strong>18 → 30 h</strong></td>
 </tr>
 </tbody>
 </table></div>
-<p>São 5 reposições por turma — <strong>15 sessões de 100 min</strong>
-nas 3 turmas (6 diários SUAP).</p>
+<p>São <strong>19 sessões de 100 min</strong>: 5 na turma 1, 7 na turma
+2 e 7 na turma 3.</p>
 <h2 id="b2.-o-que-as-reposições-ocupam">B2. O que as reposições
 ocupam</h2>
-<div class="tabela-rolagem"><table>
+<div class="tabela-rolagem"><table style="width:100%;">
 <colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
 </colgroup>
 <thead>
 <tr>
 <th>Sessão</th>
-<th>Grupo B</th>
-<th>Grupo A</th>
+<th>1 B</th>
+<th>1 A</th>
+<th>2 B</th>
+<th>2 A</th>
+<th>3 B</th>
+<th>3 A</th>
 </tr>
 </thead>
 <tbody>
 <tr>
+<td>T10 Trombadas e Batidas — <strong>em bancada</strong></td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>1</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
 <td>T11 A Física da Água Parada — <strong>em bancada</strong></td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
 <td>1</td>
 <td>1</td>
 </tr>
 <tr>
 <td>PI — planejamento do procedimento</td>
-<td>— (no encontro de lançamento, terça 03/11)</td>
+<td>— (no encontro de lançamento, 03/11)</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
 <td>1</td>
 </tr>
 <tr>
 <td>PI — medição do projeto</td>
 <td>1</td>
 <td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>PI — fechamento (plantão)</td>
+<td>— (16/02, encontro regular)</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>— (05/02, encontro regular)</td>
+<td>1</td>
 </tr>
 <tr>
 <td><strong>Reposições</strong></td>
 <td><strong>2</strong></td>
 <td><strong>3</strong></td>
+<td><strong>3</strong></td>
+<td><strong>4</strong></td>
+<td><strong>3</strong></td>
+<td><strong>4</strong></td>
 </tr>
 </tbody>
 </table></div>
-<p>O Grupo B tem ainda a terça 16/02/2027 (seção 7.3) como plantão do
-PI, que já estava entre os 16 encontros. Com isso os dois grupos recebem
-o mesmo conteúdo: T01-T11 em bancada e três sessões presenciais do
-PI.</p>
+<p>Com isso os seis grupos recebem o mesmo conteúdo: T01-T11 em bancada
+e as sessões presenciais do PI.</p>
 <h2 id="b3.-onde-e-quando">B3. Onde e quando</h2>
 <p>Horário: <strong>sexta-feira à tarde, depois das 13h</strong>,
 marcado pela <strong>Coordenadoria de Horários e Provas</strong>. Não
-depende da Química, então os dois grupos de uma turma podem repor na
-mesma tarde, em dois horários seguidos. A proposta abaixo supõe
-<strong>2 sessões por sexta</strong>; o horário exato é da
-Coordenadoria.</p>
-<p>Sextas descartadas: 20/11 (feriado), 25/12 e 01/01 (recesso e
-feriado), 08/01 (férias docentes), 29/01 (provas em bloco).</p>
+conflita com a turma 3, que tem FE1 na sexta de manhã, nem depende da
+Química; a proposta supõe <strong>no máximo 2 sessões por
+sexta</strong>.</p>
+<p>Sextas descartadas: 09/10 (sem CH), 23/10 e 29/01 (provas em bloco),
+20/11 (feriado), 25/12 e 01/01 (recesso e feriado), 08/01 (férias
+docentes).</p>
 <div class="tabela-rolagem"><table>
 <colgroup>
 <col style="width: 25%" />
@@ -1326,13 +1791,13 @@ feriado), 08/01 (férias docentes), 29/01 (provas em bloco).</p>
 <tr>
 <td>30/10/2026</td>
 <td>PI planejamento · Turma 1 · A</td>
-<td>PI planejamento · Turma 2 · A</td>
+<td>PI planejamento · Turma 2 · B</td>
 <td>—</td>
 </tr>
 <tr>
 <td>06/11</td>
 <td>PI planejamento · Turma 3 · A</td>
-<td>livre (reserva)</td>
+<td>PI planejamento · Turma 3 · B</td>
 <td>—</td>
 </tr>
 <tr>
@@ -1355,46 +1820,54 @@ feriado), 08/01 (férias docentes), 29/01 (provas em bloco).</p>
 </tr>
 <tr>
 <td>11/12</td>
-<td>PI medição · Turma 1 · B</td>
-<td>PI medição · Turma 1 · A</td>
+<td>PI planejamento · Turma 2 · A</td>
+<td>PI medição · Turma 3 · B</td>
 <td>kits dos projetos</td>
 </tr>
 <tr>
 <td>18/12</td>
-<td>PI medição · Turma 2 · B</td>
-<td>PI medição · Turma 2 · A</td>
+<td>PI medição · Turma 1 · B</td>
+<td>PI medição · Turma 1 · A</td>
 <td>idem</td>
 </tr>
 <tr>
 <td>15/01/2027</td>
-<td>PI medição · Turma 3 · B</td>
-<td>PI medição · Turma 3 · A</td>
-<td>idem</td>
+<td>T10 · Turma 2 · A</td>
+<td>PI medição · Turma 2 · B</td>
+<td>T10 montada (turma 3 B de manhã)</td>
 </tr>
 <tr>
 <td>22/01</td>
-<td>livre (reserva)</td>
+<td>PI medição · Turma 2 · A</td>
+<td>PI medição · Turma 3 · A</td>
+<td>kits dos projetos</td>
+</tr>
+<tr>
+<td>05/02</td>
+<td>PI fechamento · Turma 3 · A</td>
 <td>livre (reserva)</td>
 <td>—</td>
 </tr>
 </tbody>
 </table></div>
 <ul>
-<li><strong>Lançamento do PI</strong> antecipado para os encontros
-regulares de 27/10 (A) e 03/11 (B), para que o planejamento do Grupo A
-(30/10 e 06/11) venha depois do lançamento.</li>
+<li><strong>Lançamento do PI</strong> antecipado para o primeiro
+encontro da 3ª etapa dos grupos cujo planejamento é reposição — turma 1:
+27/10 (A) · turma 2: 29/10 (B) e 12/11 (A) · turma 3: 30/10 (A). Os
+Grupos B das turmas 1 e 3 lançam no encontro da T07 (03/11 e 06/11); o 3
+B planeja na tarde do próprio dia do lançamento.</li>
 <li><strong>Entrega do PI:</strong> 05/02/2027, como na seção 7.3.</li>
 <li><strong>T11 na bancada:</strong> medição central = empuxo × volume
 imerso (peso aparente de um cilindro no dinamômetro, 4 profundidades de
-imersão). As simulações do plano (6.1) continuam como Pré-Lab.</li>
-<li><strong>Folgas:</strong> 06/11 (2º horário) e 22/01 recebem
-reposição de quem faltou ou sessão perdida.</li>
+imersão). As simulações da seção 6.1 continuam como Pré-Lab.</li>
+<li><strong>Folga:</strong> 05/02 (2º horário) recebe reposição de quem
+faltou ou sessão perdida.</li>
 <li><strong>Etapa:</strong> todas as reposições caem na 3ª etapa; a
-avaliação do plano (seção 9) não muda.</li>
+avaliação (seção 9) não muda.</li>
 </ul>
 
 <div class="acoes" style="margin-top:44px">
-  <a href="FE1-Plano-de-Ensino-2026.pdf" target="_blank" rel="noopener">Abrir o PDF (9 páginas)</a>
+  <a href="FE1-Plano-de-Ensino-2026.pdf" target="_blank" rel="noopener">Abrir o PDF (12 páginas)</a>
   <a href="_qr/">QR desta página · projetar ou imprimir</a>
   <a href="../../#abaDocumentos">Todos os documentos</a>
   <a class="destaque" href="../../">Voltar ao índice das Trilhas</a>
@@ -1403,9 +1876,5 @@ avaliação do plano (seção 9) não muda.</li>
 <!-- RODAPE-FE:INICIO --><div class="fe-rodape"><div class="fe-inst-marcas"><a href="https://ouropreto.ifmg.edu.br/ouropreto" target="_blank" rel="noopener" title="IFMG — Campus Ouro Preto (abre em nova aba)"><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="-36.75 -4 258.5 258.5" role="img" aria-label="Instituto Federal de Minas Gerais"> <title>Instituto Federal de Minas Gerais</title> <circle cx="27" cy="27" r="30" fill="#C8191E"/> <g fill="#32A041"> <rect x="65.5" y="0" width="54" height="54"/> <rect x="131" y="0" width="54" height="54"/> <rect x="0" y="65.5" width="54" height="54"/> <rect x="65.5" y="65.5" width="54" height="54"/> <rect x="0" y="131" width="54" height="54"/> <rect x="65.5" y="131" width="54" height="54"/> <rect x="131" y="131" width="54" height="54"/> <rect x="0" y="196.5" width="54" height="54"/> <rect x="65.5" y="196.5" width="54" height="54"/> </g> </svg></a><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="NIDEC — Núcleo de Inovação e Desenvolvimento de Experimentos Científicos"> <title>NIDEC — Núcleo de Inovação e Desenvolvimento de Experimentos Científicos</title> <defs> <linearGradient id="inst-nidec-o1" gradientUnits="userSpaceOnUse" x1="8" y1="100" x2="192" y2="100" gradientTransform="rotate(-30 100 100)"> <stop offset="0" stop-color="#4A1F95"/><stop offset=".38" stop-color="#2C5AA4"/> <stop offset=".70" stop-color="#2CC2A2"/><stop offset="1" stop-color="#2C9E41"/> </linearGradient> <linearGradient id="inst-nidec-o2" gradientUnits="userSpaceOnUse" x1="8" y1="100" x2="192" y2="100" gradientTransform="rotate(-90 100 100)"> <stop offset="0" stop-color="#4A1F95"/><stop offset=".38" stop-color="#2C5AA4"/> <stop offset=".70" stop-color="#2CC2A2"/><stop offset="1" stop-color="#2C9E41"/> </linearGradient> <linearGradient id="inst-nidec-o3" gradientUnits="userSpaceOnUse" x1="8" y1="100" x2="192" y2="100" gradientTransform="rotate(-150 100 100)"> <stop offset="0" stop-color="#4A1F95"/><stop offset=".38" stop-color="#2C5AA4"/> <stop offset=".70" stop-color="#2CC2A2"/><stop offset="1" stop-color="#2C9E41"/> </linearGradient> <radialGradient id="inst-nidec-nucleo" cx="40%" cy="36%" r="70%"> <stop offset="0" stop-color="#A0EBE1"/> <stop offset=".45" stop-color="#2CC8C2"/> <stop offset="1" stop-color="#1E5DA5"/> </radialGradient> </defs> <g fill="none" stroke-width="8"> <g transform="rotate(30 100 100)" stroke="url(#inst-nidec-o1)"> <ellipse cx="100" cy="100" rx="88" ry="31"/> <circle cx="188" cy="100" r="8" fill="url(#inst-nidec-o1)" stroke="none"/> </g> <g transform="rotate(90 100 100)" stroke="url(#inst-nidec-o2)"> <ellipse cx="100" cy="100" rx="88" ry="31"/> <circle cx="12" cy="100" r="8" fill="url(#inst-nidec-o2)" stroke="none"/> </g> <g transform="rotate(150 100 100)" stroke="url(#inst-nidec-o3)"> <ellipse cx="100" cy="100" rx="88" ry="31"/> <circle cx="188" cy="100" r="8" fill="url(#inst-nidec-o3)" stroke="none"/> </g> </g> <circle cx="100" cy="100" r="23" fill="url(#inst-nidec-nucleo)"/> </svg></div><div class="fe-agr-marca"><a href="https://nidecop-jafb.github.io/fe1-oa/agradecimentos/" title="Agradecimentos &middot; F&iacute;sica e Poesia"><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Agradecimentos — Física e Poesia"> <g fill="none" stroke="#7FB2D6" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"> <path d="M 60 44 C 46 36 28 36 12 40 L 12 104 C 28 100 46 100 60 108 C 74 100 92 100 108 104 L 108 40 C 92 36 74 36 60 44 Z"/> <line x1="60" y1="44" x2="60" y2="108"/> </g> <g stroke="#7FB2D6" stroke-width="2" stroke-linecap="round" opacity=".7"> <line x1="22" y1="58" x2="50" y2="56"/><line x1="22" y1="70" x2="50" y2="68"/><line x1="22" y1="82" x2="44" y2="81"/> </g> <path d="M 68 70 C 72 62 76 62 80 70 S 88 78 92 70 S 98 62 100 66" fill="none" stroke="#E07B39" stroke-width="2.5" stroke-linecap="round"/> <path d="M 104 8 C 86 12 72 24 66 44 C 80 40 94 28 104 8 Z" fill="none" stroke="#E07B39" stroke-width="3" stroke-linejoin="round"/> <line x1="100" y1="13" x2="62" y2="56" stroke="#E07B39" stroke-width="3" stroke-linecap="round"/> </svg></a></div><div class="fe-rodape-texto">IFMG campus Ouro Preto - Coordenadoria da Área de Física (CODAFIS) - Núcleo de Inovação e Desenvolvimento de Experimentos Científicos (NIDEC) &middot; Primeira edição &middot; 2026</div></div><!-- RODAPE-FE:FIM -->
 
 </div>
-<!-- CONTADOR:INICIO -->
-<script src="../../contador-config.js"></script>
-<script src="../../acessos.js"></script>
-<!-- CONTADOR:FIM -->
 </body>
 </html>
