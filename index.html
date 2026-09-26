@@ -85,6 +85,14 @@
 .aba-painel .aba-cargo { font-family: 'Courier New', monospace; font-size: .8rem; font-weight: 700; letter-spacing: 1px; color: #7FB2D6; border-bottom: 1px solid #444; padding-bottom: 3px; margin: 14px 0 4px; }
 .aba-painel .aba-nome { margin-bottom: 0; color: #ddd; }
 .aba-painel .regra { border: 1px solid #E07B39; padding: 12px 14px; margin: 14px 0 4px; font-size: .88rem; }
+.aba-painel .rcp-ramo { border-left: 3px solid #E07B39; padding: 2px 0 2px 12px; margin: 0 0 14px; }
+.aba-painel .rcp-qual { border-left-color: #7FB2D6; }
+.aba-painel .rcp-t { font-family: 'Courier New', monospace; font-size: .82rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #E07B39; margin: 0 0 2px; }
+.aba-painel .rcp-qual .rcp-t { color: #7FB2D6; }
+.aba-painel .rcp-l { font-size: .82rem; color: #aaa; font-style: italic; margin: 0 0 8px; }
+.aba-painel .rcp-ramo ol { margin-bottom: 4px; }
+.aba-painel .rcp-c { font-size: .88rem; }
+.aba-painel .rcp-f { font-size: .88rem; color: #ddd; font-style: italic; }
 @media (max-width: 800px) {
   /* gutter: as abas fixas nao cobrem o conteudo em tela estreita */
   .wrap { padding-left: 46px; }
@@ -167,10 +175,10 @@
     <li><b>Checklist de Segurança (CS)</b> — obrigatório · antes da bancada<br><span class="aba-nota">Segurança é pré-condição, não etapa: quem entra sabendo os cuidados e os EPIs da prática libera a atenção para o experimento — e protege a si e aos colegas de bancada.</span></li>
   </ul>
   <p class="parada-t"><span class="parada-n">Lab</span> · <span class="parada-q">na bancada, com o professor · 100 min</span></p>
-  <p class="parada-porque">Construir o conhecimento com as mãos: montar, medir e registrar — com o professor sustentando o passo que você ainda não dá sozinho.</p>
+  <p class="parada-porque">Construir o conhecimento com as mãos: montar, medir e registrar — com o professor sustentando o que você ainda não faz sozinho.</p>
   <ol>
     <li><b>Roteiro de Bancada (RB)</b> — execução · registrar os dados<br><span class="aba-nota">Registrar a medição com as próprias mãos, no momento em que ela acontece: o que a gente gera e anota fica mais do que o que a gente copia.</span></li>
-    <li><b>Apresentação do Lab (AP)</b> — roteiro dos 100 min · rever depois<br><span class="aba-nota">Atenção conjunta e fio condutor da sessão: o professor projeta o roteiro e sustenta o passo que você ainda não dá sozinho — e os slides ficam disponíveis para rever depois.</span></li>
+    <li><b>Apresentação do Lab (AP)</b> — roteiro dos 100 min · rever depois<br><span class="aba-nota">Atenção conjunta e fio condutor da sessão: o professor projeta o roteiro e sustenta o que você ainda não faz sozinho — e os slides ficam disponíveis para rever depois.</span></li>
     <li><b>Infográficos de Bancada (IG)</b> — painel e consultas · durante a prática<br><span class="aba-nota">Consulta visual no momento da dúvida: a resposta chega enquanto o problema ainda está na mão — e é assim que ela gruda.</span></li>
     <li><b>Provinha (PR)</b> — vale nota · fechamento do Lab<br><span class="aba-nota">Teste curto logo após a prática: consolida enquanto o traço ainda está fresco e mostra, ali mesmo, o que precisa voltar.</span></li>
   </ol>
@@ -180,7 +188,32 @@
     <li><b>Relatório Mínimo (RM)</b> — vale nota · no mesmo dia do Lab · 1 página<br><span class="aba-nota">O que é revisto ANTES de dormir entra na fila de consolidação da noite. É o "aula dada, aula estudada hoje" de Piazzi, aplicado aos dados da bancada.</span></li>
     <li><b>Relatório Completo (RC)</b> — vale nota · até 6 dias após o Lab<br><span class="aba-nota">Repetição espaçada com elaboração: voltar aos dados quando a lembrança já começou a cair rende mais — e escrever a análise completa é gerar, não copiar.</span></li>
   </ol>
-  <div class="regra"><strong>Não pule nenhum objeto de aprendizagem. Se pulou, volte.</strong><br>Cada passo prepara o terreno do seguinte: sem o Ponto de Partida a leitura não encontra pergunta; sem o Pré-Lab a bancada vira receita seguida às cegas; sem o Relatório Mínimo do mesmo dia os dados esfriam antes de virar conclusão. Pular um objeto de aprendizagem não adianta a trilha — atrasa. Se você pulou, volte ao passo que ficou para trás e siga dali.</div>
+  <div class="aba-sec">Resolução Científica do Problema (RCP) — os 5 passos</div>
+  <div class="rcp-ramo rcp-quant">
+    <p class="rcp-t">Pensamento Quantitativo</p>
+    <p class="rcp-l">Medida, tabela, gráfico ou cálculo com unidade.</p>
+    <ol>
+      <li><b>O que a questão quer?</b><br><span class="aba-nota">Reescrever o que a questão quer que eu responda</span></li>
+      <li><b>O que eu tenho?</b><br><span class="aba-nota">Separar dados: números, medidas e unidades</span></li>
+      <li><b>Qual é o desenho?</b><br><span class="aba-nota">Escolher estratégia ou estimar o resultado</span></li>
+      <li><b>Minha solução</b><br><span class="aba-nota">Equacionar, calcular e comparar com as alternativas</span></li>
+      <li><b>Confiro e respondo</b><br><span class="aba-nota">Conferir se o número faz sentido, comparar e marcar uma ou mais alternativas</span></li>
+    </ol>
+  </div>
+  <div class="rcp-ramo rcp-qual">
+    <p class="rcp-t">Pensamento Qualitativo</p>
+    <p class="rcp-l">Questão conceitual ou de leitura, sem conta.</p>
+    <ol>
+      <li><b>O que a questão quer?</b><br><span class="aba-nota">Reescrever o que a questão quer que eu interprete</span></li>
+      <li><b>O que eu tenho?</b><br><span class="aba-nota">Separar evidências do texto, da imagem e da fonte</span></li>
+      <li><b>Como eu separo as afirmações?</b><br><span class="aba-nota">Propor uma leitura com base nas evidências</span></li>
+      <li><b>Julgo uma por uma</b><br><span class="aba-nota">Confrontar cada alternativa com as evidências</span></li>
+      <li><b>Confiro e respondo</b><br><span class="aba-nota">Marcar e justificar em uma frase</span></li>
+    </ol>
+  </div>
+  <p class="rcp-c"><strong>A resolução condensada.</strong> É o caminho dos 5 passos em poucas linhas, do tamanho que cabe no tempo da Pré-Aula, Aula e Pós-Aula.</p>
+  <p class="rcp-f">Errar faz parte: cada erro anotado vira o degrau da próxima trilha.</p>
+  <div class="regra"><strong>Não pule nenhum objeto de aprendizagem. Se pulou, volte.</strong><br>Cada objeto de aprendizagem prepara o terreno do seguinte: sem o Ponto de Partida a leitura não encontra pergunta; sem o Pré-Lab a bancada vira receita seguida às cegas; sem o Relatório Mínimo do mesmo dia os dados esfriam antes de virar conclusão. Pular um objeto de aprendizagem não adianta a trilha — atrasa. Se você pulou, volte ao que ficou para trás e siga dali.</div>
 </aside>
 
 <button class="aba-toggle" id="abaDocumentosT">Documentos</button>
