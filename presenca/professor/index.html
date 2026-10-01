@@ -177,8 +177,9 @@ function buscarIP() {
 /* Turma·Grupo do seletor: "I1OPIMINE1 · A" -> {turma, grupo} */
 function turmaGrupoSel() {
   var v = document.getElementById('selTurma').value;
-  var partes = v.split(' · ');
-  return { turma: partes[0], grupo: partes[1] || '' };
+  /* aceita tambem "Â·" (Code.gs colado com acento corrompido) */
+  var partes = v.split(/\s+Â?·\s+/);
+  return { turma: partes[0].trim(), grupo: (partes[1] || '').trim() };
 }
 
 /* ---------- Chave ---------- */
