@@ -7,26 +7,39 @@
 <style>
 /* ═══ DESIGN SYSTEM: BRUTALISMO CIENTIFICO — MODO PALCO ═══ */
 :root {
-  --azul: oklch(0.72 0.09 240);
-  --azul-claro: oklch(0.78 0.08 240);
-  --azul-bg: oklch(0.28 0.04 240);
-  --ouro: oklch(0.72 0.15 55);
-  --ouro-claro: oklch(0.28 0.05 55);
-  --verde: oklch(0.72 0.16 150);
+  /* Paleta FE — _identidade/paleta-fe.md
+     laranja-EPI (primario) + azul-aco (acento) */
+  --epi: #E07B39;
+  --epi-claro: #EE9A63;
+  --epi-bg: oklch(0.28 0.06 55);
+  --aco: #7FB2D6;
+  --aco-claro: #A7CCE6;
+  --aco-bg: oklch(0.28 0.05 240);
+  --verde: oklch(0.7 0.15 150);
   --verde-claro: oklch(0.25 0.04 150);
-  --erro: oklch(0.65 0.24 25);
-  --cinza: oklch(0.60 0.02 260);
-  --cinza-claro: oklch(0.18 0.02 260);
-  --cinza-borda: oklch(0.40 0.02 260);
-  --texto: oklch(0.96 0 0);
-  --branco: oklch(0.98 0 0);
-  --superficie: oklch(0.20 0.02 260);
-  --fundo: oklch(0.09 0.02 260);
-  --input-bg: oklch(0.18 0.02 260);
-  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --mono: 'Space Mono', 'Cascadia Code', 'Consolas', monospace;
+  --erro: oklch(0.6 0.22 25);
+  --erro-claro: oklch(0.22 0.05 25);
+  --cinza: oklch(0.62 0.01 260);
+  --cinza-claro: oklch(0.18 0.01 260);
+  --cinza-borda: oklch(0.40 0.01 260);
+  --texto: oklch(0.93 0 0);
+  --branco: oklch(0.96 0 0);
+  --superficie: oklch(0.22 0.01 260);
+  --input-bg: oklch(0.18 0.01 260);
+  --hover-bg: oklch(0.25 0.01 260);
+  --fundo: oklch(0.13 0.01 260);
+  --painel: oklch(0.16 0.01 260);
+  --r: 0px;
+  --r-sm: 0px;
+  --font: 'Courier New', Courier, monospace;
+  --mono: 'Courier New', 'Cascadia Code', 'Consolas', monospace;
   --serif: 'Georgia', 'Cambria', 'Times New Roman', serif;
-  --fs-palco: 1.5rem;   /* base do "modo palco" — maior que TT (1.15) */
+  /* nomes herdados — neste OA a cor principal era --ouro */
+  --ouro: var(--epi);
+  --ouro-claro: var(--epi-bg);
+  --azul: var(--aco);
+  --azul-claro: var(--aco-claro);
+  --azul-bg: var(--aco-bg);
 }
 
 [data-theme="light"] {
@@ -1087,9 +1100,97 @@ html, body {
 
 /* PADRAO-ABAS-CREDITOS (decisao do autor 2026-09-02): cargos na secundaria (aco --azul), caixa normal. */
 .cred-cargo { color: var(--azul); text-transform: none; }
+
+  input, button, select, textarea { font-family: inherit; }
+  /* ==== PADRAO FE — aplicado por padronizar_oa_fe.py ==== */
+body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
+.container { max-width: 800px; margin: 0 auto; padding: 24px 16px 80px; }
+/* HEADER */
+.header { background: var(--painel); border-top: 3px solid var(--epi); padding: 14px 20px; margin-bottom: 20px; }
+.header-inner { max-width: 800px; margin: 0 auto; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.header .marca { width: 52px; height: 52px; flex-shrink: 0; }
+.header h1 { font-size: 1.4rem; font-weight: 900; letter-spacing: -0.02em; flex: 1 1 240px; }
+.header h1 .trilha-code { color: var(--epi); }
+.badge {
+  display: inline-block;
+  background: var(--epi); color: oklch(0.13 0.01 260);
+  padding: 4px 12px; border-radius: var(--r-sm);
+  font-size: 0.68rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 2px;
+}
+.header-sub {
+  max-width: 800px; margin: 6px auto 0;
+  font-size: 0.88rem;
+  color: var(--cinza);
+}
+
+/* PIAZZI BAR */
+.piazzi-bar { display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; background:var(--painel); border:1px solid var(--cinza-borda); padding:10px 16px; margin-bottom:16px; font-size:.78rem; }
+.piazzi-bar .piazzi-ref { color:var(--cinza); }
+.piazzi-bar .piazzi-tag { display:inline-block; border:1px solid var(--epi); color:var(--epi); padding:2px 10px; font-size:.72rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; }
+.piazzi-bar .piazzi-text { color:var(--texto); font-style:italic; font-size:.74rem; }
+.piazzi-bar .piazzi-yt { display:inline-flex; align-items:center; gap:5px; background:var(--erro); color:var(--branco); padding:4px 12px; font-size:.72rem; font-weight:700; text-decoration:none; cursor:pointer; }
+.piazzi-bar .piazzi-yt::before { content:'\25B6'; font-size:.6rem; }
+
+/* INTRO */
+.intro-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  background: var(--superficie);
+  border: 1px solid var(--cinza-borda);
+  border-left: 4px solid var(--aco);
+  padding: 16px 18px;
+  margin-bottom: 20px;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--texto);
+}
+.intro-box .vagoneta { width: 84px; height: auto; flex-shrink: 0; display: block; margin-top: 2px; }
+.intro-box strong { color: var(--epi); }
+
+/* ENCERRAMENTO */
+.encerramento { max-width:800px; margin:30px auto 10px; padding:20px 16px; border-top:2px solid var(--epi); text-align:center; }
+/* fecho em destaque (padrao RB v5): cor da familia FE e corpo maior */
+.encerramento .fecho-frase { font-family:var(--serif); font-size:1.15rem; line-height:1.5; color:var(--epi); font-weight:700; }
+.encerramento .fecho-acao { color:var(--epi); font-size:.95rem; text-transform:uppercase; font-weight:700; margin-top:10px; line-height:1.5; }
+.encerramento .fecho-links { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:14px; }
+.encerramento .fecho-btn { display:inline-flex; align-items:center; gap:7px; padding:10px 18px; min-height:44px; background:var(--epi); color:oklch(0.13 0.01 260); font-family:var(--mono); font-size:.8rem; font-weight:700; text-decoration:none; letter-spacing:.03em; }
+.encerramento .fecho-btn::before { content:'\25B6'; font-size:.62rem; }
+.encerramento .fecho-btn:hover { background:var(--epi-claro); }
+.encerramento .fecho-btn.secundario { background:transparent; color:var(--aco); border:1px solid var(--aco); }
+.encerramento .fecho-btn.secundario::before { content:'\2630'; font-size:.72rem; }
+.encerramento .fecho-btn.secundario:hover { background:var(--aco-bg); }
+.encerramento .fecho-inst { color:var(--cinza); font-size:.85rem; margin-top:16px; line-height:1.5; }
+.footer-line { text-align:center; font-size:.85rem; color:var(--cinza); padding:16px 12px; line-height:1.5; }
+.header .badge { background: var(--epi); color: oklch(0.13 0.01 260); padding: 4px 12px; border-radius: var(--r-sm); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; }
+.header .header-inner h1 { font-size: 1.4rem; font-weight: 900; letter-spacing: -0.02em; flex: 1 1 240px; }
+.header .header-inner h1 .trilha-code { color: var(--epi); }
+
+.capa-marca { margin-bottom: 18px; }
+.capa-marca .marca { width: 92px; height: 92px; }
+.fecho-marcas { display: flex; width: fit-content; gap: 14px; align-items: center; margin: 0 auto 10px; }
+.fecho-marcas svg { width: 30px; height: 30px; display: block; }
+.fecho-marcas a, .fa-marcas a { display: flex; }
+.desp-inst > .fecho-marcas { display: inline-flex; vertical-align: middle; gap: 8px; margin: 0 10px 0 0; }
+.desp-inst > .fecho-marcas svg { width: 26px; height: 26px; }
+.desp-inst.desp-inst:has(> .fecho-marcas) { letter-spacing: 0; }
 </style>
+<!-- CELULAR:INICIO --><style>
+@media (max-width: 560px) {
+  table { table-layout: fixed; width: 100% !important; max-width: 100%; min-width: 0 !important; }
+  table col { width: auto !important; }
+  th, td { overflow-wrap: anywhere; hyphens: auto; min-width: 0 !important; white-space: normal;
+           padding-left: 5px; padding-right: 5px; }
+  .tabela-rolagem, .quadro { overflow-x: visible; }
+  p, li, a, span, dd, dt, h1, h2, h3, h4, figcaption, blockquote { overflow-wrap: anywhere; }
+  .fase, .fase-oas, .oa-item { flex-wrap: wrap; min-width: 0; }
+  .campo-resultado { flex-wrap: wrap; }
+  .campo-resultado > .rot { flex: 1 1 100%; min-width: 0; }
+}
+</style><!-- CELULAR:FIM -->
 </head>
-<body>
+<body data-pagina="t05:ap">
 
 <!-- ═══ PROGRESS BAR ═══ -->
 <div class="progress-top"><div class="bar" id="barraProgresso"></div></div>
@@ -1149,7 +1250,7 @@ html, body {
 <!-- ═══ SIDEBAR: INEDITISMO ═══ -->
 <aside class="sidebar" id="sb-ineditismo">
   <h3>Ineditismo</h3>
-  <p>Trilhas de Aprendizagem &eacute; uma metodologia que faz parte do esfor&ccedil;o do projeto <strong>F&iacute;sica Conceitual 1 + F&iacute;sica Experimental 1</strong>, aprovados pela Coordenadoria da &Aacute;rea de F&iacute;sica, em inovar na publica&ccedil;&atilde;o did&aacute;tica da f&iacute;sica aplicada aos cursos t&eacute;cnicos ofertados gratuitamente pelo IFMG Campus Ouro Preto &mdash; fazendo dialogar narrativa, contextualiza&ccedil;&atilde;o tripla (t&eacute;cnica, hist&oacute;rico-cultural, cotidiana), metodologia experimental rigorosa e modelagem cient&iacute;fica.</p>
+  <p>Trilhas de Aprendizagem &eacute; uma metodologia que faz parte do esfor&ccedil;o do projeto <strong>F&iacute;sica Conceitual 1 + F&iacute;sica Experimental 1</strong>, aprovados pela Coordenadoria da &Aacute;rea de F&iacute;sica, em inovar na pública&ccedil;&atilde;o did&aacute;tica da f&iacute;sica aplicada aos cursos t&eacute;cnicos ofertados gratuitamente pelo IFMG Campus Ouro Preto &mdash; fazendo dialogar narrativa, contextualiza&ccedil;&atilde;o tripla (t&eacute;cnica, hist&oacute;rico-cultural, cotidiana), metodologia experimental rigorosa e modelagem cient&iacute;fica.</p>
   <p>At&eacute; onde a pesquisa dos autores alcan&ccedil;ou, esta &eacute; uma apresenta&ccedil;&atilde;o ancorada no primeiro Texto Tem&aacute;tico de F&iacute;sica Experimental aplicada ao ensino t&eacute;cnico em minera&ccedil;&atilde;o integrado ao ensino m&eacute;dio estruturado em Trilhas de Aprendizagem publicado no Brasil.</p>
   <p>Esta <strong>APRESENTA&Ccedil;&Atilde;O</strong> foi elaborada com aux&iacute;lio de intelig&ecirc;ncia artificial (Claude Sonnet 5, Anthropic, 2026; Claude Cowork, Anthropic, 2026).</p>
 </aside>
@@ -1242,9 +1343,31 @@ html, body {
 
   <!-- SLIDE 1 - CAPA -->
   <section class="slide capa-slide ativo" data-slide="1" data-titulo="Capa">
-    <div class="capa-bg" style="background-image: url('../_imagens/FE-T04-IT-00-v11.png');"></div>
+    <div class="capa-bg" style="background-image: url('../_imagens/_web/FE-T04-IT-00-v11.png');"></div>
     <div class="capa-conteudo">
-      <div class="capa-disciplina">F&iacute;sica Experimental 1</div>
+      <div class="capa-marca"><svg class="marca" viewBox="0 0 120 120" role="img" aria-label="Marca da F&iacute;sica Experimental 1">
+        <g fill="none" stroke="#E07B39" stroke-width="3">
+          <ellipse cx="60" cy="52" rx="46" ry="18"/>
+          <ellipse cx="60" cy="52" rx="46" ry="18" transform="rotate(60 60 52)"/>
+          <ellipse cx="60" cy="52" rx="46" ry="18" transform="rotate(120 60 52)"/>
+        </g>
+        <g fill="#E07B39">
+          <circle cx="53" cy="47" r="7"/>
+          <circle cx="67" cy="47" r="7"/>
+          <circle cx="60" cy="58" r="9"/>
+        </g>
+        <g stroke="#7FB2D6" stroke-width="3" stroke-linecap="square">
+          <line x1="26" y1="110" x2="94" y2="110"/>
+          <line x1="30" y1="110" x2="30" y2="104"/>
+          <line x1="40" y1="110" x2="40" y2="104"/>
+          <line x1="50" y1="110" x2="50" y2="104"/>
+          <line x1="60" y1="110" x2="60" y2="98"/>
+          <line x1="70" y1="110" x2="70" y2="104"/>
+          <line x1="80" y1="110" x2="80" y2="104"/>
+          <line x1="90" y1="110" x2="90" y2="104"/>
+        </g>
+      </svg></div>
+  <div class="capa-disciplina">F&iacute;sica Experimental 1</div>
       <div class="capa-curso">T&eacute;cnico em Minera&ccedil;&atilde;o Integrado ao Ensino M&eacute;dio</div>
       <div class="capa-trilha">Trilha T04</div>
       <div class="capa-titulo">A reta que o tempo desenha</div>
@@ -1273,7 +1396,7 @@ html, body {
           <div class="tl"><span class="tl-t">83&ndash;100 min</span><span class="tl-d"><strong>Checklist</strong> &mdash; encerramento + Relat&oacute;rio M&iacute;nimo hoje</span></div>
         </div>
         <div class="col-img">
-          <img src="../_imagens/FE-T04-IT-00-v11.png" alt="Simbolo da trilha">
+          <img style="border:none" src="../_imagens/_web/FE-T04-IT-00-v11.png" alt="Símbolo da trilha">
           <div class="col-img-legenda"><span class="fig-num">Figura 1</span>S&iacute;mbolo da trilha, reaproveitado como abertura do roteiro da sess&atilde;o</div>
         </div>
       </div>
@@ -1300,7 +1423,7 @@ html, body {
           </div>
         </div>
         <div class="col-img">
-          <img src="../_imagens/FE-T04-IT-01-v11.png" alt="Inicio da jornada">
+          <img src="../_imagens/_web/FE-T04-IT-01-v11.jpg" alt="Início da jornada">
           <div class="col-img-legenda"><span class="fig-num">Figura 2</span>In&iacute;cio da jornada &mdash; professor e os tr&ecirc;s protagonistas de costas, diante da bancada onde o tubo transparente espera no suporte, pouco inclinado</div>
         </div>
       </div>
@@ -1330,7 +1453,7 @@ html, body {
           <p style="font-style:italic; color: var(--ouro);">Conclus&atilde;o: escolher o referencial, registrar as escolhas, s&oacute; ent&atilde;o medir &mdash; duas equipes com escolhas diferentes obt&ecirc;m tabelas diferentes, e ambas estar&atilde;o certas.</p>
         </div>
         <div class="col-img">
-          <img src="../_imagens/FE-T04-IT-03-v11-claro.png" alt="Momento-chave do encontro">
+          <img src="../_imagens/_web/FE-T04-IT-03-v11-claro.jpg" alt="Momento-chave do encontro">
           <div class="col-img-legenda"><span class="fig-num">Figura 3</span>Momento-chave &mdash; o tubo invertido em close: a esfera de a&ccedil;o descendo e a bolha de ar subindo, prestes a se cruzar diante das marcas A, B, C, D, E</div>
         </div>
       </div>
@@ -1351,7 +1474,7 @@ html, body {
           <p style="font-style:italic; color: var(--ouro);">Conclus&atilde;o: no MRU, &Delta;v = 0 em qualquer intervalo &mdash; velocidade constante, acelera&ccedil;&atilde;o nula. &ldquo;Uniforme&rdquo; significa valores compat&iacute;veis dentro da incerteza, n&atilde;o valores id&ecirc;nticos.</p>
         </div>
         <div class="col-img">
-          <img src="../_imagens/FE-T04-IT-04-v11.png" alt="Medicoes na bancada">
+          <img src="../_imagens/_web/FE-T04-IT-04-v11.jpg" alt="Medições na bancada">
           <div class="col-img-legenda"><span class="fig-num">Figura 4</span>Medi&ccedil;&otilde;es na bancada &mdash; um estudante canta a passagem da esfera, outro registra voltas no cron&ocirc;metro do celular, roteiro de bancada aberto entre eles</div>
         </div>
       </div>
@@ -1377,7 +1500,7 @@ html, body {
           <p style="font-style:italic; color: var(--ouro);">Conclus&atilde;o: diante de qualquer gr&aacute;fico s &times; t, a primeira pergunta profissional &eacute; &ldquo;&eacute; reta?&rdquo; &mdash; se for, a inclina&ccedil;&atilde;o entrega a velocidade sem conta adicional.</p>
         </div>
         <div class="col-img">
-          <img src="../_imagens/FE-T04-IT-05-v11.png" alt="O grafico nasce">
+          <img src="../_imagens/_web/FE-T04-IT-05-v11.jpg" alt="O gráfico nasce">
           <div class="col-img-legenda"><span class="fig-num">Figura 5</span>O gr&aacute;fico nasce &mdash; papel milimetrado sobre a bancada, os cinco pontos m&eacute;dios da esfera alinhados numa reta subindo, a r&eacute;gua apoiada sobre eles</div>
         </div>
       </div>
@@ -1404,7 +1527,7 @@ html, body {
           <p style="font-style:italic; color: var(--ouro);">Conclus&atilde;o: dois m&oacute;veis, um &uacute;nico referencial &mdash; quem muda de referencial no meio do problema nunca consegue junt&aacute;-los na mesma equa&ccedil;&atilde;o.</p>
         </div>
         <div class="col-img">
-          <img src="../_imagens/FE-T04-IT-06-v11-claro.png" alt="A rival de baixo">
+          <img src="../_imagens/_web/FE-T04-IT-06-v11-claro.jpg" alt="A rival de baixo">
           <div class="col-img-legenda"><span class="fig-num">Figura 6</span>A rival de baixo &mdash; close da bolha de ar subindo pelo &oacute;leo &acirc;mbar, deformada em lente, com as marcas do tubo desfocadas ao fundo</div>
         </div>
       </div>
@@ -1430,7 +1553,7 @@ html, body {
           </div>
         </div>
         <div class="col-img">
-          <img src="../_imagens/FE-T04-IT-07-v11-claro.png" alt="O instante do encontro">
+          <img src="../_imagens/_web/FE-T04-IT-07-v11-claro.jpg" alt="O instante do encontro">
           <div class="col-img-legenda"><span class="fig-num">Figura 7</span>O instante do encontro &mdash; esfera e bolha lado a lado na altura prevista, a r&eacute;gua da parede marcando o ponto, tr&ecirc;s rostos jovens colados no vidro</div>
         </div>
       </div>
@@ -1465,7 +1588,7 @@ html, body {
           <div class="c5-resposta">O modelo do MRU prev&ecirc; o encontro em <strong>(8,8 &plusmn; 1,0) cm</strong> &mdash; a <strong>corrida de verifica&ccedil;&atilde;o</strong>, na bancada, &eacute; quem confirma se a natureza concorda.</div>
         </div>
         <div class="col-img">
-          <img src="../_imagens/FE-T04-IT-08-v11.png" alt="Espinha dorsal do metodo">
+          <img src="../_imagens/_web/FE-T04-IT-08-v11.jpg" alt="Espinha dorsal do método">
           <div class="col-img-legenda"><span class="fig-num">Figura 8</span>Espinha dorsal do m&eacute;todo &mdash; os oito passos do C5 em coluna, ligando a pergunta do encontro &agrave; resposta com incerteza</div>
         </div>
       </div>
@@ -1495,7 +1618,7 @@ html, body {
           <p style="font-style:italic; color: var(--ouro);">&ldquo;Os tr&ecirc;s cron&ocirc;metros nunca deram o mesmo n&uacute;mero. &Eacute; por isso que medimos tr&ecirc;s vezes &mdash; a dispers&atilde;o n&atilde;o &eacute; fracasso, &eacute; o tamanho da nossa honestidade.&rdquo; &mdash; Sofia</p>
         </div>
         <div class="col-img">
-          <img src="../_imagens/FE-T04-IT-09-v11.png" alt="Volta ao mundo de fora">
+          <img src="../_imagens/_web/FE-T04-IT-09-v11.jpg" alt="Volta ao mundo de fora">
           <div class="col-img-legenda"><span class="fig-num">Figura 9</span>Volta ao mundo de fora &mdash; os tr&ecirc;s saindo do laborat&oacute;rio com os roteiros de bancada, o tubo em repouso na bancada, a esfera de novo no fundo, &agrave; espera da pr&oacute;xima turma</div>
         </div>
       </div>
@@ -1508,7 +1631,7 @@ html, body {
     <div class="slide-body">
       <div class="cols img-l">
         <div class="col-img">
-          <img src="../_imagens/FE-T04-IT-10-v11.png" alt="Gare Saint-Lazare">
+          <img src="../_imagens/_web/FE-T04-IT-10-v11.jpg" alt="Gare Saint-Lazare">
           <div class="col-img-legenda"><span class="fig-num">Figura 10</span>O rel&oacute;gio monumental da esta&ccedil;&atilde;o sobre a plataforma enevoada de vapor &mdash; o instante impressionista e o movimento cont&iacute;nuo dos trens</div>
         </div>
         <div class="col-text">
@@ -1538,7 +1661,7 @@ html, body {
 
   <!-- SLIDE 13 - DESPEDIDA -->
   <section class="slide despedida" data-slide="13" data-titulo="Despedida">
-    <div class="desp-bg" style="background-image: url('../_imagens/FE-T04-IT-09-v11.png');"></div>
+    <div class="desp-bg" style="background-image: url('../_imagens/_web/FE-T04-IT-09-v11.jpg');"></div>
     <div class="desp-body">
       <div class="desp-sofia" style="color: var(--ouro);">&ldquo;A dispers&atilde;o n&atilde;o &eacute; fracasso. &Eacute; o tamanho da nossa honestidade.&rdquo; &mdash; Sofia</div>
       <div class="desp-acao">N&atilde;o esque&ccedil;a de fazer o</div>
@@ -1548,7 +1671,7 @@ html, body {
         <p><strong>Relat&oacute;rio Completo at&eacute; 3 dias &mdash; e nos vemos na T05!</strong></p>
       </div>
       <div class="desp-frase">Terminamos por aqui, um abra&ccedil;o, e at&eacute; o pr&oacute;ximo encontro.</div>
-      <div class="desp-inst">IFMG campus Ouro Preto &middot; CODAFIS &middot; NIDEC &middot; FE1 &middot; T04 &middot; 1&ordf; edi&ccedil;&atilde;o 2026</div>
+      <div class="desp-inst"><div class="fecho-marcas"><a href="https://ouropreto.ifmg.edu.br/ouropreto" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-36.75 -4 258.5 258.5" role="img" aria-label="Instituto Federal de Minas Gerais"> <title>Instituto Federal de Minas Gerais</title> <circle cx="27" cy="27" r="30" fill="#C8191E"/> <g fill="#32A041"> <rect x="65.5" y="0" width="54" height="54"/> <rect x="131" y="0" width="54" height="54"/> <rect x="0" y="65.5" width="54" height="54"/> <rect x="65.5" y="65.5" width="54" height="54"/> <rect x="0" y="131" width="54" height="54"/> <rect x="65.5" y="131" width="54" height="54"/> <rect x="131" y="131" width="54" height="54"/> <rect x="0" y="196.5" width="54" height="54"/> <rect x="65.5" y="196.5" width="54" height="54"/> </g> </svg></a><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="NIDEC — Núcleo de Inovação e Desenvolvimento de Experimentos Científicos"> <title>NIDEC — Núcleo de Inovação e Desenvolvimento de Experimentos Científicos</title> <defs> <linearGradient id="nidec-o1" gradientUnits="userSpaceOnUse" x1="8" y1="100" x2="192" y2="100" gradientTransform="rotate(-30 100 100)"> <stop offset="0" stop-color="#4A1F95"/><stop offset=".38" stop-color="#2C5AA4"/> <stop offset=".70" stop-color="#2CC2A2"/><stop offset="1" stop-color="#2C9E41"/> </linearGradient> <linearGradient id="nidec-o2" gradientUnits="userSpaceOnUse" x1="8" y1="100" x2="192" y2="100" gradientTransform="rotate(-90 100 100)"> <stop offset="0" stop-color="#4A1F95"/><stop offset=".38" stop-color="#2C5AA4"/> <stop offset=".70" stop-color="#2CC2A2"/><stop offset="1" stop-color="#2C9E41"/> </linearGradient> <linearGradient id="nidec-o3" gradientUnits="userSpaceOnUse" x1="8" y1="100" x2="192" y2="100" gradientTransform="rotate(-150 100 100)"> <stop offset="0" stop-color="#4A1F95"/><stop offset=".38" stop-color="#2C5AA4"/> <stop offset=".70" stop-color="#2CC2A2"/><stop offset="1" stop-color="#2C9E41"/> </linearGradient> <radialGradient id="nidec-nucleo" cx="40%" cy="36%" r="70%"> <stop offset="0" stop-color="#A0EBE1"/> <stop offset=".45" stop-color="#2CC8C2"/> <stop offset="1" stop-color="#1E5DA5"/> </radialGradient> </defs> <g fill="none" stroke-width="8"> <g transform="rotate(30 100 100)" stroke="url(#nidec-o1)"> <ellipse cx="100" cy="100" rx="88" ry="31"/> <circle cx="188" cy="100" r="8" fill="url(#nidec-o1)" stroke="none"/> </g> <g transform="rotate(90 100 100)" stroke="url(#nidec-o2)"> <ellipse cx="100" cy="100" rx="88" ry="31"/> <circle cx="12" cy="100" r="8" fill="url(#nidec-o2)" stroke="none"/> </g> <g transform="rotate(150 100 100)" stroke="url(#nidec-o3)"> <ellipse cx="100" cy="100" rx="88" ry="31"/> <circle cx="188" cy="100" r="8" fill="url(#nidec-o3)" stroke="none"/> </g> </g> <circle cx="100" cy="100" r="23" fill="url(#nidec-nucleo)"/> </svg></div>IFMG campus Ouro Preto &middot; CODAFIS &middot; NIDEC &middot; FE1 &middot; T04 &middot; 1&ordf; edi&ccedil;&atilde;o 2026</div>
     </div>
   </section>
 
@@ -1813,7 +1936,7 @@ html, body {
     var parent = prov.parentNode;
     var inDesp = !!prov.closest('.despedida');
     /* Na despedida a Provinha e o 1o passo da revelacao do proprio slide:
-       nao leva wrapper nem botao "Proximo Passo" (decisao do autor). */
+       nao leva wrapper nem botao "Próximo Passo" (decisao do autor). */
     if (inDesp) return;
     var wrap = document.createElement('div');
     wrap.className = 'c5-solucao';
@@ -2007,7 +2130,7 @@ html, body {
   var btn = document.createElement('button');
   btn.id = 'btn-crono';
   btn.type = 'button';
-  btn.title = 'Cronometro por slide (C)';
+  btn.title = 'Cronômetro por slide (C)';
   btn.textContent = '⏱ C';
   toolbar.appendChild(btn);
 
@@ -2603,5 +2726,57 @@ document.addEventListener('click', function (ev) {
 </script>
 <!-- AP-REVELA:FIM -->
 
+<!-- ABA-SITE (injetada na publicacao — nao existe no OA canonico) -->
+<style>
+.aba-site-toggle { position: fixed; top: 56px; left: 0; z-index: 999; background: #1a1b1f; border: 1px solid #444; border-left: none; color: #bbb; font-size: .7rem; padding: 8px 10px; cursor: pointer; font-family: 'Courier New', Courier, monospace; writing-mode: vertical-rl; text-orientation: mixed; letter-spacing: 1px; text-transform: uppercase; transition: color .15s; border-radius: 0; }
+.aba-site-toggle:hover { color: #E07B39; }
+.aba-site-painel { position: fixed; top: 0; left: 0; z-index: 1001; width: 330px; max-width: 86vw; height: 100vh; overflow-y: auto; background: #1a1b1f; border-right: 1px solid #444; padding: 24px 22px 24px 42px; transform: translateX(-100%); transition: transform .25s; font-family: 'Courier New', Courier, monospace; font-size: .92rem; color: #c4c4c4; line-height: 1.6; }
+.aba-site-painel.open { transform: translateX(0); }
+.aba-site-painel h3 { font-family: 'Courier New', Courier, monospace; font-size: .8rem; text-transform: uppercase; letter-spacing: 2px; color: #E07B39; border-bottom: 1px solid #444; padding-bottom: 8px; margin: 0 0 14px; }
+.aba-site-painel a.aba-site-btn { display: block; margin: 10px 0; padding: 11px 14px; border: 1px solid #444; color: #e8e8e8; text-decoration: none; font-family: 'Courier New', Courier, monospace; font-size: .85rem; }
+.aba-site-painel a.aba-site-btn:hover { border-color: #E07B39; color: #E07B39; }
+/* TT: abre espaco no topo do trilho e oculta a aba Figuras (decisao 2026-08-08) */
+.musica-toggle { top: 128px !important; }
+.ineditismo-toggle { top: 210px !important; }
+.toc-toggle { top: 330px !important; }
+.creditos-toggle { top: 418px !important; }
+.figuras-toggle, .figuras-sidebar { display: none !important; }
+/* Celular: a aba fica sobre o conteudo, porque em tela estreita o texto ocupa
+   a largura toda e o trilho e `position: fixed` na borda esquerda. Abrir uma
+   faixa no body empurra TUDO para a direita — vale para a aba Site e para o
+   trilho do TT (Musica/Ineditismo/Sumario/Creditos), todos em left: 0.
+   Com `box-sizing: border-box` (padrao nos OAs) nao cria rolagem lateral. */
+@media (max-width: 600px) {
+  body { padding-left: 30px; }
+  .aba-site-toggle { font-size: .6rem; padding: 6px 6px; }
+  .aba-site-painel { width: 86vw; }
+}
+@media print { .aba-site-toggle, .aba-site-painel { display: none !important; } }
+</style>
+<button class="aba-site-toggle" id="abaSiteToggle">Site</button>
+<aside class="aba-site-painel" id="abaSitePainel">
+  <h3>Site</h3>
+  <a class="aba-site-btn" href="https://nidecop-jafb.github.io/fe1-oa/#t05">Ver todos os OAs da trilha</a>
+  <a class="aba-site-btn" href="https://nidecop-jafb.github.io/fe1-oa/">Início do site</a>
+  <a class="aba-site-btn" href="https://nidecop-jafb.github.io/fc1-oa/">Disciplina irmã: FC1 — Física Conceitual 1</a>
+</aside>
+<script>
+(function () {
+  var t = document.getElementById('abaSiteToggle');
+  var p = document.getElementById('abaSitePainel');
+  var outras = '.metodo-sidebar,.musica-sidebar,.ineditismo-sidebar,.toc-sidebar,.projeto-sidebar,.creditos-sidebar,.figuras-sidebar';
+  t.addEventListener('click', function () {
+    p.classList.toggle('open');
+    document.querySelectorAll(outras).forEach(function (s) { s.classList.remove('open'); });
+  });
+  document.addEventListener('click', function (e) {
+    if (!p.contains(e.target) && e.target !== t) { p.classList.remove('open'); }
+  });
+})();
+</script>
+<!-- CONTADOR:INICIO -->
+<script src="../../contador-config.js"></script>
+<script src="../../acessos.js"></script>
+<!-- CONTADOR:FIM -->
 </body>
 </html>

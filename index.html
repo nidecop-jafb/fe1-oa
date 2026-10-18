@@ -55,11 +55,11 @@
 #abaSiteT { top: 56px; }
 #abaMetodoT { top: 120px; }
 #abaMusicaT { top: 208px; }
-#abaTema1T { top: 296px; }
-#abaTema2T { top: 384px; }
-#abaTema3T { top: 472px; }
-#abaDocumentosT { top: 560px; }
-#abaCreditosT { top: 696px; }
+#abaEtapa1T { top: 296px; }
+#abaEtapa2T { top: 396px; }
+#abaEtapa3T { top: 496px; }
+#abaDocumentosT { top: 596px; }
+#abaCreditosT { top: 732px; }
 .aba-painel { position: fixed; top: 0; left: 0; z-index: 997; width: 380px; max-width: 88vw; height: 100vh; overflow-y: auto; background: #1a1b1f; border-right: 1px solid #444; padding: 24px 22px 24px 42px; transform: translateX(-100%); transition: transform .25s; font-size: .92rem; color: #c4c4c4; line-height: 1.6; }
 .aba-painel.open { transform: translateX(0); }
 .aba-painel h3 { font-family: 'Courier New', monospace; font-size: .8rem; text-transform: uppercase; letter-spacing: 2px; color: #E07B39; border-bottom: 1px solid #444; padding-bottom: 8px; margin-bottom: 14px; }
@@ -558,7 +558,7 @@ body > header { padding-top: 54px !important; }
   <p><b>5 · J. S. Bach</b> — a fuga é a definição de sistema físico: muitas vozes, uma lei só.</p>
   <p><b>6 · W. A. Mozart</b> — nada sobra, nada falta. Elegância é saber o que pode ser retirado sem quebrar o todo — no pentagrama e na montagem experimental.</p>
   <p><b>7 · L. van Beethoven</b> — de quatro notas, uma sinfonia; de duas ou três letras, uma lei. Muda a escala; a lei, não. E a Nona, composta já na surdez, lembra: o modelo vem antes da medida.</p>
-  <p class="aba-nota">Na FE1, as playlists 1 a 4 giram em ciclo pelas trilhas T01-T12; a T0A fica fora do ciclo, com Bach.</p>
+  <p class="aba-nota">Na FE1, as playlists 1 a 4 giram em ciclo pelas trilhas T01-T11; as quatro trilhas da Metrologia (T0A a T0D) ficam fora do ciclo, com Bach.</p>
   <div class="aba-sec">Ampliando o acervo — em preparação</div>
   <p><b>Marco Antônio Araújo</b> (Belo Horizonte, 1949 — 1986) — primeiro violoncelista contratado da Sinfônica de Minas e, no estúdio, compositor que fez o barroco mineiro, a modinha e a seresta caberem no rock progressivo. Quatro discos autorais entre 1981 e 1985; morreu aos 36 anos, na véspera de receber o prêmio de melhor músico instrumental do país.</p>
   <p><b>Raphael Rabello</b> (Petrópolis, 1962 — Rio de Janeiro, 1995) — primeiro registro profissional aos treze anos; discípulo de Dino 7 Cordas e parceiro de Radamés Gnattali, levou o violão de sete cordas do acompanhamento ao centro do palco. Morreu aos 32 anos.</p>
@@ -566,38 +566,37 @@ body > header { padding-top: 54px !important; }
   <a class="aba-btn" href="https://music.youtube.com/search?q=Bach+Concerto+Italiano+BWV+971+cravo" target="_blank" rel="noopener">FE-T0A · Bach — Concerto Italiano (BWV 971)</a>
 </aside>
 
-<button class="aba-toggle" id="abaTema1T">Tema 1</button>
-<aside class="aba-painel" id="abaTema1">
-  <h3>Tema 1 &middot; Entendendo as medidas</h3>
-  <p>As trilhas deste Tema, na ordem em que você vai fazê-las.</p>
-  <div class="aba-sec">Boas-vindas</div>
-  <div class="etapa-tr"><a class="aba-btn" href="#t0a">FE-T0A &middot; Metodologia experimental</a></div>
-  <div class="etapa-tr"><span class="prep">FE-T0B &middot; A Régua do Mundo<em>em preparação</em></span></div>
-  <div class="aba-sec">Entendendo as medidas</div>
-  <div class="etapa-tr"><span class="prep">FE-T01 &middot; Como Medir as Coisas<em>em preparação</em></span></div>
-  <div class="etapa-tr"><span class="prep">FE-T02 &middot; Lidando com a Incerteza<em>em preparação</em></span></div>
-  <div class="etapa-tr"><span class="prep">FE-T03 &middot; Achando o Padrão na Bagunça<em>em preparação</em></span></div>
-  <div class="etapa-tr"><a class="aba-btn" href="#t04">FE-T04 &middot; Movimento Retilíneo Uniforme (MRU)</a></div>
-  <div class="etapa-tr"><span class="prep">FE-T05 &middot; Analisando Linhas Tortas<em>em preparação</em></span></div>
+<button class="aba-toggle" id="abaEtapa1T">Etapa 1</button>
+<aside class="aba-painel" id="abaEtapa1">
+  <h3>Etapa 1 &middot; Metrologia</h3>
+  <p>As trilhas desta Etapa, na ordem em que você vai fazê-las.</p>
+  <div class="etapa-tr"><a class="aba-btn" href="#t0a">FE-T0A &middot; Primeiros Passos no Laboratório</a></div>
+  <div class="etapa-tr"><span class="prep">FE-T0B &middot; O Sistema Internacional de Unidades de Medida<em>em preparação</em></span></div>
+  <div class="etapa-tr"><span class="prep">FE-T0C &middot; A Matemática das Medidas<em>em preparação</em></span></div>
+  <div class="etapa-tr"><span class="prep">FE-T0D &middot; O Número π (pi)<em>em preparação</em></span></div>
 </aside>
 
-<button class="aba-toggle" id="abaTema2T">Tema 2</button>
-<aside class="aba-painel" id="abaTema2">
-  <h3>Tema 2 &middot; Brincando com Forças e Movimentos</h3>
-  <p>As trilhas deste Tema, na ordem em que você vai fazê-las.</p>
-  <div class="etapa-tr"><span class="prep">FE-T06 &middot; Leis de Newton<em>em preparação</em></span></div>
-  <div class="etapa-tr"><span class="prep">FE-T07 &middot; Pesando, Puxando, Empurrando e Esticando<em>em preparação</em></span></div>
-  <div class="etapa-tr"><span class="prep">FE-T08 &middot; Boiando, Lixando, Amassando e Voando<em>em preparação</em></span></div>
-  <div class="etapa-tr"><span class="prep">FE-T09 &middot; Subindo e Descendo em Rampas e Ladeiras<em>em preparação</em></span></div>
-  <div class="etapa-tr"><span class="prep">FE-T10 &middot; Trombadas e Batidas<em>em preparação</em></span></div>
-  <div class="etapa-tr"><span class="prep">FE-T11 &middot; A Física da Água Parada<em>em preparação</em></span></div>
+<button class="aba-toggle" id="abaEtapa2T">Etapa 2</button>
+<aside class="aba-painel" id="abaEtapa2">
+  <h3>Etapa 2 &middot; Forças, Torques, Resultante e Equilíbrio de Corpos em Repouso</h3>
+  <p>As trilhas desta Etapa, na ordem em que você vai fazê-las.</p>
+  <div class="etapa-tr"><span class="prep">FE-T01 &middot; Forças: Peso, Elástica, Tração, Empuxo, Compressão (Normal, Atrito) e Aerodinâmica (Sustentação, Arrasto)<em>em preparação</em></span></div>
+  <div class="etapa-tr"><span class="prep">FE-T02 &middot; Resultante das Forças no Equilíbrio Estático de Ponto Material<em>em preparação</em></span></div>
+  <div class="etapa-tr"><span class="prep">FE-T03 &middot; Máquinas Simples: Plano Inclinado e Polias<em>em preparação</em></span></div>
+  <div class="etapa-tr"><span class="prep">FE-T04 &middot; Centro de Massa, Torque, Resultante de Forças e Torques no Equilíbrio de Corpo Extenso<em>em preparação</em></span></div>
 </aside>
 
-<button class="aba-toggle" id="abaTema3T">Tema 3</button>
-<aside class="aba-painel" id="abaTema3">
-  <h3>Tema 3 &middot; Projeto Integrador</h3>
-  <p>As trilhas deste Tema, na ordem em que você vai fazê-las.</p>
-  <div class="etapa-tr"><span class="prep">FE-T12 &middot; Projeto Investigativo Integrador<em>em preparação</em></span></div>
+<button class="aba-toggle" id="abaEtapa3T">Etapa 3</button>
+<aside class="aba-painel" id="abaEtapa3">
+  <h3>Etapa 3 &middot; Forças, Aceleração, Trabalho, Energia e Potência de Corpos em Movimento + Fluidos em Equilíbrio</h3>
+  <p>As trilhas desta Etapa, na ordem em que você vai fazê-las.</p>
+  <div class="etapa-tr"><a class="aba-btn" href="#t05">FE-T05 &middot; Forças e Aceleração: Esfera e Bolha em MRU num Tubo com Óleo Mineral, Carrinho Descendo uma Rampa e Esfera em Queda Livre</a></div>
+  <div class="etapa-tr"><span class="prep">FE-T06 &middot; Forças e Aceleração em Corpos em Movimento Circular Uniforme<em>em preparação</em></span></div>
+  <div class="etapa-tr"><span class="prep">FE-T07 &middot; Formas de Energia, Fontes de Energia, Conversões, Transformação da Energia, Potência e Rendimento na Mecânica<em>em preparação</em></span></div>
+  <div class="etapa-tr"><span class="prep">FE-T08 &middot; Pressão Atmosférica, Pressão em Líquidos em Equilíbrio e Máquinas Hidráulicas: Prensas e Elevadores Hidráulicos<em>em preparação</em></span></div>
+  <div class="etapa-tr"><span class="prep">FE-T09 &middot; Peso, Empuxo e Flutuação dos Objetos em Líquidos em Equilíbrio<em>em preparação</em></span></div>
+  <div class="etapa-tr"><span class="prep">FE-T10 &middot; Projeto Integrador — Parte 1: Física Aplicada na Mineração<em>em preparação</em></span></div>
+  <div class="etapa-tr"><span class="prep">FE-T11 &middot; Projeto Integrador — Parte 2: Física Aplicada na Mineração<em>em preparação</em></span></div>
 </aside>
 <script>
 (function () {
@@ -621,7 +620,7 @@ body > header { padding-top: 54px !important; }
   <a class="aba-btn" href="https://ouropreto.ifmg.edu.br/ouropreto/ensino/legislacao-e-normas-de-ensino" target="_blank" rel="noopener">Legislação e Normas de Ensino · página oficial do IFMG</a>
   <a class="aba-btn" href="documentos/ementa/">Ementa · em vigor (PPC) e proposta</a>
   <a class="aba-btn" href="documentos/plano/">Plano de Ensino 2026 · objetivos, método e avaliação</a>
-  <a class="aba-btn" href="documentos/trilhas/">Temas e Trilhas · os 3 Temas e as 14 trilhas</a>
+  <a class="aba-btn" href="documentos/trilhas/">Etapas e Trilhas · as 3 Etapas e as 15 trilhas</a>
   <a class="aba-btn" href="documentos/calendario/">Calendário 2026 · os encontros de laboratório</a>
   <a class="aba-btn" href="documentos/musica/">Matriz de Música · as playlists de cada trilha</a>
   <p class="aba-nota">A proposta de nova ementa e o Plano de Ensino estão em análise pela Coordenadoria da Área de Física (CODAFIS) e, em seguida, pela Coordenadoria da Área de Mineração (CODAMIN); até a aprovação, vale a ementa em vigor.</p>
@@ -684,7 +683,7 @@ body > header { padding-top: 54px !important; }
     <section>
       <h2 class="intro-t">Trilhas de Aprendizagem</h2>
       <p>Trilhas de Aprendizagem são percursos de estudo construídos para orientar, apoiar e avaliar a sua caminhada pelo mundo da Física.</p>
-      <p>Nas <strong>abas da lateral esquerda</strong> estão, nesta ordem: o site (endereço, QR code, projeto e ineditismo), o método de estudo, a música para estudar, os três temas com as suas trilhas, os documentos do curso e da disciplina e os créditos. No alto, os ícones levam ao início, ao cronômetro das sessões, ao tamanho da letra, ao modo claro ou escuro, à instalação do site, ao seu estilo de aprendizagem e à avaliação das Etapas.</p>
+      <p>Nas <strong>abas da lateral esquerda</strong> estão, nesta ordem: o site (endereço, QR code, projeto e ineditismo), o método de estudo, a música para estudar, as três etapas com as suas trilhas, os documentos do curso e da disciplina e os créditos. No alto, os ícones levam ao início, ao cronômetro das sessões, ao tamanho da letra, ao modo claro ou escuro, à instalação do site, ao seu estilo de aprendizagem e à avaliação das Etapas.</p>
       <p>Escolha uma trilha e explore os objetos de aprendizagem <strong>na ordem numerada</strong>, sem pular nenhum — a ordem segue como o cérebro aprende. Se pulou, volte.</p>
       <p class="sucesso">Sucesso no seu estudo.</p>
     </section>
@@ -701,10 +700,10 @@ body > header { padding-top: 54px !important; }
   .aba-painel .etapa-tr .prep em { display: block; font-size: .78rem; color: #7f7f7f; margin-top: 4px; font-style: normal; }
 </style>
 
-  <h2 class="etapa-t" id="tema1">Tema 1 &middot; Entendendo as medidas</h2>
+  <h2 class="etapa-t" id="etapa1">Etapa 1 &middot; Metrologia</h2>
 
   <details class="trilha" id="t0a">
-  <summary>FE-T0A &middot; Metodologia experimental</summary>
+  <summary>FE-T0A &middot; Primeiros Passos no Laboratório</summary>
   <div class="trilha-corpo">
   <p class="parada">Pré-Lab <span>&middot; fazer em casa, antes da aula de bancada</span></p>
   <ul>
@@ -740,62 +739,64 @@ body > header { padding-top: 54px !important; }
   </div>
   </details>
 
-  <div class="trilha-prep" id="t0b"><span>FE-T0B &middot; A Régua do Mundo</span><span class="tag">em preparação</span></div>
+  <div class="trilha-prep" id="t0b"><span>FE-T0B &middot; O Sistema Internacional de Unidades de Medida</span><span class="tag">em preparação</span></div>
 
-  <div class="trilha-prep" id="t01"><span>FE-T01 &middot; Como Medir as Coisas</span><span class="tag">em preparação</span></div>
+  <div class="trilha-prep" id="t0c"><span>FE-T0C &middot; A Matemática das Medidas</span><span class="tag">em preparação</span></div>
 
-  <div class="trilha-prep" id="t02"><span>FE-T02 &middot; Lidando com a Incerteza</span><span class="tag">em preparação</span></div>
+  <div class="trilha-prep" id="t0d"><span>FE-T0D &middot; O Número π (pi)</span><span class="tag">em preparação</span></div>
 
-  <div class="trilha-prep" id="t03"><span>FE-T03 &middot; Achando o Padrão na Bagunça</span><span class="tag">em preparação</span></div>
+  <h2 class="etapa-t" id="etapa2">Etapa 2 &middot; Forças, Torques, Resultante e Equilíbrio de Corpos em Repouso</h2>
 
-  <details class="trilha" id="t04">
-  <summary>FE-T04 &middot; Movimento Retilíneo Uniforme (MRU)</summary>
+  <div class="trilha-prep" id="t01"><span>FE-T01 &middot; Forças: Peso, Elástica, Tração, Empuxo, Compressão (Normal, Atrito) e Aerodinâmica (Sustentação, Arrasto)</span><span class="tag">em preparação</span></div>
+
+  <div class="trilha-prep" id="t02"><span>FE-T02 &middot; Resultante das Forças no Equilíbrio Estático de Ponto Material</span><span class="tag">em preparação</span></div>
+
+  <div class="trilha-prep" id="t03"><span>FE-T03 &middot; Máquinas Simples: Plano Inclinado e Polias</span><span class="tag">em preparação</span></div>
+
+  <div class="trilha-prep" id="t04"><span>FE-T04 &middot; Centro de Massa, Torque, Resultante de Forças e Torques no Equilíbrio de Corpo Extenso</span><span class="tag">em preparação</span></div>
+
+  <h2 class="etapa-t" id="etapa3">Etapa 3 &middot; Forças, Aceleração, Trabalho, Energia e Potência de Corpos em Movimento + Fluidos em Equilíbrio</h2>
+
+  <details class="trilha" id="t05">
+  <summary>FE-T05 &middot; Forças e Aceleração: Esfera e Bolha em MRU num Tubo com Óleo Mineral, Carrinho Descendo uma Rampa e Esfera em Queda Livre</summary>
   <div class="trilha-corpo">
   <p class="parada">Pré-Lab <span>&middot; fazer em casa, antes da aula de bancada</span></p>
   <ul>
-    <li><a class="oa" href="t04/pp/"><b class="num">1</b>Ponto de Partida (PP)<span class="tag">vale nota · antes do Lab · 10 min</span></a></li>
-    <li><a class="oa" href="t04/md/"><b class="num">2</b>Resumo em Áudio (MD)<span class="tag">ouvir · 3 a 5 min</span></a></li>
-    <li><a class="oa" href="t04/tt/"><b class="num">3</b>Texto Temático (TT)<span class="tag">ler · a prática explicada</span></a></li>
-    <li><a class="oa" href="t04/sm/"><b class="num">4</b>Simulações (SM)<span class="tag">explorar · simulações</span></a></li>
-    <li><a class="oa" href="t04/tn/"><b class="num">5</b>Testinho (TN)<span class="tag">vale nota · antes do Lab · 10 min</span></a></li>
-    <li><a class="oa" href="t04/cd/">Cartões Didáticos (CD)<span class="tag">ler · revisão ativa</span></a></li>
-    <li><a class="oa" href="t04/mc/">Mapa Conceitual (MC)<span class="tag">ler · questões conceituais</span></a></li>
+    <li><a class="oa" href="t05/pp/"><b class="num">1</b>Ponto de Partida (PP)<span class="tag">vale nota · antes do Lab · 10 min</span></a></li>
+    <li><a class="oa" href="t05/md/"><b class="num">2</b>Resumo em Áudio (MD)<span class="tag">ouvir · 3 a 5 min</span></a></li>
+    <li><a class="oa" href="t05/tt/"><b class="num">3</b>Texto Temático (TT)<span class="tag">ler · a prática explicada</span></a></li>
+    <li><a class="oa" href="t05/sm/"><b class="num">4</b>Simulações (SM)<span class="tag">explorar · simulações</span></a></li>
+    <li><a class="oa" href="t05/tn/"><b class="num">5</b>Testinho (TN)<span class="tag">vale nota · antes do Lab · 10 min</span></a></li>
+    <li><a class="oa" href="t05/cd/">Cartões Didáticos (CD)<span class="tag">ler · revisão ativa</span></a></li>
+    <li><a class="oa" href="t05/mc/">Mapa Conceitual (MC)<span class="tag">ler · questões conceituais</span></a></li>
   </ul>
   <p class="parada">Lab <span>&middot; na bancada, com o professor · 100 min</span></p>
   <ul>
-    <li><a class="oa" href="t04/rb/"><b class="num">1</b>Roteiro de Bancada (RB)<span class="tag">apenas para visualiza&ccedil;&atilde;o &middot; o impresso &eacute; entregue na monitoria de F&iacute;sica</span></a></li>
-    <li><a class="oa extra" href="t04/rb/FE-T04-RB-impresso.pdf" target="_blank" rel="noopener">Abrir o RB em PDF<span class="tag">se necess&aacute;rio &middot; imprimir em casa &middot; A4</span></a></li>
-    <li><a class="oa" href="t04/ap/"><b class="num">2</b>Apresentação do Lab (AP)<span class="tag">roteiro dos 100 min · rever depois</span></a></li>
-    <li><a class="oa" href="t04/ig-painel/"><b class="num">3</b>Infográficos de Bancada (IG)<span class="tag">painel e consultas · durante a prática</span></a></li>
-    <li><a class="oa" href="t04/pr/"><b class="num">4</b>Provinha (PR)<span class="tag">vale nota · fechamento do Lab</span></a></li>
+    <li><a class="oa" href="t05/rb/"><b class="num">1</b>Roteiro de Bancada (RB)<span class="tag">apenas para visualiza&ccedil;&atilde;o &middot; o impresso &eacute; entregue na monitoria de F&iacute;sica</span></a></li>
+    <li><a class="oa extra" href="t05/rb/FE-T05-RB-impresso.pdf" target="_blank" rel="noopener">Abrir o RB em PDF<span class="tag">se necess&aacute;rio &middot; imprimir em casa &middot; A4</span></a></li>
+    <li><a class="oa" href="t05/ap/"><b class="num">2</b>Apresentação do Lab (AP)<span class="tag">roteiro dos 100 min · rever depois</span></a></li>
+    <li><a class="oa" href="t05/ig-painel/"><b class="num">3</b>Infográficos de Bancada (IG)<span class="tag">painel e consultas · durante a prática</span></a></li>
+    <li><a class="oa" href="t05/pr/"><b class="num">4</b>Provinha (PR)<span class="tag">vale nota · fechamento do Lab</span></a></li>
   </ul>
   <p class="parada">Pós-Lab <span>&middot; a partir do mesmo dia da prática</span></p>
   <ul>
-    <li><a class="oa" href="t04/rm/"><b class="num">1</b>Relatório Mínimo (RM)<span class="tag">vale nota · no mesmo dia do Lab · 1 página</span></a></li>
-    <li><a class="oa" href="t04/rc/"><b class="num">2</b>Relatório Completo (RC)<span class="tag">vale nota · até 6 dias após o Lab</span></a></li>
+    <li><a class="oa" href="t05/rm/"><b class="num">1</b>Relatório Mínimo (RM)<span class="tag">vale nota · no mesmo dia do Lab · 1 página</span></a></li>
+    <li><a class="oa" href="t05/rc/"><b class="num">2</b>Relatório Completo (RC)<span class="tag">vale nota · até 6 dias após o Lab</span></a></li>
   </ul>
   </div>
   </details>
 
-  <div class="trilha-prep" id="t05"><span>FE-T05 &middot; Analisando Linhas Tortas</span><span class="tag">em preparação</span></div>
+  <div class="trilha-prep" id="t06"><span>FE-T06 &middot; Forças e Aceleração em Corpos em Movimento Circular Uniforme</span><span class="tag">em preparação</span></div>
 
-  <h2 class="etapa-t" id="tema2">Tema 2 &middot; Brincando com Forças e Movimentos</h2>
+  <div class="trilha-prep" id="t07"><span>FE-T07 &middot; Formas de Energia, Fontes de Energia, Conversões, Transformação da Energia, Potência e Rendimento na Mecânica</span><span class="tag">em preparação</span></div>
 
-  <div class="trilha-prep" id="t06"><span>FE-T06 &middot; Leis de Newton</span><span class="tag">em preparação</span></div>
+  <div class="trilha-prep" id="t08"><span>FE-T08 &middot; Pressão Atmosférica, Pressão em Líquidos em Equilíbrio e Máquinas Hidráulicas: Prensas e Elevadores Hidráulicos</span><span class="tag">em preparação</span></div>
 
-  <div class="trilha-prep" id="t07"><span>FE-T07 &middot; Pesando, Puxando, Empurrando e Esticando</span><span class="tag">em preparação</span></div>
+  <div class="trilha-prep" id="t09"><span>FE-T09 &middot; Peso, Empuxo e Flutuação dos Objetos em Líquidos em Equilíbrio</span><span class="tag">em preparação</span></div>
 
-  <div class="trilha-prep" id="t08"><span>FE-T08 &middot; Boiando, Lixando, Amassando e Voando</span><span class="tag">em preparação</span></div>
+  <div class="trilha-prep" id="t10"><span>FE-T10 &middot; Projeto Integrador — Parte 1: Física Aplicada na Mineração</span><span class="tag">em preparação</span></div>
 
-  <div class="trilha-prep" id="t09"><span>FE-T09 &middot; Subindo e Descendo em Rampas e Ladeiras</span><span class="tag">em preparação</span></div>
-
-  <div class="trilha-prep" id="t10"><span>FE-T10 &middot; Trombadas e Batidas</span><span class="tag">em preparação</span></div>
-
-  <div class="trilha-prep" id="t11"><span>FE-T11 &middot; A Física da Água Parada</span><span class="tag">em preparação</span></div>
-
-  <h2 class="etapa-t" id="tema3">Tema 3 &middot; Projeto Integrador</h2>
-
-  <div class="trilha-prep" id="t12"><span>FE-T12 &middot; Projeto Investigativo Integrador</span><span class="tag">em preparação</span></div>
+  <div class="trilha-prep" id="t11"><span>FE-T11 &middot; Projeto Integrador — Parte 2: Física Aplicada na Mineração</span><span class="tag">em preparação</span></div>
 
   <script>
 /* Atalho #t{nn} abre a trilha na sanfona; sem JS o toque no titulo ainda abre. */
@@ -859,9 +860,9 @@ if (location.protocol === 'file:') {
   var pares = [['abaSiteT', 'abaSite'],
                ['abaMetodoT', 'abaMetodo'],
                ['abaMusicaT', 'abaMusica'],
-               ['abaTema1T', 'abaTema1'],
-               ['abaTema2T', 'abaTema2'],
-               ['abaTema3T', 'abaTema3'],
+               ['abaEtapa1T', 'abaEtapa1'],
+               ['abaEtapa2T', 'abaEtapa2'],
+               ['abaEtapa3T', 'abaEtapa3'],
                ['abaDocumentosT', 'abaDocumentos'],
                ['abaCreditosT', 'abaCreditos']];
   /* Espacamento UNIFORME entre as linguetas: o rotulo e vertical e a altura
