@@ -886,6 +886,7 @@ function coletaGarantirRA(payload) {
 function enviarColeta(isRetry) {
   if (!COLETA_URL || coletaEnviando) return;
   if (!isRetry && coletaComprovante) return;
+  if (coletaEnvioSrvBloqueia()) { coletaAvisoSrv(coletaEnvioSrv, false); return; }
   coletaEnviando = true;
   coletaStatusUI(null, 'Enviando respostas ao professor...');
 
@@ -919,6 +920,64 @@ function enviarColeta(isRetry) {
         'e entregue ao professor.');
     });
 }
+
+/* JA ENVIADO PELO SERVIDOR (briefing PRE-site-oa-ja-enviado-pelo-servidor-fc1-2026-10-28).
+   O estado "enviado" mora no navegador; em outro aparelho o OA parecia pendente.
+   Quando o estudante preenche os 7 digitos do RA, pergunta ao coletor
+   (?entregas=1&ra=) se este OA ja foi enviado. So o aviso: as respostas nao voltam.
+   Sem rede, coletor fora do ar ou RA da equipe (9000...): o OA fica como era. */
+var coletaEnvioSrv = null;
+var coletaRASrv = '';
+function coletaTentativaMax() {
+  return (typeof OA_CFG !== 'undefined' && OA_CFG && OA_CFG.tentativas) ? OA_CFG.tentativas : 1;
+}
+function coletaEnvioSrvBloqueia() {
+  var t = (typeof oaTentativaAtual === 'function') ? oaTentativaAtual() : 1;
+  return !!coletaEnvioSrv && coletaTentativaMax() < 2 && t < 2;
+}
+function coletaFmtPontos(x) { return String(Math.round(Number(x) * 10) / 10).replace('.', ','); }
+function coletaAvisoSrv(e, segunda) {
+  coletaStatusUI('ok', (segunda ? '1ª tentativa enviada em ' : '✓ Já enviado em ') + e.quando +
+    (e.total ? ' · ' + coletaFmtPontos(e.pontos) + ' / ' + coletaFmtPontos(e.total) + ' pontos' : '') +
+    (segunda ? '. Você pode enviar a 2ª tentativa.'
+             : '. Você pode rever as questões para estudar, mas não é possível enviar de novo.'));
+}
+function coletaVerificarEnvioSrv() {
+  var ident = coletaIdentidadeOA();
+  var ra = coletaCampoRA().replace(/\D/g, '');
+  if (!COLETA_URL || !ident || ra.length !== 7 || ra === coletaRASrv || /^9000/.test(ra)) return;
+  coletaRASrv = ra;
+  coletaEnvioSrv = null;
+  try { if (localStorage.getItem(coletaComprovanteKey())) return; } catch (e) {}
+  var ctl = (typeof AbortController === 'function') ? new AbortController() : null;
+  var tmo = setTimeout(function () { if (ctl) ctl.abort(); }, 6000);
+  fetch(COLETA_URL + '?entregas=1&ra=' + encodeURIComponent(ra), ctl ? { signal: ctl.signal } : {})
+    .then(function (r) { return r.json(); })
+    .then(function (j) {
+      if (!j || !j.ok || !j.entregas || ra !== coletaRASrv) return;
+      for (var i = 0; i < j.entregas.length; i++) {
+        var x = j.entregas[i];
+        if (String(x.trilha).toUpperCase() === String(ident.trilha).toUpperCase() &&
+            String(x.oa).toUpperCase() === String(ident.oa).toUpperCase()) {
+          coletaEnvioSrv = x;
+          coletaAvisoSrv(x, coletaTentativaMax() >= 2);
+          return;
+        }
+      }
+    })
+    .catch(function () {})
+    .then(function () { clearTimeout(tmo); });
+}
+document.addEventListener('change', function (ev) {
+  var el = ev.target;
+  if (el && (el.getAttribute('data-campo') === 'ra' || el.id === 'inputRA')) coletaVerificarEnvioSrv();
+}, true);
+document.addEventListener('input', function (ev) {
+  var el = ev.target;
+  if (el && (el.getAttribute('data-campo') === 'ra' || el.id === 'inputRA') &&
+      String(el.value || '').replace(/\D/g, '').length === 7) coletaVerificarEnvioSrv();
+}, true);
+document.addEventListener('DOMContentLoaded', function () { setTimeout(coletaVerificarEnvioSrv, 300); });
 
 document.addEventListener('DOMContentLoaded', coletaRestaurar);
 
