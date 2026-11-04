@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FE-T0E · Roteiro de Bancada (RB) · Parte 2</title>
+<style>
+/* ============================================================
+   FE-T0A-RB-v6-estudante-impresso.html
+   Roteiro de Bancada — 3 paginas A4, para ESCRITA A MAO na bancada.
+   Mudancas v6 (2026-09-02, replicando o padrao do RB v5 da T04):
+     (1) TIPOGRAFIA DE TELA — bloco @media screen (piso .8rem);
+         a IMPRESSAO nao muda.
+     (2) IMAGENS DE FUNDO no padrao da FA impressa da T10/FC1
+         (.anot-fundo): grayscale, opacidade .34 tela / .26 impresso,
+         via ../_imagens/_web/ (derivadas leves).
+     (3) "Resolucao Cientifica do Problema" SEMPRE precede
+         "Protocolo C5 (8 passos)" — regra de toda a FE1.
+     (4) Fecho "Terminamos por aqui..." em destaque colorido.
+   Alinhado ao padrao da T04 (formatacao da FA impressa da FC1,
+   decisao do autor em 2026-08-29):
+     pag 1  cabecalho FA + caixa IDENTIFICACAO + linha Piazzi + epigrafe
+            + Minha Trilha (Pre-Lab/Lab/Pos-Lab) + Seguranca
+            + Parte 1 (protocolo + tabela das 4 medicoes)
+     pag 2  Parte 2 (calculos) + Parte 3 (Protocolo C5)
+     pag 3  Parte 4 (discussao) + Parte 5 (normas do Lab) + Conclusao
+            + fecho + Espaco da Equipe de Monitoria
+   Sem espaco morto no pe da pagina: a folga vira linha de escrita
+   (classe .cresce — regra da FA/TR), e o rodape cola na base.
+   ============================================================ */
+
+:root {
+  /* Paleta FE — _identidade/paleta-fe.md
+     laranja-EPI (primario) + azul-aco (acento) */
+  --epi: #E07B39;
+  --epi-claro: #EE9A63;
+  --epi-bg: oklch(0.28 0.06 55);
+  --aco: #7FB2D6;
+  --aco-claro: #A7CCE6;
+  --aco-bg: oklch(0.28 0.05 240);
+  --verde: oklch(0.7 0.15 150);
+  --verde-claro: oklch(0.25 0.04 150);
+  --erro: oklch(0.6 0.22 25);
+  --erro-claro: oklch(0.22 0.05 25);
+  --cinza: oklch(0.62 0.01 260);
+  --cinza-claro: oklch(0.18 0.01 260);
+  --cinza-borda: oklch(0.40 0.01 260);
+  --texto: oklch(0.93 0 0);
+  --branco: oklch(0.96 0 0);
+  --superficie: oklch(0.22 0.01 260);
+  --input-bg: oklch(0.18 0.01 260);
+  --hover-bg: oklch(0.25 0.01 260);
+  --fundo: oklch(0.13 0.01 260);
+  --painel: oklch(0.16 0.01 260);
+  --r: 0px;
+  --r-sm: 0px;
+  --font: 'Courier New', Courier, monospace;
+  --mono: 'Courier New', 'Cascadia Code', 'Consolas', monospace;
+  --serif: 'Georgia', 'Cambria', 'Times New Roman', serif;
+  /* nomes herdados dos OAs de 2026-07 — apontam para a paleta FE */
+  --azul: var(--epi);
+  --azul-claro: var(--epi-claro);
+  --azul-bg: var(--epi-bg);
+  --ouro: var(--aco);
+  --ouro-claro: var(--aco-bg);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font);
+  background: var(--fundo);
+  color: var(--texto);
+  line-height: 1.45;
+}
+
+.folha { max-width: 760px; margin: 0 auto; padding: 20px 16px; }
+
+/* ── PAGINA ── */
+.pagina { margin-bottom: 28px; }
+.pagina + .pagina { border-top: 2px dashed var(--cinza-borda); padding-top: 24px; }
+
+/* ── CABECALHO (padrao FA) ── */
+.header {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px;
+  border-top: 3px solid var(--azul);
+  border-bottom: 1px solid var(--cinza-borda);
+  padding: 10px 0; margin-bottom: 12px;
+}
+.header-left h1 { font-size: 1.05rem; font-weight: 700; color: var(--azul); }
+.header-left .sub { font-size: .72rem; color: var(--cinza); margin-top: 2px; }
+.header-right { text-align: right; font-size: .7rem; color: var(--cinza); line-height: 1.5; }
+.header-right .badge { font-weight: 700; color: var(--azul); font-size: .75rem; }
+
+/* ── CAIXA IDENTIFICACAO ── */
+.id-box {
+  border: 1.5px solid var(--cinza-borda);
+  padding: 8px 12px 9px;
+  margin-bottom: 10px;
+}
+.id-box-titulo {
+  font-size: .66rem; font-weight: 700; color: var(--cinza);
+  text-transform: uppercase; letter-spacing: .6px; margin-bottom: 6px;
+}
+.id-box .campo-linha {
+  display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap;
+  font-size: .8rem; border-bottom: 1px solid var(--linha);
+  padding-bottom: 5px; margin-bottom: 7px;
+}
+.id-box .campo-linha:last-child { margin-bottom: 0; }
+.id-box label { font-weight: 700; color: var(--azul); font-size: .74rem; white-space: nowrap; }
+.id-box .linha { flex: 1; min-width: 0; height: 1.3em; }
+.id-box .linha.ra { flex: 0 0 7.5em; }
+.id-box .linha.meia { flex: .6; }
+.opts { display: flex; gap: 12px; font-size: .72rem; color: var(--cinza); margin-right: 12px; white-space: nowrap; }
+.opts .opt { display: flex; align-items: center; gap: 4px; }
+.opts .opt::before {
+  content: '';
+  display: inline-block;
+  width: 13px; height: 13px;
+  border: 1.5px solid var(--cinza-borda);
+  flex-shrink: 0;
+}
+.data-campo { font-size: .78rem; color: var(--cinza); white-space: nowrap; }
+
+/* ── BARRA PIAZZI ── */
+.piazzi {
+  display: flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap;
+  border: 1px solid var(--cinza-borda); padding: 7px 12px; margin-bottom: 10px;
+  font-size: .74rem; color: var(--cinza); text-align: center;
+}
+.piazzi .mao { color: var(--branco); font-weight: 600; }
+.piazzi em { color: var(--ouro); font-style: italic; }
+
+/* ── EPIGRAFE ── */
+.epigrafe {
+  border-left: 3px solid var(--ouro); background: var(--ouro-bg);
+  padding: 8px 12px; margin-bottom: 12px;
+  font-family: var(--serif); font-size: .82rem;
+}
+.epigrafe .cit { font-style: italic; color: var(--ouro); }
+.epigrafe .atrib { font-family: var(--font); font-size: .7rem; color: var(--cinza); }
+
+/* ── MINHA TRILHA (checklist dos OAs, padrao FA) ── */
+.checklist { margin-bottom: 12px; }
+.checklist-titulo {
+  text-align: center; font-size: .68rem; font-weight: 700; color: var(--cinza);
+  text-transform: uppercase; letter-spacing: .6px; margin-bottom: 7px;
+}
+.checklist-fases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.fase { border: 1px solid var(--cinza-borda); border-top: 2px solid var(--ouro); padding: 6px 8px 7px; }
+.fase-nome {
+  font-size: .66rem; font-weight: 700; color: var(--ouro);
+  text-transform: uppercase; letter-spacing: .4px; margin-bottom: 5px;
+}
+.fase-oas { display: flex; flex-wrap: wrap; gap: 4px 8px; }
+.oa-item { display: flex; align-items: center; gap: 4px; font-size: .64rem; line-height: 1.2; }
+.oa-box { width: 9px; height: 9px; border: 1px solid var(--cinza); flex-shrink: 0; }
+.oa-sigla { font-family: var(--mono); font-weight: 700; color: var(--texto); }
+.oa-nome { color: var(--cinza); }
+
+/* ── SECAO ── */
+.secao { margin-bottom: 12px; }
+.secao-titulo { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.secao-titulo .num {
+  width: 24px; height: 24px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .78rem; font-weight: 700;
+  background: var(--azul-bg); color: var(--azul); border-radius: 50%;
+}
+.secao-titulo h2 {
+  font-size: .88rem; font-weight: 700; color: var(--azul);
+  text-transform: uppercase; letter-spacing: .4px;
+}
+.secao-titulo .hint { margin-left: auto; font-size: .66rem; color: var(--cinza); font-style: italic; }
+
+/* ── SEGURANCA ── */
+.alerta-seg {
+  background: var(--erro-bg);
+  border: 1px solid var(--erro);
+  padding: 6px 10px;
+  font-size: .72rem;
+  margin-bottom: 6px;
+}
+.alerta-seg strong { color: var(--erro); }
+.check-list { list-style: none; padding: 0; margin: 6px 0; }
+.check-list li {
+  display: flex; align-items: flex-start; gap: 8px;
+  font-size: .78rem;
+  padding: 3px 0;
+}
+.check-list li::before {
+  content: '';
+  display: inline-block;
+  width: 15px; height: 15px;
+  border: 1.5px solid var(--cinza-borda);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.check-list.seg li::before { border-color: var(--erro); }
+.assinatura {
+  display: flex; align-items: baseline; gap: 8px;
+  margin: 8px 0 0;
+  font-size: .78rem; font-weight: 700; color: var(--azul);
+}
+.assinatura .linha-ass { flex: 1; border-bottom: 1.5px solid var(--erro); min-height: 1.4em; }
+
+/* ── PROTOCOLO DE MEDICAO ── */
+.lembrete {
+  background: var(--ouro-bg);
+  border: 1px solid var(--ouro);
+  padding: 6px 10px;
+  font-size: .72rem;
+  margin-bottom: 8px;
+}
+.lembrete strong { color: var(--ouro); }
+.protocolo-lista { list-style: none; padding: 0; margin: 0 0 8px; }
+.protocolo-lista li {
+  font-size: .78rem;
+  padding: 2px 0 2px 18px;
+  position: relative;
+}
+.protocolo-lista li::before {
+  content: attr(data-n);
+  position: absolute; left: 0;
+  color: var(--azul); font-weight: 700;
+  font-size: .72rem;
+}
+.nota-metodo { font-size: .74rem; color: var(--cinza); font-style: italic; margin-top: 4px; }
+
+/* ── IMAGEM DE FUNDO DA SECAO (padrao .anot-fundo da FA impressa
+   da T10/FC1): a ilustracao IT fica ATRAS da area de escrita, em
+   escala de cinza e opacidade baixa — o estudante escreve por cima.
+   Valores de tela e de impressao copiados VERBATIM da FA. ── */
+.com-fundo { position: relative; overflow: hidden; }
+.fundo-ilustra {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  opacity: .34; filter: grayscale(1) contrast(.9);
+  pointer-events: none;
+}
+.com-fundo > :not(.fundo-ilustra) { position: relative; }
+
+/* ── TABELAS DE DADOS ── */
+.tabela-rotulo { font-size: .74rem; color: var(--cinza); font-style: italic; margin: 6px 0 3px; }
+table { width: 100%; border-collapse: collapse; font-size: .8rem; margin: 4px 0 8px; }
+th {
+  background: var(--azul-bg);
+  color: var(--azul);
+  padding: 5px 4px;
+  text-align: center;
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .2px;
+  font-weight: 700;
+  border: 1px solid var(--cinza-borda);
+}
+th:first-child { text-align: left; padding-left: 8px; }
+th .un { text-transform: none; }
+td {
+  padding: 8px 6px;
+  border: 1px solid var(--cinza-borda);
+  text-align: center;
+  vertical-align: middle;
+  height: 30px;
+}
+td:first-child { text-align: left; padding-left: 8px; }
+tr.voce td { background: var(--azul-bg); border-color: var(--azul); }
+tr.voce td:first-child { font-weight: 700; color: var(--azul); }
+
+/* ── CALCULOS ── */
+.calc-bloco { background: var(--superficie); padding: 8px 12px; margin: 6px 0 0; }
+.calc-formula { display: flex; align-items: center; gap: 6px; font-size: .8rem; margin: 6px 0; }
+.calc-formula .label { font-weight: 600; color: var(--azul); white-space: nowrap; }
+.calc-formula .eq { font-family: var(--mono); font-size: .78rem; color: var(--cinza); }
+.calc-formula .campo-calc { border-bottom: 1.5px solid var(--azul); min-width: 80px; height: 1.1em; display: inline-block; }
+.calc-formula .un-m { font-size: .72rem; }
+/* conversao para o SI antes da media — sem ela o aluno soma m + dm + cm + mm */
+.calc-formula.conv { flex-wrap: wrap; gap: 4px 12px; }
+.calc-formula.conv .conv-item { display: flex; align-items: center; gap: 5px; }
+.calc-formula.conv .campo-calc { min-width: 52px; }
+
+.resultado-final {
+  border: 1.5px solid var(--azul);
+  background: var(--azul-bg);
+  padding: 8px 12px;
+  text-align: center;
+  margin: 8px 0 0;
+}
+.resultado-final .titulo-res {
+  font-size: .72rem; text-transform: uppercase; letter-spacing: 1px;
+  color: var(--azul); font-weight: 700; margin-bottom: 4px;
+}
+.resultado-final .formula-res { font-size: 1.05rem; font-weight: 700; color: var(--branco); font-family: var(--mono); }
+.resultado-final .campo-res {
+  display: inline-block;
+  border-bottom: 1.5px solid var(--azul);
+  min-width: 70px;
+  height: 1.3em;
+}
+
+/* ── PROTOCOLO C5 ── */
+.c5-lista { list-style: none; padding: 0; margin: 0; }
+.c5-lista li {
+  padding: 4px 0 4px 24px;
+  position: relative;
+  font-size: .8rem;
+  border-bottom: 1px dotted var(--cinza-borda);
+  min-height: 30px;
+}
+.c5-lista li:last-child { border-bottom: none; }
+.c5-lista li .passo-num { position: absolute; left: 0; top: 4px; font-weight: 700; color: var(--azul); font-size: .8rem; }
+.c5-lista li .passo-label { font-weight: 600; color: var(--ouro); }
+.c5-lista li .inline-resp { font-size: .78rem; font-family: var(--mono); color: var(--azul); }
+.c5-esboco {
+  border: 1px dashed var(--cinza-borda);
+  height: 48px;
+  margin: 4px 0 2px;
+  display: flex; align-items: flex-end; justify-content: space-between;
+  padding: 0 12px 2px;
+  font-size: .74rem; color: var(--cinza);
+  font-family: var(--mono);
+}
+
+/* ── DISCUSSAO ── */
+.disc-item { display: flex; flex-direction: column; margin-bottom: 4px; }
+.disc-q { font-size: .8rem; margin: 4px 0 2px; }
+.disc-q strong { color: var(--azul); }
+.disc-linha { border-bottom: 1px dotted var(--cinza-borda); min-height: 24px; }
+
+/* ── NORMAS ── */
+.normas-table td:first-child {
+  width: 28px; text-align: center;
+  font-weight: 700; color: var(--azul);
+  font-size: .85rem;
+}
+.normas-table td:last-child { width: 110px; }
+
+/* ── FECHAMENTO (padrao FA) ── */
+.fechamento { border-top: 1px solid var(--cinza-borda); margin-top: 10px; padding-top: 9px; }
+.fechamento .frase {
+  text-align: center; font-size: .92rem; font-style: italic; color: var(--texto); line-height: 1.55;
+}
+.fechamento .frase strong { color: var(--ouro); font-style: normal; }
+/* v6: o fecho da despedida ganha destaque de cor e corpo maior */
+.fechamento .fecho-destaque { color: var(--azul); font-weight: 700; font-size: 1.08rem; }
+
+/* ── ESPACO DA EQUIPE DE MONITORIA (padrao FA) ── */
+.monitoria { border: 1.5px solid var(--verde); margin-top: 10px; padding: 8px 10px 9px; }
+.monitoria-titulo {
+  font-size: .8rem; font-weight: 700; color: var(--verde);
+  text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px;
+}
+.monitoria-entrega { font-size: .9rem; font-weight: 600; margin-bottom: 7px; }
+.monitoria-marcas { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-bottom: 7px; }
+.marca { display: flex; align-items: center; gap: 5px; font-size: .8rem; }
+.marca .cx { width: 12px; height: 12px; border: 1px solid var(--cinza); flex-shrink: 0; }
+.marca .data { display: inline-flex; align-items: flex-end; gap: 3px; color: var(--cinza); }
+.marca .data i { display: inline-block; border-bottom: 1px solid var(--linha); height: 1em; font-style: normal; }
+.marca .data .d, .marca .data .m { width: 22px; }
+.marca .data .a { width: 34px; }
+.monitoria-criterios { font-size: .8rem; color: var(--cinza); line-height: 1.55; margin-bottom: 7px; }
+.monitoria-criterios strong { color: var(--texto); font-weight: 600; }
+.monitoria-obs { font-size: .8rem; font-weight: 600; color: var(--cinza); text-transform: uppercase; letter-spacing: .4px; }
+.monitoria-linha { border-bottom: 1px solid var(--linha); height: 22px; }
+.monitoria-assina { display: grid; grid-template-columns: 2fr 1fr; gap: 18px; margin-top: 6px; }
+.monitoria-assina .campo {
+  display: flex; align-items: baseline; gap: 6px;
+  font-size: .8rem; border-bottom: 1px solid var(--linha); padding-bottom: 3px;
+}
+.monitoria-assina label { font-weight: 600; color: var(--verde); white-space: nowrap; font-size: .8rem; }
+.monitoria-assina .linha { flex: 1; min-width: 0; height: 1.2em; }
+
+/* ── RODAPES ── */
+.rodape-print { display: none; }
+.barra-tela { text-align: center; padding: 18px 0 6px; }
+.barra-tela .btn {
+  padding: 11px 26px; background: var(--azul); color: oklch(0.13 0.01 260);
+  border: none; font-family: var(--font); font-size: .85rem; font-weight: 700;
+  cursor: pointer; min-height: 44px;
+}
+.barra-tela .btn:hover { filter: brightness(1.1); }
+.barra-tela .nota { font-size: .8rem; color: var(--cinza); margin-top: 8px; line-height: 1.5; }
+
+/* ============================================================
+   TIPOGRAFIA DE TELA — padrao FE1 movel (v6): piso de .8rem e
+   corpos maiores para leitura no celular, como na atualizacao
+   do indice do site fe1-oa (nome 1.08rem / tag .95rem) e no
+   Espaco da Monitoria (A4.36). SO a tela cresce: o @media print
+   abaixo permanece intacto e a paginacao impressa nao muda.
+   REPLICAR este bloco identico nos RB das demais trilhas.
+   ============================================================ */
+@media screen {
+  body { font-size: 1.02rem; }
+  .header-left h1 { font-size: 1.2rem; }
+  .header-left .sub { font-size: .84rem; }
+  .header-right { font-size: .8rem; }
+  .header-right .badge { font-size: .9rem; }
+  .id-box-titulo { font-size: .8rem; }
+  .id-box .campo-linha { font-size: .92rem; }
+  .id-box label { font-size: .84rem; }
+  .opts { font-size: .84rem; }
+  .data-campo { font-size: .88rem; }
+  .piazzi { font-size: .84rem; }
+  .epigrafe { font-size: .95rem; }
+  .epigrafe .atrib { font-size: .8rem; }
+  .checklist-titulo { font-size: .8rem; }
+  .fase-nome { font-size: .8rem; }
+  .oa-item { font-size: .8rem; }
+  .secao-titulo .num { width: 26px; height: 26px; font-size: .86rem; }
+  .secao-titulo h2 { font-size: 1.02rem; }
+  .secao-titulo .hint { font-size: .8rem; }
+  .alerta-seg { font-size: .86rem; }
+  .check-list li { font-size: .92rem; }
+  .assinatura { font-size: .9rem; }
+  .lembrete { font-size: .86rem; }
+  .protocolo-lista li { font-size: .92rem; }
+  .protocolo-lista li::before { font-size: .84rem; }
+  .nota-metodo { font-size: .84rem; }
+  .tabela-rotulo { font-size: .84rem; }
+  table { font-size: .92rem; }
+  th { font-size: .8rem; }
+  .resultado-final .titulo-res { font-size: .8rem; }
+  .resultado-final .formula-res { font-size: 1.15rem; }
+  .c5-lista li { font-size: .92rem; }
+  .c5-lista li .passo-num { font-size: .92rem; }
+  .c5-lista li .inline-resp { font-size: .88rem; }
+  .c5-esboco { font-size: .84rem; }
+  .calc-formula { font-size: .92rem; }
+  .calc-formula .eq { font-size: .88rem; }
+  .calc-formula .un-m { font-size: .82rem; }
+  .disc-q { font-size: .92rem; }
+  .fechamento .frase { font-size: 1.02rem; }
+  .fechamento .fecho-destaque { font-size: 1.2rem; }
+  .barra-tela .nota { font-size: .84rem; }
+}
+
+/* ============================================================
+   IMPRESSAO — paleta azul sobre branco (padrao T04):
+   titulos e rotulos em azul #1F3864, linhas de escrita discretas.
+   @page { margin: 0 } suprime o cabecalho/rodape do navegador;
+   a margem real vira o padding de .pagina.
+   ============================================================ */
+@media print {
+  @page { size: A4 portrait; margin: 0; }
+
+  body {
+    background: #FFFFFF !important;
+    color: #1A1A1A !important;
+    font-size: 8.8pt;
+    line-height: 1.34;
+  }
+  .folha { max-width: none; padding: 0; }
+
+  /* uma .pagina por folha A4; coluna flex com a altura da folha:
+     a folga vira linha de escrita (.cresce) e o rodape cola na base */
+  .pagina {
+    margin: 0; padding: 11mm 13mm 9mm 13mm;
+    break-after: page; page-break-after: always;
+    display: flex; flex-direction: column; height: 297mm;
+  }
+  .pagina:last-of-type { break-after: auto; page-break-after: auto; }
+  /* ARMADILHA (FA): repetir o padding-top — a regra de tela
+     `.pagina + .pagina` vence dentro do @media print. */
+  .pagina + .pagina { border-top: none; padding-top: 11mm; }
+  .rodape-print {
+    display: block; text-align: center;
+    font-size: 6.8pt; color: #808080;
+    border-top: .5pt solid #D0D0D0; padding-top: 3pt;
+    margin-top: auto;
+  }
+
+  /* a secao marcada .cresce absorve a folga da pagina; tabela .estica
+     dentro dela distribui a folga entre as proprias linhas */
+  .cresce { flex: 1 1 auto; display: flex; flex-direction: column; }
+  .cresce table.estica { flex: 1 1 auto; }
+
+  .header { border-top: 2.5pt solid #1F3864; border-bottom: .5pt solid #C0C0C0; padding: 5pt 0; margin-bottom: 7pt; }
+  .header-left h1 { color: #1F3864 !important; font-size: 12pt; }
+  .header-left .sub { color: #4D6A96 !important; }
+  .header-right { color: #4D6A96 !important; }
+  .header-right .badge { color: #1F3864 !important; }
+
+  .id-box { border: 1pt solid #1A1A1A !important; padding: 5pt 8pt 6pt; margin-bottom: 6pt; }
+  .id-box-titulo { color: #1A1A1A !important; font-size: 7pt; margin-bottom: 4pt; }
+  .id-box .campo-linha { border-bottom: .75pt solid #7A7A7A !important; padding-bottom: 4pt; margin-bottom: 5pt; }
+  .id-box label { color: #1F3864 !important; }
+  .opts { color: #4D4D4D !important; }
+  .opts .opt::before { border: 1pt solid #808080 !important; width: 10pt; height: 10pt; }
+  .data-campo { color: #4D4D4D !important; }
+
+  .piazzi { border: .5pt solid #C0C0C0 !important; color: #1F3864 !important; padding: 4pt 8pt; margin-bottom: 6pt; font-size: 8pt; }
+  .piazzi .mao { color: #1F3864 !important; font-weight: 700; }
+  .piazzi em { color: #1F3864 !important; }
+
+  .epigrafe {
+    background: #F4F4F4 !important; border-left: 2.5pt solid #1F3864 !important;
+    padding: 5pt 9pt; margin-bottom: 7pt; font-size: 9pt;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .epigrafe .cit { color: #1F3864 !important; }
+  .epigrafe .atrib { color: #4D4D4D !important; }
+
+  .checklist { margin-bottom: 7pt; }
+  .checklist-titulo { color: #1F3864 !important; font-size: 7.2pt; margin-bottom: 3pt; }
+  .checklist-fases { gap: 6pt; }
+  .fase {
+    border: .5pt solid #B5B5B5 !important; border-top: 1.5pt solid #1F3864 !important;
+    padding: 4pt 6pt 4.5pt; break-inside: avoid;
+  }
+  .fase-nome { color: #1F3864 !important; font-size: 7.4pt; margin-bottom: 3pt; }
+  .fase-oas { gap: 3pt 7pt; }
+  .oa-item { font-size: 7pt; }
+  .oa-box { width: 7pt; height: 7pt; border: .75pt solid #1A1A1A !important; }
+  .oa-sigla { color: #000000 !important; }
+  .oa-nome { color: #4D4D4D !important; }
+
+  .secao { margin-bottom: 7pt; }
+  .secao-titulo { margin-bottom: 5pt; gap: 6pt; }
+  .secao-titulo .num {
+    background: #E8EDF4 !important; color: #1F3864 !important;
+    border: .75pt solid #1F3864;
+    width: 15pt; height: 15pt; font-size: 8pt;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .secao-titulo h2 { color: #1F3864 !important; font-size: 9.5pt; }
+  .secao-titulo .hint { color: #808080 !important; font-size: 7pt; }
+
+  .alerta-seg {
+    background: #FDEDEC !important; border-color: #C0392B !important;
+    padding: 4pt 8pt; margin-bottom: 4pt;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .alerta-seg strong { color: #C0392B !important; }
+  .check-list li { font-size: 8.2pt; padding: 2pt 0; }
+  .check-list li::before { width: 10pt; height: 10pt; border: 1pt solid #808080 !important; }
+  .check-list.seg li::before { border-color: #C0392B !important; }
+  .assinatura { color: #1F3864 !important; margin-top: 4pt; }
+  .assinatura .linha-ass { border-bottom-color: #C0392B !important; }
+
+  .lembrete {
+    background: #FFF5E0 !important; border-color: #C8922A !important;
+    padding: 4pt 8pt; margin-bottom: 5pt;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .lembrete strong { color: #8A6A18 !important; }
+  .protocolo-lista li { font-size: 8.2pt; padding: 1.5pt 0 1.5pt 14pt; }
+  .protocolo-lista li::before { color: #1F3864 !important; font-size: 7.6pt; }
+  .nota-metodo { color: #808080 !important; font-size: 7.4pt; }
+
+  /* Imagem de fundo: visivel o bastante para ilustrar, clara o bastante
+     para a caneta passar por cima — mesmos valores calibrados da FA
+     impressa da T10/FC1 (a impressora P&B clareia meios-tons; o valor
+     de tela nao serve aqui). */
+  .fundo-ilustra {
+    opacity: .26 !important;
+    filter: grayscale(1) contrast(.95) brightness(1.02) !important;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+
+  .tabela-rotulo { color: #4D4D4D !important; font-size: 7.6pt; margin: 3pt 0 2pt; }
+  table { font-size: 8.2pt; margin: 2pt 0 5pt; }
+  th {
+    background: #E8EDF4 !important; color: #1F3864 !important;
+    border: .5pt solid #9AA7BD !important; padding: 3pt 3pt;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  td { border: .5pt solid #9AA7BD !important; height: 11mm; padding: 3pt 4pt; }
+  tr.voce td {
+    background: #E8EDF4 !important; border-color: #1F3864 !important;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  tr.voce td:first-child { color: #1F3864 !important; }
+
+  .calc-bloco { background: #F8F8F8 !important; padding: 4pt 8pt; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .calc-formula { font-size: 8.4pt; margin: 4pt 0; }
+  .calc-formula .label { color: #1F3864 !important; }
+  .calc-formula .eq { color: #4D4D4D !important; }
+  .calc-formula .campo-calc { border-bottom-color: #1F3864 !important; }
+
+  .resultado-final {
+    background: #F4F6FA !important; border: 1pt solid #1F3864 !important;
+    padding: 5pt 9pt; margin-top: 4pt;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .resultado-final .titulo-res { color: #1F3864 !important; font-size: 7.4pt; }
+  .resultado-final .formula-res { color: #1A1A1A !important; font-size: 10pt; }
+  .resultado-final .campo-res { border-bottom-color: #1F3864 !important; }
+
+  .c5-lista { flex: 1 1 auto; display: flex; flex-direction: column; }
+  .c5-lista li { flex: 1 1 auto; border-bottom: .5pt dotted #9AA7BD !important; min-height: 8mm; }
+  .c5-lista li.fixo { flex: 0 0 auto; }
+  .c5-lista li .passo-num { color: #1F3864 !important; }
+  .c5-lista li .passo-label { color: #2E5A8F !important; }
+  .c5-lista li .inline-resp { color: #1F3864 !important; }
+  .c5-esboco { border-color: #9AA7BD !important; color: #808080 !important; height: 12mm; }
+
+  .disc-item { flex: 1 1 auto; }
+  .disc-q { font-size: 8.2pt; }
+  .disc-q strong { color: #1F3864 !important; }
+  .disc-linha { flex: 1 1 auto; border-bottom: .5pt dotted #9AA7BD !important; min-height: 7mm; }
+
+  .normas-table td:first-child { color: #1F3864 !important; }
+
+  .fechamento { border-top: .5pt solid #C0C0C0 !important; margin-top: 5pt; padding-top: 5pt; flex: 0 0 auto; }
+  .fechamento .frase { color: #1F3864 !important; font-size: 9.6pt; line-height: 1.4; }
+  .fechamento .frase strong { color: #1F3864 !important; }
+  /* v6: destaque do fecho no laranja de impressao da FE (#AE5314, 4,89:1) */
+  .fechamento .fecho-destaque { color: #AE5314 !important; font-size: 11pt; }
+
+  .monitoria { border: 1pt solid #1A1A1A !important; margin-top: 4pt; padding: 3pt 7pt 3pt; break-inside: avoid; }
+  .monitoria-titulo { color: #1A1A1A !important; font-size: 7.5pt; margin-bottom: 1.5pt; }
+  .monitoria-entrega { color: #000000 !important; font-size: 8.6pt; margin-bottom: 2pt; }
+  .monitoria-marcas { gap: 2pt 12pt; margin-bottom: 2pt; }
+  .marca { font-size: 7.8pt; color: #000000 !important; }
+  .marca .cx { width: 8.5pt; height: 8.5pt; border: .75pt solid #1A1A1A !important; }
+  .marca .data { color: #000000 !important; gap: 2pt; }
+  .marca .data i { border-bottom: .75pt solid #7A7A7A !important; height: .95em; }
+  .marca .data .d, .marca .data .m { width: 16pt; }
+  .marca .data .a { width: 26pt; }
+  .monitoria-criterios { color: #4D4D4D !important; font-size: 7pt; line-height: 1.3; margin-bottom: 2pt; }
+  .monitoria-criterios strong { color: #1A1A1A !important; }
+  .monitoria-obs { color: #4D4D4D !important; font-size: 7.2pt; }
+  .monitoria-linha { border-bottom: .5pt solid #7A7A7A !important; height: 4.5mm; }
+  .monitoria-assina { gap: 16pt; margin-top: 2pt; }
+  .monitoria-assina .campo { border-bottom: .75pt solid #7A7A7A !important; padding-bottom: 2pt; font-size: 7.8pt; }
+  .monitoria-assina label { color: #1A1A1A !important; font-size: 7.5pt; }
+
+  .barra-tela { display: none !important; }
+}
+
+  input, button, select, textarea { font-family: inherit; }
+  /* ==== PADRAO FE — aplicado por padronizar_oa_fe.py ==== */
+body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
+.container { max-width: 800px; margin: 0 auto; padding: 24px 16px 80px; }
+/* HEADER */
+.header { background: var(--painel); border-top: 3px solid var(--epi); padding: 14px 20px; margin-bottom: 20px; }
+.header-inner { max-width: 800px; margin: 0 auto; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.header .marca { width: 52px; height: 52px; flex-shrink: 0; }
+.header h1 { font-size: 1.4rem; font-weight: 900; letter-spacing: -0.02em; flex: 1 1 240px; }
+.header h1 .trilha-code { color: var(--epi); }
+.badge {
+  display: inline-block;
+  background: var(--epi); color: oklch(0.13 0.01 260);
+  padding: 4px 12px; border-radius: var(--r-sm);
+  font-size: 0.68rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 2px;
+}
+.header-sub {
+  max-width: 800px; margin: 6px auto 0;
+  font-size: 0.88rem;
+  color: var(--cinza);
+}
+
+/* PIAZZI BAR */
+.piazzi-bar { display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; background:var(--painel); border:1px solid var(--cinza-borda); padding:10px 16px; margin-bottom:16px; font-size:.78rem; }
+.piazzi-bar .piazzi-ref { color:var(--cinza); }
+.piazzi-bar .piazzi-tag { display:inline-block; border:1px solid var(--epi); color:var(--epi); padding:2px 10px; font-size:.72rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; }
+.piazzi-bar .piazzi-text { color:var(--texto); font-style:italic; font-size:.74rem; }
+.piazzi-bar .piazzi-yt { display:inline-flex; align-items:center; gap:5px; background:var(--erro); color:var(--branco); padding:4px 12px; font-size:.72rem; font-weight:700; text-decoration:none; cursor:pointer; }
+.piazzi-bar .piazzi-yt::before { content:'\25B6'; font-size:.6rem; }
+
+/* INTRO */
+.intro-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  background: var(--superficie);
+  border: 1px solid var(--cinza-borda);
+  border-left: 4px solid var(--aco);
+  padding: 16px 18px;
+  margin-bottom: 20px;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--texto);
+}
+.intro-box .vagoneta { width: 84px; height: auto; flex-shrink: 0; display: block; margin-top: 2px; }
+.intro-box strong { color: var(--epi); }
+
+/* ENCERRAMENTO */
+.encerramento { max-width:800px; margin:30px auto 10px; padding:20px 16px; border-top:2px solid var(--epi); text-align:center; }
+/* fecho em destaque (padrao RB v5): cor da familia FE e corpo maior */
+.encerramento .fecho-frase { font-family:var(--serif); font-size:1.15rem; line-height:1.5; color:var(--epi); font-weight:700; }
+.encerramento .fecho-acao { color:var(--epi); font-size:.95rem; text-transform:uppercase; font-weight:700; margin-top:10px; line-height:1.5; }
+.encerramento .fecho-links { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:14px; }
+.encerramento .fecho-btn { display:inline-flex; align-items:center; gap:7px; padding:10px 18px; min-height:44px; background:var(--epi); color:oklch(0.13 0.01 260); font-family:var(--mono); font-size:.8rem; font-weight:700; text-decoration:none; letter-spacing:.03em; }
+.encerramento .fecho-btn::before { content:'\25B6'; font-size:.62rem; }
+.encerramento .fecho-btn:hover { background:var(--epi-claro); }
+.encerramento .fecho-btn.secundario { background:transparent; color:var(--aco); border:1px solid var(--aco); }
+.encerramento .fecho-btn.secundario::before { content:'\2630'; font-size:.72rem; }
+.encerramento .fecho-btn.secundario:hover { background:var(--aco-bg); }
+.encerramento .fecho-inst { color:var(--cinza); font-size:.85rem; margin-top:16px; line-height:1.5; }
+.footer-line { text-align:center; font-size:.85rem; color:var(--cinza); padding:16px 12px; line-height:1.5; }
+.header .badge { background: var(--epi); color: oklch(0.13 0.01 260); padding: 4px 12px; border-radius: var(--r-sm); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; }
+.header .header-inner h1 { font-size: 1.4rem; font-weight: 900; letter-spacing: -0.02em; flex: 1 1 240px; }
+.header .header-inner h1 .trilha-code { color: var(--epi); }
+
+.header .marca { width: 42px; height: 42px; flex-shrink: 0; }
+.header { display: flex; align-items: center; gap: 12px; }
+@media print { .header .marca { width: 38px; height: 38px; } }
+
+
+
+/* ==== FE-T0E-RB (gerar_rb_t0e_fe.py): legendas ABNT, equacoes, retas numericas, grafico, RCP ==== */
+.pim { text-decoration: overline; text-transform: none; }
+.legenda { font-size: .78rem; font-weight: 700; color: var(--azul); margin: 6px 0 2px; }
+.fonte-abnt { font-size: .7rem; color: var(--cinza); margin: 1px 0 6px; }
+.texto p { font-size: .84rem; margin: 0 0 5px; }
+.eqs { margin: 3px 0 6px; }
+.eq { display: flex; align-items: center; font-size: .86rem; margin: 3px 0; gap: 8px; }
+.eq .f { flex: 1 1 auto; text-align: center; font-family: var(--serif); }
+.eq .n { flex: 0 0 auto; font-weight: 700; color: var(--azul); }
+.contas { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 16px; font-size: .82rem; margin: 4px 0 6px; }
+.contas .conta { display: block; min-height: 8mm; border-bottom: 1px solid var(--cinza-borda); }
+.branco { display: inline-block; min-width: 22mm; min-height: 1.2em; border-bottom: 1px solid var(--cinza-borda); }
+.resultado { font-size: .92rem; font-weight: 700; margin: 5px 0; text-align: center; }
+.figura-svg { text-align: center; margin: 2px 0; }
+.figura-svg svg { max-width: 100%; height: auto; background: #fff; }
+table.t0e td { height: 7.5mm; text-align: center; }
+table.t0e td:first-child { text-align: center; }
+table.t0e tr.soma td { font-weight: 700; }
+.rcp { width: 100%; border-collapse: collapse; }
+.rcp td { text-align: left !important; vertical-align: top; height: 14mm; font-size: .8rem; }
+.rcp td.passo { width: 30%; font-weight: 700; color: var(--azul); }
+.espaco { border: 1px solid var(--cinza-borda); min-height: 18mm; padding: 4px 6px; font-size: .8rem; }
+.g, td.g, span.g, div.g { color: #C00000 !important; font-weight: 700; }
+.gab-nota { border: 1px dashed #C00000; color: #C00000; font-size: .78rem; padding: 4px 8px; margin: 4px 0 6px; }
+.gab-nota p { margin: 0 0 3px; }
+table.rubrica td { height: auto; font-size: .76rem; text-align: left; }
+table.rubrica td:last-child { text-align: center; width: 14mm; }
+.cx { display: inline-block; width: 10px; height: 10px; border: 1px solid #808080; vertical-align: -1px; margin: 0 4px 0 8px; }
+.cx.g { background: #C00000; border-color: #C00000; }
+.fim-parte { font-size: .84rem; font-weight: 700; color: var(--azul); text-align: center; margin: 6px 0; }
+.motiva { border: 1.5px solid var(--azul); padding: 6px 10px; font-size: .86rem; margin: 6px 0; }
+@media print {
+  .legenda { font-size: 7.8pt; color: #1F3864 !important; margin: 4pt 0 1.5pt; }
+  .fonte-abnt { font-size: 6.8pt; color: #4D4D4D !important; margin: 1pt 0 4pt; }
+  .texto p { font-size: 8.4pt; margin: 0 0 3.5pt; }
+  .eq { font-size: 8.8pt; margin: 2pt 0; }
+  .eq .n { color: #1F3864 !important; }
+  .contas { font-size: 8.2pt; gap: 3pt 12pt; }
+  .contas .conta { border-bottom: .5pt solid #9AA7BD !important; min-height: 7mm; }
+  .branco { border-bottom: .5pt solid #7A7A7A !important; }
+  .resultado { font-size: 9.6pt; }
+  table.t0e td { height: 6.5mm; }
+  .rcp td { height: auto; font-size: 8pt; border: .5pt solid #9AA7BD !important; }
+  .rcp td.passo { color: #1F3864 !important; }
+  .espaco { border: .5pt solid #9AA7BD !important; min-height: 16mm; font-size: 8pt; }
+  .cresce .espaco.estica, .cresce .rcp.estica { flex: 1 1 auto; }
+  .g, td.g, span.g, div.g { color: #C00000 !important; }
+  .gab-nota { font-size: 7.6pt; border-color: #C00000 !important; color: #C00000 !important; }
+  table.rubrica td { height: auto; font-size: 7.4pt; padding: 2pt 4pt; }
+  .fim-parte { font-size: 8.6pt; color: #1F3864 !important; }
+  .motiva { border-color: #AE5314 !important; font-size: 8.8pt; padding: 5pt 8pt; }
+  .figura-svg svg { max-width: none; }
+}
+.fa-marcas { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+.fa-marcas svg { width: 28px; height: 28px; display: block; }
+.fa-marcas + .header-left { margin-right: auto; }
+@media print { .fa-marcas svg { width: 22px; height: 22px; } }
+</style>
+</head>
+<body data-pagina="t0e:rb-parte2">
+
+<div class="folha">
+
+<!-- ═══════════ PARTE 2 · PÁGINA 1 ═══════════ -->
+<div class="pagina">
+
+  <div class="header"><div class="fa-marcas"><a href="https://ouropreto.ifmg.edu.br/ouropreto" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-36.75 -4 258.5 258.5" role="img" aria-label="Instituto Federal de Minas Gerais"> <title>Instituto Federal de Minas Gerais</title> <circle cx="27" cy="27" r="30" fill="#C8191E"/> <g fill="#32A041"> <rect x="65.5" y="0" width="54" height="54"/> <rect x="131" y="0" width="54" height="54"/> <rect x="0" y="65.5" width="54" height="54"/> <rect x="65.5" y="65.5" width="54" height="54"/> <rect x="0" y="131" width="54" height="54"/> <rect x="65.5" y="131" width="54" height="54"/> <rect x="131" y="131" width="54" height="54"/> <rect x="0" y="196.5" width="54" height="54"/> <rect x="65.5" y="196.5" width="54" height="54"/> </g> </svg></a><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="NIDEC — Núcleo de Inovação e Desenvolvimento de Experimentos Científicos"> <title>NIDEC — Núcleo de Inovação e Desenvolvimento de Experimentos Científicos</title> <defs> <linearGradient id="nidec-o1" gradientUnits="userSpaceOnUse" x1="8" y1="100" x2="192" y2="100" gradientTransform="rotate(-30 100 100)"> <stop offset="0" stop-color="#4A1F95"/><stop offset=".38" stop-color="#2C5AA4"/> <stop offset=".70" stop-color="#2CC2A2"/><stop offset="1" stop-color="#2C9E41"/> </linearGradient> <linearGradient id="nidec-o2" gradientUnits="userSpaceOnUse" x1="8" y1="100" x2="192" y2="100" gradientTransform="rotate(-90 100 100)"> <stop offset="0" stop-color="#4A1F95"/><stop offset=".38" stop-color="#2C5AA4"/> <stop offset=".70" stop-color="#2CC2A2"/><stop offset="1" stop-color="#2C9E41"/> </linearGradient> <linearGradient id="nidec-o3" gradientUnits="userSpaceOnUse" x1="8" y1="100" x2="192" y2="100" gradientTransform="rotate(-150 100 100)"> <stop offset="0" stop-color="#4A1F95"/><stop offset=".38" stop-color="#2C5AA4"/> <stop offset=".70" stop-color="#2CC2A2"/><stop offset="1" stop-color="#2C9E41"/> </linearGradient> <radialGradient id="nidec-nucleo" cx="40%" cy="36%" r="70%"> <stop offset="0" stop-color="#A0EBE1"/> <stop offset=".45" stop-color="#2CC8C2"/> <stop offset="1" stop-color="#1E5DA5"/> </radialGradient> </defs> <g fill="none" stroke-width="8"> <g transform="rotate(30 100 100)" stroke="url(#nidec-o1)"> <ellipse cx="100" cy="100" rx="88" ry="31"/> <circle cx="188" cy="100" r="8" fill="url(#nidec-o1)" stroke="none"/> </g> <g transform="rotate(90 100 100)" stroke="url(#nidec-o2)"> <ellipse cx="100" cy="100" rx="88" ry="31"/> <circle cx="12" cy="100" r="8" fill="url(#nidec-o2)" stroke="none"/> </g> <g transform="rotate(150 100 100)" stroke="url(#nidec-o3)"> <ellipse cx="100" cy="100" rx="88" ry="31"/> <circle cx="188" cy="100" r="8" fill="url(#nidec-o3)" stroke="none"/> </g> </g> <circle cx="100" cy="100" r="23" fill="url(#nidec-nucleo)"/> </svg></div>
+    <svg class="marca" viewBox="0 0 120 120" role="img" aria-label="Marca da F&iacute;sica Experimental 1">
+        <g fill="none" stroke="#AE5314" stroke-width="3">
+          <ellipse cx="60" cy="52" rx="46" ry="18"/>
+          <ellipse cx="60" cy="52" rx="46" ry="18" transform="rotate(60 60 52)"/>
+          <ellipse cx="60" cy="52" rx="46" ry="18" transform="rotate(120 60 52)"/>
+        </g>
+        <g fill="#AE5314">
+          <circle cx="53" cy="47" r="7"/>
+          <circle cx="67" cy="47" r="7"/>
+          <circle cx="60" cy="58" r="9"/>
+        </g>
+        <g stroke="#3D6E8F" stroke-width="3" stroke-linecap="square">
+          <line x1="26" y1="110" x2="94" y2="110"/>
+          <line x1="30" y1="110" x2="30" y2="104"/>
+          <line x1="40" y1="110" x2="40" y2="104"/>
+          <line x1="50" y1="110" x2="50" y2="104"/>
+          <line x1="60" y1="110" x2="60" y2="98"/>
+          <line x1="70" y1="110" x2="70" y2="104"/>
+          <line x1="80" y1="110" x2="80" y2="104"/>
+          <line x1="90" y1="110" x2="90" y2="104"/>
+        </g>
+      </svg>
+  <div class="header-left">
+      <h1>T0E · O Número π na Física Experimental</h1>
+      <div class="sub">Física Experimental 1 · IFMG — Campus Ouro Preto</div>
+    </div>
+    <div class="header-right">
+      <div class="badge">Roteiro de Bancada (RB) · Parte 2 de 3</div>
+      <div>Lab de Mecânica · encontro de 100 min · ≈ 50 min</div>
+    </div>
+  </div>
+
+  <div class="id-box">
+    <div class="id-box-titulo">Identificação</div>
+    <div class="campo-linha">
+      <label>Nome:</label><div class="linha"></div>
+      <label>RA:</label><div class="linha ra"></div>
+    </div>
+    <div class="campo-linha">
+      <label>Turma:</label>
+      <div class="opts"><span class="opt">1</span><span class="opt">2</span><span class="opt">3</span></div>
+      <label>Grupo:</label>
+      <div class="opts"><span class="opt">A</span><span class="opt">B</span></div>
+      <label>Data:</label><span class="data-campo">______/______/_______</span>
+    </div>
+  </div>
+
+  <div class="lembrete"><strong>Método 1 — a média e o desvio-padrão da média.</strong> Copie da Tabela 1 da Parte 1 o D e o C de cada disco. A calculadora científica faz as contas; você decide o que elas dizem.</div>
+
+  <div class="secao cresce">
+    <div class="secao-titulo">
+      <div class="num">5</div>
+      <h2>π de cada disco, média e desvio-padrão da média</h2>
+      
+    </div>
+    <div class="legenda">Tabela 2 — O π de cada disco e os desvios em relação à média</div>
+    <table class="t0e">
+      <thead><tr><th><span class="un">Disco</span></th><th><span class="un">D <span class="un">(mm)</span></span></th><th><span class="un">C <span class="un">(mm)</span></span></th><th><span class="un">π<sub>i</sub> = C/D</span></th><th><span class="un">π<sub>i</sub> − <span class="pim">π</span></span></th><th><span class="un">(π<sub>i</sub> − <span class="pim">π</span>)²</span></th></tr></thead>
+      <tbody>
+      <tr><td>1</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>2</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>3</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>4</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>5</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr class="soma"><td colspan="3">Soma</td><td></td><td></td><td></td></tr>
+      </tbody>
+    </table>
+    <div class="fonte-abnt">Fonte: elaborado pelos autores, 2026.</div>
+    <div class="eqs">
+      <div class="eq"><span class="f">π<sub>i</sub> = C<sub>i</sub> / D<sub>i</sub> &nbsp;(4 casas decimais)</span><span class="n">(1)</span></div>
+      <div class="eq"><span class="f"><span class="pim">π</span> = (π<sub>1</sub> + π<sub>2</sub> + π<sub>3</sub> + π<sub>4</sub> + π<sub>5</sub>) / n, &nbsp;com n = 5</span><span class="n">(2)</span></div>
+      <div class="eq"><span class="f">s = √[ Σ(π<sub>i</sub> − <span class="pim">π</span>)² / (n − 1) ] &nbsp;— desvio-padrão</span><span class="n">(3)</span></div>
+      <div class="eq"><span class="f">u = s / √n &nbsp;— desvio-padrão da média</span><span class="n">(4)</span></div>
+      <div class="eq"><span class="f">Disc = | <span class="pim">π</span> − π |, &nbsp;com π = 3,1416</span><span class="n">(5)</span></div>
+      <div class="eq"><span class="f">decisão: o π está dentro do intervalo de confiança se Disc ≤ 2u</span><span class="n">(6)</span></div>
+    </div>
+    <div class="contas">
+      <span class="conta"><span class="pim">π</span> = <span class="branco"></span></span>
+      <span class="conta">s = <span class="branco"></span></span>
+      <span class="conta">u = <span class="branco"></span></span>
+      <span class="conta">2u = <span class="branco"></span></span>
+      <span class="conta">Disc = <span class="branco"></span></span>
+      <span class="conta">Disc ≤ 2u? <span class="cx"></span>sim <span class="cx"></span>não</span>
+    </div>
+    <div class="espaco estica">Contas:</div>
+  </div>
+
+  <div class="rodape-print">
+    T0E · RB v1 · Parte 2 (estudante) · página 1 de 2 · Física Experimental 1 · IFMG — Campus Ouro Preto
+  </div>
+</div>
+
+<!-- ═══════════ PARTE 2 · PÁGINA 2 ═══════════ -->
+<div class="pagina">
+
+  <div class="secao">
+    <div class="secao-titulo">
+      <div class="num">6</div>
+      <h2>Escrita do resultado e a reta numérica</h2>
+      
+    </div>
+    <div class="texto"><p><strong>Escrita correta.</strong> Arredonde u para <strong>1 algarismo significativo</strong> e <span class="pim">π</span> para a <strong>mesma casa decimal</strong> de u. Com a régua em mm e cinco discos, u costuma ficar na terceira casa decimal.</p></div>
+    <div class="resultado">π<sub>exp</sub> = ( <span class="branco"></span> ± <span class="branco"></span> )</div>
+    <div class="legenda">Figura 3 — A reta numérica real do Método 1 — marque <span class="pim">π</span>, as faixas <span class="pim">π</span> ± u e <span class="pim">π</span> ± 2u e o valor π = 3,1416</div>
+    <div class="figura-svg">
+<svg viewBox="0 0 176 30" width="176mm" height="30mm" xmlns="http://www.w3.org/2000/svg" font-family="Georgia, serif">
+<line x1="4" y1="20" x2="172" y2="20" stroke="#1A1A1A" stroke-width=".5"/>
+<path d="M173 20 l-2 -1 v2 z" fill="#1A1A1A"/>
+<line x1="8.00" y1="18.0" x2="8.00" y2="22.0" stroke="#1A1A1A" stroke-width=".4"/>
+<text x="8.00" y="26.0" font-size="2.8" text-anchor="middle">3,10</text>
+<line x1="12.00" y1="19.0" x2="12.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="16.00" y1="19.0" x2="16.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="20.00" y1="19.0" x2="20.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="24.00" y1="19.0" x2="24.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="28.00" y1="18.0" x2="28.00" y2="22.0" stroke="#1A1A1A" stroke-width=".4"/>
+<text x="28.00" y="26.0" font-size="2.8" text-anchor="middle">3,11</text>
+<line x1="32.00" y1="19.0" x2="32.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="36.00" y1="19.0" x2="36.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="40.00" y1="19.0" x2="40.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="44.00" y1="19.0" x2="44.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="48.00" y1="18.0" x2="48.00" y2="22.0" stroke="#1A1A1A" stroke-width=".4"/>
+<text x="48.00" y="26.0" font-size="2.8" text-anchor="middle">3,12</text>
+<line x1="52.00" y1="19.0" x2="52.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="56.00" y1="19.0" x2="56.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="60.00" y1="19.0" x2="60.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="64.00" y1="19.0" x2="64.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="68.00" y1="18.0" x2="68.00" y2="22.0" stroke="#1A1A1A" stroke-width=".4"/>
+<text x="68.00" y="26.0" font-size="2.8" text-anchor="middle">3,13</text>
+<line x1="72.00" y1="19.0" x2="72.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="76.00" y1="19.0" x2="76.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="80.00" y1="19.0" x2="80.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="84.00" y1="19.0" x2="84.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="88.00" y1="18.0" x2="88.00" y2="22.0" stroke="#1A1A1A" stroke-width=".4"/>
+<text x="88.00" y="26.0" font-size="2.8" text-anchor="middle">3,14</text>
+<line x1="92.00" y1="19.0" x2="92.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="96.00" y1="19.0" x2="96.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="100.00" y1="19.0" x2="100.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="104.00" y1="19.0" x2="104.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="108.00" y1="18.0" x2="108.00" y2="22.0" stroke="#1A1A1A" stroke-width=".4"/>
+<text x="108.00" y="26.0" font-size="2.8" text-anchor="middle">3,15</text>
+<line x1="112.00" y1="19.0" x2="112.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="116.00" y1="19.0" x2="116.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="120.00" y1="19.0" x2="120.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="124.00" y1="19.0" x2="124.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="128.00" y1="18.0" x2="128.00" y2="22.0" stroke="#1A1A1A" stroke-width=".4"/>
+<text x="128.00" y="26.0" font-size="2.8" text-anchor="middle">3,16</text>
+<line x1="132.00" y1="19.0" x2="132.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="136.00" y1="19.0" x2="136.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="140.00" y1="19.0" x2="140.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="144.00" y1="19.0" x2="144.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="148.00" y1="18.0" x2="148.00" y2="22.0" stroke="#1A1A1A" stroke-width=".4"/>
+<text x="148.00" y="26.0" font-size="2.8" text-anchor="middle">3,17</text>
+<line x1="152.00" y1="19.0" x2="152.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="156.00" y1="19.0" x2="156.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="160.00" y1="19.0" x2="160.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="164.00" y1="19.0" x2="164.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="168.00" y1="18.0" x2="168.00" y2="22.0" stroke="#1A1A1A" stroke-width=".4"/>
+<text x="168.00" y="26.0" font-size="2.8" text-anchor="middle">3,18</text>
+</svg>
+    </div>
+    <div class="fonte-abnt">Fonte: elaborado pelos autores, 2026.</div>
+    <div class="nota-metodo">Se o seu <span class="pim">π</span> cair fora da escala, risque os números e escreva outra escala, com o seu <span class="pim">π</span> no meio.</div>
+  </div>
+
+  <div class="secao cresce">
+    <div class="secao-titulo">
+      <div class="num">7</div>
+      <h2>Análise e discussão</h2>
+      <span class="hint">pelos 5 passos</span>
+    </div>
+    <div class="legenda">Quadro 3 — Resolução Científica do Problema (RCP) em 5 passos — Pensamento Quantitativo</div>
+    <table class="rcp estica">
+      <tbody>
+      <tr><td class="passo">1. O que a questão quer?</td><td></td></tr>
+      <tr><td class="passo">2. O que eu tenho?</td><td></td></tr>
+      <tr><td class="passo">3. Qual é o desenho?</td><td></td></tr>
+      <tr><td class="passo">4. Minha solução</td><td></td></tr>
+      <tr><td class="passo">5. Confiro e respondo</td><td></td></tr>
+      </tbody>
+    </table>
+    <div class="fonte-abnt">Fonte: elaborado pelos autores, 2026.</div>
+  </div>
+
+    <div class="legenda">Quadro 4 — Rubrica da Parte 2 do Roteiro de Bancada (4,0 pontos de 10,0)</div>
+    <table class="rubrica">
+      <thead><tr><th><span class="un">Critério</span></th><th><span class="un">Pontos</span></th></tr></thead>
+      <tbody>
+      <tr><td><strong>Tabela 2</strong> — πᵢ com 4 casas decimais · os desvios e os quadrados · a soma</td><td>1,5</td></tr>
+      <tr><td><strong>Média, s, u e decisão</strong> — Equações (2) a (6) com n = 5 · Disc comparado com 2u · a decisão escrita</td><td>1,0</td></tr>
+      <tr><td><strong>Escrita e reta numérica</strong> — π<sub>exp</sub> = (<span class="pim">π</span> ± u) com u de 1 algarismo significativo · <span class="pim">π</span>, <span class="pim">π</span> ± u, <span class="pim">π</span> ± 2u e π marcados na Figura 3</td><td>0,5</td></tr>
+      <tr><td><strong>Resolução Científica do Problema (RCP)</strong> — Os 5 passos do Quadro 3 · a resposta em uma frase</td><td>1,0</td></tr>
+      <tr><td><strong>Total da Parte 2</strong></td><td><strong>4,0</strong></td></tr>
+      </tbody>
+    </table>
+    <div class="fonte-abnt">Fonte: elaborado pelos autores, 2026.</div>
+  <div class="fim-parte">Fim da Parte 2. Na Parte 3, os mesmos cinco discos dão o π por outro caminho.</div>
+  <div class="rodape-print">
+    T0E · RB v1 · Parte 2 (estudante) · página 2 de 2 · IFMG — Campus Ouro Preto · CODAFIS / NIDEC · Primeira edição · 2026
+  </div>
+</div>
+
+<div class="barra-tela">
+  <button class="btn" onclick="abrirParaImpressao()">Imprimir (A4 — 2 páginas)</button>
+  <div class="nota">
+    O botão abre uma <strong>janela nova</strong> só com a folha e já chama a impressão. Em "Salvar como PDF", o navegador sugere o nome correto: <strong>FE-T0E-RB-v1-parte2-estudante-impresso</strong>.<br>
+    Nas opções de impressão, mantenha <strong>"Gráficos de plano de fundo"</strong> ligado.
+  </div>
+</div>
+
+</div><!-- .folha -->
+
+<script>
+/* Impressao em janela propria (padrao FA): o <title> vira o nome sugerido do
+   PDF, a barra de botoes fica de fora e o @page { margin: 0 } suprime o
+   cabecalho/rodape que o navegador injeta. */
+var NOME_ARQUIVO_PDF = 'FE-T0E-RB-v1-parte2-estudante-impresso';
+
+function abrirParaImpressao() {
+  var folha = document.querySelector('.folha').cloneNode(true);
+  var barra = folha.querySelector('.barra-tela');
+  if (barra) { barra.parentNode.removeChild(barra); }
+
+  var w = window.open('', '_blank');
+  if (!w) {
+    alert('O navegador bloqueou a janela de impressao.\n' +
+          'Libere os pop-ups para esta página e clique de novo.');
+    return;
+  }
+
+  w.document.open();
+  w.document.write(
+    '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8">' +
+    '<base href="' + document.baseURI + '">' +
+    '<title>' + NOME_ARQUIVO_PDF + '</title>' +
+    document.querySelector('style').outerHTML +
+    '</head><body>' + folha.outerHTML + '</body></html>'
+  );
+  w.document.close();
+
+  var imprimir = function () { w.focus(); w.print(); };
+  if (w.document.readyState === 'complete') { setTimeout(imprimir, 500); }
+  else { w.addEventListener('load', function () { setTimeout(imprimir, 500); }); }
+}
+</script>
+
+<!-- ABA-SITE (injetada na publicacao — nao existe no OA canonico) -->
+<style>
+.aba-site-toggle { position: fixed; top: 56px; left: 0; z-index: 999; background: #1a1b1f; border: 1px solid #444; border-left: none; color: #bbb; font-size: .7rem; padding: 8px 10px; cursor: pointer; font-family: 'Courier New', Courier, monospace; writing-mode: vertical-rl; text-orientation: mixed; letter-spacing: 1px; text-transform: uppercase; transition: color .15s; border-radius: 0; }
+.aba-site-toggle:hover { color: #E07B39; }
+.aba-site-painel { position: fixed; top: 0; left: 0; z-index: 1001; width: 330px; max-width: 86vw; height: 100vh; overflow-y: auto; background: #1a1b1f; border-right: 1px solid #444; padding: 24px 22px 24px 42px; transform: translateX(-100%); transition: transform .25s; font-family: 'Courier New', Courier, monospace; font-size: .92rem; color: #c4c4c4; line-height: 1.6; }
+.aba-site-painel.open { transform: translateX(0); }
+.aba-site-painel h3 { font-family: 'Courier New', Courier, monospace; font-size: .8rem; text-transform: uppercase; letter-spacing: 2px; color: #E07B39; border-bottom: 1px solid #444; padding-bottom: 8px; margin: 0 0 14px; }
+.aba-site-painel a.aba-site-btn { display: block; margin: 10px 0; padding: 11px 14px; border: 1px solid #444; color: #e8e8e8; text-decoration: none; font-family: 'Courier New', Courier, monospace; font-size: .85rem; }
+.aba-site-painel a.aba-site-btn:hover { border-color: #E07B39; color: #E07B39; }
+/* TT: abre espaco no topo do trilho e oculta a aba Figuras (decisao 2026-08-08) */
+.musica-toggle { top: 128px !important; }
+.ineditismo-toggle { top: 210px !important; }
+.toc-toggle { top: 330px !important; }
+.creditos-toggle { top: 418px !important; }
+.figuras-toggle, .figuras-sidebar { display: none !important; }
+/* Celular: a aba fica sobre o conteudo, porque em tela estreita o texto ocupa
+   a largura toda e o trilho e `position: fixed` na borda esquerda. Abrir uma
+   faixa no body empurra TUDO para a direita — vale para a aba Site e para o
+   trilho do TT (Musica/Ineditismo/Sumario/Creditos), todos em left: 0.
+   Com `box-sizing: border-box` (padrao nos OAs) nao cria rolagem lateral. */
+@media (max-width: 600px) {
+  body { padding-left: 30px; }
+  .aba-site-toggle { font-size: .6rem; padding: 6px 6px; }
+  .aba-site-painel { width: 86vw; }
+}
+@media print { .aba-site-toggle, .aba-site-painel { display: none !important; } }
+</style>
+<button class="aba-site-toggle" id="abaSiteToggle">Site</button>
+<aside class="aba-site-painel" id="abaSitePainel">
+  <h3>Site</h3>
+  <a class="aba-site-btn" href="https://nidecop-jafb.github.io/fe1-oa/#t0e">Ver todos os OAs da trilha</a>
+  <a class="aba-site-btn" href="https://nidecop-jafb.github.io/fe1-oa/">Início do site</a>
+  <a class="aba-site-btn" href="https://nidecop-jafb.github.io/fc1-oa/">Disciplina irmã: FC1 — Física Conceitual 1</a>
+</aside>
+<script>
+(function () {
+  var t = document.getElementById('abaSiteToggle');
+  var p = document.getElementById('abaSitePainel');
+  var outras = '.metodo-sidebar,.musica-sidebar,.ineditismo-sidebar,.toc-sidebar,.projeto-sidebar,.creditos-sidebar,.figuras-sidebar';
+  t.addEventListener('click', function () {
+    p.classList.toggle('open');
+    document.querySelectorAll(outras).forEach(function (s) { s.classList.remove('open'); });
+  });
+  document.addEventListener('click', function (e) {
+    if (!p.contains(e.target) && e.target !== t) { p.classList.remove('open'); }
+  });
+})();
+</script>
+<!-- CONTADOR:INICIO -->
+<script src="../../contador-config.js"></script>
+<script src="../../acessos.js"></script>
+<!-- CONTADOR:FIM -->
+</body>
+</html>
