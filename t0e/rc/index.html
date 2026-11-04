@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FE-T0E · Relatório Completo (RC)</title>
+<style>
+/* ============================================================
+   FE-T0A-RB-v6-estudante-impresso.html
+   Roteiro de Bancada — 3 paginas A4, para ESCRITA A MAO na bancada.
+   Mudancas v6 (2026-09-02, replicando o padrao do RB v5 da T04):
+     (1) TIPOGRAFIA DE TELA — bloco @media screen (piso .8rem);
+         a IMPRESSAO nao muda.
+     (2) IMAGENS DE FUNDO no padrao da FA impressa da T10/FC1
+         (.anot-fundo): grayscale, opacidade .34 tela / .26 impresso,
+         via ../_imagens/_web/ (derivadas leves).
+     (3) "Resolucao Cientifica do Problema" SEMPRE precede
+         "Protocolo C5 (8 passos)" — regra de toda a FE1.
+     (4) Fecho "Terminamos por aqui..." em destaque colorido.
+   Alinhado ao padrao da T04 (formatacao da FA impressa da FC1,
+   decisao do autor em 2026-08-29):
+     pag 1  cabecalho FA + caixa IDENTIFICACAO + linha Piazzi + epigrafe
+            + Minha Trilha (Pre-Lab/Lab/Pos-Lab) + Seguranca
+            + Parte 1 (protocolo + tabela das 4 medicoes)
+     pag 2  Parte 2 (calculos) + Parte 3 (Protocolo C5)
+     pag 3  Parte 4 (discussao) + Parte 5 (normas do Lab) + Conclusao
+            + fecho + Espaco da Equipe de Monitoria
+   Sem espaco morto no pe da pagina: a folga vira linha de escrita
+   (classe .cresce — regra da FA/TR), e o rodape cola na base.
+   ============================================================ */
+
+:root {
+  /* Paleta FE — _identidade/paleta-fe.md
+     laranja-EPI (primario) + azul-aco (acento) */
+  --epi: #E07B39;
+  --epi-claro: #EE9A63;
+  --epi-bg: oklch(0.28 0.06 55);
+  --aco: #7FB2D6;
+  --aco-claro: #A7CCE6;
+  --aco-bg: oklch(0.28 0.05 240);
+  --verde: oklch(0.7 0.15 150);
+  --verde-claro: oklch(0.25 0.04 150);
+  --erro: oklch(0.6 0.22 25);
+  --erro-claro: oklch(0.22 0.05 25);
+  --cinza: oklch(0.62 0.01 260);
+  --cinza-claro: oklch(0.18 0.01 260);
+  --cinza-borda: oklch(0.40 0.01 260);
+  --texto: oklch(0.93 0 0);
+  --branco: oklch(0.96 0 0);
+  --superficie: oklch(0.22 0.01 260);
+  --input-bg: oklch(0.18 0.01 260);
+  --hover-bg: oklch(0.25 0.01 260);
+  --fundo: oklch(0.13 0.01 260);
+  --painel: oklch(0.16 0.01 260);
+  --r: 0px;
+  --r-sm: 0px;
+  --font: 'Courier New', Courier, monospace;
+  --mono: 'Courier New', 'Cascadia Code', 'Consolas', monospace;
+  --serif: 'Georgia', 'Cambria', 'Times New Roman', serif;
+  /* nomes herdados dos OAs de 2026-07 — apontam para a paleta FE */
+  --azul: var(--epi);
+  --azul-claro: var(--epi-claro);
+  --azul-bg: var(--epi-bg);
+  --ouro: var(--aco);
+  --ouro-claro: var(--aco-bg);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font);
+  background: var(--fundo);
+  color: var(--texto);
+  line-height: 1.45;
+}
+
+.folha { max-width: 760px; margin: 0 auto; padding: 20px 16px; }
+
+/* ── PAGINA ── */
+.pagina { margin-bottom: 28px; }
+.pagina + .pagina { border-top: 2px dashed var(--cinza-borda); padding-top: 24px; }
+
+/* ── CABECALHO (padrao FA) ── */
+.header {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px;
+  border-top: 3px solid var(--azul);
+  border-bottom: 1px solid var(--cinza-borda);
+  padding: 10px 0; margin-bottom: 12px;
+}
+.header-left h1 { font-size: 1.05rem; font-weight: 700; color: var(--azul); }
+.header-left .sub { font-size: .72rem; color: var(--cinza); margin-top: 2px; }
+.header-right { text-align: right; font-size: .7rem; color: var(--cinza); line-height: 1.5; }
+.header-right .badge { font-weight: 700; color: var(--azul); font-size: .75rem; }
+
+/* ── CAIXA IDENTIFICACAO ── */
+.id-box {
+  border: 1.5px solid var(--cinza-borda);
+  padding: 8px 12px 9px;
+  margin-bottom: 10px;
+}
+.id-box-titulo {
+  font-size: .66rem; font-weight: 700; color: var(--cinza);
+  text-transform: uppercase; letter-spacing: .6px; margin-bottom: 6px;
+}
+.id-box .campo-linha {
+  display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap;
+  font-size: .8rem; border-bottom: 1px solid var(--linha);
+  padding-bottom: 5px; margin-bottom: 7px;
+}
+.id-box .campo-linha:last-child { margin-bottom: 0; }
+.id-box label { font-weight: 700; color: var(--azul); font-size: .74rem; white-space: nowrap; }
+.id-box .linha { flex: 1; min-width: 0; height: 1.3em; }
+.id-box .linha.ra { flex: 0 0 7.5em; }
+.id-box .linha.meia { flex: .6; }
+.opts { display: flex; gap: 12px; font-size: .72rem; color: var(--cinza); margin-right: 12px; white-space: nowrap; }
+.opts .opt { display: flex; align-items: center; gap: 4px; }
+.opts .opt::before {
+  content: '';
+  display: inline-block;
+  width: 13px; height: 13px;
+  border: 1.5px solid var(--cinza-borda);
+  flex-shrink: 0;
+}
+.data-campo { font-size: .78rem; color: var(--cinza); white-space: nowrap; }
+
+/* ── BARRA PIAZZI ── */
+.piazzi {
+  display: flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap;
+  border: 1px solid var(--cinza-borda); padding: 7px 12px; margin-bottom: 10px;
+  font-size: .74rem; color: var(--cinza); text-align: center;
+}
+.piazzi .mao { color: var(--branco); font-weight: 600; }
+.piazzi em { color: var(--ouro); font-style: italic; }
+
+/* ── EPIGRAFE ── */
+.epigrafe {
+  border-left: 3px solid var(--ouro); background: var(--ouro-bg);
+  padding: 8px 12px; margin-bottom: 12px;
+  font-family: var(--serif); font-size: .82rem;
+}
+.epigrafe .cit { font-style: italic; color: var(--ouro); }
+.epigrafe .atrib { font-family: var(--font); font-size: .7rem; color: var(--cinza); }
+
+/* ── MINHA TRILHA (checklist dos OAs, padrao FA) ── */
+.checklist { margin-bottom: 12px; }
+.checklist-titulo {
+  text-align: center; font-size: .68rem; font-weight: 700; color: var(--cinza);
+  text-transform: uppercase; letter-spacing: .6px; margin-bottom: 7px;
+}
+.checklist-fases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.fase { border: 1px solid var(--cinza-borda); border-top: 2px solid var(--ouro); padding: 6px 8px 7px; }
+.fase-nome {
+  font-size: .66rem; font-weight: 700; color: var(--ouro);
+  text-transform: uppercase; letter-spacing: .4px; margin-bottom: 5px;
+}
+.fase-oas { display: flex; flex-wrap: wrap; gap: 4px 8px; }
+.oa-item { display: flex; align-items: center; gap: 4px; font-size: .64rem; line-height: 1.2; }
+.oa-box { width: 9px; height: 9px; border: 1px solid var(--cinza); flex-shrink: 0; }
+.oa-sigla { font-family: var(--mono); font-weight: 700; color: var(--texto); }
+.oa-nome { color: var(--cinza); }
+
+/* ── SECAO ── */
+.secao { margin-bottom: 12px; }
+.secao-titulo { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.secao-titulo .num {
+  width: 24px; height: 24px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .78rem; font-weight: 700;
+  background: var(--azul-bg); color: var(--azul); border-radius: 50%;
+}
+.secao-titulo h2 {
+  font-size: .88rem; font-weight: 700; color: var(--azul);
+  text-transform: uppercase; letter-spacing: .4px;
+}
+.secao-titulo .hint { margin-left: auto; font-size: .66rem; color: var(--cinza); font-style: italic; }
+
+/* ── SEGURANCA ── */
+.alerta-seg {
+  background: var(--erro-bg);
+  border: 1px solid var(--erro);
+  padding: 6px 10px;
+  font-size: .72rem;
+  margin-bottom: 6px;
+}
+.alerta-seg strong { color: var(--erro); }
+.check-list { list-style: none; padding: 0; margin: 6px 0; }
+.check-list li {
+  display: flex; align-items: flex-start; gap: 8px;
+  font-size: .78rem;
+  padding: 3px 0;
+}
+.check-list li::before {
+  content: '';
+  display: inline-block;
+  width: 15px; height: 15px;
+  border: 1.5px solid var(--cinza-borda);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.check-list.seg li::before { border-color: var(--erro); }
+.assinatura {
+  display: flex; align-items: baseline; gap: 8px;
+  margin: 8px 0 0;
+  font-size: .78rem; font-weight: 700; color: var(--azul);
+}
+.assinatura .linha-ass { flex: 1; border-bottom: 1.5px solid var(--erro); min-height: 1.4em; }
+
+/* ── PROTOCOLO DE MEDICAO ── */
+.lembrete {
+  background: var(--ouro-bg);
+  border: 1px solid var(--ouro);
+  padding: 6px 10px;
+  font-size: .72rem;
+  margin-bottom: 8px;
+}
+.lembrete strong { color: var(--ouro); }
+.protocolo-lista { list-style: none; padding: 0; margin: 0 0 8px; }
+.protocolo-lista li {
+  font-size: .78rem;
+  padding: 2px 0 2px 18px;
+  position: relative;
+}
+.protocolo-lista li::before {
+  content: attr(data-n);
+  position: absolute; left: 0;
+  color: var(--azul); font-weight: 700;
+  font-size: .72rem;
+}
+.nota-metodo { font-size: .74rem; color: var(--cinza); font-style: italic; margin-top: 4px; }
+
+/* ── IMAGEM DE FUNDO DA SECAO (padrao .anot-fundo da FA impressa
+   da T10/FC1): a ilustracao IT fica ATRAS da area de escrita, em
+   escala de cinza e opacidade baixa — o estudante escreve por cima.
+   Valores de tela e de impressao copiados VERBATIM da FA. ── */
+.com-fundo { position: relative; overflow: hidden; }
+.fundo-ilustra {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  opacity: .34; filter: grayscale(1) contrast(.9);
+  pointer-events: none;
+}
+.com-fundo > :not(.fundo-ilustra) { position: relative; }
+
+/* ── TABELAS DE DADOS ── */
+.tabela-rotulo { font-size: .74rem; color: var(--cinza); font-style: italic; margin: 6px 0 3px; }
+table { width: 100%; border-collapse: collapse; font-size: .8rem; margin: 4px 0 8px; }
+th {
+  background: var(--azul-bg);
+  color: var(--azul);
+  padding: 5px 4px;
+  text-align: center;
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .2px;
+  font-weight: 700;
+  border: 1px solid var(--cinza-borda);
+}
+th:first-child { text-align: left; padding-left: 8px; }
+th .un { text-transform: none; }
+td {
+  padding: 8px 6px;
+  border: 1px solid var(--cinza-borda);
+  text-align: center;
+  vertical-align: middle;
+  height: 30px;
+}
+td:first-child { text-align: left; padding-left: 8px; }
+tr.voce td { background: var(--azul-bg); border-color: var(--azul); }
+tr.voce td:first-child { font-weight: 700; color: var(--azul); }
+
+/* ── CALCULOS ── */
+.calc-bloco { background: var(--superficie); padding: 8px 12px; margin: 6px 0 0; }
+.calc-formula { display: flex; align-items: center; gap: 6px; font-size: .8rem; margin: 6px 0; }
+.calc-formula .label { font-weight: 600; color: var(--azul); white-space: nowrap; }
+.calc-formula .eq { font-family: var(--mono); font-size: .78rem; color: var(--cinza); }
+.calc-formula .campo-calc { border-bottom: 1.5px solid var(--azul); min-width: 80px; height: 1.1em; display: inline-block; }
+.calc-formula .un-m { font-size: .72rem; }
+/* conversao para o SI antes da media — sem ela o aluno soma m + dm + cm + mm */
+.calc-formula.conv { flex-wrap: wrap; gap: 4px 12px; }
+.calc-formula.conv .conv-item { display: flex; align-items: center; gap: 5px; }
+.calc-formula.conv .campo-calc { min-width: 52px; }
+
+.resultado-final {
+  border: 1.5px solid var(--azul);
+  background: var(--azul-bg);
+  padding: 8px 12px;
+  text-align: center;
+  margin: 8px 0 0;
+}
+.resultado-final .titulo-res {
+  font-size: .72rem; text-transform: uppercase; letter-spacing: 1px;
+  color: var(--azul); font-weight: 700; margin-bottom: 4px;
+}
+.resultado-final .formula-res { font-size: 1.05rem; font-weight: 700; color: var(--branco); font-family: var(--mono); }
+.resultado-final .campo-res {
+  display: inline-block;
+  border-bottom: 1.5px solid var(--azul);
+  min-width: 70px;
+  height: 1.3em;
+}
+
+/* ── PROTOCOLO C5 ── */
+.c5-lista { list-style: none; padding: 0; margin: 0; }
+.c5-lista li {
+  padding: 4px 0 4px 24px;
+  position: relative;
+  font-size: .8rem;
+  border-bottom: 1px dotted var(--cinza-borda);
+  min-height: 30px;
+}
+.c5-lista li:last-child { border-bottom: none; }
+.c5-lista li .passo-num { position: absolute; left: 0; top: 4px; font-weight: 700; color: var(--azul); font-size: .8rem; }
+.c5-lista li .passo-label { font-weight: 600; color: var(--ouro); }
+.c5-lista li .inline-resp { font-size: .78rem; font-family: var(--mono); color: var(--azul); }
+.c5-esboco {
+  border: 1px dashed var(--cinza-borda);
+  height: 48px;
+  margin: 4px 0 2px;
+  display: flex; align-items: flex-end; justify-content: space-between;
+  padding: 0 12px 2px;
+  font-size: .74rem; color: var(--cinza);
+  font-family: var(--mono);
+}
+
+/* ── DISCUSSAO ── */
+.disc-item { display: flex; flex-direction: column; margin-bottom: 4px; }
+.disc-q { font-size: .8rem; margin: 4px 0 2px; }
+.disc-q strong { color: var(--azul); }
+.disc-linha { border-bottom: 1px dotted var(--cinza-borda); min-height: 24px; }
+
+/* ── NORMAS ── */
+.normas-table td:first-child {
+  width: 28px; text-align: center;
+  font-weight: 700; color: var(--azul);
+  font-size: .85rem;
+}
+.normas-table td:last-child { width: 110px; }
+
+/* ── FECHAMENTO (padrao FA) ── */
+.fechamento { border-top: 1px solid var(--cinza-borda); margin-top: 10px; padding-top: 9px; }
+.fechamento .frase {
+  text-align: center; font-size: .92rem; font-style: italic; color: var(--texto); line-height: 1.55;
+}
+.fechamento .frase strong { color: var(--ouro); font-style: normal; }
+/* v6: o fecho da despedida ganha destaque de cor e corpo maior */
+.fechamento .fecho-destaque { color: var(--azul); font-weight: 700; font-size: 1.08rem; }
+
+/* ── ESPACO DA EQUIPE DE MONITORIA (padrao FA) ── */
+.monitoria { border: 1.5px solid var(--verde); margin-top: 10px; padding: 8px 10px 9px; }
+.monitoria-titulo {
+  font-size: .8rem; font-weight: 700; color: var(--verde);
+  text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px;
+}
+.monitoria-entrega { font-size: .9rem; font-weight: 600; margin-bottom: 7px; }
+.monitoria-marcas { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-bottom: 7px; }
+.marca { display: flex; align-items: center; gap: 5px; font-size: .8rem; }
+.marca .cx { width: 12px; height: 12px; border: 1px solid var(--cinza); flex-shrink: 0; }
+.marca .data { display: inline-flex; align-items: flex-end; gap: 3px; color: var(--cinza); }
+.marca .data i { display: inline-block; border-bottom: 1px solid var(--linha); height: 1em; font-style: normal; }
+.marca .data .d, .marca .data .m { width: 22px; }
+.marca .data .a { width: 34px; }
+.monitoria-criterios { font-size: .8rem; color: var(--cinza); line-height: 1.55; margin-bottom: 7px; }
+.monitoria-criterios strong { color: var(--texto); font-weight: 600; }
+.monitoria-obs { font-size: .8rem; font-weight: 600; color: var(--cinza); text-transform: uppercase; letter-spacing: .4px; }
+.monitoria-linha { border-bottom: 1px solid var(--linha); height: 22px; }
+.monitoria-assina { display: grid; grid-template-columns: 2fr 1fr; gap: 18px; margin-top: 6px; }
+.monitoria-assina .campo {
+  display: flex; align-items: baseline; gap: 6px;
+  font-size: .8rem; border-bottom: 1px solid var(--linha); padding-bottom: 3px;
+}
+.monitoria-assina label { font-weight: 600; color: var(--verde); white-space: nowrap; font-size: .8rem; }
+.monitoria-assina .linha { flex: 1; min-width: 0; height: 1.2em; }
+
+/* ── RODAPES ── */
+.rodape-print { display: none; }
+.barra-tela { text-align: center; padding: 18px 0 6px; }
+.barra-tela .btn {
+  padding: 11px 26px; background: var(--azul); color: oklch(0.13 0.01 260);
+  border: none; font-family: var(--font); font-size: .85rem; font-weight: 700;
+  cursor: pointer; min-height: 44px;
+}
+.barra-tela .btn:hover { filter: brightness(1.1); }
+.barra-tela .nota { font-size: .8rem; color: var(--cinza); margin-top: 8px; line-height: 1.5; }
+
+/* ============================================================
+   TIPOGRAFIA DE TELA — padrao FE1 movel (v6): piso de .8rem e
+   corpos maiores para leitura no celular, como na atualizacao
+   do indice do site fe1-oa (nome 1.08rem / tag .95rem) e no
+   Espaco da Monitoria (A4.36). SO a tela cresce: o @media print
+   abaixo permanece intacto e a paginacao impressa nao muda.
+   REPLICAR este bloco identico nos RB das demais trilhas.
+   ============================================================ */
+@media screen {
+  body { font-size: 1.02rem; }
+  .header-left h1 { font-size: 1.2rem; }
+  .header-left .sub { font-size: .84rem; }
+  .header-right { font-size: .8rem; }
+  .header-right .badge { font-size: .9rem; }
+  .id-box-titulo { font-size: .8rem; }
+  .id-box .campo-linha { font-size: .92rem; }
+  .id-box label { font-size: .84rem; }
+  .opts { font-size: .84rem; }
+  .data-campo { font-size: .88rem; }
+  .piazzi { font-size: .84rem; }
+  .epigrafe { font-size: .95rem; }
+  .epigrafe .atrib { font-size: .8rem; }
+  .checklist-titulo { font-size: .8rem; }
+  .fase-nome { font-size: .8rem; }
+  .oa-item { font-size: .8rem; }
+  .secao-titulo .num { width: 26px; height: 26px; font-size: .86rem; }
+  .secao-titulo h2 { font-size: 1.02rem; }
+  .secao-titulo .hint { font-size: .8rem; }
+  .alerta-seg { font-size: .86rem; }
+  .check-list li { font-size: .92rem; }
+  .assinatura { font-size: .9rem; }
+  .lembrete { font-size: .86rem; }
+  .protocolo-lista li { font-size: .92rem; }
+  .protocolo-lista li::before { font-size: .84rem; }
+  .nota-metodo { font-size: .84rem; }
+  .tabela-rotulo { font-size: .84rem; }
+  table { font-size: .92rem; }
+  th { font-size: .8rem; }
+  .resultado-final .titulo-res { font-size: .8rem; }
+  .resultado-final .formula-res { font-size: 1.15rem; }
+  .c5-lista li { font-size: .92rem; }
+  .c5-lista li .passo-num { font-size: .92rem; }
+  .c5-lista li .inline-resp { font-size: .88rem; }
+  .c5-esboco { font-size: .84rem; }
+  .calc-formula { font-size: .92rem; }
+  .calc-formula .eq { font-size: .88rem; }
+  .calc-formula .un-m { font-size: .82rem; }
+  .disc-q { font-size: .92rem; }
+  .fechamento .frase { font-size: 1.02rem; }
+  .fechamento .fecho-destaque { font-size: 1.2rem; }
+  .barra-tela .nota { font-size: .84rem; }
+}
+
+/* ============================================================
+   IMPRESSAO — paleta azul sobre branco (padrao T04):
+   titulos e rotulos em azul #1F3864, linhas de escrita discretas.
+   @page { margin: 0 } suprime o cabecalho/rodape do navegador;
+   a margem real vira o padding de .pagina.
+   ============================================================ */
+@media print {
+  @page { size: A4 portrait; margin: 0; }
+
+  body {
+    background: #FFFFFF !important;
+    color: #1A1A1A !important;
+    font-size: 8.8pt;
+    line-height: 1.34;
+  }
+  .folha { max-width: none; padding: 0; }
+
+  /* uma .pagina por folha A4; coluna flex com a altura da folha:
+     a folga vira linha de escrita (.cresce) e o rodape cola na base */
+  .pagina {
+    margin: 0; padding: 11mm 13mm 9mm 13mm;
+    break-after: page; page-break-after: always;
+    display: flex; flex-direction: column; height: 297mm;
+  }
+  .pagina:last-of-type { break-after: auto; page-break-after: auto; }
+  /* ARMADILHA (FA): repetir o padding-top — a regra de tela
+     `.pagina + .pagina` vence dentro do @media print. */
+  .pagina + .pagina { border-top: none; padding-top: 11mm; }
+  .rodape-print {
+    display: block; text-align: center;
+    font-size: 6.8pt; color: #808080;
+    border-top: .5pt solid #D0D0D0; padding-top: 3pt;
+    margin-top: auto;
+  }
+
+  /* a secao marcada .cresce absorve a folga da pagina; tabela .estica
+     dentro dela distribui a folga entre as proprias linhas */
+  .cresce { flex: 1 1 auto; display: flex; flex-direction: column; }
+  .cresce table.estica { flex: 1 1 auto; }
+
+  .header { border-top: 2.5pt solid #1F3864; border-bottom: .5pt solid #C0C0C0; padding: 5pt 0; margin-bottom: 7pt; }
+  .header-left h1 { color: #1F3864 !important; font-size: 12pt; }
+  .header-left .sub { color: #4D6A96 !important; }
+  .header-right { color: #4D6A96 !important; }
+  .header-right .badge { color: #1F3864 !important; }
+
+  .id-box { border: 1pt solid #1A1A1A !important; padding: 5pt 8pt 6pt; margin-bottom: 6pt; }
+  .id-box-titulo { color: #1A1A1A !important; font-size: 7pt; margin-bottom: 4pt; }
+  .id-box .campo-linha { border-bottom: .75pt solid #7A7A7A !important; padding-bottom: 4pt; margin-bottom: 5pt; }
+  .id-box label { color: #1F3864 !important; }
+  .opts { color: #4D4D4D !important; }
+  .opts .opt::before { border: 1pt solid #808080 !important; width: 10pt; height: 10pt; }
+  .data-campo { color: #4D4D4D !important; }
+
+  .piazzi { border: .5pt solid #C0C0C0 !important; color: #1F3864 !important; padding: 4pt 8pt; margin-bottom: 6pt; font-size: 8pt; }
+  .piazzi .mao { color: #1F3864 !important; font-weight: 700; }
+  .piazzi em { color: #1F3864 !important; }
+
+  .epigrafe {
+    background: #F4F4F4 !important; border-left: 2.5pt solid #1F3864 !important;
+    padding: 5pt 9pt; margin-bottom: 7pt; font-size: 9pt;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .epigrafe .cit { color: #1F3864 !important; }
+  .epigrafe .atrib { color: #4D4D4D !important; }
+
+  .checklist { margin-bottom: 7pt; }
+  .checklist-titulo { color: #1F3864 !important; font-size: 7.2pt; margin-bottom: 3pt; }
+  .checklist-fases { gap: 6pt; }
+  .fase {
+    border: .5pt solid #B5B5B5 !important; border-top: 1.5pt solid #1F3864 !important;
+    padding: 4pt 6pt 4.5pt; break-inside: avoid;
+  }
+  .fase-nome { color: #1F3864 !important; font-size: 7.4pt; margin-bottom: 3pt; }
+  .fase-oas { gap: 3pt 7pt; }
+  .oa-item { font-size: 7pt; }
+  .oa-box { width: 7pt; height: 7pt; border: .75pt solid #1A1A1A !important; }
+  .oa-sigla { color: #000000 !important; }
+  .oa-nome { color: #4D4D4D !important; }
+
+  .secao { margin-bottom: 7pt; }
+  .secao-titulo { margin-bottom: 5pt; gap: 6pt; }
+  .secao-titulo .num {
+    background: #E8EDF4 !important; color: #1F3864 !important;
+    border: .75pt solid #1F3864;
+    width: 15pt; height: 15pt; font-size: 8pt;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .secao-titulo h2 { color: #1F3864 !important; font-size: 9.5pt; }
+  .secao-titulo .hint { color: #808080 !important; font-size: 7pt; }
+
+  .alerta-seg {
+    background: #FDEDEC !important; border-color: #C0392B !important;
+    padding: 4pt 8pt; margin-bottom: 4pt;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .alerta-seg strong { color: #C0392B !important; }
+  .check-list li { font-size: 8.2pt; padding: 2pt 0; }
+  .check-list li::before { width: 10pt; height: 10pt; border: 1pt solid #808080 !important; }
+  .check-list.seg li::before { border-color: #C0392B !important; }
+  .assinatura { color: #1F3864 !important; margin-top: 4pt; }
+  .assinatura .linha-ass { border-bottom-color: #C0392B !important; }
+
+  .lembrete {
+    background: #FFF5E0 !important; border-color: #C8922A !important;
+    padding: 4pt 8pt; margin-bottom: 5pt;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .lembrete strong { color: #8A6A18 !important; }
+  .protocolo-lista li { font-size: 8.2pt; padding: 1.5pt 0 1.5pt 14pt; }
+  .protocolo-lista li::before { color: #1F3864 !important; font-size: 7.6pt; }
+  .nota-metodo { color: #808080 !important; font-size: 7.4pt; }
+
+  /* Imagem de fundo: visivel o bastante para ilustrar, clara o bastante
+     para a caneta passar por cima — mesmos valores calibrados da FA
+     impressa da T10/FC1 (a impressora P&B clareia meios-tons; o valor
+     de tela nao serve aqui). */
+  .fundo-ilustra {
+    opacity: .26 !important;
+    filter: grayscale(1) contrast(.95) brightness(1.02) !important;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+
+  .tabela-rotulo { color: #4D4D4D !important; font-size: 7.6pt; margin: 3pt 0 2pt; }
+  table { font-size: 8.2pt; margin: 2pt 0 5pt; }
+  th {
+    background: #E8EDF4 !important; color: #1F3864 !important;
+    border: .5pt solid #9AA7BD !important; padding: 3pt 3pt;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  td { border: .5pt solid #9AA7BD !important; height: 11mm; padding: 3pt 4pt; }
+  tr.voce td {
+    background: #E8EDF4 !important; border-color: #1F3864 !important;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  tr.voce td:first-child { color: #1F3864 !important; }
+
+  .calc-bloco { background: #F8F8F8 !important; padding: 4pt 8pt; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .calc-formula { font-size: 8.4pt; margin: 4pt 0; }
+  .calc-formula .label { color: #1F3864 !important; }
+  .calc-formula .eq { color: #4D4D4D !important; }
+  .calc-formula .campo-calc { border-bottom-color: #1F3864 !important; }
+
+  .resultado-final {
+    background: #F4F6FA !important; border: 1pt solid #1F3864 !important;
+    padding: 5pt 9pt; margin-top: 4pt;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .resultado-final .titulo-res { color: #1F3864 !important; font-size: 7.4pt; }
+  .resultado-final .formula-res { color: #1A1A1A !important; font-size: 10pt; }
+  .resultado-final .campo-res { border-bottom-color: #1F3864 !important; }
+
+  .c5-lista { flex: 1 1 auto; display: flex; flex-direction: column; }
+  .c5-lista li { flex: 1 1 auto; border-bottom: .5pt dotted #9AA7BD !important; min-height: 8mm; }
+  .c5-lista li.fixo { flex: 0 0 auto; }
+  .c5-lista li .passo-num { color: #1F3864 !important; }
+  .c5-lista li .passo-label { color: #2E5A8F !important; }
+  .c5-lista li .inline-resp { color: #1F3864 !important; }
+  .c5-esboco { border-color: #9AA7BD !important; color: #808080 !important; height: 12mm; }
+
+  .disc-item { flex: 1 1 auto; }
+  .disc-q { font-size: 8.2pt; }
+  .disc-q strong { color: #1F3864 !important; }
+  .disc-linha { flex: 1 1 auto; border-bottom: .5pt dotted #9AA7BD !important; min-height: 7mm; }
+
+  .normas-table td:first-child { color: #1F3864 !important; }
+
+  .fechamento { border-top: .5pt solid #C0C0C0 !important; margin-top: 5pt; padding-top: 5pt; flex: 0 0 auto; }
+  .fechamento .frase { color: #1F3864 !important; font-size: 9.6pt; line-height: 1.4; }
+  .fechamento .frase strong { color: #1F3864 !important; }
+  /* v6: destaque do fecho no laranja de impressao da FE (#AE5314, 4,89:1) */
+  .fechamento .fecho-destaque { color: #AE5314 !important; font-size: 11pt; }
+
+  .monitoria { border: 1pt solid #1A1A1A !important; margin-top: 4pt; padding: 3pt 7pt 3pt; break-inside: avoid; }
+  .monitoria-titulo { color: #1A1A1A !important; font-size: 7.5pt; margin-bottom: 1.5pt; }
+  .monitoria-entrega { color: #000000 !important; font-size: 8.6pt; margin-bottom: 2pt; }
+  .monitoria-marcas { gap: 2pt 12pt; margin-bottom: 2pt; }
+  .marca { font-size: 7.8pt; color: #000000 !important; }
+  .marca .cx { width: 8.5pt; height: 8.5pt; border: .75pt solid #1A1A1A !important; }
+  .marca .data { color: #000000 !important; gap: 2pt; }
+  .marca .data i { border-bottom: .75pt solid #7A7A7A !important; height: .95em; }
+  .marca .data .d, .marca .data .m { width: 16pt; }
+  .marca .data .a { width: 26pt; }
+  .monitoria-criterios { color: #4D4D4D !important; font-size: 7pt; line-height: 1.3; margin-bottom: 2pt; }
+  .monitoria-criterios strong { color: #1A1A1A !important; }
+  .monitoria-obs { color: #4D4D4D !important; font-size: 7.2pt; }
+  .monitoria-linha { border-bottom: .5pt solid #7A7A7A !important; height: 4.5mm; }
+  .monitoria-assina { gap: 16pt; margin-top: 2pt; }
+  .monitoria-assina .campo { border-bottom: .75pt solid #7A7A7A !important; padding-bottom: 2pt; font-size: 7.8pt; }
+  .monitoria-assina label { color: #1A1A1A !important; font-size: 7.5pt; }
+
+  .barra-tela { display: none !important; }
+}
+
+  input, button, select, textarea { font-family: inherit; }
+  /* ==== PADRAO FE — aplicado por padronizar_oa_fe.py ==== */
+body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
+.container { max-width: 800px; margin: 0 auto; padding: 24px 16px 80px; }
+/* HEADER */
+.header { background: var(--painel); border-top: 3px solid var(--epi); padding: 14px 20px; margin-bottom: 20px; }
+.header-inner { max-width: 800px; margin: 0 auto; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.header .marca { width: 52px; height: 52px; flex-shrink: 0; }
+.header h1 { font-size: 1.4rem; font-weight: 900; letter-spacing: -0.02em; flex: 1 1 240px; }
+.header h1 .trilha-code { color: var(--epi); }
+.badge {
+  display: inline-block;
+  background: var(--epi); color: oklch(0.13 0.01 260);
+  padding: 4px 12px; border-radius: var(--r-sm);
+  font-size: 0.68rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 2px;
+}
+.header-sub {
+  max-width: 800px; margin: 6px auto 0;
+  font-size: 0.88rem;
+  color: var(--cinza);
+}
+
+/* PIAZZI BAR */
+.piazzi-bar { display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; background:var(--painel); border:1px solid var(--cinza-borda); padding:10px 16px; margin-bottom:16px; font-size:.78rem; }
+.piazzi-bar .piazzi-ref { color:var(--cinza); }
+.piazzi-bar .piazzi-tag { display:inline-block; border:1px solid var(--epi); color:var(--epi); padding:2px 10px; font-size:.72rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; }
+.piazzi-bar .piazzi-text { color:var(--texto); font-style:italic; font-size:.74rem; }
+.piazzi-bar .piazzi-yt { display:inline-flex; align-items:center; gap:5px; background:var(--erro); color:var(--branco); padding:4px 12px; font-size:.72rem; font-weight:700; text-decoration:none; cursor:pointer; }
+.piazzi-bar .piazzi-yt::before { content:'\25B6'; font-size:.6rem; }
+
+/* INTRO */
+.intro-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  background: var(--superficie);
+  border: 1px solid var(--cinza-borda);
+  border-left: 4px solid var(--aco);
+  padding: 16px 18px;
+  margin-bottom: 20px;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--texto);
+}
+.intro-box .vagoneta { width: 84px; height: auto; flex-shrink: 0; display: block; margin-top: 2px; }
+.intro-box strong { color: var(--epi); }
+
+/* ENCERRAMENTO */
+.encerramento { max-width:800px; margin:30px auto 10px; padding:20px 16px; border-top:2px solid var(--epi); text-align:center; }
+/* fecho em destaque (padrao RB v5): cor da familia FE e corpo maior */
+.encerramento .fecho-frase { font-family:var(--serif); font-size:1.15rem; line-height:1.5; color:var(--epi); font-weight:700; }
+.encerramento .fecho-acao { color:var(--epi); font-size:.95rem; text-transform:uppercase; font-weight:700; margin-top:10px; line-height:1.5; }
+.encerramento .fecho-links { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:14px; }
+.encerramento .fecho-btn { display:inline-flex; align-items:center; gap:7px; padding:10px 18px; min-height:44px; background:var(--epi); color:oklch(0.13 0.01 260); font-family:var(--mono); font-size:.8rem; font-weight:700; text-decoration:none; letter-spacing:.03em; }
+.encerramento .fecho-btn::before { content:'\25B6'; font-size:.62rem; }
+.encerramento .fecho-btn:hover { background:var(--epi-claro); }
+.encerramento .fecho-btn.secundario { background:transparent; color:var(--aco); border:1px solid var(--aco); }
+.encerramento .fecho-btn.secundario::before { content:'\2630'; font-size:.72rem; }
+.encerramento .fecho-btn.secundario:hover { background:var(--aco-bg); }
+.encerramento .fecho-inst { color:var(--cinza); font-size:.85rem; margin-top:16px; line-height:1.5; }
+.footer-line { text-align:center; font-size:.85rem; color:var(--cinza); padding:16px 12px; line-height:1.5; }
+.header .badge { background: var(--epi); color: oklch(0.13 0.01 260); padding: 4px 12px; border-radius: var(--r-sm); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; }
+.header .header-inner h1 { font-size: 1.4rem; font-weight: 900; letter-spacing: -0.02em; flex: 1 1 240px; }
+.header .header-inner h1 .trilha-code { color: var(--epi); }
+
+.header .marca { width: 42px; height: 42px; flex-shrink: 0; }
+.header { display: flex; align-items: center; gap: 12px; }
+@media print { .header .marca { width: 38px; height: 38px; } }
+
+
+
+/* ==== FE-T0E-RB (gerar_rb_t0e_fe.py): legendas ABNT, equacoes, retas numericas, grafico, RCP ==== */
+.pim { text-decoration: overline; text-transform: none; }
+.legenda { font-size: .78rem; font-weight: 700; color: var(--azul); margin: 6px 0 2px; }
+.fonte-abnt { font-size: .7rem; color: var(--cinza); margin: 1px 0 6px; }
+.texto p { font-size: .84rem; margin: 0 0 5px; }
+.eqs { margin: 3px 0 6px; }
+.eq { display: flex; align-items: center; font-size: .86rem; margin: 3px 0; gap: 8px; }
+.eq .f { flex: 1 1 auto; text-align: center; font-family: var(--serif); }
+.eq .n { flex: 0 0 auto; font-weight: 700; color: var(--azul); }
+.contas { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 16px; font-size: .82rem; margin: 4px 0 6px; }
+.contas .conta { display: block; min-height: 8mm; border-bottom: 1px solid var(--cinza-borda); }
+.branco { display: inline-block; min-width: 22mm; min-height: 1.2em; border-bottom: 1px solid var(--cinza-borda); }
+.resultado { font-size: .92rem; font-weight: 700; margin: 5px 0; text-align: center; }
+.figura-svg { text-align: center; margin: 2px 0; }
+.figura-svg svg { max-width: 100%; height: auto; background: #fff; }
+table.t0e td { height: 7.5mm; text-align: center; }
+table.t0e td:first-child { text-align: center; }
+table.t0e tr.soma td { font-weight: 700; }
+.rcp { width: 100%; border-collapse: collapse; }
+.rcp td { text-align: left !important; vertical-align: top; height: 14mm; font-size: .8rem; }
+.rcp td.passo { width: 30%; font-weight: 700; color: var(--azul); }
+.espaco { border: 1px solid var(--cinza-borda); min-height: 18mm; padding: 4px 6px; font-size: .8rem; }
+.g, td.g, span.g, div.g { color: #C00000 !important; font-weight: 700; }
+.gab-nota { border: 1px dashed #C00000; color: #C00000; font-size: .78rem; padding: 4px 8px; margin: 4px 0 6px; }
+.gab-nota p { margin: 0 0 3px; }
+table.rubrica td { height: auto; font-size: .76rem; text-align: left; }
+table.rubrica td:last-child { text-align: center; width: 14mm; }
+.cx { display: inline-block; width: 10px; height: 10px; border: 1px solid #808080; vertical-align: -1px; margin: 0 4px 0 8px; }
+.cx.g { background: #C00000; border-color: #C00000; }
+.fim-parte { font-size: .84rem; font-weight: 700; color: var(--azul); text-align: center; margin: 6px 0; }
+.motiva { border: 1.5px solid var(--azul); padding: 6px 10px; font-size: .86rem; margin: 6px 0; }
+@media print {
+  .legenda { font-size: 7.8pt; color: #1F3864 !important; margin: 4pt 0 1.5pt; }
+  .fonte-abnt { font-size: 6.8pt; color: #4D4D4D !important; margin: 1pt 0 4pt; }
+  .texto p { font-size: 8.4pt; margin: 0 0 3.5pt; }
+  .eq { font-size: 8.8pt; margin: 2pt 0; }
+  .eq .n { color: #1F3864 !important; }
+  .contas { font-size: 8.2pt; gap: 3pt 12pt; }
+  .contas .conta { border-bottom: .5pt solid #9AA7BD !important; min-height: 7mm; }
+  .branco { border-bottom: .5pt solid #7A7A7A !important; }
+  .resultado { font-size: 9.6pt; }
+  table.t0e td { height: 6.5mm; }
+  .rcp td { height: auto; font-size: 8pt; border: .5pt solid #9AA7BD !important; }
+  .rcp td.passo { color: #1F3864 !important; }
+  .espaco { border: .5pt solid #9AA7BD !important; min-height: 16mm; font-size: 8pt; }
+  .cresce .espaco.estica, .cresce .rcp.estica { flex: 1 1 auto; }
+  .g, td.g, span.g, div.g { color: #C00000 !important; }
+  .gab-nota { font-size: 7.6pt; border-color: #C00000 !important; color: #C00000 !important; }
+  table.rubrica td { height: auto; font-size: 7.4pt; padding: 2pt 4pt; }
+  .fim-parte { font-size: 8.6pt; color: #1F3864 !important; }
+  .motiva { border-color: #AE5314 !important; font-size: 8.8pt; padding: 5pt 8pt; }
+  .figura-svg svg { max-width: none; }
+}
+/* ICONES-FE */
+.fe-cab-marcas { display: flex; gap: 10px; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-bottom: 14px; }
+.fe-cab-marcas svg { width: 52px; height: 52px; display: block; }
+.fe-inst-marcas { display: flex; gap: 14px; align-items: center; justify-content: center;
+  width: 100%; margin: 0 auto 10px; }
+.fe-inst-marcas a { display: flex; }
+.fe-inst-marcas svg { width: 30px; height: 30px; display: block; }
+.fe-agr-marca { display: flex; justify-content: center; width: 100%; margin: 0 auto 10px; }
+.fe-agr-marca a { display: flex; }
+.fe-agr-marca svg { width: 30px; height: 30px; display: block; }
+.fe-rodape { text-align: center; padding: 22px 16px 26px; font-size: .82rem; line-height: 1.6;
+  color: var(--cinza, #8a8f98); border-top: 1px solid var(--fio, #333); margin-top: 40px; }
+.fe-rodape a { color: inherit; }
+.fe-rodape-texto { max-width: 960px; margin: 0 auto; }
+@media print { .fe-agr-marca { display: none !important; } }
+/* URL longa no corpo (autolink do pandoc ou texto corrido, como na Bibliografia da
+   Ementa) quebra em vez de alargar a pagina no celular; tabelas ficam de fora */
+.wrap a.uri, .wrap > p, .wrap > ul > li, .wrap > ol > li, .wrap > blockquote p { overflow-wrap: anywhere; }
+/* /ICONES-FE */
+
+/* ==== cabecalho e rodape padrao (v2, PRE-outro-t0e-cabecalho-padrao-rb-v2-rc-v1-fe1-2026-11-04) ==== */
+.header > .fe-cab-marcas { margin: 0; justify-content: flex-start; }
+.header > .fe-cab-marcas svg { width: 34px; height: 34px; }
+.header > .fe-cab-marcas + .header-left { margin-right: auto; }
+.header-left h1 .trilha-code { color: var(--epi); }
+.fe-header-sub { font-size: .82rem; color: var(--cinza); margin: -6px 0 10px; }
+.id-box .campo-id { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; font-size: .8rem;
+  padding-bottom: 4px; margin-bottom: 6px; }
+.id-box .campo-id:last-child { margin-bottom: 0; }
+.id-box .vazio { flex: 1; min-width: 0; height: 1.5em; }
+.id-box .vazio.ra { flex: 0 0 9em; }
+.rubrica-site { border: 1px solid #808080; background: #EEEEEE; color: #1A1A1A; font-weight: 700; font-size: .86rem;
+  text-align: center; padding: 5px 10px; margin: 0 0 10px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.pagina > .fe-rodape { margin-top: auto; padding: 6px 0 2px; font-size: .72rem; line-height: 1.4; border-top: 0; }
+.pagina > .fe-rodape .fe-inst-marcas { margin: 0 auto 4px; }
+.pagina > .fe-rodape .fe-inst-marcas svg { width: 24px; height: 24px; }
+.so-tela { margin: 10px 0; }
+table.rubrica-trilha td { font-size: .78rem; text-align: left; }
+table.rubrica-trilha td:last-child { text-align: center; width: 18mm; white-space: nowrap; }
+@media print {
+  .header > .fe-cab-marcas svg { width: 24px; height: 24px; }
+  .fe-header-sub { font-size: 7.6pt; margin: -3pt 0 6pt; color: #4D4D4D !important; }
+  .id-box .campo-id { border-bottom: 0 !important; padding-bottom: 2pt; margin-bottom: 4pt; }
+  .rubrica-site { font-size: 8.6pt !important; border: .6pt solid #808080 !important; padding: 3pt 8pt; margin-bottom: 6pt; }
+  /* no A4, icones e texto institucional numa linha so: a folha da Parte 1 nao ganha pagina */
+  .pagina > .fe-rodape { display: flex; align-items: center; justify-content: center; gap: 8pt;
+    font-size: 7pt; line-height: 1.3; color: #333 !important; padding: 2pt 0 0; }
+  .pagina > .fe-rodape .fe-inst-marcas { width: auto; margin: 0; flex: 0 0 auto; }
+  .pagina > .fe-rodape .fe-inst-marcas svg { width: 22px; height: 22px; }
+  .pagina > .fe-rodape .fe-rodape-texto { text-align: left; max-width: 150mm; margin: 0; }
+  .pagina > .fe-rodape + .rodape-print { margin-top: 2pt; }
+  table.t0e td { height: 6mm; }
+  .pagina { padding-top: 10mm; padding-bottom: 7mm; }
+  .pagina + .pagina { padding-top: 10mm; }
+  .so-tela { display: none !important; }
+}
+
+/* ==== FE-T0E-RC (gerar_rc_t0e_fe.py): dicas, calculadora e prompt (so na tela), RCP do professor ==== */
+.dica { font-size: .76rem; color: var(--cinza); margin: 0 0 4px; }
+.calc { border: 1.5px solid var(--epi); padding: 8px 10px; margin: 8px 0; }
+.calc table { width: 100%; border-collapse: collapse; margin: 4px 0; }
+.calc td, .calc th { padding: 2px 4px; text-align: center; font-size: .8rem; }
+.calc input { width: 100%; font: inherit; padding: 3px 4px; text-align: center; border: 1px solid var(--cinza-borda);
+  background: transparent; color: inherit; }
+.calc .res { font-size: .84rem; margin-top: 6px; line-height: 1.5; }
+.calc .res svg { display: block; max-width: 100%; height: auto; margin-top: 6px; background: #fff; color: #1A1A1A; }
+.calc .erro { color: #C00000; }
+.acao-btn { font: inherit; font-weight: 700; font-size: .8rem; padding: 6px 12px; cursor: pointer;
+  background: var(--epi); color: #101010; border: 0; margin: 4px 0; }
+.prompt-ia { border: 1px dashed var(--cinza-borda); padding: 6px 10px; margin: 6px 0; font-size: .8rem; }
+.prompt-ia p { margin: 0 0 4px; }
+.dicas-ia { margin: 2px 0 4px 18px; font-size: .8rem; }
+.contas-ia { font-size: .8rem; margin: 2px 0; }
+.esq-rcp { text-align: center; margin: 3px 0 1px; }
+.esq-rcp svg { max-width: 100%; height: auto; background: #fff; }
+@media print {
+  .dica { font-size: 7.6pt; color: #4D4D4D !important; }
+  .dicas-ia, .contas-ia { font-size: 7.8pt; }
+  .esq-rcp svg { max-width: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="folha">
+
+<!-- ═══════════ RC · PÁGINA 1 ═══════════ -->
+<div class="pagina">
+
+  <div class="header"><div class="fe-cab-marcas"><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Curso Tecnico em Mineracao - Vagoneta (mono)"> <defs> <filter id="cab-curso-shVm" x="-20%" y="-20%" width="140%" height="140%"> <feDropShadow dx="0" dy="4" stdDeviation="4" flood-opacity="0.2"/> </filter> <pattern id="cab-curso-hatchV" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"> <line x1="0" y1="0" x2="0" y2="6" stroke="#5E5E5E" stroke-width="1.2"/> </pattern> </defs> <circle cx="256" cy="256" r="240" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="6"/> <circle cx="256" cy="256" r="222" fill="none" stroke="#5E5E5E" stroke-width="1.5" stroke-dasharray="4 6"/> <g fill="#5E5E5E"> <circle cx="130" cy="140" r="2"/> <circle cx="155" cy="175" r="1.5"/> <circle cx="390" cy="150" r="2"/> <circle cx="365" cy="120" r="1.5"/> <circle cx="100" cy="290" r="1.8"/> </g> <g filter="url(#cab-curso-shVm)"> <polygon points="155,195 175,168 198,186 175,200" fill="#1A1A1A" stroke="#1A1A1A" stroke-width="2"/> <polygon points="198,186 220,156 244,176 220,194" fill="#1A1A1A" stroke="#1A1A1A" stroke-width="2"/> <polygon points="244,176 268,148 294,170 268,190" fill="#1A1A1A" stroke="#1A1A1A" stroke-width="2"/> <polygon points="294,170 318,156 344,178 318,194" fill="#1A1A1A" stroke="#1A1A1A" stroke-width="2"/> <polygon points="344,178 362,166 384,192 358,200" fill="#1A1A1A" stroke="#1A1A1A" stroke-width="2"/> </g> <g filter="url(#cab-curso-shVm)"> <polygon points="132,200 380,200 350,305 162,305" fill="url(#cab-curso-hatchV)" stroke="#1A1A1A" stroke-width="3.5"/> <polygon points="126,186 386,186 380,206 132,206" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="3"/> <polygon points="380,200 398,188 368,303 350,305" fill="#B0B0B0" stroke="#1A1A1A" stroke-width="3"/> <polygon points="386,186 398,188 380,206" fill="#1A1A1A"/> <g stroke="#1A1A1A" stroke-width="2.2" stroke-linecap="round"> <line x1="198" y1="212" x2="194" y2="298"/> <line x1="256" y1="212" x2="256" y2="298"/> <line x1="314" y1="212" x2="318" y2="298"/> </g> <g fill="#1A1A1A"> <circle cx="148" cy="215" r="3"/> <circle cx="148" cy="290" r="3"/> <circle cx="364" cy="215" r="3"/> <circle cx="364" cy="290" r="3"/> </g> <rect x="150" y="305" width="210" height="8" fill="#1A1A1A"/> </g> <g filter="url(#cab-curso-shVm)"> <circle cx="196" cy="338" r="26" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="3"/> <circle cx="196" cy="338" r="17" fill="none" stroke="#1A1A1A" stroke-width="2"/> <circle cx="196" cy="338" r="5" fill="#1A1A1A"/> <g stroke="#1A1A1A" stroke-width="2"> <line x1="196" y1="317" x2="196" y2="359"/> <line x1="175" y1="338" x2="217" y2="338"/> </g> <circle cx="316" cy="338" r="26" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="3"/> <circle cx="316" cy="338" r="17" fill="none" stroke="#1A1A1A" stroke-width="2"/> <circle cx="316" cy="338" r="5" fill="#1A1A1A"/> <g stroke="#1A1A1A" stroke-width="2"> <line x1="316" y1="317" x2="316" y2="359"/> <line x1="295" y1="338" x2="337" y2="338"/> </g> </g> <g> <g fill="#1A1A1A"> <rect x="120" y="370" width="14" height="8" rx="1"/> <rect x="156" y="370" width="14" height="8" rx="1"/> <rect x="192" y="370" width="14" height="8" rx="1"/> <rect x="228" y="370" width="14" height="8" rx="1"/> <rect x="264" y="370" width="14" height="8" rx="1"/> <rect x="300" y="370" width="14" height="8" rx="1"/> <rect x="336" y="370" width="14" height="8" rx="1"/> <rect x="372" y="370" width="14" height="8" rx="1"/> </g> <rect x="110" y="364" width="292" height="4" fill="#1A1A1A"/> </g> </svg><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Marca da Física Experimental 1"> <title>Física Experimental 1 — Trilhas de Aprendizagem</title> <g fill="none" stroke="#E07B39" stroke-width="3"> <ellipse cx="60" cy="52" rx="46" ry="18"/> <ellipse cx="60" cy="52" rx="46" ry="18" transform="rotate(60 60 52)"/> <ellipse cx="60" cy="52" rx="46" ry="18" transform="rotate(120 60 52)"/> </g> <g fill="#E07B39"> <circle cx="53" cy="47" r="7"/> <circle cx="67" cy="47" r="7"/> <circle cx="60" cy="58" r="9"/> </g> <g stroke="#7FB2D6" stroke-width="3" stroke-linecap="square"> <line x1="26" y1="110" x2="94" y2="110"/> <line x1="30" y1="110" x2="30" y2="104"/> <line x1="40" y1="110" x2="40" y2="104"/> <line x1="50" y1="110" x2="50" y2="104"/> <line x1="60" y1="110" x2="60" y2="98"/> <line x1="70" y1="110" x2="70" y2="104"/> <line x1="80" y1="110" x2="80" y2="104"/> <line x1="90" y1="110" x2="90" y2="104"/> </g> </svg></div>
+    <svg class="marca" viewBox="0 0 120 120" role="img" aria-label="Marca da F&iacute;sica Experimental 1">
+        <g fill="none" stroke="#AE5314" stroke-width="3">
+          <ellipse cx="60" cy="52" rx="46" ry="18"/>
+          <ellipse cx="60" cy="52" rx="46" ry="18" transform="rotate(60 60 52)"/>
+          <ellipse cx="60" cy="52" rx="46" ry="18" transform="rotate(120 60 52)"/>
+        </g>
+        <g fill="#AE5314">
+          <circle cx="53" cy="47" r="7"/>
+          <circle cx="67" cy="47" r="7"/>
+          <circle cx="60" cy="58" r="9"/>
+        </g>
+        <g stroke="#3D6E8F" stroke-width="3" stroke-linecap="square">
+          <line x1="26" y1="110" x2="94" y2="110"/>
+          <line x1="30" y1="110" x2="30" y2="104"/>
+          <line x1="40" y1="110" x2="40" y2="104"/>
+          <line x1="50" y1="110" x2="50" y2="104"/>
+          <line x1="60" y1="110" x2="60" y2="98"/>
+          <line x1="70" y1="110" x2="70" y2="104"/>
+          <line x1="80" y1="110" x2="80" y2="104"/>
+          <line x1="90" y1="110" x2="90" y2="104"/>
+        </g>
+      </svg>
+  <div class="header-left">
+      <h1><span class="trilha-code">FE-T0E</span> · O Número π na Física Experimental</h1>
+    </div>
+    <div class="header-right">
+      <div class="badge">Relatório Completo (RC)</div>
+    </div>
+  </div>
+  <div class="fe-header-sub">Pós-Lab · em casa, até 6 dias depois do encontro · opcional, bônus de até +0,5 na trilha</div>
+
+  <div class="id-box">
+    <div class="id-box-titulo">Identificação</div>
+    <div class="campo-id">
+      <label>Nome:</label><div class="vazio"></div>
+      <label>Registro Acadêmico (RA):</label><div class="vazio ra"></div>
+    </div>
+    <div class="campo-id">
+      <label>Turma:</label>
+      <div class="opts"><span class="opt">1</span><span class="opt">2</span><span class="opt">3</span></div>
+      <label>Grupo:</label>
+      <div class="opts"><span class="opt">A</span><span class="opt">B</span></div>
+      <label>Data:</label><span class="data-campo">______/______/_______</span>
+    </div>
+    <div class="campo-id">
+      <label>RA dos colegas de bancada (separe por vírgula):</label><div class="vazio"></div>
+    </div>
+  </div>
+
+  <div class="rubrica-site">A rubrica desta trilha e a deste Relatório Completo (RC) estão publicadas no site desta disciplina.</div>
+
+  <div class="lembrete"><strong>O terceiro método.</strong> No Roteiro de Bancada (RB), você obteve o π pela média (Parte 2) e pela declividade da reta traçada à mão (Parte 3). Aqui, o computador acha a reta que passa mais perto dos cinco pontos — o ajuste por <strong>mínimos quadrados</strong> — e diz quanto ela pode variar. É o mesmo método que calibra a balança da correia transportadora de uma mina, que a Escola de Minas de Ouro Preto ensina desde o século XIX e que a planilha do seu celular faz quando você pede "linha de tendência". Cada seção abaixo vira um parágrafo do seu relatório.</div>
+
+  <div class="secao">
+    <div class="secao-titulo">
+      <div class="num">1</div>
+      <h2>Identificação e objetivo</h2>
+      
+    </div>
+    <p class="dica">3 a 5 linhas. O objetivo é a pergunta, não o assunto: "o perímetro de um disco é π vezes o seu diâmetro, dentro da incerteza da bancada?" é um objetivo; "estudar o número π" não é.</p>
+    <div class="espaco" style="min-height:24mm"></div>
+  </div>
+
+  <div class="secao cresce">
+    <div class="secao-titulo">
+      <div class="num">2</div>
+      <h2>Materiais e método</h2>
+      
+    </div>
+    <p class="dica">Os cinco discos de acrílico com o diâmetro D impresso, a régua de 0,0 a 500,0 mm, a tira de papel e a tesoura; como cada C foi obtido (3 voltas do ponto A sem escorregar, a tira cortada na média dos 3 traços e medida na régua) e a cartolina coletiva da turma. Outra pessoa tem que conseguir repetir lendo só isto.</p>
+    <div class="espaco estica"></div>
+  </div>
+
+  <div class="rodape-print">
+    FE-T0E · RC v1 (estudante) · página 1 de 4
+  </div>
+</div>
+
+<!-- ═══════════ RC · PÁGINA 2 ═══════════ -->
+<div class="pagina">
+
+  <div class="secao">
+    <div class="secao-titulo">
+      <div class="num">3</div>
+      <h2>Dados e o ajuste C = a·D + b</h2>
+      
+    </div>
+    <p class="dica">Copie da Tabela 1 do RB o C de cada disco. No site, a calculadora abaixo faz as contas das Equações (1) a (4) e desenha o gráfico; no papel, marque os pontos e a reta no Gráfico 1.</p>
+    <div class="legenda">Tabela 1 — Os cinco discos — D impresso e C medido na tira (da Tabela 1 do RB)</div>
+    <table class="t0e">
+      <thead><tr><th><span class="un">Disco</span></th><th><span class="un">D impresso <span class="un">(mm)</span></span></th><th><span class="un">C <span class="un">(mm)</span></span></th><th><span class="un">π<sub>exp</sub> = C/D</span></th></tr></thead>
+      <tbody>
+      <tr><td>1</td><td>90,0</td><td></td><td></td></tr>
+      <tr><td>2</td><td>105,0</td><td></td><td></td></tr>
+      <tr><td>3</td><td>120,0</td><td></td><td></td></tr>
+      <tr><td>4</td><td>135,0</td><td></td><td></td></tr>
+      <tr><td>5</td><td>150,0</td><td></td><td></td></tr>
+      </tbody>
+    </table>
+    <div class="fonte-abnt">Fonte: elaborado pelos autores, 2026.</div>
+    <div class="eqs">
+      <div class="eq"><span class="f">a = Σ(D − <span class="pim">D</span>)(C − <span class="pim">C</span>) / Σ(D − <span class="pim">D</span>)² &nbsp;— a declividade, em mm/mm</span><span class="n">(1)</span></div>
+      <div class="eq"><span class="f">b = <span class="pim">C</span> − a·<span class="pim">D</span> &nbsp;— onde a reta corta o eixo C, em mm</span><span class="n">(2)</span></div>
+      <div class="eq"><span class="f">s² = Σ(C − a·D − b)² / (n − 2)</span><span class="n">(3)</span></div>
+      <div class="eq"><span class="f">u(a) = s / √Σ(D − <span class="pim">D</span>)² &nbsp;· &nbsp;u(b) = s·√[1/n + <span class="pim">D</span>² / Σ(D − <span class="pim">D</span>)²]</span><span class="n">(4)</span></div>
+    </div>
+    <div class="contas">
+      <span class="conta">a = <span class="branco"></span></span>
+      <span class="conta">u(a) = <span class="branco"></span></span>
+      <span class="conta">b = <span class="branco"></span> mm</span>
+      <span class="conta">u(b) = <span class="branco"></span> mm</span>
+    </div>
+  <div class="so-tela calc">
+    <div class="legenda">Calculadora dos mínimos quadrados (só no site)</div>
+    <p class="dica">Digite o C de cada disco, em mm, com 1 casa (o da Tabela 1 do RB). A página calcula a, b, u(a) e u(b) e desenha os pontos com a reta. Copie os valores para a Seção 3 e arredonde você mesmo.</p>
+    <table>
+      <thead><tr><th><span class="un">Disco</span></th><th><span class="un">D (mm)</span></th><th><span class="un">C (mm)</span></th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><input type="text" inputmode="decimal" data-k="D1" value="90,0"></td><td><input type="text" inputmode="decimal" data-k="C1" placeholder="mm"></td></tr>
+        <tr><td>2</td><td><input type="text" inputmode="decimal" data-k="D2" value="105,0"></td><td><input type="text" inputmode="decimal" data-k="C2" placeholder="mm"></td></tr>
+        <tr><td>3</td><td><input type="text" inputmode="decimal" data-k="D3" value="120,0"></td><td><input type="text" inputmode="decimal" data-k="C3" placeholder="mm"></td></tr>
+        <tr><td>4</td><td><input type="text" inputmode="decimal" data-k="D4" value="135,0"></td><td><input type="text" inputmode="decimal" data-k="C4" placeholder="mm"></td></tr>
+        <tr><td>5</td><td><input type="text" inputmode="decimal" data-k="D5" value="150,0"></td><td><input type="text" inputmode="decimal" data-k="C5" placeholder="mm"></td></tr>
+      </tbody>
+    </table>
+    <button class="acao-btn" type="button" id="calcular">Calcular o ajuste e desenhar o gráfico</button>
+    <div class="res" id="res"></div>
+  </div>
+    <div class="legenda">Gráfico 1 — C × D dos cinco discos com a reta ajustada, em mm</div>
+    <div class="figura-svg">
+<svg viewBox="0 0 188 116" width="188mm" height="116mm" xmlns="http://www.w3.org/2000/svg" font-family="Georgia, serif">
+<line x1="14" y1="6" x2="14" y2="106" stroke="#D88C6A" stroke-width="0.32"/>
+<line x1="15" y1="6" x2="15" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="16" y1="6" x2="16" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="17" y1="6" x2="17" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="18" y1="6" x2="18" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="19" y1="6" x2="19" y2="106" stroke="#E9B49B" stroke-width="0.18"/>
+<line x1="20" y1="6" x2="20" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="21" y1="6" x2="21" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="22" y1="6" x2="22" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="23" y1="6" x2="23" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="24" y1="6" x2="24" y2="106" stroke="#D88C6A" stroke-width="0.32"/>
+<line x1="25" y1="6" x2="25" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="26" y1="6" x2="26" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="27" y1="6" x2="27" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="28" y1="6" x2="28" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="29" y1="6" x2="29" y2="106" stroke="#E9B49B" stroke-width="0.18"/>
+<line x1="30" y1="6" x2="30" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="31" y1="6" x2="31" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="32" y1="6" x2="32" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="33" y1="6" x2="33" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="34" y1="6" x2="34" y2="106" stroke="#D88C6A" stroke-width="0.32"/>
+<line x1="35" y1="6" x2="35" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="36" y1="6" x2="36" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="37" y1="6" x2="37" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="38" y1="6" x2="38" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="39" y1="6" x2="39" y2="106" stroke="#E9B49B" stroke-width="0.18"/>
+<line x1="40" y1="6" x2="40" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="41" y1="6" x2="41" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="42" y1="6" x2="42" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="43" y1="6" x2="43" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="44" y1="6" x2="44" y2="106" stroke="#D88C6A" stroke-width="0.32"/>
+<line x1="45" y1="6" x2="45" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="46" y1="6" x2="46" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="47" y1="6" x2="47" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="48" y1="6" x2="48" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="49" y1="6" x2="49" y2="106" stroke="#E9B49B" stroke-width="0.18"/>
+<line x1="50" y1="6" x2="50" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="51" y1="6" x2="51" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="52" y1="6" x2="52" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="53" y1="6" x2="53" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="54" y1="6" x2="54" y2="106" stroke="#D88C6A" stroke-width="0.32"/>
+<line x1="55" y1="6" x2="55" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="56" y1="6" x2="56" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="57" y1="6" x2="57" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="58" y1="6" x2="58" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="59" y1="6" x2="59" y2="106" stroke="#E9B49B" stroke-width="0.18"/>
+<line x1="60" y1="6" x2="60" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="61" y1="6" x2="61" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="62" y1="6" x2="62" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="63" y1="6" x2="63" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="64" y1="6" x2="64" y2="106" stroke="#D88C6A" stroke-width="0.32"/>
+<line x1="65" y1="6" x2="65" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="66" y1="6" x2="66" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="67" y1="6" x2="67" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="68" y1="6" x2="68" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="69" y1="6" x2="69" y2="106" stroke="#E9B49B" stroke-width="0.18"/>
+<line x1="70" y1="6" x2="70" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="71" y1="6" x2="71" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="72" y1="6" x2="72" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="73" y1="6" x2="73" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="74" y1="6" x2="74" y2="106" stroke="#D88C6A" stroke-width="0.32"/>
+<line x1="75" y1="6" x2="75" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="76" y1="6" x2="76" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="77" y1="6" x2="77" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="78" y1="6" x2="78" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="79" y1="6" x2="79" y2="106" stroke="#E9B49B" stroke-width="0.18"/>
+<line x1="80" y1="6" x2="80" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="81" y1="6" x2="81" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="82" y1="6" x2="82" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="83" y1="6" x2="83" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="84" y1="6" x2="84" y2="106" stroke="#D88C6A" stroke-width="0.32"/>
+<line x1="85" y1="6" x2="85" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="86" y1="6" x2="86" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="87" y1="6" x2="87" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="88" y1="6" x2="88" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="89" y1="6" x2="89" y2="106" stroke="#E9B49B" stroke-width="0.18"/>
+<line x1="90" y1="6" x2="90" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="91" y1="6" x2="91" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="92" y1="6" x2="92" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="93" y1="6" x2="93" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="94" y1="6" x2="94" y2="106" stroke="#D88C6A" stroke-width="0.32"/>
+<line x1="95" y1="6" x2="95" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="96" y1="6" x2="96" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="97" y1="6" x2="97" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="98" y1="6" x2="98" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="99" y1="6" x2="99" y2="106" stroke="#E9B49B" stroke-width="0.18"/>
+<line x1="100" y1="6" x2="100" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="101" y1="6" x2="101" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="102" y1="6" x2="102" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="103" y1="6" x2="103" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="104" y1="6" x2="104" y2="106" stroke="#D88C6A" stroke-width="0.32"/>
+<line x1="105" y1="6" x2="105" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="106" y1="6" x2="106" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="107" y1="6" x2="107" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="108" y1="6" x2="108" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="109" y1="6" x2="109" y2="106" stroke="#E9B49B" stroke-width="0.18"/>
+<line x1="110" y1="6" x2="110" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="111" y1="6" x2="111" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="112" y1="6" x2="112" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="113" y1="6" x2="113" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="114" y1="6" x2="114" y2="106" stroke="#D88C6A" stroke-width="0.32"/>
+<line x1="115" y1="6" x2="115" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="116" y1="6" x2="116" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="117" y1="6" x2="117" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="118" y1="6" x2="118" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="119" y1="6" x2="119" y2="106" stroke="#E9B49B" stroke-width="0.18"/>
+<line x1="120" y1="6" x2="120" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="121" y1="6" x2="121" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="122" y1="6" x2="122" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="123" y1="6" x2="123" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="124" y1="6" x2="124" y2="106" stroke="#D88C6A" stroke-width="0.32"/>
+<line x1="125" y1="6" x2="125" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="126" y1="6" x2="126" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="127" y1="6" x2="127" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="128" y1="6" x2="128" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="129" y1="6" x2="129" y2="106" stroke="#E9B49B" stroke-width="0.18"/>
+<line x1="130" y1="6" x2="130" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="131" y1="6" x2="131" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="132" y1="6" x2="132" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="133" y1="6" x2="133" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="134" y1="6" x2="134" y2="106" stroke="#D88C6A" stroke-width="0.32"/>
+<line x1="135" y1="6" x2="135" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="136" y1="6" x2="136" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="137" y1="6" x2="137" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="138" y1="6" x2="138" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="139" y1="6" x2="139" y2="106" stroke="#E9B49B" stroke-width="0.18"/>
+<line x1="140" y1="6" x2="140" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="141" y1="6" x2="141" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="142" y1="6" x2="142" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="143" y1="6" x2="143" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="144" y1="6" x2="144" y2="106" stroke="#D88C6A" stroke-width="0.32"/>
+<line x1="145" y1="6" x2="145" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="146" y1="6" x2="146" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="147" y1="6" x2="147" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="148" y1="6" x2="148" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="149" y1="6" x2="149" y2="106" stroke="#E9B49B" stroke-width="0.18"/>
+<line x1="150" y1="6" x2="150" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="151" y1="6" x2="151" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="152" y1="6" x2="152" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="153" y1="6" x2="153" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="154" y1="6" x2="154" y2="106" stroke="#D88C6A" stroke-width="0.32"/>
+<line x1="155" y1="6" x2="155" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="156" y1="6" x2="156" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="157" y1="6" x2="157" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="158" y1="6" x2="158" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="159" y1="6" x2="159" y2="106" stroke="#E9B49B" stroke-width="0.18"/>
+<line x1="160" y1="6" x2="160" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="161" y1="6" x2="161" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="162" y1="6" x2="162" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="163" y1="6" x2="163" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="164" y1="6" x2="164" y2="106" stroke="#D88C6A" stroke-width="0.32"/>
+<line x1="165" y1="6" x2="165" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="166" y1="6" x2="166" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="167" y1="6" x2="167" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="168" y1="6" x2="168" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="169" y1="6" x2="169" y2="106" stroke="#E9B49B" stroke-width="0.18"/>
+<line x1="170" y1="6" x2="170" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="171" y1="6" x2="171" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="172" y1="6" x2="172" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="173" y1="6" x2="173" y2="106" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="174" y1="6" x2="174" y2="106" stroke="#D88C6A" stroke-width="0.32"/>
+<line x1="14" y1="106" x2="174" y2="106" stroke="#D88C6A" stroke-width="0.32"/>
+<line x1="14" y1="105" x2="174" y2="105" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="104" x2="174" y2="104" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="103" x2="174" y2="103" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="102" x2="174" y2="102" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="101" x2="174" y2="101" stroke="#E9B49B" stroke-width="0.18"/>
+<line x1="14" y1="100" x2="174" y2="100" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="99" x2="174" y2="99" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="98" x2="174" y2="98" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="97" x2="174" y2="97" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="96" x2="174" y2="96" stroke="#D88C6A" stroke-width="0.32"/>
+<line x1="14" y1="95" x2="174" y2="95" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="94" x2="174" y2="94" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="93" x2="174" y2="93" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="92" x2="174" y2="92" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="91" x2="174" y2="91" stroke="#E9B49B" stroke-width="0.18"/>
+<line x1="14" y1="90" x2="174" y2="90" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="89" x2="174" y2="89" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="88" x2="174" y2="88" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="87" x2="174" y2="87" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="86" x2="174" y2="86" stroke="#D88C6A" stroke-width="0.32"/>
+<line x1="14" y1="85" x2="174" y2="85" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="84" x2="174" y2="84" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="83" x2="174" y2="83" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="82" x2="174" y2="82" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="81" x2="174" y2="81" stroke="#E9B49B" stroke-width="0.18"/>
+<line x1="14" y1="80" x2="174" y2="80" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="79" x2="174" y2="79" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="78" x2="174" y2="78" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="77" x2="174" y2="77" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="76" x2="174" y2="76" stroke="#D88C6A" stroke-width="0.32"/>
+<line x1="14" y1="75" x2="174" y2="75" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="74" x2="174" y2="74" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="73" x2="174" y2="73" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="72" x2="174" y2="72" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="71" x2="174" y2="71" stroke="#E9B49B" stroke-width="0.18"/>
+<line x1="14" y1="70" x2="174" y2="70" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="69" x2="174" y2="69" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="68" x2="174" y2="68" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="67" x2="174" y2="67" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="66" x2="174" y2="66" stroke="#D88C6A" stroke-width="0.32"/>
+<line x1="14" y1="65" x2="174" y2="65" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="64" x2="174" y2="64" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="63" x2="174" y2="63" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="62" x2="174" y2="62" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="61" x2="174" y2="61" stroke="#E9B49B" stroke-width="0.18"/>
+<line x1="14" y1="60" x2="174" y2="60" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="59" x2="174" y2="59" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="58" x2="174" y2="58" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="57" x2="174" y2="57" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="56" x2="174" y2="56" stroke="#D88C6A" stroke-width="0.32"/>
+<line x1="14" y1="55" x2="174" y2="55" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="54" x2="174" y2="54" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="53" x2="174" y2="53" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="52" x2="174" y2="52" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="51" x2="174" y2="51" stroke="#E9B49B" stroke-width="0.18"/>
+<line x1="14" y1="50" x2="174" y2="50" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="49" x2="174" y2="49" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="48" x2="174" y2="48" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="47" x2="174" y2="47" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="46" x2="174" y2="46" stroke="#D88C6A" stroke-width="0.32"/>
+<line x1="14" y1="45" x2="174" y2="45" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="44" x2="174" y2="44" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="43" x2="174" y2="43" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="42" x2="174" y2="42" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="41" x2="174" y2="41" stroke="#E9B49B" stroke-width="0.18"/>
+<line x1="14" y1="40" x2="174" y2="40" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="39" x2="174" y2="39" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="38" x2="174" y2="38" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="37" x2="174" y2="37" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="36" x2="174" y2="36" stroke="#D88C6A" stroke-width="0.32"/>
+<line x1="14" y1="35" x2="174" y2="35" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="34" x2="174" y2="34" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="33" x2="174" y2="33" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="32" x2="174" y2="32" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="31" x2="174" y2="31" stroke="#E9B49B" stroke-width="0.18"/>
+<line x1="14" y1="30" x2="174" y2="30" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="29" x2="174" y2="29" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="28" x2="174" y2="28" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="27" x2="174" y2="27" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="26" x2="174" y2="26" stroke="#D88C6A" stroke-width="0.32"/>
+<line x1="14" y1="25" x2="174" y2="25" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="24" x2="174" y2="24" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="23" x2="174" y2="23" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="22" x2="174" y2="22" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="21" x2="174" y2="21" stroke="#E9B49B" stroke-width="0.18"/>
+<line x1="14" y1="20" x2="174" y2="20" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="19" x2="174" y2="19" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="18" x2="174" y2="18" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="17" x2="174" y2="17" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="16" x2="174" y2="16" stroke="#D88C6A" stroke-width="0.32"/>
+<line x1="14" y1="15" x2="174" y2="15" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="14" x2="174" y2="14" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="13" x2="174" y2="13" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="12" x2="174" y2="12" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="11" x2="174" y2="11" stroke="#E9B49B" stroke-width="0.18"/>
+<line x1="14" y1="10" x2="174" y2="10" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="9" x2="174" y2="9" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="8" x2="174" y2="8" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="7" x2="174" y2="7" stroke="#F2D3C3" stroke-width="0.1"/>
+<line x1="14" y1="6" x2="174" y2="6" stroke="#D88C6A" stroke-width="0.32"/>
+<line x1="14" y1="106" x2="180" y2="106" stroke="#1A1A1A" stroke-width=".55"/>
+<line x1="14" y1="106" x2="14" y2="3" stroke="#1A1A1A" stroke-width=".55"/>
+<text x="187" y="114" font-size="3.4" font-weight="700" text-anchor="end">D (mm)</text>
+<text x="16" y="5" font-size="3.4" font-weight="700">C (mm)</text>
+<text x="12.6" y="109.6" font-size="3" text-anchor="end">0</text>
+<text x="34.0" y="110.2" font-size="3" text-anchor="middle">20</text>
+<text x="54.0" y="110.2" font-size="3" text-anchor="middle">40</text>
+<text x="74.0" y="110.2" font-size="3" text-anchor="middle">60</text>
+<text x="94.0" y="110.2" font-size="3" text-anchor="middle">80</text>
+<text x="114.0" y="110.2" font-size="3" text-anchor="middle">100</text>
+<text x="134.0" y="110.2" font-size="3" text-anchor="middle">120</text>
+<text x="154.0" y="110.2" font-size="3" text-anchor="middle">140</text>
+<text x="174.0" y="110.2" font-size="3" text-anchor="middle">160</text>
+<text x="12.2" y="87.0" font-size="3" text-anchor="end">100</text>
+<text x="12.2" y="67.0" font-size="3" text-anchor="end">200</text>
+<text x="12.2" y="47.0" font-size="3" text-anchor="end">300</text>
+<text x="12.2" y="27.0" font-size="3" text-anchor="end">400</text>
+<text x="12.2" y="7.0" font-size="3" text-anchor="end">500</text>
+</svg>
+    </div>
+    <div class="fonte-abnt">Fonte: elaborado pelos autores, 2026.</div>
+    <div class="nota-metodo">Escala: em D, 1 cm do papel = 10 mm; em C, 1 cm do papel = 50 mm — o dobro da do Gráfico 1 do RB.</div>
+  </div>
+
+  <div class="rodape-print">
+    FE-T0E · RC v1 (estudante) · página 2 de 4
+  </div>
+</div>
+
+<!-- ═══════════ RC · PÁGINA 3 ═══════════ -->
+<div class="pagina">
+
+  <div class="secao">
+    <div class="secao-titulo">
+      <div class="num">4</div>
+      <h2>π medido ± incerteza e a decisão</h2>
+      
+    </div>
+    <p class="dica">Escreva π = a ± u(a), arredondados juntos. A diferença |a − 3,1416| cabe em 2u(a)? Escreva a decisão. E o b: deveria ser zero? Ele cabe em 2u(b)? Se não, o que um b diferente de zero diz sobre como C foi medido?</p>
+    <div class="resultado">π<sub>exp</sub> = ( <span class="branco"></span> ± <span class="branco"></span> ) &nbsp;·&nbsp; b = ( <span class="branco"></span> ± <span class="branco"></span> ) mm</div>
+    <div class="contas">
+      <span class="conta">|a − π| = <span class="branco"></span></span>
+      <span class="conta">2u(a) = <span class="branco"></span> · cabe? <span class="cx"></span>sim <span class="cx"></span>não</span>
+    </div>
+    <div class="legenda">Figura 1 — A reta numérica do Método 3 — marque a, as faixas a ± u(a) e a ± 2u(a) e o valor π = 3,1416</div>
+    <div class="figura-svg">
+<svg viewBox="0 0 176 30" width="176mm" height="30mm" xmlns="http://www.w3.org/2000/svg" font-family="Georgia, serif">
+<line x1="4" y1="20" x2="172" y2="20" stroke="#1A1A1A" stroke-width=".5"/>
+<path d="M173 20 l-2 -1 v2 z" fill="#1A1A1A"/>
+<line x1="8.00" y1="18.0" x2="8.00" y2="22.0" stroke="#1A1A1A" stroke-width=".4"/>
+<text x="8.00" y="26.0" font-size="2.8" text-anchor="middle">3,08</text>
+<line x1="14.67" y1="19.0" x2="14.67" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="21.33" y1="19.0" x2="21.33" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="28.00" y1="19.0" x2="28.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="34.67" y1="18.0" x2="34.67" y2="22.0" stroke="#1A1A1A" stroke-width=".4"/>
+<text x="34.67" y="26.0" font-size="2.8" text-anchor="middle">3,10</text>
+<line x1="41.33" y1="19.0" x2="41.33" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="48.00" y1="19.0" x2="48.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="54.67" y1="19.0" x2="54.67" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="61.33" y1="18.0" x2="61.33" y2="22.0" stroke="#1A1A1A" stroke-width=".4"/>
+<text x="61.33" y="26.0" font-size="2.8" text-anchor="middle">3,12</text>
+<line x1="68.00" y1="19.0" x2="68.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="74.67" y1="19.0" x2="74.67" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="81.33" y1="19.0" x2="81.33" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="88.00" y1="18.0" x2="88.00" y2="22.0" stroke="#1A1A1A" stroke-width=".4"/>
+<text x="88.00" y="26.0" font-size="2.8" text-anchor="middle">3,14</text>
+<line x1="94.67" y1="19.0" x2="94.67" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="101.33" y1="19.0" x2="101.33" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="108.00" y1="19.0" x2="108.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="114.67" y1="18.0" x2="114.67" y2="22.0" stroke="#1A1A1A" stroke-width=".4"/>
+<text x="114.67" y="26.0" font-size="2.8" text-anchor="middle">3,16</text>
+<line x1="121.33" y1="19.0" x2="121.33" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="128.00" y1="19.0" x2="128.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="134.67" y1="19.0" x2="134.67" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="141.33" y1="18.0" x2="141.33" y2="22.0" stroke="#1A1A1A" stroke-width=".4"/>
+<text x="141.33" y="26.0" font-size="2.8" text-anchor="middle">3,18</text>
+<line x1="148.00" y1="19.0" x2="148.00" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="154.67" y1="19.0" x2="154.67" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="161.33" y1="19.0" x2="161.33" y2="21.0" stroke="#1A1A1A" stroke-width=".22"/>
+<line x1="168.00" y1="18.0" x2="168.00" y2="22.0" stroke="#1A1A1A" stroke-width=".4"/>
+<text x="168.00" y="26.0" font-size="2.8" text-anchor="middle">3,20</text>
+</svg>
+    </div>
+    <div class="fonte-abnt">Fonte: elaborado pelos autores, 2026.</div>
+    <div class="espaco" style="min-height:18mm"></div>
+  </div>
+
+  <div class="secao cresce">
+    <div class="secao-titulo">
+      <div class="num">5</div>
+      <h2>Os três métodos</h2>
+      
+    </div>
+    <p class="dica">Os três métodos mediram o mesmo π com os mesmos discos. Qual deu a menor incerteza, e por quê? O que cada método usa das medidas?</p>
+    <div class="legenda">Tabela 2 — Os três métodos lado a lado</div>
+    <table class="t0e">
+      <thead><tr><th><span class="un">Método</span></th><th><span class="un">π<sub>exp</sub></span></th><th><span class="un">u</span></th><th><span class="un">Disc</span></th><th><span class="un">Disc ≤ 2u?</span></th></tr></thead>
+      <tbody>
+      <tr><td>1 · média dos C/D (RB, Parte 2)</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>2 · declividade à mão (RB, Parte 3)</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>3 · mínimos quadrados (RC, Seção 3)</td><td></td><td></td><td></td><td></td></tr>
+      </tbody>
+    </table>
+    <div class="fonte-abnt">Fonte: elaborado pelos autores, 2026.</div>
+    <div class="espaco estica"></div>
+  </div>
+
+  <div class="rodape-print">
+    FE-T0E · RC v1 (estudante) · página 3 de 4
+  </div>
+</div>
+
+<!-- ═══════════ RC · PÁGINA 4 ═══════════ -->
+<div class="pagina">
+
+  <div class="secao">
+    <div class="secao-titulo">
+      <div class="num">6</div>
+      <h2>Tomada de posição</h2>
+      
+    </div>
+    <p class="dica">Um parágrafo: com quantos algarismos de π a sua bancada precisa — e por que mais algarismos não melhoram o resultado? Depois, por que o Gráfico 1 do RB (1 cm = 25 mm em C) e o Gráfico 1 deste RC (1 cm = 50 mm) desenham a mesma reta com ângulos diferentes, mas com a mesma declividade?</p>
+    <div class="espaco" style="min-height:30mm"></div>
+  </div>
+
+  <div class="secao">
+    <div class="secao-titulo">
+      <div class="num">7</div>
+      <h2>Referências</h2>
+      
+    </div>
+    <p class="dica">As obras consultadas, em ABNT: o Roteiro de Bancada e o que mais você usou. O uso de inteligência artificial se declara no bloco logo abaixo.</p>
+    <div class="espaco" style="min-height:14mm"></div>
+  </div>
+
+  <div class="secao">
+    <div class="secao-titulo">
+      <div class="num">IA</div>
+      <h2>Uso de Tecnologias (IA)</h2>
+      
+    </div>
+    <p class="dica">Depois de terminar as sete seções, copie o prompt (no site), cole na inteligência artificial que você usa e mande o seu RC. Ela aponta a seção e o passo do primeiro erro, sem resolver por você.</p>
+    <ol class="dicas-ia">
+      <li><strong>Peça perguntas, não respostas:</strong> a IA aponta o passo do erro e quem corrige é você.</li>
+      <li><strong>Confira tudo</strong> o que ela disser contra a sua medida, a sua conta e a unidade: a IA erra com a mesma segurança com que acerta.</li>
+      <li><strong>Declare o uso</strong>, qual IA e para quê: registrar o método com honestidade é parte da ciência.</li>
+    </ol>
+  <div class="so-tela">
+    <div class="prompt-ia"><p><strong>Meu Perfil</strong> — cole na personalização da IA, uma vez só:</p><p class="prompt-txt">Sou estudante da 1.ª série do Técnico em Mineração Integrado do IFMG campus Ouro Preto e curso a Física Experimental 1, no Laboratório de Mecânica. Quando eu pedir ajuda, não me dê a resposta pronta: faça perguntas que me levem a pensar, aponte o passo em que errei e deixe que eu corrija sozinho. Responda em português do Brasil, com as grandezas nas unidades do SI e, quando ajudar, com exemplos da mineração e de Ouro Preto. Quando eu acertar, diga o ponto forte do meu raciocínio.</p><button class="acao-btn copiar" type="button">Copiar o perfil</button></div>
+    <div class="prompt-ia"><p><strong>Prompt</strong> — depois de terminar as sete seções:</p><p class="prompt-txt">Escrevi o Relatório Completo (RC) da T0E da Física Experimental 1, O Número π na Física Experimental: a tabela dos cinco discos (D e C em mm), o ajuste C = a·D + b por mínimos quadrados com u(a) e u(b), π = a ± u(a) e a decisão |a − 3,1416| ≤ 2u(a), o que o b diz sobre a medida, os três métodos (a média, a declividade à mão e os mínimos quadrados) e a minha tomada de posição, pelos 5 passos da Resolução Científica do Problema (1 O que a questão quer?; 2 O que eu tenho?; 3 Qual é o desenho?; 4 Minha solução; 5 Confiro e respondo). Vou te mandar o texto ou a foto. Não reescreva o relatório nem refaça as contas por mim. Diga em que seção e em que passo está o primeiro erro, faça uma pergunta que me ajude a corrigir sozinho e, no fim, me diga um ponto forte do meu raciocínio.</p><button class="acao-btn copiar" type="button">Copiar o prompt</button></div>
+  </div>
+    <p class="contas-ia">Usei IA? <span class="cx"></span>não <span class="cx"></span>sim — qual e para quê: <span class="branco" style="min-width:90mm"></span></p>
+  </div>
+
+    <div class="legenda">Quadro 1 — Rubrica do Relatório Completo (RC) — bônus de até 0,50 ponto</div>
+    <table class="rubrica">
+      <thead><tr><th><span class="un">Critério</span></th><th><span class="un">Pontos</span></th></tr></thead>
+      <tbody>
+      <tr><td><strong>Dados e gráfico</strong> — A Tabela 1 completa, D e C em mm com 1 casa · o Gráfico 1 com os 5 pontos e a reta ajustada</td><td>0,10</td></tr>
+      <tr><td><strong>Ajuste e incertezas</strong> — a, b, u(a) e u(b), arredondados juntos (incerteza com 1 ou 2 algarismos) e com unidade</td><td>0,12</td></tr>
+      <tr><td><strong>π e a decisão</strong> — π = a ± u(a) · |a − π| contra 2u(a) e a decisão · o que o b diz sobre a medida</td><td>0,12</td></tr>
+      <tr><td><strong>Os três métodos</strong> — Média × declividade à mão × mínimos quadrados: qual dá a menor incerteza, e por quê</td><td>0,06</td></tr>
+      <tr><td><strong>Tomada de posição</strong> — Com quantos algarismos de π a bancada precisa · por que a escala dos eixos muda o ângulo desenhado e não a declividade</td><td>0,06</td></tr>
+      <tr><td><strong>Estrutura e redação</strong> — As sete seções na ordem · unidades bem escritas · referências em ABNT</td><td>0,04</td></tr>
+      <tr><td><strong>Total</strong> — completa os itens da trilha nesta ordem: RB → PR → Refine; a nota da etapa não passa de 35</td><td><strong>0,50</strong></td></tr>
+      </tbody>
+    </table>
+    <div class="fonte-abnt">Fonte: elaborado pelos autores, 2026.</div>
+  <div class="fechamento">
+    <div class="frase">
+      <span class="fecho-destaque">"Terminamos por aqui, um abraço, e até o próximo encontro."</span><br>
+      Entregue o RC impresso e preenchido à mão, na Monitoria de Física.
+    </div>
+  </div>
+  <div class="so-tela">
+    <div class="legenda">Rubrica desta Trilha de Aprendizagem — a T0E vale 4,0 pontos, mais o bônus do RC</div>
+    <table class="rubrica rubrica-trilha">
+      <thead><tr><th><span class="un">Instrumento</span></th><th><span class="un">Pontos</span></th></tr></thead>
+      <tbody>
+      <tr><td><strong>Lab</strong> · Roteiro de Bancada (RB) preenchido, checklist assinado, Parte 2 pelos 5 passos</td><td>2,0</td></tr>
+      <tr><td><strong>Lab</strong> · Provinha (PR), auto-corrigível</td><td>1,0</td></tr>
+      <tr><td><strong>Pós-Lab</strong> · Analise e refine sobre o RB (foto + prompt, registrado no coletor)</td><td>1,0</td></tr>
+      <tr><td><strong>Pós-Lab</strong> · Relatório Completo (RC), opcional — bônus que completa RB → PR → Refine</td><td>até +0,5</td></tr>
+      <tr><td><strong>Total da trilha</strong></td><td><strong>4,0</strong></td></tr>
+      </tbody>
+    </table>
+    <div class="fonte-abnt">Fonte: Plano de Ensino da Física Experimental 1, seção 9.1.</div>
+  </div>
+  <!-- RODAPE-FE:INICIO --><div class="fe-rodape"><div class="fe-inst-marcas"><a href="https://ouropreto.ifmg.edu.br/ouropreto" target="_blank" rel="noopener" title="IFMG — Campus Ouro Preto (abre em nova aba)"><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="-36.75 -4 258.5 258.5" role="img" aria-label="Instituto Federal de Minas Gerais"> <title>Instituto Federal de Minas Gerais</title> <circle cx="27" cy="27" r="30" fill="#C8191E"/> <g fill="#32A041"> <rect x="65.5" y="0" width="54" height="54"/> <rect x="131" y="0" width="54" height="54"/> <rect x="0" y="65.5" width="54" height="54"/> <rect x="65.5" y="65.5" width="54" height="54"/> <rect x="0" y="131" width="54" height="54"/> <rect x="65.5" y="131" width="54" height="54"/> <rect x="131" y="131" width="54" height="54"/> <rect x="0" y="196.5" width="54" height="54"/> <rect x="65.5" y="196.5" width="54" height="54"/> </g> </svg></a><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="NIDEC — Núcleo de Inovação e Desenvolvimento de Experimentos Científicos"> <title>NIDEC — Núcleo de Inovação e Desenvolvimento de Experimentos Científicos</title> <defs> <linearGradient id="inst-nidec-o1" gradientUnits="userSpaceOnUse" x1="8" y1="100" x2="192" y2="100" gradientTransform="rotate(-30 100 100)"> <stop offset="0" stop-color="#4A1F95"/><stop offset=".38" stop-color="#2C5AA4"/> <stop offset=".70" stop-color="#2CC2A2"/><stop offset="1" stop-color="#2C9E41"/> </linearGradient> <linearGradient id="inst-nidec-o2" gradientUnits="userSpaceOnUse" x1="8" y1="100" x2="192" y2="100" gradientTransform="rotate(-90 100 100)"> <stop offset="0" stop-color="#4A1F95"/><stop offset=".38" stop-color="#2C5AA4"/> <stop offset=".70" stop-color="#2CC2A2"/><stop offset="1" stop-color="#2C9E41"/> </linearGradient> <linearGradient id="inst-nidec-o3" gradientUnits="userSpaceOnUse" x1="8" y1="100" x2="192" y2="100" gradientTransform="rotate(-150 100 100)"> <stop offset="0" stop-color="#4A1F95"/><stop offset=".38" stop-color="#2C5AA4"/> <stop offset=".70" stop-color="#2CC2A2"/><stop offset="1" stop-color="#2C9E41"/> </linearGradient> <radialGradient id="inst-nidec-nucleo" cx="40%" cy="36%" r="70%"> <stop offset="0" stop-color="#A0EBE1"/> <stop offset=".45" stop-color="#2CC8C2"/> <stop offset="1" stop-color="#1E5DA5"/> </radialGradient> </defs> <g fill="none" stroke-width="8"> <g transform="rotate(30 100 100)" stroke="url(#inst-nidec-o1)"> <ellipse cx="100" cy="100" rx="88" ry="31"/> <circle cx="188" cy="100" r="8" fill="url(#inst-nidec-o1)" stroke="none"/> </g> <g transform="rotate(90 100 100)" stroke="url(#inst-nidec-o2)"> <ellipse cx="100" cy="100" rx="88" ry="31"/> <circle cx="12" cy="100" r="8" fill="url(#inst-nidec-o2)" stroke="none"/> </g> <g transform="rotate(150 100 100)" stroke="url(#inst-nidec-o3)"> <ellipse cx="100" cy="100" rx="88" ry="31"/> <circle cx="188" cy="100" r="8" fill="url(#inst-nidec-o3)" stroke="none"/> </g> </g> <circle cx="100" cy="100" r="23" fill="url(#inst-nidec-nucleo)"/> </svg></div><div class="fe-agr-marca"><a href="https://nidecop-jafb.github.io/fe1-oa/agradecimentos/" title="Agradecimentos &middot; F&iacute;sica e Poesia"><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Agradecimentos — Física e Poesia"> <g fill="none" stroke="#7FB2D6" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"> <path d="M 60 44 C 46 36 28 36 12 40 L 12 104 C 28 100 46 100 60 108 C 74 100 92 100 108 104 L 108 40 C 92 36 74 36 60 44 Z"/> <line x1="60" y1="44" x2="60" y2="108"/> </g> <g stroke="#7FB2D6" stroke-width="2" stroke-linecap="round" opacity=".7"> <line x1="22" y1="58" x2="50" y2="56"/><line x1="22" y1="70" x2="50" y2="68"/><line x1="22" y1="82" x2="44" y2="81"/> </g> <path d="M 68 70 C 72 62 76 62 80 70 S 88 78 92 70 S 98 62 100 66" fill="none" stroke="#E07B39" stroke-width="2.5" stroke-linecap="round"/> <path d="M 104 8 C 86 12 72 24 66 44 C 80 40 94 28 104 8 Z" fill="none" stroke="#E07B39" stroke-width="3" stroke-linejoin="round"/> <line x1="100" y1="13" x2="62" y2="56" stroke="#E07B39" stroke-width="3" stroke-linecap="round"/> </svg></a></div><div class="fe-rodape-texto">IFMG campus Ouro Preto - Coordenadoria da Área de Física (CODAFIS) - Núcleo de Inovação e Desenvolvimento de Experimentos Científicos (NIDEC) &middot; Primeira edição &middot; 2026</div></div><!-- RODAPE-FE:FIM -->
+  <div class="rodape-print">
+    FE-T0E · RC v1 (estudante) · página 4 de 4
+  </div>
+</div>
+
+<div class="barra-tela">
+  <button class="btn" onclick="abrirParaImpressao()">Imprimir (A4 — 4 páginas)</button>
+  <div class="nota">
+    O botão abre uma <strong>janela nova</strong> só com a folha e já chama a impressão. Em "Salvar como PDF", o navegador sugere o nome correto: <strong>FE-T0E-RC-v1-estudante</strong>.<br>
+    A calculadora e o prompt ficam só na tela; no papel, você escreve à mão.
+  </div>
+</div>
+
+</div><!-- .folha -->
+
+<script>
+/* Impressao em janela propria (padrao FA): o <title> vira o nome sugerido do
+   PDF, a barra de botoes fica de fora e o @page { margin: 0 } suprime o
+   cabecalho/rodape que o navegador injeta. */
+var NOME_ARQUIVO_PDF = 'FE-T0E-RC-v1-estudante';
+
+function abrirParaImpressao() {
+  var folha = document.querySelector('.folha').cloneNode(true);
+  var barra = folha.querySelector('.barra-tela');
+  if (barra) { barra.parentNode.removeChild(barra); }
+
+  var w = window.open('', '_blank');
+  if (!w) {
+    alert('O navegador bloqueou a janela de impressao.\n' +
+          'Libere os pop-ups para esta página e clique de novo.');
+    return;
+  }
+
+  w.document.open();
+  w.document.write(
+    '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8">' +
+    '<base href="' + document.baseURI + '">' +
+    '<title>' + NOME_ARQUIVO_PDF + '</title>' +
+    document.querySelector('style').outerHTML +
+    '</head><body>' + folha.outerHTML + '</body></html>'
+  );
+  w.document.close();
+
+  var imprimir = function () { w.focus(); w.print(); };
+  if (w.document.readyState === 'complete') { setTimeout(imprimir, 500); }
+  else { w.addEventListener('load', function () { setTimeout(imprimir, 500); }); }
+}
+</script>
+
+<script>
+/* FE-T0E-RC v1: calculadora dos minimos quadrados e botoes de copiar (gerar_rc_t0e_fe.py) */
+(function () {
+  var CHAVE = 'FE-T0E-RC-v1', est = {};
+  try { est = JSON.parse(localStorage.getItem(CHAVE) || '{}'); } catch (e) {}
+  document.querySelectorAll('[data-k]').forEach(function (c) {
+    if (est[c.dataset.k] != null) { c.value = est[c.dataset.k]; }
+    c.addEventListener('input', function () {
+      est[c.dataset.k] = c.value;
+      try { localStorage.setItem(CHAVE, JSON.stringify(est)); } catch (e) {}
+    });
+  });
+  function num(v) { v = String(v || '').replace(/\s/g, '').replace(',', '.'); return v === '' ? NaN : Number(v); }
+  function fmt(x, c) { return x.toFixed(c).replace('.', ','); }
+  function ajusteMQ(xs, ys) {
+    var n = xs.length, mx = 0, my = 0, sxx = 0, sxy = 0, s2 = 0, i;
+    for (i = 0; i < n; i++) { mx += xs[i]; my += ys[i]; }
+    mx /= n; my /= n;
+    for (i = 0; i < n; i++) { sxx += (xs[i] - mx) * (xs[i] - mx); sxy += (xs[i] - mx) * (ys[i] - my); }
+    var a = sxy / sxx, b = my - a * mx;
+    for (i = 0; i < n; i++) { var r = ys[i] - a * xs[i] - b; s2 += r * r; }
+    s2 /= (n - 2);
+    return { a: a, b: b, ua: Math.sqrt(s2 / sxx), ub: Math.sqrt(s2 * (1 / n + mx * mx / sxx)), n: n };
+  }
+  function grafico(xs, ys, r) {
+    var W = 520, H = 340, m = { e: 54, d: 16, t: 14, b: 44 }, xmax = 160, ymax = 500;
+    function X(x) { return m.e + x / xmax * (W - m.e - m.d); }
+    function Y(y) { return H - m.b - y / ymax * (H - m.t - m.b); }
+    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Gráfico C × D com a reta ajustada">';
+    s += '<line x1="' + X(0) + '" y1="' + Y(0) + '" x2="' + X(xmax) + '" y2="' + Y(0) + '" stroke="#1A1A1A"/>';
+    s += '<line x1="' + X(0) + '" y1="' + Y(0) + '" x2="' + X(0) + '" y2="' + Y(ymax) + '" stroke="#1A1A1A"/>';
+    for (var k = 0; k <= 4; k++) {
+      var gx = xmax * k / 4, gy = ymax * k / 4;
+      s += '<text x="' + X(gx) + '" y="' + (Y(0) + 16) + '" font-size="11" text-anchor="middle">' + fmt(gx, 0) + '</text>';
+      s += '<text x="' + (X(0) - 6) + '" y="' + (Y(gy) + 4) + '" font-size="11" text-anchor="end">' + fmt(gy, 0) + '</text>';
+    }
+    s += '<text x="' + (W - m.d) + '" y="' + (H - 6) + '" font-size="12" text-anchor="end">D (mm)</text>';
+    s += '<text x="6" y="12" font-size="12">C (mm)</text>';
+    s += '<line x1="' + X(0) + '" y1="' + Y(r.b) + '" x2="' + X(xmax) + '" y2="' + Y(r.a * xmax + r.b) + '" stroke="#E07B39" stroke-width="2"/>';
+    for (var i = 0; i < xs.length; i++) s += '<circle cx="' + X(xs[i]) + '" cy="' + Y(ys[i]) + '" r="4" fill="#7FB2D6" stroke="#1A1A1A"/>';
+    return s + '</svg>';
+  }
+  var bt = document.getElementById('calcular');
+  if (bt) {
+    bt.addEventListener('click', function () {
+      var xs = [], ys = [];
+      for (var i = 1; i <= 5; i++) {
+        var d = num((document.querySelector('[data-k="D' + i + '"]') || {}).value);
+        var c = num((document.querySelector('[data-k="C' + i + '"]') || {}).value);
+        if (!isNaN(d) && !isNaN(c)) { xs.push(d); ys.push(c); }
+      }
+      var out = document.getElementById('res');
+      if (xs.length < 3) { out.innerHTML = '<span class="erro">Preencha D e C de pelo menos três discos (o ideal são os cinco).</span>'; return; }
+      var r = ajusteMQ(xs, ys);
+      out.innerHTML = 'n = ' + r.n + ' discos<br>a = ' + fmt(r.a, 4) + ' &nbsp; u(a) = ' + fmt(r.ua, 4) +
+        '<br>b = ' + fmt(r.b, 2) + ' mm &nbsp; u(b) = ' + fmt(r.ub, 2) + ' mm' +
+        '<br>Valores sem arredondar: arredonde a incerteza (1 ou 2 algarismos) e o valor junto com ela.' + grafico(xs, ys, r);
+    });
+  }
+  document.querySelectorAll('.copiar').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var t = b.parentNode.querySelector('.prompt-txt').textContent;
+      var ok = function () { var o = b.textContent; b.textContent = 'Copiado!'; setTimeout(function () { b.textContent = o; }, 1500); };
+      if (navigator.clipboard) { navigator.clipboard.writeText(t).then(ok, ok); } else { ok(); }
+    });
+  });
+})();
+</script>
+<!-- ABA-SITE (injetada na publicacao — nao existe no OA canonico) -->
+<style>
+.aba-site-toggle { position: fixed; top: 56px; left: 0; z-index: 999; background: #1a1b1f; border: 1px solid #444; border-left: none; color: #bbb; font-size: .7rem; padding: 8px 10px; cursor: pointer; font-family: 'Courier New', Courier, monospace; writing-mode: vertical-rl; text-orientation: mixed; letter-spacing: 1px; text-transform: uppercase; transition: color .15s; border-radius: 0; }
+.aba-site-toggle:hover { color: #E07B39; }
+.aba-site-painel { position: fixed; top: 0; left: 0; z-index: 1001; width: 330px; max-width: 86vw; height: 100vh; overflow-y: auto; background: #1a1b1f; border-right: 1px solid #444; padding: 24px 22px 24px 42px; transform: translateX(-100%); transition: transform .25s; font-family: 'Courier New', Courier, monospace; font-size: .92rem; color: #c4c4c4; line-height: 1.6; }
+.aba-site-painel.open { transform: translateX(0); }
+.aba-site-painel h3 { font-family: 'Courier New', Courier, monospace; font-size: .8rem; text-transform: uppercase; letter-spacing: 2px; color: #E07B39; border-bottom: 1px solid #444; padding-bottom: 8px; margin: 0 0 14px; }
+.aba-site-painel a.aba-site-btn { display: block; margin: 10px 0; padding: 11px 14px; border: 1px solid #444; color: #e8e8e8; text-decoration: none; font-family: 'Courier New', Courier, monospace; font-size: .85rem; }
+.aba-site-painel a.aba-site-btn:hover { border-color: #E07B39; color: #E07B39; }
+/* TT: abre espaco no topo do trilho e oculta a aba Figuras (decisao 2026-08-08) */
+.musica-toggle { top: 128px !important; }
+.ineditismo-toggle { top: 210px !important; }
+.toc-toggle { top: 330px !important; }
+.creditos-toggle { top: 418px !important; }
+.figuras-toggle, .figuras-sidebar { display: none !important; }
+/* Celular: a aba fica sobre o conteudo, porque em tela estreita o texto ocupa
+   a largura toda e o trilho e `position: fixed` na borda esquerda. Abrir uma
+   faixa no body empurra TUDO para a direita — vale para a aba Site e para o
+   trilho do TT (Musica/Ineditismo/Sumario/Creditos), todos em left: 0.
+   Com `box-sizing: border-box` (padrao nos OAs) nao cria rolagem lateral. */
+@media (max-width: 600px) {
+  body { padding-left: 30px; }
+  .aba-site-toggle { font-size: .6rem; padding: 6px 6px; }
+  .aba-site-painel { width: 86vw; }
+}
+@media print { .aba-site-toggle, .aba-site-painel { display: none !important; } }
+</style>
+<button class="aba-site-toggle" id="abaSiteToggle">Site</button>
+<aside class="aba-site-painel" id="abaSitePainel">
+  <h3>Site</h3>
+  <a class="aba-site-btn" href="https://nidecop-jafb.github.io/fe1-oa/#t0e">Ver todos os OAs da trilha</a>
+  <a class="aba-site-btn" href="https://nidecop-jafb.github.io/fe1-oa/">Início do site</a>
+  <a class="aba-site-btn" href="https://nidecop-jafb.github.io/fc1-oa/">Disciplina irmã: FC1 — Física Conceitual 1</a>
+</aside>
+<script>
+(function () {
+  var t = document.getElementById('abaSiteToggle');
+  var p = document.getElementById('abaSitePainel');
+  var outras = '.metodo-sidebar,.musica-sidebar,.ineditismo-sidebar,.toc-sidebar,.projeto-sidebar,.creditos-sidebar,.figuras-sidebar';
+  t.addEventListener('click', function () {
+    p.classList.toggle('open');
+    document.querySelectorAll(outras).forEach(function (s) { s.classList.remove('open'); });
+  });
+  document.addEventListener('click', function (e) {
+    if (!p.contains(e.target) && e.target !== t) { p.classList.remove('open'); }
+  });
+})();
+</script>
+</body>
+</html>
