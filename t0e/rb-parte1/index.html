@@ -878,6 +878,9 @@ table.rubrica-trilha td:last-child { text-align: center; width: 18mm; white-spac
   .pagina:has(> .fe-rodape) { padding-top: 7mm; padding-bottom: 4mm; }
 }
 /* /CAB-IMP-FE */
+
+/* ==== v4: Century Gothic no corpo do RB (PRE-outro-t0e-rb-v4-parte1-century-gothic-fe1-2026-11-05) ==== */
+body, body * { font-family: 'Century Gothic', 'URW Gothic L', Arial, sans-serif !important; }
 </style>
 </head>
 <body data-pagina="t0e:rb-parte1">
@@ -935,6 +938,7 @@ table.rubrica-trilha td:last-child { text-align: center; width: 18mm; white-spac
     <div class="texto">
       <p>Na correia transportadora de uma mina, o tambor de diâmetro D puxa, a cada volta, um comprimento C de correia — e o minério anda junto. Nos engenhos de Ouro Preto do século XVIII, a roda-d'água fazia a mesma conta para mover os pilões que esmagavam o minério de ouro. E é com ela que o velocímetro da sua bicicleta transforma voltas da roda em quilômetros.</p>
       <p>Em todos esses casos, C/D é o mesmo número: π. Neste Roteiro de Bancada (RB) você mede C e D em cinco discos e obtém o π de dois jeitos: pela <strong>média</strong> e pelo <strong>desvio-padrão da média</strong> (Parte 2) e pela <strong>declividade</strong> de um gráfico feito à mão (Parte 3). Hoje você só mede: os dados vêm antes da fórmula.</p>
+      <p>Um terceiro jeito, com apoio de IA, aparece no Relatório Completo (RC) do Pós-Lab: o método dos mínimos quadrados ajusta uma reta aos seus pontos e dá a declividade com a sua incerteza, a mesma ideia usada em pesquisa científica na Física e na Mineração.</p>
     </div>
   </div>
 
@@ -945,16 +949,16 @@ table.rubrica-trilha td:last-child { text-align: center; width: 18mm; white-spac
       
     </div>
     <ol class="protocolo-lista">
-      <li data-n="1.">Comece pela estação indicada pelo professor e siga a ordem 1 → 2 → 3 → 4 → 5 → 1. Cada estação tem um disco de acrílico numerado, com o diâmetro D impresso, uma régua de 0,0 a 500,0 mm, tiras de papel e tesoura.</li>
-      <li data-n="2.">Apoie a tira de papel sobre a régua. Ponha o disco em pé sobre a tira, com o ponto A no início dela (Figura 1).</li>
-      <li data-n="3.">Empurre o disco pelo centro, sem deixá-lo escorregar, até o ponto A voltar a tocar a tira. Faça ali um pequeno traço a lápis. Repita 3 vezes, sempre a partir do início da tira.</li>
-      <li data-n="4.">Corte a tira na <strong>posição média dos 3 traços</strong>. Escreva na tira, a lápis, o número da estação e o seu RA.</li>
-      <li data-n="5.">Meça com a mesma régua o comprimento C da tira, em mm, com 1 casa decimal (o décimo de milímetro é o duvidoso). Anote na Tabela 1 o n.º do disco, o D impresso e o C. Siga para a próxima estação.</li>
+      <li data-n="1.">Comece por qualquer estação (campo "Começa na estação"), passe pelas 5 e termine com as 5 tiras prontas para a Estação 6. Cada estação tem um disco de acrílico numerado, com o diâmetro D impresso, uma régua de 0,0 a 500,0 mm, tiras de papel e tesoura.</li>
+      <li data-n="2.">Apoie a tira de papel sobre a régua, com o ponto A no início dela (Figura 1). Ponha o disco em pé sobre a tira.</li>
+      <li data-n="3.">Empurre o disco pelo centro, sem deixá-lo escorregar, até o ponto A voltar a tocar a tira. Faça ali um traço a lápis. Repita 3 vezes, sempre a partir do início da tira.</li>
+      <li data-n="4.">Escreva na tira, a lápis, o n.º do disco. Não corte agora: o corte é na Estação 6.</li>
+      <li data-n="5.">Anote na Tabela 1 o n.º do disco e o D impresso. Siga para a próxima estação.</li>
     </ol>
   </div>
 
   <div class="rodape-print">
-    FE-T0E · RB v3 · Parte 1 (estudante) · página 1 de 2
+    FE-T0E · RB v4 · Parte 1 (estudante) · página 1 de 2
   </div>
 </div>
 
@@ -1045,22 +1049,22 @@ table.rubrica-trilha td:last-child { text-align: center; width: 18mm; white-spac
 <line x1="160.0" y1="33.0" x2="160.0" y2="35.2" stroke="#333" stroke-width=".25"/>
 <text x="150" y="31.0" font-size="3" text-anchor="end" fill="#555">tira de papel</text>
 <text x="100" y="40.0" font-size="2.8" text-anchor="middle">régua de 0,0 a 500,0 mm</text>
-<line x1="22.0" y1="26.0" x2="22.0" y2="33.0" stroke="#C00000" stroke-width=".7"/>
-<text x="22.0" y="44.5" font-size="2.8" fill="#C00000" text-anchor="middle">início da tira</text>
-<circle cx="22.0" cy="19.0" r="7.0" fill="#E8F4FA" stroke="#1A1A1A" stroke-width=".6"/>
-<circle cx="22.0" cy="19.0" r=".9" fill="#1A1A1A"/>
-<line x1="22.0" y1="12.0" x2="22.0" y2="26.0" stroke="#1A1A1A" stroke-width=".35" stroke-dasharray="1.2 .8"/>
-<text x="23.4" y="16.5" font-size="3.2" font-style="italic">D</text>
-<circle cx="22.0" cy="26.0" r="1.3" fill="#C00000"/>
-<text x="17.0" y="25.0" font-size="3.4" font-weight="700" fill="#C00000">A</text>
-<circle cx="66.0" cy="19.0" r="7.0" fill="none" stroke="#777" stroke-width=".45" stroke-dasharray="1.5 1"/>
-<circle cx="66.0" cy="26.0" r="1.3" fill="#C00000"/>
-<line x1="66.0" y1="26.0" x2="66.0" y2="33.0" stroke="#C00000" stroke-width=".9"/>
-<text x="66.0" y="44.5" font-size="2.8" fill="#C00000" text-anchor="middle">traço: uma volta</text>
-<path d="M33.0 19.0 L55.0 19.0" stroke="#555" stroke-width=".5" marker-end="url(#seta)"/>
-<text x="44.0" y="9.5" font-size="3" text-anchor="middle" fill="#555">o disco rola sem escorregar, empurrado pelo centro</text>
-<line x1="22.0" y1="48.0" x2="66.0" y2="48.0" stroke="#1A1A1A" stroke-width=".35" marker-start="url(#seta2)" marker-end="url(#seta)"/>
-<text x="44.0" y="51.5" font-size="3.2" text-anchor="middle"><tspan font-style="italic">C</tspan> = do início da tira ao traço</text>
+<line x1="10.0" y1="26.0" x2="10.0" y2="33.0" stroke="#C00000" stroke-width=".7"/>
+<text x="10.0" y="44.5" font-size="2.8" fill="#C00000" text-anchor="middle">início da tira</text>
+<circle cx="10.0" cy="19.0" r="7.0" fill="#E8F4FA" stroke="#1A1A1A" stroke-width=".6"/>
+<circle cx="10.0" cy="19.0" r=".9" fill="#1A1A1A"/>
+<line x1="10.0" y1="12.0" x2="10.0" y2="26.0" stroke="#1A1A1A" stroke-width=".35" stroke-dasharray="1.2 .8"/>
+<text x="11.4" y="16.5" font-size="3.2" font-style="italic">D</text>
+<circle cx="10.0" cy="26.0" r="1.3" fill="#C00000"/>
+<text x="5.0" y="25.0" font-size="3.4" font-weight="700" fill="#C00000">A</text>
+<circle cx="54.0" cy="19.0" r="7.0" fill="none" stroke="#777" stroke-width=".45" stroke-dasharray="1.5 1"/>
+<circle cx="54.0" cy="26.0" r="1.3" fill="#C00000"/>
+<line x1="54.0" y1="26.0" x2="54.0" y2="33.0" stroke="#C00000" stroke-width=".9"/>
+<text x="54.0" y="44.5" font-size="2.8" fill="#C00000" text-anchor="middle">traço: uma volta</text>
+<path d="M21.0 19.0 L43.0 19.0" stroke="#555" stroke-width=".5" marker-end="url(#seta)"/>
+<text x="85.0" y="9.5" font-size="3" text-anchor="middle" fill="#555">o disco rola sem escorregar, empurrado pelo centro</text>
+<line x1="10.0" y1="48.0" x2="54.0" y2="48.0" stroke="#1A1A1A" stroke-width=".35" marker-start="url(#seta2)" marker-end="url(#seta)"/>
+<text x="32.0" y="51.5" font-size="3.2" text-anchor="middle"><tspan font-style="italic">C</tspan> = do início da tira ao traço</text>
 <defs><marker id="seta" markerWidth="4" markerHeight="4" refX="3.5" refY="2" orient="auto"><path d="M0 0 L4 2 L0 4 z" fill="#1A1A1A"/></marker><marker id="seta2" markerWidth="4" markerHeight="4" refX=".5" refY="2" orient="auto"><path d="M4 0 L0 2 L4 4 z" fill="#1A1A1A"/></marker></defs>
 </svg>
     </div>
@@ -1094,9 +1098,11 @@ table.rubrica-trilha td:last-child { text-align: center; width: 18mm; white-spac
       
     </div>
     <ol class="protocolo-lista">
-      <li data-n="6.">Leve as suas 5 tiras à Estação 6. Na cartolina da turma, o professor marcou o eixo horizontal D e o eixo vertical C, com a origem comum, e as posições x = 90,0 · 105,0 · 120,0 · 135,0 · 150,0 mm.</li>
-      <li data-n="7.">Cole cada tira <strong>em pé</strong>, com a base no eixo horizontal, na posição x = D do seu disco (Figura 2). As tiras do mesmo disco ficam umas sobre as outras: o que aparece é o topo de cada uma.</li>
-      <li data-n="8.">Quando todos tiverem colado, o professor estica um barbante sobre os topos. <strong>Fotografe a cartolina inteira</strong>, de frente, com o celular.</li>
+      <li data-n="6.">Para cada uma das suas 5 tiras, corte na <strong>posição média dos 3 traços</strong>. Meça com a mesma régua o comprimento C da tira, em mm, com 1 casa decimal (o décimo de milímetro é o duvidoso).</li>
+      <li data-n="7.">Anote na tira, a lápis: o n.º do disco, a medida de D, a medida de C, o seu nome e o seu RA. Complete a Tabela 1.</li>
+      <li data-n="8.">Posicione uma régua na horizontal e outra na vertical na cartolina, como escalas (Figura 2).</li>
+      <li data-n="9.">Posicione cada tira em pé, com a base no eixo horizontal, na posição x = D do seu disco.</li>
+      <li data-n="10.">Quando as 5 tiras estiverem posicionadas, estique o barbante sobre os topos. <strong>Fotografe a cartolina inteira</strong>, com foco no barbante, que representa o gráfico cartesiano C × D.</li>
     </ol>
     <div class="legenda">Figura 2 — A cartolina coletiva da Estação 6 — esquema, fora de escala</div>
     <div class="figura-svg">
@@ -1161,16 +1167,16 @@ table.rubrica-trilha td:last-child { text-align: center; width: 18mm; white-spac
     </table>
     <div class="fonte-abnt">Fonte: Plano de Ensino da Física Experimental 1, seção 9.1.</div>
   </div>
-  <!-- RODAPE-FE:INICIO --><div class="fe-rodape"><div class="fe-inst-marcas"><a href="https://ouropreto.ifmg.edu.br/ouropreto" target="_blank" rel="noopener" title="IFMG — Campus Ouro Preto (abre em nova aba)"><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="-36.75 -4 258.5 258.5" role="img" aria-label="Instituto Federal de Minas Gerais"> <title>Instituto Federal de Minas Gerais</title> <circle cx="27" cy="27" r="30" fill="#C8191E"/> <g fill="#32A041"> <rect x="65.5" y="0" width="54" height="54"/> <rect x="131" y="0" width="54" height="54"/> <rect x="0" y="65.5" width="54" height="54"/> <rect x="65.5" y="65.5" width="54" height="54"/> <rect x="0" y="131" width="54" height="54"/> <rect x="65.5" y="131" width="54" height="54"/> <rect x="131" y="131" width="54" height="54"/> <rect x="0" y="196.5" width="54" height="54"/> <rect x="65.5" y="196.5" width="54" height="54"/> </g> </svg></a><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="NIDEC — Núcleo de Inovação e Desenvolvimento de Experimentos Científicos"> <title>NIDEC — Núcleo de Inovação e Desenvolvimento de Experimentos Científicos</title> <defs> <linearGradient id="inst-nidec-o1" gradientUnits="userSpaceOnUse" x1="8" y1="100" x2="192" y2="100" gradientTransform="rotate(-30 100 100)"> <stop offset="0" stop-color="#4A1F95"/><stop offset=".38" stop-color="#2C5AA4"/> <stop offset=".70" stop-color="#2CC2A2"/><stop offset="1" stop-color="#2C9E41"/> </linearGradient> <linearGradient id="inst-nidec-o2" gradientUnits="userSpaceOnUse" x1="8" y1="100" x2="192" y2="100" gradientTransform="rotate(-90 100 100)"> <stop offset="0" stop-color="#4A1F95"/><stop offset=".38" stop-color="#2C5AA4"/> <stop offset=".70" stop-color="#2CC2A2"/><stop offset="1" stop-color="#2C9E41"/> </linearGradient> <linearGradient id="inst-nidec-o3" gradientUnits="userSpaceOnUse" x1="8" y1="100" x2="192" y2="100" gradientTransform="rotate(-150 100 100)"> <stop offset="0" stop-color="#4A1F95"/><stop offset=".38" stop-color="#2C5AA4"/> <stop offset=".70" stop-color="#2CC2A2"/><stop offset="1" stop-color="#2C9E41"/> </linearGradient> <radialGradient id="inst-nidec-nucleo" cx="40%" cy="36%" r="70%"> <stop offset="0" stop-color="#A0EBE1"/> <stop offset=".45" stop-color="#2CC8C2"/> <stop offset="1" stop-color="#1E5DA5"/> </radialGradient> </defs> <g fill="none" stroke-width="8"> <g transform="rotate(30 100 100)" stroke="url(#inst-nidec-o1)"> <ellipse cx="100" cy="100" rx="88" ry="31"/> <circle cx="188" cy="100" r="8" fill="url(#inst-nidec-o1)" stroke="none"/> </g> <g transform="rotate(90 100 100)" stroke="url(#inst-nidec-o2)"> <ellipse cx="100" cy="100" rx="88" ry="31"/> <circle cx="12" cy="100" r="8" fill="url(#inst-nidec-o2)" stroke="none"/> </g> <g transform="rotate(150 100 100)" stroke="url(#inst-nidec-o3)"> <ellipse cx="100" cy="100" rx="88" ry="31"/> <circle cx="188" cy="100" r="8" fill="url(#inst-nidec-o3)" stroke="none"/> </g> </g> <circle cx="100" cy="100" r="23" fill="url(#inst-nidec-nucleo)"/> </svg></div><div class="fe-agr-marca"><a href="https://nidecop-jafb.github.io/fe1-oa/agradecimentos/" title="Agradecimentos &middot; F&iacute;sica e Poesia"><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Agradecimentos — Física e Poesia"> <g fill="none" stroke="#7FB2D6" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"> <path d="M 60 44 C 46 36 28 36 12 40 L 12 104 C 28 100 46 100 60 108 C 74 100 92 100 108 104 L 108 40 C 92 36 74 36 60 44 Z"/> <line x1="60" y1="44" x2="60" y2="108"/> </g> <g stroke="#7FB2D6" stroke-width="2" stroke-linecap="round" opacity=".7"> <line x1="22" y1="58" x2="50" y2="56"/><line x1="22" y1="70" x2="50" y2="68"/><line x1="22" y1="82" x2="44" y2="81"/> </g> <path d="M 68 70 C 72 62 76 62 80 70 S 88 78 92 70 S 98 62 100 66" fill="none" stroke="#E07B39" stroke-width="2.5" stroke-linecap="round"/> <path d="M 104 8 C 86 12 72 24 66 44 C 80 40 94 28 104 8 Z" fill="none" stroke="#E07B39" stroke-width="3" stroke-linejoin="round"/> <line x1="100" y1="13" x2="62" y2="56" stroke="#E07B39" stroke-width="3" stroke-linecap="round"/> </svg></a></div><div class="fe-rodape-texto">IFMG campus Ouro Preto - Coordenadoria da Área de Física (CODAFIS) - Núcleo de Inovação e Desenvolvimento de Experimentos Científicos (NIDEC) &middot; Primeira edição &middot; 2026<span class="fe-pag"> &middot; FE-T0E · RB v3 · Parte 1 (estudante) · página 2 de 2</span></div></div><!-- RODAPE-FE:FIM -->
+  <!-- RODAPE-FE:INICIO --><div class="fe-rodape"><div class="fe-inst-marcas"><a href="https://ouropreto.ifmg.edu.br/ouropreto" target="_blank" rel="noopener" title="IFMG — Campus Ouro Preto (abre em nova aba)"><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="-36.75 -4 258.5 258.5" role="img" aria-label="Instituto Federal de Minas Gerais"> <title>Instituto Federal de Minas Gerais</title> <circle cx="27" cy="27" r="30" fill="#C8191E"/> <g fill="#32A041"> <rect x="65.5" y="0" width="54" height="54"/> <rect x="131" y="0" width="54" height="54"/> <rect x="0" y="65.5" width="54" height="54"/> <rect x="65.5" y="65.5" width="54" height="54"/> <rect x="0" y="131" width="54" height="54"/> <rect x="65.5" y="131" width="54" height="54"/> <rect x="131" y="131" width="54" height="54"/> <rect x="0" y="196.5" width="54" height="54"/> <rect x="65.5" y="196.5" width="54" height="54"/> </g> </svg></a><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="NIDEC — Núcleo de Inovação e Desenvolvimento de Experimentos Científicos"> <title>NIDEC — Núcleo de Inovação e Desenvolvimento de Experimentos Científicos</title> <defs> <linearGradient id="inst-nidec-o1" gradientUnits="userSpaceOnUse" x1="8" y1="100" x2="192" y2="100" gradientTransform="rotate(-30 100 100)"> <stop offset="0" stop-color="#4A1F95"/><stop offset=".38" stop-color="#2C5AA4"/> <stop offset=".70" stop-color="#2CC2A2"/><stop offset="1" stop-color="#2C9E41"/> </linearGradient> <linearGradient id="inst-nidec-o2" gradientUnits="userSpaceOnUse" x1="8" y1="100" x2="192" y2="100" gradientTransform="rotate(-90 100 100)"> <stop offset="0" stop-color="#4A1F95"/><stop offset=".38" stop-color="#2C5AA4"/> <stop offset=".70" stop-color="#2CC2A2"/><stop offset="1" stop-color="#2C9E41"/> </linearGradient> <linearGradient id="inst-nidec-o3" gradientUnits="userSpaceOnUse" x1="8" y1="100" x2="192" y2="100" gradientTransform="rotate(-150 100 100)"> <stop offset="0" stop-color="#4A1F95"/><stop offset=".38" stop-color="#2C5AA4"/> <stop offset=".70" stop-color="#2CC2A2"/><stop offset="1" stop-color="#2C9E41"/> </linearGradient> <radialGradient id="inst-nidec-nucleo" cx="40%" cy="36%" r="70%"> <stop offset="0" stop-color="#A0EBE1"/> <stop offset=".45" stop-color="#2CC8C2"/> <stop offset="1" stop-color="#1E5DA5"/> </radialGradient> </defs> <g fill="none" stroke-width="8"> <g transform="rotate(30 100 100)" stroke="url(#inst-nidec-o1)"> <ellipse cx="100" cy="100" rx="88" ry="31"/> <circle cx="188" cy="100" r="8" fill="url(#inst-nidec-o1)" stroke="none"/> </g> <g transform="rotate(90 100 100)" stroke="url(#inst-nidec-o2)"> <ellipse cx="100" cy="100" rx="88" ry="31"/> <circle cx="12" cy="100" r="8" fill="url(#inst-nidec-o2)" stroke="none"/> </g> <g transform="rotate(150 100 100)" stroke="url(#inst-nidec-o3)"> <ellipse cx="100" cy="100" rx="88" ry="31"/> <circle cx="188" cy="100" r="8" fill="url(#inst-nidec-o3)" stroke="none"/> </g> </g> <circle cx="100" cy="100" r="23" fill="url(#inst-nidec-nucleo)"/> </svg></div><div class="fe-agr-marca"><a href="https://nidecop-jafb.github.io/fe1-oa/agradecimentos/" title="Agradecimentos &middot; F&iacute;sica e Poesia"><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Agradecimentos — Física e Poesia"> <g fill="none" stroke="#7FB2D6" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"> <path d="M 60 44 C 46 36 28 36 12 40 L 12 104 C 28 100 46 100 60 108 C 74 100 92 100 108 104 L 108 40 C 92 36 74 36 60 44 Z"/> <line x1="60" y1="44" x2="60" y2="108"/> </g> <g stroke="#7FB2D6" stroke-width="2" stroke-linecap="round" opacity=".7"> <line x1="22" y1="58" x2="50" y2="56"/><line x1="22" y1="70" x2="50" y2="68"/><line x1="22" y1="82" x2="44" y2="81"/> </g> <path d="M 68 70 C 72 62 76 62 80 70 S 88 78 92 70 S 98 62 100 66" fill="none" stroke="#E07B39" stroke-width="2.5" stroke-linecap="round"/> <path d="M 104 8 C 86 12 72 24 66 44 C 80 40 94 28 104 8 Z" fill="none" stroke="#E07B39" stroke-width="3" stroke-linejoin="round"/> <line x1="100" y1="13" x2="62" y2="56" stroke="#E07B39" stroke-width="3" stroke-linecap="round"/> </svg></a></div><div class="fe-rodape-texto">IFMG campus Ouro Preto - Coordenadoria da Área de Física (CODAFIS) - Núcleo de Inovação e Desenvolvimento de Experimentos Científicos (NIDEC) &middot; Primeira edição &middot; 2026<span class="fe-pag"> &middot; FE-T0E · RB v4 · Parte 1 (estudante) · página 2 de 2</span></div></div><!-- RODAPE-FE:FIM -->
   <div class="rodape-print">
-    FE-T0E · RB v3 · Parte 1 (estudante) · página 2 de 2
+    FE-T0E · RB v4 · Parte 1 (estudante) · página 2 de 2
   </div>
 </div>
 
 <div class="barra-tela">
   <button class="btn" onclick="abrirParaImpressao()">Imprimir (A4 — 2 páginas)</button>
   <div class="nota">
-    O botão abre uma <strong>janela nova</strong> só com a folha e já chama a impressão. Em "Salvar como PDF", o navegador sugere o nome correto: <strong>FE-T0E-RB-v3-parte1-estudante-impresso</strong>.<br>
+    O botão abre uma <strong>janela nova</strong> só com a folha e já chama a impressão. Em "Salvar como PDF", o navegador sugere o nome correto: <strong>FE-T0E-RB-v4-parte1-estudante-impresso</strong>.<br>
     Nas opções de impressão, mantenha <strong>"Gráficos de plano de fundo"</strong> ligado.
   </div>
 </div>
@@ -1181,7 +1187,7 @@ table.rubrica-trilha td:last-child { text-align: center; width: 18mm; white-spac
 /* Impressao em janela propria (padrao FA): o <title> vira o nome sugerido do
    PDF, a barra de botoes fica de fora e o @page { margin: 0 } suprime o
    cabecalho/rodape que o navegador injeta. */
-var NOME_ARQUIVO_PDF = 'FE-T0E-RB-v3-parte1-estudante-impresso';
+var NOME_ARQUIVO_PDF = 'FE-T0E-RB-v4-parte1-estudante-impresso';
 
 function abrirParaImpressao() {
   var folha = document.querySelector('.folha').cloneNode(true);
