@@ -881,6 +881,11 @@ table.rubrica-trilha td:last-child { text-align: center; width: 18mm; white-spac
 
 /* ==== v4: Century Gothic no corpo do RB (PRE-outro-t0e-rb-v4-parte1-century-gothic-fe1-2026-11-05) ==== */
 body, body * { font-family: 'Century Gothic', 'URW Gothic L', Arial, sans-serif !important; }
+@media print {
+  .pagina { padding-bottom: 10mm; }
+  .pagina > .fe-rodape { padding-top: 6pt; line-height: 1.6; }
+  .pagina > .fe-rodape + .rodape-print { margin-top: 5pt; }
+}
 </style>
 </head>
 <body data-pagina="t0e:rb-parte1">
