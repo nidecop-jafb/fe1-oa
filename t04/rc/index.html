@@ -1035,12 +1035,22 @@ td.ed-td { cursor: text; }
 .sub4 { font-size: .9rem; font-weight: 700; color: #1F3864; margin: 6px 0 2px; }
 .enun { font-size: .86rem; margin: 2px 0 3px; }
 .svg-c { display: block; width: 92mm; max-width: 100%; height: auto; margin: 2px auto 4px; }
+.graf-grade { grid-template-columns: 1fr 1.3fr; align-items: start; }
+.graf-rc { display: block; width: 100%; max-width: 110mm; height: auto; }
+.aj { margin: 4px 0; }
+@media (max-width: 560px) { .graf-grade { grid-template-columns: 1fr; } }
 @media print {
   .enun { font-size: 8.4pt; margin: 1pt 0 2pt; }
   .sub4 { font-size: 8.8pt; margin: 3pt 0 1pt; color: #1F3864 !important; }
   .escrita .ed { font-size: 8pt; }
   [contenteditable="true"]:focus { background: none; }
   .svg-c { width: 70mm; }
+  .graf-rc { max-width: 92mm; }
+  .prof .graf-rc { max-width: 72mm; }
+  .prof .svg-c { width: 54mm; }
+  .prof .reta-dec { width: 66mm; margin: 0 auto 1pt; }
+  .p2tabs .grade-tab td { height: 11mm; }
+  .prof .p2tabs .grade-tab td { height: auto; padding-top: 1pt; padding-bottom: 1pt; }
   .grade-tab { gap: 4pt 8pt; }
 }
 html body .tau, html body span.tau { font-family: "Times New Roman", "Cambria Math", serif !important; font-style: italic; font-size: 1.12em; }
@@ -1072,7 +1082,7 @@ html body .tau, html body span.tau { font-family: "Times New Roman", "Cambria Ma
       <div class="cab-imp-tit"><span class="trilha-code">FE1-T04</span> · Equilíbrio em Gangorras e Alavancas</div>
       <div class="cab-imp-dir">Relatório Completo (RC)<br><span class="data">Pós-Lab: até ___/___/____</span></div>
     </div>
-    <div class="cab-imp-sub">Pós-Lab · Laboratório de Mecânica · uma seção por noite · à mão ou no site</div>
+    <div class="cab-imp-sub">Pós-Lab · uma seção por noite · à mão ou no site</div>
     <div class="cab-imp-sec">Identificação</div>
     <div class="id-box cab-imp-id">
       <div class="linha-id"><label>Nome:</label><div class="vazio"></div><label>Registro Acadêmico (RA):</label><div class="vazio ra"></div><label>Data:</label><span class="data-campo">______/______/_______</span></div>
@@ -1083,14 +1093,14 @@ html body .tau, html body span.tau { font-family: "Times New Roman", "Cambria Ma
   </div>
   <!-- CAB-IMP-FE:FIM -->
 
-  <div class="secao">
+  <div class="secao cresce">
     <div class="secao-titulo">
       
       <h2><span class="sn">Seção 1</span> · Introdução e Objetivo</h2>
       
     </div>
     <p class="enun">O que é equilíbrio de um corpo extenso (que pode se deslocar e também girar) e qual pergunta as duas estações respondem? Escreva o objetivo como uma pergunta, ligada a uma situação da mineração.</p>
-    <div class="escrita" style="min-height:28mm"><div class="pauta"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="ed"></div></div>
+    <div class="escrita fim" style="min-height:28mm"><div class="pauta"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="ed"></div></div>
   </div>
 
   <div class="secao cresce">
@@ -1105,14 +1115,14 @@ html body .tau, html body span.tau { font-family: "Times New Roman", "Cambria Ma
   </div>
 
   <div class="rodape-print">
-    FE1-T04 · RC v1 (estudante) · página 1 de 4 · Julio Azevedo
+    FE1-T04 · RC v2 (estudante) · página 1 de 4 · Julio Azevedo
   </div>
 </div>
 
 <!-- ═══════════ RC · PÁGINA 2 ═══════════ -->
 <div class="pagina">
 
-  <div class="secao cresce">
+  <div class="secao cresce p2tabs">
     <div class="secao-titulo">
       
       <h2><span class="sn">Seção 3</span> · Dados Brutos e Análises</h2>
@@ -1155,20 +1165,6 @@ html body .tau, html body span.tau { font-family: "Times New Roman", "Cambria Ma
       </div>
     </div>
     <div class="fonte-abnt">Fonte: elaborado pelos autores, 2026.</div>
-    <p class="enun"><strong>3.1</strong> Quanto o gancho fixo puxa a barra para cima em cada montagem? Por que o peso da barra entra na soma das forças, mas não na soma de objetos × gancho?</p>
-    <div class="escrita fim" style="min-height:21mm"><div class="pauta"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="ed"></div></div>
-  </div>
-
-  <div class="rodape-print">
-    FE1-T04 · RC v1 (estudante) · página 2 de 4 · Julio Azevedo
-  </div>
-</div>
-
-<!-- ═══════════ RC · PÁGINA 3 ═══════════ -->
-<div class="pagina">
-
-  <div class="secao">
-    <div class="secao-titulo"><h2><span class="sn">Seção 3</span> · Dados Brutos e Análises (continuação)</h2></div>
     <div class="sub4">Estação 2 · Os torques na alavanca de um braço (Partes 3 e 4 do RB)</div>
     <p class="enun">Copie do RB as Tabelas 8 a 10 (Figuras 4, 5 e 6): a força, o braço e o torque <span class="tau">τ</span> = F · d de cada puxão, com o sinal (+ anti-horário, − horário), e a soma dos torques, Σ<span class="tau">τ</span>.</p>
     <div class="grade-tab">
@@ -1189,6 +1185,36 @@ html body .tau, html body span.tau { font-family: "Times New Roman", "Cambria Ma
       </div>
     </div>
     <div class="fonte-abnt">Fonte: elaborado pelos autores, 2026.</div>
+  </div>
+
+  <div class="rodape-print">
+    FE1-T04 · RC v2 (estudante) · página 2 de 4 · Julio Azevedo
+  </div>
+</div>
+
+<!-- ═══════════ RC · PÁGINA 3 ═══════════ -->
+<div class="pagina">
+
+  <div class="secao">
+    <div class="secao-titulo"><h2><span class="sn">Seção 3</span> · Dados Brutos e Análises (continuação)</h2></div>
+    <p class="enun"><strong>3.3</strong> Leve as três montagens da Estação 2 ao Gráfico 1: <span class="tau">τ</span>ₒ no eixo horizontal e F no vertical. Escolha a escala, marque os pontos, trace a reta que passa mais perto deles e meça a declividade (Δ<i>F</i>/Δ<span class="tau">τ</span>ₒ) e o ponto de corte.</p>
+    <div class="grade-tab duas graf-grade">
+      <div>
+    <div class="legenda">Tabela 10 — Os pontos do Gráfico 1</div>
+      <table class="t0e" id="tab-graf"><thead><tr><th><span class="un">Montagem</span></th><th><span class="un"><span class="tau">τ</span>ₒ (N·m)</span></th><th><span class="un">F (N)</span></th></tr></thead>
+      <tbody><tr><td>Figura 4</td><td class="ed-td"></td><td class="ed-td"></td></tr><tr><td>Figura 5</td><td class="ed-td"></td><td class="ed-td"></td></tr><tr><td>Figura 6</td><td class="ed-td"></td><td class="ed-td"></td></tr></tbody></table>
+      <p class="dica"><span class="tau">τ</span>ₒ = torque dos objetos (o valor, sem o sinal), das Tabelas 7 a 9.</p>
+      <div class="so-tela aj"><button class="btn-copiar" onclick="ajustarReta()">Ajustar a reta (mínimos quadrados)</button><div id="aj-res" class="dica"></div></div>
+      </div>
+      <div>
+    <div class="legenda">Gráfico 1 — A força do dinamômetro (F) contra o torque dos objetos (<span class="tau">τ</span>ₒ)</div>
+      <svg id="graf-svg" class="graf-rc" viewBox="0 0 124 84" xmlns="http://www.w3.org/2000/svg" font-family="Century Gothic, Arial, sans-serif"><line x1="16.0" y1="70.0" x2="16.0" y2="6.0" stroke="#C8C8C8" stroke-width="0.60"/><line x1="26.0" y1="70.0" x2="26.0" y2="6.0" stroke="#C8C8C8" stroke-width="0.40"/><line x1="36.0" y1="70.0" x2="36.0" y2="6.0" stroke="#C8C8C8" stroke-width="0.40"/><line x1="46.0" y1="70.0" x2="46.0" y2="6.0" stroke="#C8C8C8" stroke-width="0.40"/><line x1="56.0" y1="70.0" x2="56.0" y2="6.0" stroke="#C8C8C8" stroke-width="0.40"/><line x1="66.0" y1="70.0" x2="66.0" y2="6.0" stroke="#C8C8C8" stroke-width="0.60"/><line x1="76.0" y1="70.0" x2="76.0" y2="6.0" stroke="#C8C8C8" stroke-width="0.40"/><line x1="86.0" y1="70.0" x2="86.0" y2="6.0" stroke="#C8C8C8" stroke-width="0.40"/><line x1="96.0" y1="70.0" x2="96.0" y2="6.0" stroke="#C8C8C8" stroke-width="0.40"/><line x1="106.0" y1="70.0" x2="106.0" y2="6.0" stroke="#C8C8C8" stroke-width="0.40"/><line x1="116.0" y1="70.0" x2="116.0" y2="6.0" stroke="#C8C8C8" stroke-width="0.60"/><line x1="16.0" y1="70.0" x2="116.0" y2="70.0" stroke="#C8C8C8" stroke-width="0.60"/><line x1="16.0" y1="64.7" x2="116.0" y2="64.7" stroke="#C8C8C8" stroke-width="0.40"/><line x1="16.0" y1="59.3" x2="116.0" y2="59.3" stroke="#C8C8C8" stroke-width="0.40"/><line x1="16.0" y1="54.0" x2="116.0" y2="54.0" stroke="#C8C8C8" stroke-width="0.40"/><line x1="16.0" y1="48.7" x2="116.0" y2="48.7" stroke="#C8C8C8" stroke-width="0.60"/><line x1="16.0" y1="43.3" x2="116.0" y2="43.3" stroke="#C8C8C8" stroke-width="0.40"/><line x1="16.0" y1="38.0" x2="116.0" y2="38.0" stroke="#C8C8C8" stroke-width="0.40"/><line x1="16.0" y1="32.7" x2="116.0" y2="32.7" stroke="#C8C8C8" stroke-width="0.40"/><line x1="16.0" y1="27.3" x2="116.0" y2="27.3" stroke="#C8C8C8" stroke-width="0.60"/><line x1="16.0" y1="22.0" x2="116.0" y2="22.0" stroke="#C8C8C8" stroke-width="0.40"/><line x1="16.0" y1="16.7" x2="116.0" y2="16.7" stroke="#C8C8C8" stroke-width="0.40"/><line x1="16.0" y1="11.3" x2="116.0" y2="11.3" stroke="#C8C8C8" stroke-width="0.40"/><line x1="16.0" y1="6.0" x2="116.0" y2="6.0" stroke="#C8C8C8" stroke-width="0.60"/><line x1="16.0" y1="70.0" x2="119.0" y2="70.0" stroke="#333" stroke-width=".6"/><line x1="16.0" y1="70.0" x2="16.0" y2="3.0" stroke="#333" stroke-width=".6"/><text x="120.0" y="79.0" font-size="4.6" text-anchor="end" fill="#1F3864">&#964;<tspan font-size="3.2" dy="1">o</tspan><tspan dy="-1"> (N·m)</tspan></text><text x="18.0" y="3.8" font-size="4.6" text-anchor="start" fill="#1F3864">F (N)</text><g id="aj-g"></g></svg>
+      </div>
+    </div>
+    <div class="fonte-abnt">Fonte: elaborado pelos autores, 2026.</div>
+    <div class="linha-res"><span>declividade = <span class="branco" style="min-width:16mm"></span> m⁻¹</span><span>ponto de corte = <span class="branco" style="min-width:16mm"></span> N</span></div>
+    <p class="enun"><strong>3.1</strong> Quanto o gancho fixo puxa a barra para cima em cada montagem? Por que o peso da barra entra na soma das forças, mas não na soma de objetos × gancho?</p>
+    <div class="escrita fim" style="min-height:21mm"><div class="pauta"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="ed"></div></div>
     <p class="enun"><strong>3.2</strong> Compare as Figuras 4 e 5 (mesmos objetos, outro gancho) e as Figuras 4 e 6 (mesmo gancho, outra carga). O que muda o torque de um peso? Explique pela leitura de F.</p>
     <div class="escrita" style="min-height:21mm"><div class="pauta"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="ed"></div></div>
     <div class="legenda">Quadro 1 — Contas — as incertezas de leitura</div>
@@ -1210,7 +1236,7 @@ html body .tau, html body span.tau { font-family: "Times New Roman", "Cambria Ma
   </div>
 
   <div class="rodape-print">
-    FE1-T04 · RC v1 (estudante) · página 3 de 4 · Julio Azevedo
+    FE1-T04 · RC v2 (estudante) · página 3 de 4 · Julio Azevedo
   </div>
 </div>
 
@@ -1222,6 +1248,8 @@ html body .tau, html body span.tau { font-family: "Times New Roman", "Cambria Ma
     <p class="enun">Compare |Σ<span class="tau">τ</span>| de cada montagem com δ<span class="tau">τ</span> = δF · d (Quadro 1). Dentro da faixa de −δ<span class="tau">τ</span> a +δ<span class="tau">τ</span>, o equilíbrio de rotação está confirmado; fora dela, diga o que pode ter falhado.</p>
     <div class="linha-res"><span>|Σ<span class="tau">τ</span>| (Figura 4) = <span class="branco" style="min-width:14mm"></span> N·m</span><span>|Σ<span class="tau">τ</span>| (Figura 5) = <span class="branco" style="min-width:14mm"></span> N·m</span><span>|Σ<span class="tau">τ</span>| (Figura 6) = <span class="branco" style="min-width:14mm"></span> N·m</span><span>δ<span class="tau">τ</span> = <span class="branco" style="min-width:14mm"></span> N·m</span></div>
 <svg class="reta-dec" viewBox="0 0 160 30" xmlns="http://www.w3.org/2000/svg" font-family="Century Gothic, Arial, sans-serif"><line x1="8" y1="16" x2="152" y2="16" stroke="#333" stroke-width=".5"/><path d="M152 16 l-3 -1.6 v3.2 Z" fill="#333"/><line x1="14.0" y1="14.6" x2="14.0" y2="17.4" stroke="#333" stroke-width=".4"/><line x1="25.0" y1="14.6" x2="25.0" y2="17.4" stroke="#333" stroke-width=".4"/><line x1="36.0" y1="14.6" x2="36.0" y2="17.4" stroke="#333" stroke-width=".4"/><line x1="47.0" y1="14.6" x2="47.0" y2="17.4" stroke="#333" stroke-width=".4"/><line x1="58.0" y1="14.6" x2="58.0" y2="17.4" stroke="#333" stroke-width=".4"/><line x1="69.0" y1="14.6" x2="69.0" y2="17.4" stroke="#333" stroke-width=".4"/><line x1="80.0" y1="14.6" x2="80.0" y2="17.4" stroke="#333" stroke-width=".4"/><line x1="91.0" y1="14.6" x2="91.0" y2="17.4" stroke="#333" stroke-width=".4"/><line x1="102.0" y1="14.6" x2="102.0" y2="17.4" stroke="#333" stroke-width=".4"/><line x1="113.0" y1="14.6" x2="113.0" y2="17.4" stroke="#333" stroke-width=".4"/><line x1="124.0" y1="14.6" x2="124.0" y2="17.4" stroke="#333" stroke-width=".4"/><line x1="135.0" y1="14.6" x2="135.0" y2="17.4" stroke="#333" stroke-width=".4"/><line x1="146.0" y1="14.6" x2="146.0" y2="17.4" stroke="#333" stroke-width=".4"/><text x="80.0" y="24" font-size="6" text-anchor="middle" fill="#1F3864">0</text><text x="152" y="24" font-size="6" text-anchor="end" fill="#1F3864">N·m</text></svg>
+    <p class="enun">Agora pelo Gráfico 1: o braço do dinamômetro é o inverso da declividade, d<sub>F</sub> = 1/declividade. Compare com o braço medido na régua.</p>
+    <div class="linha-res"><span>d<sub>F</sub> = 1/declividade = <span class="branco" style="min-width:16mm"></span> m</span><span>d<sub>F</sub> na régua = <span class="branco" style="min-width:16mm"></span> m</span></div>
     <div class="escrita" style="min-height:14mm"><div class="pauta"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="ed"></div></div>
     <div class="sub4">Seção 4 (c) · Tomada de posição: o pé-de-cabra na mina</div>
     <p class="enun">Para soltar uma rocha numa frente de lavra, um operador usa um pé-de-cabra (alavanca de ferro, a mesma ferramenta dos mineiros das galerias coloniais de Ouro Preto) de 1,20 m, apoiado numa pedra. A rocha exige 600 N na ponta curta. Despreze o peso do pé-de-cabra. Onde apoiar, a 0,20 m ou a 0,40 m da rocha, para fazer a menor força? Decida pela soma dos torques e calcule a força nos dois casos.</p>
@@ -1251,7 +1279,7 @@ html body .tau, html body span.tau { font-family: "Times New Roman", "Cambria Ma
       <p>Depois de terminar as cinco seções: copie o prompt, cole na inteligência artificial que você usa e mande a foto ou o PDF do seu RC. Ela aponta o passo do primeiro erro sem resolver por você. Vale nota extra até completar o valor da trilha no SUAP; diga abaixo se usou.</p>
       <ol><li>Peça perguntas, não respostas: a IA aponta o passo do erro, e quem corrige é você.</li><li>Confira o que ela disser contra as suas tabelas, as suas contas e as unidades (N, m, N·m): a IA erra com a mesma segurança com que acerta.</li><li>Declare o uso, qual IA e para quê: registrar o método com honestidade faz parte da ciência e é o que vale a nota extra.</li></ol>
       <p><strong>Recomendação do Professor:</strong> crie uma conta gratuita (marque a que criou): <label><input type="checkbox"> Claude (Anthropic)</label> <label><input type="checkbox"> Gemini (Google)</label> <label><input type="checkbox"> ChatGPT (OpenAI)</label> <label><input type="checkbox"> Copilot (Microsoft)</label> <label><input type="checkbox"> Perplexity</label></p>
-      <div class="card"><strong>Meu Perfil</strong> (cole na personalização da IA):<pre>Sou estudante da 1.ª série do Técnico em Mineração Integrado do IFMG campus Ouro Preto e curso a Física Experimental 1, no Laboratório de Mecânica. Estou aprendendo a medir, a organizar os dados em tabelas e a tirar conclusões deles. Quando eu pedir ajuda, não me dê a resposta pronta: faça perguntas curtas que me levem a pensar, aponte o passo em que errei e deixe que eu corrija sozinho. Responda em português do Brasil, com linguagem simples, as grandezas nas unidades do SI (N, m, N·m) e exemplos da mineração ou do meu dia a dia. Quando eu acertar, diga o ponto forte do meu raciocínio.</pre><button class="btn-copiar" onclick="var p=this.closest('.card').querySelector('pre');navigator.clipboard.writeText(p.innerText);this.textContent='Copiado!'">Copiar</button></div>
+      <div class="card"><strong>Meu Perfil</strong> (cole na personalização da IA):<pre>Sou estudante da 1.ª série do Técnico em Mineração Integrado do IFMG campus Ouro Preto e curso a Física Experimental 1. Estou aprendendo a medir, a organizar os dados em tabelas e a tirar conclusões deles. Quando eu pedir ajuda, não me dê a resposta pronta: faça perguntas curtas que me levem a pensar, aponte o passo em que errei e deixe que eu corrija sozinho. Responda em português do Brasil, com linguagem simples, as grandezas nas unidades do SI (N, m, N·m) e exemplos da mineração ou do meu dia a dia. Quando eu acertar, diga o ponto forte do meu raciocínio.</pre><button class="btn-copiar" onclick="var p=this.closest('.card').querySelector('pre');navigator.clipboard.writeText(p.innerText);this.textContent='Copiado!'">Copiar</button></div>
       <div class="card"><strong>Prompt</strong>:<pre>Fiz o Relatório Completo (RC) da T04 da Física Experimental 1, Equilíbrio em Gangorras e Alavancas: na Estação 1, as forças e os objetos × gancho de três montagens da barra; na Estação 2, os torques <span class="tau">τ</span> = F · d da alavanca de um braço em três montagens; a força do eixo pela condição ΣF = 0; Σ<span class="tau">τ</span> comparado com a incerteza de leitura do dinamômetro; e a decisão de onde apoiar um pé-de-cabra na mina, pelos 5 passos da Resolução Científica do Problema (1 O que a questão quer?; 2 O que eu tenho?; 3 Qual é o desenho?; 4 Minha solução; 5 Confiro e respondo). Vou te mandar a foto ou o PDF. Não me dê a resposta nem refaça as contas por mim. Diga em que passo está o primeiro erro, faça uma pergunta que me ajude a corrigir sozinho e, no fim, me diga um ponto forte do meu raciocínio.</pre><button class="btn-copiar" onclick="var p=this.closest('.card').querySelector('pre');navigator.clipboard.writeText(p.innerText);this.textContent='Copiado!'">Copiar</button></div>
       <p><strong>Declaração de uso:</strong><br><label><input type="radio" name="usoia"> Não usei IA</label><label><input type="radio" name="usoia"> Usei IA para apoiar meu aprendizado neste relatório:</label><br><label><input type="checkbox"> Claude (Anthropic)</label><label><input type="checkbox"> Gemini (Google)</label><label><input type="checkbox"> ChatGPT (OpenAI)</label><label><input type="checkbox"> Copilot (Microsoft)</label><label><input type="checkbox"> Perplexity</label><label><input type="checkbox"> Outra (Qual?)</label><br>Para quê: <input type="text"></p>
     </div>
@@ -1276,16 +1304,16 @@ html body .tau, html body span.tau { font-family: "Times New Roman", "Cambria Ma
     <p class="dica">A devolutiva vem comentada no encontro de fechamento.</p>
     <div class="nav-rm"><button onclick="abrirParaImpressao()">Gerar PDF</button><a href="../rm/">Relatório Mínimo</a><a href="../rb/">Roteiro de Bancada</a><a href="../../">Todas as Trilhas</a></div>
   </div>
-  <!-- RODAPE-FE:INICIO --><div class="fe-rodape"><div class="fe-inst-marcas"><a href="https://ouropreto.ifmg.edu.br/ouropreto" target="_blank" rel="noopener" title="IFMG — Campus Ouro Preto (abre em nova aba)"><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="-36.75 -4 258.5 258.5" role="img" aria-label="Instituto Federal de Minas Gerais"> <title>Instituto Federal de Minas Gerais</title> <circle cx="27" cy="27" r="30" fill="#C8191E"/> <g fill="#32A041"> <rect x="65.5" y="0" width="54" height="54"/> <rect x="131" y="0" width="54" height="54"/> <rect x="0" y="65.5" width="54" height="54"/> <rect x="65.5" y="65.5" width="54" height="54"/> <rect x="0" y="131" width="54" height="54"/> <rect x="65.5" y="131" width="54" height="54"/> <rect x="131" y="131" width="54" height="54"/> <rect x="0" y="196.5" width="54" height="54"/> <rect x="65.5" y="196.5" width="54" height="54"/> </g> </svg></a><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="NIDEC — Núcleo de Inovação e Desenvolvimento de Experimentos Científicos"> <title>NIDEC — Núcleo de Inovação e Desenvolvimento de Experimentos Científicos</title> <defs> <linearGradient id="inst-nidec-o1" gradientUnits="userSpaceOnUse" x1="8" y1="100" x2="192" y2="100" gradientTransform="rotate(-30 100 100)"> <stop offset="0" stop-color="#4A1F95"/><stop offset=".38" stop-color="#2C5AA4"/> <stop offset=".70" stop-color="#2CC2A2"/><stop offset="1" stop-color="#2C9E41"/> </linearGradient> <linearGradient id="inst-nidec-o2" gradientUnits="userSpaceOnUse" x1="8" y1="100" x2="192" y2="100" gradientTransform="rotate(-90 100 100)"> <stop offset="0" stop-color="#4A1F95"/><stop offset=".38" stop-color="#2C5AA4"/> <stop offset=".70" stop-color="#2CC2A2"/><stop offset="1" stop-color="#2C9E41"/> </linearGradient> <linearGradient id="inst-nidec-o3" gradientUnits="userSpaceOnUse" x1="8" y1="100" x2="192" y2="100" gradientTransform="rotate(-150 100 100)"> <stop offset="0" stop-color="#4A1F95"/><stop offset=".38" stop-color="#2C5AA4"/> <stop offset=".70" stop-color="#2CC2A2"/><stop offset="1" stop-color="#2C9E41"/> </linearGradient> <radialGradient id="inst-nidec-nucleo" cx="40%" cy="36%" r="70%"> <stop offset="0" stop-color="#A0EBE1"/> <stop offset=".45" stop-color="#2CC8C2"/> <stop offset="1" stop-color="#1E5DA5"/> </radialGradient> </defs> <g fill="none" stroke-width="8"> <g transform="rotate(30 100 100)" stroke="url(#inst-nidec-o1)"> <ellipse cx="100" cy="100" rx="88" ry="31"/> <circle cx="188" cy="100" r="8" fill="url(#inst-nidec-o1)" stroke="none"/> </g> <g transform="rotate(90 100 100)" stroke="url(#inst-nidec-o2)"> <ellipse cx="100" cy="100" rx="88" ry="31"/> <circle cx="12" cy="100" r="8" fill="url(#inst-nidec-o2)" stroke="none"/> </g> <g transform="rotate(150 100 100)" stroke="url(#inst-nidec-o3)"> <ellipse cx="100" cy="100" rx="88" ry="31"/> <circle cx="188" cy="100" r="8" fill="url(#inst-nidec-o3)" stroke="none"/> </g> </g> <circle cx="100" cy="100" r="23" fill="url(#inst-nidec-nucleo)"/> </svg></div><div class="fe-agr-marca"><a href="https://nidecop-jafb.github.io/fe1-oa/agradecimentos/" title="Agradecimentos &middot; F&iacute;sica e Poesia"><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Agradecimentos — Física e Poesia"> <g fill="none" stroke="#7FB2D6" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"> <path d="M 60 44 C 46 36 28 36 12 40 L 12 104 C 28 100 46 100 60 108 C 74 100 92 100 108 104 L 108 40 C 92 36 74 36 60 44 Z"/> <line x1="60" y1="44" x2="60" y2="108"/> </g> <g stroke="#7FB2D6" stroke-width="2" stroke-linecap="round" opacity=".7"> <line x1="22" y1="58" x2="50" y2="56"/><line x1="22" y1="70" x2="50" y2="68"/><line x1="22" y1="82" x2="44" y2="81"/> </g> <path d="M 68 70 C 72 62 76 62 80 70 S 88 78 92 70 S 98 62 100 66" fill="none" stroke="#E07B39" stroke-width="2.5" stroke-linecap="round"/> <path d="M 104 8 C 86 12 72 24 66 44 C 80 40 94 28 104 8 Z" fill="none" stroke="#E07B39" stroke-width="3" stroke-linejoin="round"/> <line x1="100" y1="13" x2="62" y2="56" stroke="#E07B39" stroke-width="3" stroke-linecap="round"/> </svg></a></div><div class="fe-rodape-texto">IFMG campus Ouro Preto - Coordenadoria da Área de Física (CODAFIS) - Núcleo de Inovação e Desenvolvimento de Experimentos Científicos (NIDEC) &middot; Primeira edição &middot; 2026<span class="fe-pag"> &middot; FE1-T04 · RC v1 (estudante) · página 4 de 4 · Julio Azevedo</span></div></div><!-- RODAPE-FE:FIM -->
+  <!-- RODAPE-FE:INICIO --><div class="fe-rodape"><div class="fe-inst-marcas"><a href="https://ouropreto.ifmg.edu.br/ouropreto" target="_blank" rel="noopener" title="IFMG — Campus Ouro Preto (abre em nova aba)"><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="-36.75 -4 258.5 258.5" role="img" aria-label="Instituto Federal de Minas Gerais"> <title>Instituto Federal de Minas Gerais</title> <circle cx="27" cy="27" r="30" fill="#C8191E"/> <g fill="#32A041"> <rect x="65.5" y="0" width="54" height="54"/> <rect x="131" y="0" width="54" height="54"/> <rect x="0" y="65.5" width="54" height="54"/> <rect x="65.5" y="65.5" width="54" height="54"/> <rect x="0" y="131" width="54" height="54"/> <rect x="65.5" y="131" width="54" height="54"/> <rect x="131" y="131" width="54" height="54"/> <rect x="0" y="196.5" width="54" height="54"/> <rect x="65.5" y="196.5" width="54" height="54"/> </g> </svg></a><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="NIDEC — Núcleo de Inovação e Desenvolvimento de Experimentos Científicos"> <title>NIDEC — Núcleo de Inovação e Desenvolvimento de Experimentos Científicos</title> <defs> <linearGradient id="inst-nidec-o1" gradientUnits="userSpaceOnUse" x1="8" y1="100" x2="192" y2="100" gradientTransform="rotate(-30 100 100)"> <stop offset="0" stop-color="#4A1F95"/><stop offset=".38" stop-color="#2C5AA4"/> <stop offset=".70" stop-color="#2CC2A2"/><stop offset="1" stop-color="#2C9E41"/> </linearGradient> <linearGradient id="inst-nidec-o2" gradientUnits="userSpaceOnUse" x1="8" y1="100" x2="192" y2="100" gradientTransform="rotate(-90 100 100)"> <stop offset="0" stop-color="#4A1F95"/><stop offset=".38" stop-color="#2C5AA4"/> <stop offset=".70" stop-color="#2CC2A2"/><stop offset="1" stop-color="#2C9E41"/> </linearGradient> <linearGradient id="inst-nidec-o3" gradientUnits="userSpaceOnUse" x1="8" y1="100" x2="192" y2="100" gradientTransform="rotate(-150 100 100)"> <stop offset="0" stop-color="#4A1F95"/><stop offset=".38" stop-color="#2C5AA4"/> <stop offset=".70" stop-color="#2CC2A2"/><stop offset="1" stop-color="#2C9E41"/> </linearGradient> <radialGradient id="inst-nidec-nucleo" cx="40%" cy="36%" r="70%"> <stop offset="0" stop-color="#A0EBE1"/> <stop offset=".45" stop-color="#2CC8C2"/> <stop offset="1" stop-color="#1E5DA5"/> </radialGradient> </defs> <g fill="none" stroke-width="8"> <g transform="rotate(30 100 100)" stroke="url(#inst-nidec-o1)"> <ellipse cx="100" cy="100" rx="88" ry="31"/> <circle cx="188" cy="100" r="8" fill="url(#inst-nidec-o1)" stroke="none"/> </g> <g transform="rotate(90 100 100)" stroke="url(#inst-nidec-o2)"> <ellipse cx="100" cy="100" rx="88" ry="31"/> <circle cx="12" cy="100" r="8" fill="url(#inst-nidec-o2)" stroke="none"/> </g> <g transform="rotate(150 100 100)" stroke="url(#inst-nidec-o3)"> <ellipse cx="100" cy="100" rx="88" ry="31"/> <circle cx="188" cy="100" r="8" fill="url(#inst-nidec-o3)" stroke="none"/> </g> </g> <circle cx="100" cy="100" r="23" fill="url(#inst-nidec-nucleo)"/> </svg></div><div class="fe-agr-marca"><a href="https://nidecop-jafb.github.io/fe1-oa/agradecimentos/" title="Agradecimentos &middot; F&iacute;sica e Poesia"><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Agradecimentos — Física e Poesia"> <g fill="none" stroke="#7FB2D6" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"> <path d="M 60 44 C 46 36 28 36 12 40 L 12 104 C 28 100 46 100 60 108 C 74 100 92 100 108 104 L 108 40 C 92 36 74 36 60 44 Z"/> <line x1="60" y1="44" x2="60" y2="108"/> </g> <g stroke="#7FB2D6" stroke-width="2" stroke-linecap="round" opacity=".7"> <line x1="22" y1="58" x2="50" y2="56"/><line x1="22" y1="70" x2="50" y2="68"/><line x1="22" y1="82" x2="44" y2="81"/> </g> <path d="M 68 70 C 72 62 76 62 80 70 S 88 78 92 70 S 98 62 100 66" fill="none" stroke="#E07B39" stroke-width="2.5" stroke-linecap="round"/> <path d="M 104 8 C 86 12 72 24 66 44 C 80 40 94 28 104 8 Z" fill="none" stroke="#E07B39" stroke-width="3" stroke-linejoin="round"/> <line x1="100" y1="13" x2="62" y2="56" stroke="#E07B39" stroke-width="3" stroke-linecap="round"/> </svg></a></div><div class="fe-rodape-texto">IFMG campus Ouro Preto - Coordenadoria da Área de Física (CODAFIS) - Núcleo de Inovação e Desenvolvimento de Experimentos Científicos (NIDEC) &middot; Primeira edição &middot; 2026<span class="fe-pag"> &middot; FE1-T04 · RC v2 (estudante) · página 4 de 4 · Julio Azevedo</span></div></div><!-- RODAPE-FE:FIM -->
   <div class="rodape-print">
-    FE1-T04 · RC v1 (estudante) · página 4 de 4 · Julio Azevedo
+    FE1-T04 · RC v2 (estudante) · página 4 de 4 · Julio Azevedo
   </div>
 </div>
 
 <div class="barra-tela">
   <button class="btn" onclick="abrirParaImpressao()">Imprimir (A4 — 4 páginas)</button>
   <div class="nota">
-    O botão abre uma <strong>janela nova</strong> só com a folha e já chama a impressão. Em "Salvar como PDF", o navegador sugere o nome correto: <strong>FE-T04-RC-v1-estudante</strong>.<br>
+    O botão abre uma <strong>janela nova</strong> só com a folha e já chama a impressão. Em "Salvar como PDF", o navegador sugere o nome correto: <strong>FE-T04-RC-v2-estudante</strong>.<br>
     Nas opções de impressão, mantenha <strong>"Gráficos de plano de fundo"</strong> ligado.
   </div>
 </div>
@@ -1296,7 +1324,7 @@ html body .tau, html body span.tau { font-family: "Times New Roman", "Cambria Ma
 /* Impressao em janela propria (padrao FA): o <title> vira o nome sugerido do
    PDF, a barra de botoes fica de fora e o @page { margin: 0 } suprime o
    cabecalho/rodape que o navegador injeta. */
-var NOME_ARQUIVO_PDF = 'FE-T04-RC-v1-estudante';
+var NOME_ARQUIVO_PDF = 'FE-T04-RC-v2-estudante';
 
 function abrirParaImpressao() {
   var folha = document.querySelector('.folha').cloneNode(true);
@@ -1330,7 +1358,7 @@ function abrirParaImpressao() {
 <script>
 /* FE-T04-RC: campos editaveis, salvos neste aparelho (localStorage); sem coletor */
 (function () {
-  var K = 'fe1-t04-rc-v1', d = {};
+  var K = 'fe1-t04-rc-v2', d = {};
   try { d = JSON.parse(localStorage.getItem(K) || '{}'); } catch (e) { d = {}; }
   var els = document.querySelectorAll('.folha .escrita .ed, .folha td.ed-td, .folha .branco, .folha .vazio, .folha .data-campo');
   Array.prototype.forEach.call(els, function (el, i) {
@@ -1343,6 +1371,39 @@ function abrirParaImpressao() {
     });
   });
 })();
+</script>
+
+<script>
+/* FE-T04-RC v2: ajuste da reta F = a * tau_o + b por minimos quadrados, com os valores digitados no Grafico 1 */
+function ajustarReta() {
+  var xs = [], ys = [], out = document.getElementById('aj-res');
+  Array.prototype.forEach.call(document.querySelectorAll('#tab-graf tbody tr'), function (tr) {
+    var c = tr.querySelectorAll('td');
+    var x = parseFloat((c[1].innerText || '').replace(',', '.'));
+    var y = parseFloat((c[2].innerText || '').replace(',', '.'));
+    if (!isNaN(x) && !isNaN(y)) { xs.push(x); ys.push(y); }
+  });
+  var n = xs.length;
+  if (n < 3) { out.textContent = 'Preencha <span class="tau">τ</span>o e F das três montagens na tabela ao lado do gráfico.'; return; }
+  var sx = 0, sy = 0, sxx = 0, sxy = 0, i;
+  for (i = 0; i < n; i++) { sx += xs[i]; sy += ys[i]; sxx += xs[i] * xs[i]; sxy += xs[i] * ys[i]; }
+  var D = n * sxx - sx * sx;
+  if (D === 0) { out.textContent = 'Os três valores de <span class="tau">τ</span>o não podem ser iguais.'; return; }
+  var a = (n * sxy - sx * sy) / D, b = (sy - a * sx) / n, s2 = 0;
+  for (i = 0; i < n; i++) { s2 += Math.pow(ys[i] - a * xs[i] - b, 2); }
+  s2 = n > 2 ? s2 / (n - 2) : 0;
+  var ua = Math.sqrt(n * s2 / D), ub = Math.sqrt(s2 * sxx / D);
+  var f = function (v) { return v.toFixed(2).replace('.', ','); };
+  out.innerHTML = 'declividade = ' + f(a) + ' ± ' + f(ua) + ' m⁻¹ · ponto de corte = ' + f(b) + ' ± ' + f(ub) +
+    ' N · d<sub>F</sub> = 1/declividade = ' + f(1 / a) + ' m';
+  var PX = function (x) { return 16.0 + (116.0 - 16.0) * x / 1.0; };
+  var PY = function (y) { return 70.0 + (6.0 - 70.0) * y / 3.0; };
+  var g = document.getElementById('aj-g'), s = '';
+  s += '<line x1="' + PX(0) + '" y1="' + PY(b) + '" x2="' + PX(1.0) + '" y2="' + PY(b + a * 1.0) +
+       '" stroke="#C00000" stroke-width=".7"/>';
+  for (i = 0; i < n; i++) { s += '<circle cx="' + PX(xs[i]) + '" cy="' + PY(ys[i]) + '" r="1.4" fill="#C00000"/>'; }
+  g.innerHTML = s;
+}
 </script>
 <!-- ABA-SITE (injetada na publicacao — nao existe no OA canonico) -->
 <style>
