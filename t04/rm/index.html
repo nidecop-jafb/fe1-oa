@@ -2,9 +2,1032 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="refresh" content="0; url=../../t05/rm/">
-<link rel="canonical" href="../../t05/rm/">
-<title>Endereço novo &middot; FE1</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FE1-T04 · Relatório Mínimo (RM)</title>
+<style>
+/* ============================================================
+   FE-T0A-RB-v6-estudante-impresso.html
+   Roteiro de Bancada — 3 paginas A4, para ESCRITA A MAO na bancada.
+   Mudancas v6 (2026-09-02, replicando o padrao do RB v5 da T04):
+     (1) TIPOGRAFIA DE TELA — bloco @media screen (piso .8rem);
+         a IMPRESSAO nao muda.
+     (2) IMAGENS DE FUNDO no padrao da FA impressa da T10/FC1
+         (.anot-fundo): grayscale, opacidade .34 tela / .26 impresso,
+         via ../_imagens/_web/ (derivadas leves).
+     (3) "Resolucao Cientifica do Problema" SEMPRE precede
+         "Protocolo C5 (8 passos)" — regra de toda a FE1.
+     (4) Fecho "Terminamos por aqui..." em destaque colorido.
+   Alinhado ao padrao da T04 (formatacao da FA impressa da FC1,
+   decisao do autor em 2026-08-29):
+     pag 1  cabecalho FA + caixa IDENTIFICACAO + linha Piazzi + epigrafe
+            + Minha Trilha (Pre-Lab/Lab/Pos-Lab) + Seguranca
+            + Parte 1 (protocolo + tabela das 4 medicoes)
+     pag 2  Parte 2 (calculos) + Parte 3 (Protocolo C5)
+     pag 3  Parte 4 (discussao) + Parte 5 (normas do Lab) + Conclusao
+            + fecho + Espaco da Equipe de Monitoria
+   Sem espaco morto no pe da pagina: a folga vira linha de escrita
+   (classe .cresce — regra da FA/TR), e o rodape cola na base.
+   ============================================================ */
+
+:root {
+  /* Paleta FE — _identidade/paleta-fe.md
+     laranja-EPI (primario) + azul-aco (acento) */
+  --epi: #E07B39;
+  --epi-claro: #EE9A63;
+  --epi-bg: oklch(0.28 0.06 55);
+  --aco: #7FB2D6;
+  --aco-claro: #A7CCE6;
+  --aco-bg: oklch(0.28 0.05 240);
+  --verde: oklch(0.7 0.15 150);
+  --verde-claro: oklch(0.25 0.04 150);
+  --erro: oklch(0.6 0.22 25);
+  --erro-claro: oklch(0.22 0.05 25);
+  --cinza: oklch(0.62 0.01 260);
+  --cinza-claro: oklch(0.18 0.01 260);
+  --cinza-borda: oklch(0.40 0.01 260);
+  --texto: oklch(0.93 0 0);
+  --branco: oklch(0.96 0 0);
+  --superficie: oklch(0.22 0.01 260);
+  --input-bg: oklch(0.18 0.01 260);
+  --hover-bg: oklch(0.25 0.01 260);
+  --fundo: oklch(0.13 0.01 260);
+  --painel: oklch(0.16 0.01 260);
+  --r: 0px;
+  --r-sm: 0px;
+  --font: 'Courier New', Courier, monospace;
+  --mono: 'Courier New', 'Cascadia Code', 'Consolas', monospace;
+  --serif: 'Georgia', 'Cambria', 'Times New Roman', serif;
+  /* nomes herdados dos OAs de 2026-07 — apontam para a paleta FE */
+  --azul: var(--epi);
+  --azul-claro: var(--epi-claro);
+  --azul-bg: var(--epi-bg);
+  --ouro: var(--aco);
+  --ouro-claro: var(--aco-bg);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font);
+  background: var(--fundo);
+  color: var(--texto);
+  line-height: 1.45;
+}
+
+.folha { max-width: 760px; margin: 0 auto; padding: 20px 16px; }
+
+/* ── PAGINA ── */
+.pagina { margin-bottom: 28px; }
+.pagina + .pagina { border-top: 2px dashed var(--cinza-borda); padding-top: 24px; }
+
+/* ── CABECALHO (padrao FA) ── */
+.header {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px;
+  border-top: 3px solid var(--azul);
+  border-bottom: 1px solid var(--cinza-borda);
+  padding: 10px 0; margin-bottom: 12px;
+}
+.header-left h1 { font-size: 1.05rem; font-weight: 700; color: var(--azul); }
+.header-left .sub { font-size: .72rem; color: var(--cinza); margin-top: 2px; }
+.header-right { text-align: right; font-size: .7rem; color: var(--cinza); line-height: 1.5; }
+.header-right .badge { font-weight: 700; color: var(--azul); font-size: .75rem; }
+
+/* ── CAIXA IDENTIFICACAO ── */
+.id-box {
+  border: 1.5px solid var(--cinza-borda);
+  padding: 8px 12px 9px;
+  margin-bottom: 10px;
+}
+.id-box-titulo {
+  font-size: .66rem; font-weight: 700; color: var(--cinza);
+  text-transform: uppercase; letter-spacing: .6px; margin-bottom: 6px;
+}
+.id-box .campo-linha {
+  display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap;
+  font-size: .8rem; border-bottom: 1px solid var(--linha);
+  padding-bottom: 5px; margin-bottom: 7px;
+}
+.id-box .campo-linha:last-child { margin-bottom: 0; }
+.id-box label { font-weight: 700; color: var(--azul); font-size: .74rem; white-space: nowrap; }
+.id-box .linha { flex: 1; min-width: 0; height: 1.3em; }
+.id-box .linha.ra { flex: 0 0 7.5em; }
+.id-box .linha.meia { flex: .6; }
+.opts { display: flex; gap: 12px; font-size: .72rem; color: var(--cinza); margin-right: 12px; white-space: nowrap; }
+.opts .opt { display: flex; align-items: center; gap: 4px; }
+.opts .opt::before {
+  content: '';
+  display: inline-block;
+  width: 13px; height: 13px;
+  border: 1.5px solid var(--cinza-borda);
+  flex-shrink: 0;
+}
+.data-campo { font-size: .78rem; color: var(--cinza); white-space: nowrap; }
+
+/* ── BARRA PIAZZI ── */
+.piazzi {
+  display: flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap;
+  border: 1px solid var(--cinza-borda); padding: 7px 12px; margin-bottom: 10px;
+  font-size: .74rem; color: var(--cinza); text-align: center;
+}
+.piazzi .mao { color: var(--branco); font-weight: 600; }
+.piazzi em { color: var(--ouro); font-style: italic; }
+
+/* ── EPIGRAFE ── */
+.epigrafe {
+  border-left: 3px solid var(--ouro); background: var(--ouro-bg);
+  padding: 8px 12px; margin-bottom: 12px;
+  font-family: var(--serif); font-size: .82rem;
+}
+.epigrafe .cit { font-style: italic; color: var(--ouro); }
+.epigrafe .atrib { font-family: var(--font); font-size: .7rem; color: var(--cinza); }
+
+/* ── MINHA TRILHA (checklist dos OAs, padrao FA) ── */
+.checklist { margin-bottom: 12px; }
+.checklist-titulo {
+  text-align: center; font-size: .68rem; font-weight: 700; color: var(--cinza);
+  text-transform: uppercase; letter-spacing: .6px; margin-bottom: 7px;
+}
+.checklist-fases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.fase { border: 1px solid var(--cinza-borda); border-top: 2px solid var(--ouro); padding: 6px 8px 7px; }
+.fase-nome {
+  font-size: .66rem; font-weight: 700; color: var(--ouro);
+  text-transform: uppercase; letter-spacing: .4px; margin-bottom: 5px;
+}
+.fase-oas { display: flex; flex-wrap: wrap; gap: 4px 8px; }
+.oa-item { display: flex; align-items: center; gap: 4px; font-size: .64rem; line-height: 1.2; }
+.oa-box { width: 9px; height: 9px; border: 1px solid var(--cinza); flex-shrink: 0; }
+.oa-sigla { font-family: var(--mono); font-weight: 700; color: var(--texto); }
+.oa-nome { color: var(--cinza); }
+
+/* ── SECAO ── */
+.secao { margin-bottom: 12px; }
+.secao-titulo { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.secao-titulo .num {
+  width: 24px; height: 24px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .78rem; font-weight: 700;
+  background: var(--azul-bg); color: var(--azul); border-radius: 50%;
+}
+.secao-titulo h2 {
+  font-size: .88rem; font-weight: 700; color: var(--azul);
+  text-transform: uppercase; letter-spacing: .4px;
+}
+.secao-titulo .hint { margin-left: auto; font-size: .66rem; color: var(--cinza); font-style: italic; }
+
+/* ── SEGURANCA ── */
+.alerta-seg {
+  background: var(--erro-bg);
+  border: 1px solid var(--erro);
+  padding: 6px 10px;
+  font-size: .72rem;
+  margin-bottom: 6px;
+}
+.alerta-seg strong { color: var(--erro); }
+.check-list { list-style: none; padding: 0; margin: 6px 0; }
+.check-list li {
+  display: flex; align-items: flex-start; gap: 8px;
+  font-size: .78rem;
+  padding: 3px 0;
+}
+.check-list li::before {
+  content: '';
+  display: inline-block;
+  width: 15px; height: 15px;
+  border: 1.5px solid var(--cinza-borda);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.check-list.seg li::before { border-color: var(--erro); }
+.assinatura {
+  display: flex; align-items: baseline; gap: 8px;
+  margin: 8px 0 0;
+  font-size: .78rem; font-weight: 700; color: var(--azul);
+}
+.assinatura .linha-ass { flex: 1; border-bottom: 1.5px solid var(--erro); min-height: 1.4em; }
+
+/* ── PROTOCOLO DE MEDICAO ── */
+.lembrete {
+  background: var(--ouro-bg);
+  border: 1px solid var(--ouro);
+  padding: 6px 10px;
+  font-size: .72rem;
+  margin-bottom: 8px;
+}
+.lembrete strong { color: var(--ouro); }
+.protocolo-lista { list-style: none; padding: 0; margin: 0 0 8px; }
+.protocolo-lista li {
+  font-size: .78rem;
+  padding: 2px 0 2px 18px;
+  position: relative;
+}
+.protocolo-lista li::before {
+  content: attr(data-n);
+  position: absolute; left: 0;
+  color: var(--azul); font-weight: 700;
+  font-size: .72rem;
+}
+.nota-metodo { font-size: .74rem; color: var(--cinza); font-style: italic; margin-top: 4px; }
+
+/* ── IMAGEM DE FUNDO DA SECAO (padrao .anot-fundo da FA impressa
+   da T10/FC1): a ilustracao IT fica ATRAS da area de escrita, em
+   escala de cinza e opacidade baixa — o estudante escreve por cima.
+   Valores de tela e de impressao copiados VERBATIM da FA. ── */
+.com-fundo { position: relative; overflow: hidden; }
+.fundo-ilustra {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  opacity: .34; filter: grayscale(1) contrast(.9);
+  pointer-events: none;
+}
+.com-fundo > :not(.fundo-ilustra) { position: relative; }
+
+/* ── TABELAS DE DADOS ── */
+.tabela-rotulo { font-size: .74rem; color: var(--cinza); font-style: italic; margin: 6px 0 3px; }
+table { width: 100%; border-collapse: collapse; font-size: .8rem; margin: 4px 0 8px; }
+th {
+  background: var(--azul-bg);
+  color: var(--azul);
+  padding: 5px 4px;
+  text-align: center;
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .2px;
+  font-weight: 700;
+  border: 1px solid var(--cinza-borda);
+}
+th:first-child { text-align: left; padding-left: 8px; }
+th .un { text-transform: none; }
+td {
+  padding: 8px 6px;
+  border: 1px solid var(--cinza-borda);
+  text-align: center;
+  vertical-align: middle;
+  height: 30px;
+}
+td:first-child { text-align: left; padding-left: 8px; }
+tr.voce td { background: var(--azul-bg); border-color: var(--azul); }
+tr.voce td:first-child { font-weight: 700; color: var(--azul); }
+
+/* ── CALCULOS ── */
+.calc-bloco { background: var(--superficie); padding: 8px 12px; margin: 6px 0 0; }
+.calc-formula { display: flex; align-items: center; gap: 6px; font-size: .8rem; margin: 6px 0; }
+.calc-formula .label { font-weight: 600; color: var(--azul); white-space: nowrap; }
+.calc-formula .eq { font-family: var(--mono); font-size: .78rem; color: var(--cinza); }
+.calc-formula .campo-calc { border-bottom: 1.5px solid var(--azul); min-width: 80px; height: 1.1em; display: inline-block; }
+.calc-formula .un-m { font-size: .72rem; }
+/* conversao para o SI antes da media — sem ela o aluno soma m + dm + cm + mm */
+.calc-formula.conv { flex-wrap: wrap; gap: 4px 12px; }
+.calc-formula.conv .conv-item { display: flex; align-items: center; gap: 5px; }
+.calc-formula.conv .campo-calc { min-width: 52px; }
+
+.resultado-final {
+  border: 1.5px solid var(--azul);
+  background: var(--azul-bg);
+  padding: 8px 12px;
+  text-align: center;
+  margin: 8px 0 0;
+}
+.resultado-final .titulo-res {
+  font-size: .72rem; text-transform: uppercase; letter-spacing: 1px;
+  color: var(--azul); font-weight: 700; margin-bottom: 4px;
+}
+.resultado-final .formula-res { font-size: 1.05rem; font-weight: 700; color: var(--branco); font-family: var(--mono); }
+.resultado-final .campo-res {
+  display: inline-block;
+  border-bottom: 1.5px solid var(--azul);
+  min-width: 70px;
+  height: 1.3em;
+}
+
+/* ── PROTOCOLO C5 ── */
+.c5-lista { list-style: none; padding: 0; margin: 0; }
+.c5-lista li {
+  padding: 4px 0 4px 24px;
+  position: relative;
+  font-size: .8rem;
+  border-bottom: 1px dotted var(--cinza-borda);
+  min-height: 30px;
+}
+.c5-lista li:last-child { border-bottom: none; }
+.c5-lista li .passo-num { position: absolute; left: 0; top: 4px; font-weight: 700; color: var(--azul); font-size: .8rem; }
+.c5-lista li .passo-label { font-weight: 600; color: var(--ouro); }
+.c5-lista li .inline-resp { font-size: .78rem; font-family: var(--mono); color: var(--azul); }
+.c5-esboco {
+  border: 1px dashed var(--cinza-borda);
+  height: 48px;
+  margin: 4px 0 2px;
+  display: flex; align-items: flex-end; justify-content: space-between;
+  padding: 0 12px 2px;
+  font-size: .74rem; color: var(--cinza);
+  font-family: var(--mono);
+}
+
+/* ── DISCUSSAO ── */
+.disc-item { display: flex; flex-direction: column; margin-bottom: 4px; }
+.disc-q { font-size: .8rem; margin: 4px 0 2px; }
+.disc-q strong { color: var(--azul); }
+.disc-linha { border-bottom: 1px dotted var(--cinza-borda); min-height: 24px; }
+
+/* ── NORMAS ── */
+.normas-table td:first-child {
+  width: 28px; text-align: center;
+  font-weight: 700; color: var(--azul);
+  font-size: .85rem;
+}
+.normas-table td:last-child { width: 110px; }
+
+/* ── FECHAMENTO (padrao FA) ── */
+.fechamento { border-top: 1px solid var(--cinza-borda); margin-top: 10px; padding-top: 9px; }
+.fechamento .frase {
+  text-align: center; font-size: .92rem; font-style: italic; color: var(--texto); line-height: 1.55;
+}
+.fechamento .frase strong { color: var(--ouro); font-style: normal; }
+/* v6: o fecho da despedida ganha destaque de cor e corpo maior */
+.fechamento .fecho-destaque { color: var(--azul); font-weight: 700; font-size: 1.08rem; }
+
+/* ── ESPACO DA EQUIPE DE MONITORIA (padrao FA) ── */
+.monitoria { border: 1.5px solid var(--verde); margin-top: 10px; padding: 8px 10px 9px; }
+.monitoria-titulo {
+  font-size: .8rem; font-weight: 700; color: var(--verde);
+  text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px;
+}
+.monitoria-entrega { font-size: .9rem; font-weight: 600; margin-bottom: 7px; }
+.monitoria-marcas { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-bottom: 7px; }
+.marca { display: flex; align-items: center; gap: 5px; font-size: .8rem; }
+.marca .cx { width: 12px; height: 12px; border: 1px solid var(--cinza); flex-shrink: 0; }
+.marca .data { display: inline-flex; align-items: flex-end; gap: 3px; color: var(--cinza); }
+.marca .data i { display: inline-block; border-bottom: 1px solid var(--linha); height: 1em; font-style: normal; }
+.marca .data .d, .marca .data .m { width: 22px; }
+.marca .data .a { width: 34px; }
+.monitoria-criterios { font-size: .8rem; color: var(--cinza); line-height: 1.55; margin-bottom: 7px; }
+.monitoria-criterios strong { color: var(--texto); font-weight: 600; }
+.monitoria-obs { font-size: .8rem; font-weight: 600; color: var(--cinza); text-transform: uppercase; letter-spacing: .4px; }
+.monitoria-linha { border-bottom: 1px solid var(--linha); height: 22px; }
+.monitoria-assina { display: grid; grid-template-columns: 2fr 1fr; gap: 18px; margin-top: 6px; }
+.monitoria-assina .campo {
+  display: flex; align-items: baseline; gap: 6px;
+  font-size: .8rem; border-bottom: 1px solid var(--linha); padding-bottom: 3px;
+}
+.monitoria-assina label { font-weight: 600; color: var(--verde); white-space: nowrap; font-size: .8rem; }
+.monitoria-assina .linha { flex: 1; min-width: 0; height: 1.2em; }
+
+/* ── RODAPES ── */
+.rodape-print { display: none; }
+.barra-tela { text-align: center; padding: 18px 0 6px; }
+.barra-tela .btn {
+  padding: 11px 26px; background: var(--azul); color: oklch(0.13 0.01 260);
+  border: none; font-family: var(--font); font-size: .85rem; font-weight: 700;
+  cursor: pointer; min-height: 44px;
+}
+.barra-tela .btn:hover { filter: brightness(1.1); }
+.barra-tela .nota { font-size: .8rem; color: var(--cinza); margin-top: 8px; line-height: 1.5; }
+
+/* ============================================================
+   TIPOGRAFIA DE TELA — padrao FE1 movel (v6): piso de .8rem e
+   corpos maiores para leitura no celular, como na atualizacao
+   do indice do site fe1-oa (nome 1.08rem / tag .95rem) e no
+   Espaco da Monitoria (A4.36). SO a tela cresce: o @media print
+   abaixo permanece intacto e a paginacao impressa nao muda.
+   REPLICAR este bloco identico nos RB das demais trilhas.
+   ============================================================ */
+@media screen {
+  body { font-size: 1.02rem; }
+  .header-left h1 { font-size: 1.2rem; }
+  .header-left .sub { font-size: .84rem; }
+  .header-right { font-size: .8rem; }
+  .header-right .badge { font-size: .9rem; }
+  .id-box-titulo { font-size: .8rem; }
+  .id-box .campo-linha { font-size: .92rem; }
+  .id-box label { font-size: .84rem; }
+  .opts { font-size: .84rem; }
+  .data-campo { font-size: .88rem; }
+  .piazzi { font-size: .84rem; }
+  .epigrafe { font-size: .95rem; }
+  .epigrafe .atrib { font-size: .8rem; }
+  .checklist-titulo { font-size: .8rem; }
+  .fase-nome { font-size: .8rem; }
+  .oa-item { font-size: .8rem; }
+  .secao-titulo .num { width: 26px; height: 26px; font-size: .86rem; }
+  .secao-titulo h2 { font-size: 1.02rem; }
+  .secao-titulo .hint { font-size: .8rem; }
+  .alerta-seg { font-size: .86rem; }
+  .check-list li { font-size: .92rem; }
+  .assinatura { font-size: .9rem; }
+  .lembrete { font-size: .86rem; }
+  .protocolo-lista li { font-size: .92rem; }
+  .protocolo-lista li::before { font-size: .84rem; }
+  .nota-metodo { font-size: .84rem; }
+  .tabela-rotulo { font-size: .84rem; }
+  table { font-size: .92rem; }
+  th { font-size: .8rem; }
+  .resultado-final .titulo-res { font-size: .8rem; }
+  .resultado-final .formula-res { font-size: 1.15rem; }
+  .c5-lista li { font-size: .92rem; }
+  .c5-lista li .passo-num { font-size: .92rem; }
+  .c5-lista li .inline-resp { font-size: .88rem; }
+  .c5-esboco { font-size: .84rem; }
+  .calc-formula { font-size: .92rem; }
+  .calc-formula .eq { font-size: .88rem; }
+  .calc-formula .un-m { font-size: .82rem; }
+  .disc-q { font-size: .92rem; }
+  .fechamento .frase { font-size: 1.02rem; }
+  .fechamento .fecho-destaque { font-size: 1.2rem; }
+  .barra-tela .nota { font-size: .84rem; }
+}
+
+/* ============================================================
+   IMPRESSAO — paleta azul sobre branco (padrao T04):
+   titulos e rotulos em azul #1F3864, linhas de escrita discretas.
+   @page { margin: 0 } suprime o cabecalho/rodape do navegador;
+   a margem real vira o padding de .pagina.
+   ============================================================ */
+@media print {
+  @page { size: A4 portrait; margin: 0; }
+
+  body {
+    background: #FFFFFF !important;
+    color: #1A1A1A !important;
+    font-size: 8.8pt;
+    line-height: 1.34;
+  }
+  .folha { max-width: none; padding: 0; }
+
+  /* uma .pagina por folha A4; coluna flex com a altura da folha:
+     a folga vira linha de escrita (.cresce) e o rodape cola na base */
+  .pagina {
+    margin: 0; padding: 11mm 13mm 9mm 13mm;
+    break-after: page; page-break-after: always;
+    display: flex; flex-direction: column; height: 297mm;
+  }
+  .pagina:last-of-type { break-after: auto; page-break-after: auto; }
+  /* ARMADILHA (FA): repetir o padding-top — a regra de tela
+     `.pagina + .pagina` vence dentro do @media print. */
+  .pagina + .pagina { border-top: none; padding-top: 11mm; }
+  .rodape-print {
+    display: block; text-align: center;
+    font-size: 6.8pt; color: #808080;
+    border-top: .5pt solid #D0D0D0; padding-top: 3pt;
+    margin-top: auto;
+  }
+
+  /* a secao marcada .cresce absorve a folga da pagina; tabela .estica
+     dentro dela distribui a folga entre as proprias linhas */
+  .cresce { flex: 1 1 auto; display: flex; flex-direction: column; }
+  .cresce table.estica { flex: 1 1 auto; }
+
+  .header { border-top: 2.5pt solid #1F3864; border-bottom: .5pt solid #C0C0C0; padding: 5pt 0; margin-bottom: 7pt; }
+  .header-left h1 { color: #1F3864 !important; font-size: 12pt; }
+  .header-left .sub { color: #4D6A96 !important; }
+  .header-right { color: #4D6A96 !important; }
+  .header-right .badge { color: #1F3864 !important; }
+
+  .id-box { border: 1pt solid #1A1A1A !important; padding: 5pt 8pt 6pt; margin-bottom: 6pt; }
+  .id-box-titulo { color: #1A1A1A !important; font-size: 7pt; margin-bottom: 4pt; }
+  .id-box .campo-linha { border-bottom: .75pt solid #7A7A7A !important; padding-bottom: 4pt; margin-bottom: 5pt; }
+  .id-box label { color: #1F3864 !important; }
+  .opts { color: #4D4D4D !important; }
+  .opts .opt::before { border: 1pt solid #808080 !important; width: 10pt; height: 10pt; }
+  .data-campo { color: #4D4D4D !important; }
+
+  .piazzi { border: .5pt solid #C0C0C0 !important; color: #1F3864 !important; padding: 4pt 8pt; margin-bottom: 6pt; font-size: 8pt; }
+  .piazzi .mao { color: #1F3864 !important; font-weight: 700; }
+  .piazzi em { color: #1F3864 !important; }
+
+  .epigrafe {
+    background: #F4F4F4 !important; border-left: 2.5pt solid #1F3864 !important;
+    padding: 5pt 9pt; margin-bottom: 7pt; font-size: 9pt;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .epigrafe .cit { color: #1F3864 !important; }
+  .epigrafe .atrib { color: #4D4D4D !important; }
+
+  .checklist { margin-bottom: 7pt; }
+  .checklist-titulo { color: #1F3864 !important; font-size: 7.2pt; margin-bottom: 3pt; }
+  .checklist-fases { gap: 6pt; }
+  .fase {
+    border: .5pt solid #B5B5B5 !important; border-top: 1.5pt solid #1F3864 !important;
+    padding: 4pt 6pt 4.5pt; break-inside: avoid;
+  }
+  .fase-nome { color: #1F3864 !important; font-size: 7.4pt; margin-bottom: 3pt; }
+  .fase-oas { gap: 3pt 7pt; }
+  .oa-item { font-size: 7pt; }
+  .oa-box { width: 7pt; height: 7pt; border: .75pt solid #1A1A1A !important; }
+  .oa-sigla { color: #000000 !important; }
+  .oa-nome { color: #4D4D4D !important; }
+
+  .secao { margin-bottom: 7pt; }
+  .secao-titulo { margin-bottom: 5pt; gap: 6pt; }
+  .secao-titulo .num {
+    background: #E8EDF4 !important; color: #1F3864 !important;
+    border: .75pt solid #1F3864;
+    width: 15pt; height: 15pt; font-size: 8pt;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .secao-titulo h2 { color: #1F3864 !important; font-size: 9.5pt; }
+  .secao-titulo .hint { color: #808080 !important; font-size: 7pt; }
+
+  .alerta-seg {
+    background: #FDEDEC !important; border-color: #C0392B !important;
+    padding: 4pt 8pt; margin-bottom: 4pt;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .alerta-seg strong { color: #C0392B !important; }
+  .check-list li { font-size: 8.2pt; padding: 2pt 0; }
+  .check-list li::before { width: 10pt; height: 10pt; border: 1pt solid #808080 !important; }
+  .check-list.seg li::before { border-color: #C0392B !important; }
+  .assinatura { color: #1F3864 !important; margin-top: 4pt; }
+  .assinatura .linha-ass { border-bottom-color: #C0392B !important; }
+
+  .lembrete {
+    background: #FFF5E0 !important; border-color: #C8922A !important;
+    padding: 4pt 8pt; margin-bottom: 5pt;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .lembrete strong { color: #8A6A18 !important; }
+  .protocolo-lista li { font-size: 8.2pt; padding: 1.5pt 0 1.5pt 14pt; }
+  .protocolo-lista li::before { color: #1F3864 !important; font-size: 7.6pt; }
+  .nota-metodo { color: #808080 !important; font-size: 7.4pt; }
+
+  /* Imagem de fundo: visivel o bastante para ilustrar, clara o bastante
+     para a caneta passar por cima — mesmos valores calibrados da FA
+     impressa da T10/FC1 (a impressora P&B clareia meios-tons; o valor
+     de tela nao serve aqui). */
+  .fundo-ilustra {
+    opacity: .26 !important;
+    filter: grayscale(1) contrast(.95) brightness(1.02) !important;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+
+  .tabela-rotulo { color: #4D4D4D !important; font-size: 7.6pt; margin: 3pt 0 2pt; }
+  table { font-size: 8.2pt; margin: 2pt 0 5pt; }
+  th {
+    background: #E8EDF4 !important; color: #1F3864 !important;
+    border: .5pt solid #9AA7BD !important; padding: 3pt 3pt;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  td { border: .5pt solid #9AA7BD !important; height: 11mm; padding: 3pt 4pt; }
+  tr.voce td {
+    background: #E8EDF4 !important; border-color: #1F3864 !important;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  tr.voce td:first-child { color: #1F3864 !important; }
+
+  .calc-bloco { background: #F8F8F8 !important; padding: 4pt 8pt; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .calc-formula { font-size: 8.4pt; margin: 4pt 0; }
+  .calc-formula .label { color: #1F3864 !important; }
+  .calc-formula .eq { color: #4D4D4D !important; }
+  .calc-formula .campo-calc { border-bottom-color: #1F3864 !important; }
+
+  .resultado-final {
+    background: #F4F6FA !important; border: 1pt solid #1F3864 !important;
+    padding: 5pt 9pt; margin-top: 4pt;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .resultado-final .titulo-res { color: #1F3864 !important; font-size: 7.4pt; }
+  .resultado-final .formula-res { color: #1A1A1A !important; font-size: 10pt; }
+  .resultado-final .campo-res { border-bottom-color: #1F3864 !important; }
+
+  .c5-lista { flex: 1 1 auto; display: flex; flex-direction: column; }
+  .c5-lista li { flex: 1 1 auto; border-bottom: .5pt dotted #9AA7BD !important; min-height: 8mm; }
+  .c5-lista li.fixo { flex: 0 0 auto; }
+  .c5-lista li .passo-num { color: #1F3864 !important; }
+  .c5-lista li .passo-label { color: #2E5A8F !important; }
+  .c5-lista li .inline-resp { color: #1F3864 !important; }
+  .c5-esboco { border-color: #9AA7BD !important; color: #808080 !important; height: 12mm; }
+
+  .disc-item { flex: 1 1 auto; }
+  .disc-q { font-size: 8.2pt; }
+  .disc-q strong { color: #1F3864 !important; }
+  .disc-linha { flex: 1 1 auto; border-bottom: .5pt dotted #9AA7BD !important; min-height: 7mm; }
+
+  .normas-table td:first-child { color: #1F3864 !important; }
+
+  .fechamento { border-top: .5pt solid #C0C0C0 !important; margin-top: 5pt; padding-top: 5pt; flex: 0 0 auto; }
+  .fechamento .frase { color: #1F3864 !important; font-size: 9.6pt; line-height: 1.4; }
+  .fechamento .frase strong { color: #1F3864 !important; }
+  /* v6: destaque do fecho no laranja de impressao da FE (#AE5314, 4,89:1) */
+  .fechamento .fecho-destaque { color: #AE5314 !important; font-size: 11pt; }
+
+  .monitoria { border: 1pt solid #1A1A1A !important; margin-top: 4pt; padding: 3pt 7pt 3pt; break-inside: avoid; }
+  .monitoria-titulo { color: #1A1A1A !important; font-size: 7.5pt; margin-bottom: 1.5pt; }
+  .monitoria-entrega { color: #000000 !important; font-size: 8.6pt; margin-bottom: 2pt; }
+  .monitoria-marcas { gap: 2pt 12pt; margin-bottom: 2pt; }
+  .marca { font-size: 7.8pt; color: #000000 !important; }
+  .marca .cx { width: 8.5pt; height: 8.5pt; border: .75pt solid #1A1A1A !important; }
+  .marca .data { color: #000000 !important; gap: 2pt; }
+  .marca .data i { border-bottom: .75pt solid #7A7A7A !important; height: .95em; }
+  .marca .data .d, .marca .data .m { width: 16pt; }
+  .marca .data .a { width: 26pt; }
+  .monitoria-criterios { color: #4D4D4D !important; font-size: 7pt; line-height: 1.3; margin-bottom: 2pt; }
+  .monitoria-criterios strong { color: #1A1A1A !important; }
+  .monitoria-obs { color: #4D4D4D !important; font-size: 7.2pt; }
+  .monitoria-linha { border-bottom: .5pt solid #7A7A7A !important; height: 4.5mm; }
+  .monitoria-assina { gap: 16pt; margin-top: 2pt; }
+  .monitoria-assina .campo { border-bottom: .75pt solid #7A7A7A !important; padding-bottom: 2pt; font-size: 7.8pt; }
+  .monitoria-assina label { color: #1A1A1A !important; font-size: 7.5pt; }
+
+  .barra-tela { display: none !important; }
+}
+
+/* ==== PADRAO FE — aplicado por padronizar_oa_fe.py ==== */
+body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
+.container { max-width: 800px; margin: 0 auto; padding: 24px 16px 80px; }
+/* HEADER */
+.header { background: var(--painel); border-top: 3px solid var(--epi); padding: 14px 20px; margin-bottom: 20px; }
+.header-inner { max-width: 800px; margin: 0 auto; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.header .marca { width: 52px; height: 52px; flex-shrink: 0; }
+.header h1 { font-size: 1.4rem; font-weight: 900; letter-spacing: -0.02em; flex: 1 1 240px; }
+.header h1 .trilha-code { color: var(--epi); }
+.badge {
+  display: inline-block;
+  background: var(--epi); color: oklch(0.13 0.01 260);
+  padding: 4px 12px; border-radius: var(--r-sm);
+  font-size: 0.68rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 2px;
+}
+.header-sub {
+  max-width: 800px; margin: 6px auto 0;
+  font-size: 0.88rem;
+  color: var(--cinza);
+}
+
+/* PIAZZI BAR */
+.piazzi-bar { display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; background:var(--painel); border:1px solid var(--cinza-borda); padding:10px 16px; margin-bottom:16px; font-size:.78rem; }
+.piazzi-bar .piazzi-ref { color:var(--cinza); }
+.piazzi-bar .piazzi-tag { display:inline-block; border:1px solid var(--epi); color:var(--epi); padding:2px 10px; font-size:.72rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; }
+.piazzi-bar .piazzi-text { color:var(--texto); font-style:italic; font-size:.74rem; }
+.piazzi-bar .piazzi-yt { display:inline-flex; align-items:center; gap:5px; background:var(--erro); color:var(--branco); padding:4px 12px; font-size:.72rem; font-weight:700; text-decoration:none; cursor:pointer; }
+.piazzi-bar .piazzi-yt::before { content:'\25B6'; font-size:.6rem; }
+
+/* INTRO */
+.intro-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  background: var(--superficie);
+  border: 1px solid var(--cinza-borda);
+  border-left: 4px solid var(--aco);
+  padding: 16px 18px;
+  margin-bottom: 20px;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--texto);
+}
+.intro-box .vagoneta { width: 84px; height: auto; flex-shrink: 0; display: block; margin-top: 2px; }
+.intro-box strong { color: var(--epi); }
+
+/* ENCERRAMENTO */
+.encerramento { max-width:800px; margin:30px auto 10px; padding:20px 16px; border-top:2px solid var(--epi); text-align:center; }
+/* fecho em destaque (padrao RB v5): cor da familia FE e corpo maior */
+.encerramento .fecho-frase { font-family:var(--serif); font-size:1.15rem; line-height:1.5; color:var(--epi); font-weight:700; }
+.encerramento .fecho-acao { color:var(--epi); font-size:.95rem; text-transform:uppercase; font-weight:700; margin-top:10px; line-height:1.5; }
+.encerramento .fecho-links { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:14px; }
+.encerramento .fecho-btn { display:inline-flex; align-items:center; gap:7px; padding:10px 18px; min-height:44px; background:var(--epi); color:oklch(0.13 0.01 260); font-family:var(--mono); font-size:.8rem; font-weight:700; text-decoration:none; letter-spacing:.03em; }
+.encerramento .fecho-btn::before { content:'\25B6'; font-size:.62rem; }
+.encerramento .fecho-btn:hover { background:var(--epi-claro); }
+.encerramento .fecho-btn.secundario { background:transparent; color:var(--aco); border:1px solid var(--aco); }
+.encerramento .fecho-btn.secundario::before { content:'\2630'; font-size:.72rem; }
+.encerramento .fecho-btn.secundario:hover { background:var(--aco-bg); }
+.encerramento .fecho-inst { color:var(--cinza); font-size:.85rem; margin-top:16px; line-height:1.5; }
+.footer-line { text-align:center; font-size:.85rem; color:var(--cinza); padding:16px 12px; line-height:1.5; }
+.header .badge { background: var(--epi); color: oklch(0.13 0.01 260); padding: 4px 12px; border-radius: var(--r-sm); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; }
+.header .header-inner h1 { font-size: 1.4rem; font-weight: 900; letter-spacing: -0.02em; flex: 1 1 240px; }
+.header .header-inner h1 .trilha-code { color: var(--epi); }
+
+.header .marca { width: 42px; height: 42px; flex-shrink: 0; }
+.header { display: flex; align-items: center; gap: 12px; }
+@media print { .header .marca { width: 38px; height: 38px; } }
+
+
+
+/* ==== FE-T0E-RB (gerar_rb_t0e_fe.py): legendas ABNT, equacoes, retas numericas, grafico, RCP ==== */
+.pim { text-decoration: overline; text-transform: none; }
+.legenda { font-size: .78rem; font-weight: 700; color: var(--azul); margin: 6px 0 2px; }
+.fonte-abnt { font-size: .7rem; color: var(--cinza); margin: 1px 0 6px; }
+.texto p { font-size: .84rem; margin: 0 0 5px; }
+.eqs { margin: 3px 0 6px; }
+.eq { display: flex; align-items: center; font-size: .86rem; margin: 3px 0; gap: 8px; }
+.eq .f { flex: 1 1 auto; text-align: center; font-family: var(--serif); }
+.eq .n { flex: 0 0 auto; font-weight: 700; color: var(--azul); }
+.contas { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 16px; font-size: .82rem; margin: 4px 0 6px; }
+.contas .conta { display: block; min-height: 8mm; border-bottom: 1px solid var(--cinza-borda); }
+.branco { display: inline-block; min-width: 22mm; min-height: 1.2em; border-bottom: 1px solid var(--cinza-borda); }
+.resultado { font-size: .92rem; font-weight: 700; margin: 5px 0; text-align: center; }
+.figura-svg { text-align: center; margin: 2px 0; }
+.figura-svg svg { max-width: 100%; height: auto; background: #fff; }
+table.t0e td { height: 7.5mm; text-align: center; }
+table.t0e td:first-child { text-align: center; }
+table.t0e tr.soma td { font-weight: 700; }
+.rcp { width: 100%; border-collapse: collapse; }
+.rcp td { text-align: left !important; vertical-align: top; height: 14mm; font-size: .8rem; }
+.rcp td.passo { width: 30%; font-weight: 700; color: var(--azul); }
+.espaco { border: 1px solid var(--cinza-borda); min-height: 18mm; padding: 4px 6px; font-size: .8rem; }
+.g, td.g, span.g, div.g { color: #C00000 !important; font-weight: 700; }
+.gab-nota { border: 1px dashed #C00000; color: #C00000; font-size: .78rem; padding: 4px 8px; margin: 4px 0 6px; }
+.gab-nota p { margin: 0 0 3px; }
+table.rubrica td { height: auto; font-size: .76rem; text-align: left; }
+table.rubrica td:last-child { text-align: center; width: 14mm; }
+.cx { display: inline-block; width: 10px; height: 10px; border: 1px solid #808080; vertical-align: -1px; margin: 0 4px 0 8px; }
+.cx.g { background: #C00000; border-color: #C00000; }
+.fim-parte { font-size: .84rem; font-weight: 700; color: var(--azul); text-align: center; margin: 6px 0; }
+.motiva { border: 1.5px solid var(--azul); padding: 6px 10px; font-size: .86rem; margin: 6px 0; }
+@media print {
+  .legenda { font-size: 7.8pt; color: #1F3864 !important; margin: 4pt 0 1.5pt; }
+  .fonte-abnt { font-size: 6.8pt; color: #4D4D4D !important; margin: 1pt 0 4pt; }
+  .texto p { font-size: 8.4pt; margin: 0 0 3.5pt; }
+  .eq { font-size: 8.8pt; margin: 2pt 0; }
+  .eq .n { color: #1F3864 !important; }
+  .contas { font-size: 8.2pt; gap: 3pt 12pt; }
+  .contas .conta { border-bottom: .5pt solid #9AA7BD !important; min-height: 7mm; }
+  .branco { border-bottom: .5pt solid #7A7A7A !important; }
+  .resultado { font-size: 9.6pt; }
+  table.t0e td { height: 6.5mm; }
+  .rcp td { height: auto; font-size: 8pt; border: .5pt solid #9AA7BD !important; }
+  .rcp td.passo { color: #1F3864 !important; }
+  .espaco { border: .5pt solid #9AA7BD !important; min-height: 16mm; font-size: 8pt; }
+  .cresce .espaco.estica, .cresce .rcp.estica { flex: 1 1 auto; }
+  .g, td.g, span.g, div.g { color: #C00000 !important; }
+  .gab-nota { font-size: 7.6pt; border-color: #C00000 !important; color: #C00000 !important; }
+  table.rubrica td { height: auto; font-size: 7.4pt; padding: 2pt 4pt; }
+  .fim-parte { font-size: 8.6pt; color: #1F3864 !important; }
+  .motiva { border-color: #AE5314 !important; font-size: 8.8pt; padding: 5pt 8pt; }
+  .figura-svg svg { max-width: none; }
+}
+
+/* ==== cabecalho e rodape padrao (v2, PRE-outro-t0e-cabecalho-padrao-rb-v2-rc-v1-fe1-2026-11-04) ==== */
+.header > .fe-cab-marcas { margin: 0; justify-content: flex-start; }
+.header > .fe-cab-marcas svg { width: 34px; height: 34px; }
+.header > .fe-cab-marcas + .header-left { margin-right: auto; }
+.header-left h1 .trilha-code { color: var(--epi); }
+.fe-header-sub { font-size: .82rem; color: var(--cinza); margin: -6px 0 10px; }
+.id-box .campo-id { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; font-size: .8rem;
+  padding-bottom: 4px; margin-bottom: 6px; }
+.id-box .campo-id:last-child { margin-bottom: 0; }
+.id-box .vazio { flex: 1; min-width: 0; height: 1.5em; }
+.id-box .vazio.ra { flex: 0 0 9em; }
+.rubrica-site { border: 1px solid #808080; background: #EEEEEE; color: #1A1A1A; font-weight: 700; font-size: .86rem;
+  text-align: center; padding: 5px 10px; margin: 0 0 10px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.pagina > .fe-rodape { margin-top: auto; padding: 6px 0 2px; font-size: .72rem; line-height: 1.4; border-top: 0; }
+.pagina > .fe-rodape .fe-inst-marcas { margin: 0 auto 4px; }
+.pagina > .fe-rodape .fe-inst-marcas svg { width: 24px; height: 24px; }
+.so-tela { margin: 10px 0; }
+table.rubrica-trilha td { font-size: .78rem; text-align: left; }
+table.rubrica-trilha td:last-child { text-align: center; width: 18mm; white-space: nowrap; }
+@media print {
+  .header > .fe-cab-marcas svg { width: 24px; height: 24px; }
+  .fe-header-sub { font-size: 7.6pt; margin: -3pt 0 6pt; color: #4D4D4D !important; }
+  .id-box .campo-id { border-bottom: 0 !important; padding-bottom: 2pt; margin-bottom: 4pt; }
+  .rubrica-site { font-size: 8.6pt !important; border: .6pt solid #808080 !important; padding: 3pt 8pt; margin-bottom: 6pt; }
+  /* no A4, icones e texto institucional numa linha so: a folha da Parte 1 nao ganha pagina */
+  .pagina > .fe-rodape { display: flex; align-items: center; justify-content: center; gap: 8pt;
+    font-size: 7pt; line-height: 1.3; color: #333 !important; padding: 2pt 0 0; }
+  .pagina > .fe-rodape .fe-inst-marcas { width: auto; margin: 0; flex: 0 0 auto; }
+  .pagina > .fe-rodape .fe-inst-marcas svg { width: 22px; height: 22px; }
+  .pagina > .fe-rodape .fe-rodape-texto { text-align: left; max-width: 150mm; margin: 0; }
+  .pagina > .fe-rodape + .rodape-print { margin-top: 2pt; }
+  table.t0e td { height: 6mm; }
+  .pagina { padding-top: 10mm; padding-bottom: 7mm; }
+  .pagina + .pagina { padding-top: 10mm; }
+  .so-tela { display: none !important; }
+}
+/* ICONES-FE */
+.fe-cab-marcas { display: flex; gap: 10px; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-bottom: 14px; }
+.fe-cab-marcas svg { width: 52px; height: 52px; display: block; }
+.fe-inst-marcas { display: flex; gap: 14px; align-items: center; justify-content: center;
+  width: 100%; margin: 0 auto 10px; }
+.fe-inst-marcas a { display: flex; }
+.fe-inst-marcas svg { width: 30px; height: 30px; display: block; }
+.fe-agr-marca { display: flex; justify-content: center; width: 100%; margin: 0 auto 10px; }
+.fe-agr-marca a { display: flex; }
+.fe-agr-marca svg { width: 30px; height: 30px; display: block; }
+.fe-rodape { text-align: center; padding: 22px 16px 26px; font-size: .82rem; line-height: 1.6;
+  color: var(--cinza, #8a8f98); border-top: 1px solid var(--fio, #333); margin-top: 40px; }
+.fe-rodape a { color: inherit; }
+.fe-rodape-texto { max-width: 960px; margin: 0 auto; }
+@media print { .fe-agr-marca { display: none !important; } }
+/* URL longa no corpo (autolink do pandoc ou texto corrido, como na Bibliografia da
+   Ementa) quebra em vez de alargar a pagina no celular; tabelas ficam de fora */
+.wrap a.uri, .wrap > p, .wrap > ul > li, .wrap > ol > li, .wrap > blockquote p { overflow-wrap: anywhere; }
+/* /ICONES-FE */
+/* CAB-IMP-FE */
+.cab-imp { font-family: 'Century Gothic', 'URW Gothic L', 'Avant Garde', Arial, sans-serif; color: #1A1A1A;
+  margin-bottom: 8px; }
+.cab-imp-topo { display: flex; align-items: center; gap: 10px; background: #FFFFFF;
+  border-top: 3px solid #1F3864; border-bottom: 1px solid #C0C0C0; padding: 8px 0; }
+.cab-imp .fe-cab-marcas { margin: 0; gap: 8px; justify-content: flex-start; }
+.cab-imp .fe-cab-marcas svg { width: 30px; height: 30px; }
+.cab-imp-tit { flex: 1 1 auto; font-size: 1.15rem; font-weight: 700; color: #1F3864; line-height: 1.25; }
+.cab-imp-tit .trilha-code { color: #E07B39; }
+.cab-imp-dir { text-align: right; font-size: .82rem; font-weight: 700; color: #1F3864; line-height: 1.5; }
+.cab-imp-dir .data { font-weight: 400; color: #1A1A1A; letter-spacing: .5px; }
+.cab-imp-dir .extra { font-weight: 400; color: #555; font-size: .72rem; }
+.cab-imp-sub { font-size: .76rem; color: #555; margin: 4px 0 0; }
+.cab-imp .parte-faixa { border-left: 5px solid #7A7A7A; background: #E8E8E8; padding: 5px 10px; margin: 8px 0;
+  font-size: 1.05rem; font-weight: 700; color: #1F3864; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.cab-imp .parte-faixa b { color: #7A7A7A; }
+.cab-imp-sec { font-size: .9rem; font-weight: 700; margin: 4px 0; }
+.cab-imp-sec span { font-weight: 400; color: #555; font-size: .78rem; }
+.cab-imp-id { border: 1.2px solid #333; padding: 4px 10px 2px; margin-bottom: 8px; }
+.cab-imp-id .linha-id { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; font-size: .82rem;
+  font-weight: 700; border-bottom: 1px solid #9A9A9A; padding: 5px 0 6px; margin-bottom: 2px; }
+.cab-imp-id .linha-id:last-child { border-bottom: 0; }
+.cab-imp-id .vazio { flex: 1; min-width: 0; height: 1.3em; }
+.cab-imp-id .vazio.ra { flex: 0 0 8em; }
+.cab-imp-id .data-campo { font-weight: 400; }
+.cab-imp-id .opts { font-weight: 400; }
+.cab-imp .rubrica-site { border: 1px solid #808080; background: #EEEEEE; color: #1A1A1A; font-weight: 700;
+  font-size: .84rem; text-align: center; padding: 5px 10px; margin: 0;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+/* rodape padrao na base da ultima pagina, acima do rodape impresso */
+.pagina > .fe-rodape { margin-top: auto; padding: 6px 0 2px; font-size: .72rem; line-height: 1.4; border-top: 0; }
+.pagina > .fe-rodape .fe-inst-marcas { margin: 0 auto 4px; }
+.pagina > .fe-rodape .fe-inst-marcas svg { width: 24px; height: 24px; }
+.fe-pag { display: none; }
+@media print {
+  .cab-imp { margin-bottom: 5pt; }
+  .cab-imp-topo { border-top: 2.5pt solid #1F3864 !important; border-bottom: .5pt solid #C0C0C0 !important; padding: 4pt 0; }
+  .cab-imp .fe-cab-marcas svg { width: 22px; height: 22px; }
+  .cab-imp-tit { font-size: 12pt; color: #1F3864 !important; }
+  .cab-imp-tit .trilha-code { color: #E07B39 !important; }
+  .cab-imp-dir { font-size: 8.4pt; color: #1F3864 !important; }
+  .cab-imp-dir .data, .cab-imp-dir .extra { color: #333 !important; }
+  .cab-imp-sub { font-size: 7.6pt; color: #4D4D4D !important; margin-top: 2pt; }
+  .cab-imp .parte-faixa { font-size: 10.5pt; padding: 3pt 8pt; margin: 5pt 0; color: #1F3864 !important; }
+  .cab-imp .parte-faixa b { color: #7A7A7A !important; }
+  .cab-imp-sec { font-size: 9pt; margin: 2pt 0 3pt; }
+  .cab-imp-sec span { font-size: 7.6pt; }
+  .cab-imp-id { border: .8pt solid #333 !important; padding: 2pt 8pt 1pt; margin-bottom: 5pt; }
+  .cab-imp-id .linha-id { font-size: 8.4pt; padding: 3pt 0 4pt; border-bottom: .5pt solid #9A9A9A !important; }
+  .cab-imp .rubrica-site { font-size: 8.4pt !important; border: .6pt solid #808080 !important; padding: 3pt 8pt; }
+  /* no A4, icones e texto institucional numa linha so: a folha nao ganha pagina */
+  .pagina > .fe-rodape { display: flex; align-items: center; justify-content: center; gap: 8pt;
+    font-family: 'Century Gothic', 'URW Gothic L', Arial, sans-serif;
+    font-size: 6.5pt; line-height: 1.25; color: #333 !important; padding: 1pt 0 0; }
+  .pagina > .fe-rodape .fe-inst-marcas { width: auto; margin: 0; flex: 0 0 auto; gap: 8pt; }
+  .pagina > .fe-rodape .fe-inst-marcas svg { width: 20px; height: 20px; }
+  .pagina > .fe-rodape .fe-rodape-texto { text-align: left; max-width: 160mm; margin: 0; }
+  .pagina > .fe-rodape + .rodape-print { display: none !important; }
+  .fe-pag { display: inline !important; color: #555 !important; }
+  /* a folga do rodape padrao sai da margem da folha (11/9 mm -> 9,5/6 mm), como no RB da LME */
+  .pagina { padding-top: 9.5mm; padding-bottom: 6mm; }
+  .pagina + .pagina { padding-top: 9.5mm; }
+  /* a ultima folha leva o rodape padrao: margem menor para ele caber sem empurrar a contagem de paginas */
+  .pagina:has(> .fe-rodape) { padding-top: 7mm; padding-bottom: 4mm; }
+}
+/* /CAB-IMP-FE */
+
+/* ==== v4: Century Gothic no corpo do RB (PRE-outro-t0e-rb-v4-parte1-century-gothic-fe1-2026-11-05) ==== */
+body, body * { font-family: 'Century Gothic', 'URW Gothic L', Arial, sans-serif !important; }
+@media print {
+  .pagina { padding-bottom: 10mm; }
+  .pagina > .fe-rodape { padding-top: 6pt; line-height: 1.6; }
+  .pagina > .fe-rodape + .rodape-print { margin-top: 5pt; }
+}
+
+/* ==== FE-T04-RB (gerar_rb_t04_fe.py): grade de figuras do autor e tabelas da Estacao 1 ==== */
+.grade-fig { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid #9AA7BD; margin: 4px 0 2px; }
+.grade-fig > div { border-right: 1px solid #9AA7BD; text-align: center; padding: 3px 2px 0; }
+.grade-fig > div:last-child { border-right: 0; }
+.grade-fig svg { width: 100%; height: auto; display: block; background: #fff; }
+.grade-fig .cap { border-top: 1px solid #9AA7BD; font-size: .76rem; text-align: left; padding: 2px 5px;
+  color: var(--azul); font-weight: 700; }
+.grade-tab { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 4px 0; }
+.grade-tab table { width: 100%; }
+.grade-tab td, .grade-tab th { font-size: .74rem; text-align: center; height: 6.5mm; padding: 1px 2px; }
+.grade-tab .legenda { margin-top: 0; }
+.tab-trans tr.alta td { height: 12mm; }
+.tab-trans td:first-child { text-align: left; }
+.grade-cal { margin: 4px 0; }
+.linha-med { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: .8rem; margin: 4px 0; }
+.tab-cal td, .tab-cal th { font-size: .74rem; text-align: center; padding: 1px 4px; height: 5.4mm; }
+.grade-cal .texto p { margin: 3px 0; font-size: .8rem; }
+tr.alta2 td { height: 8mm; }
+.grade-tab tr.alta2 td:first-child { text-align: left; }
+.grade-fig.duas { grid-template-columns: 1.1fr 1fr; }
+.tab-obl th { font-size: .7rem; padding: 2px 3px; }
+.tab-obl td { height: 9mm; text-align: center; }
+.secao .espaco.curto, .grade-fig.duas + .fonte-abnt ~ .espaco { min-height: 13mm; }
+.grade-fig.duas { max-width: 92%; margin-left: auto; margin-right: auto; }
+.tab-concl td { height: 10mm; font-size: .8rem; }
+.tab-concl td:first-child { width: 30%; text-align: left !important; }
+.tab-concl td:last-child { width: 20%; text-align: center; }
+@media (max-width: 560px) {
+  .grade-fig, .grade-fig.duas, .grade-tab, .grade-cal { grid-template-columns: 1fr; }
+  .grade-fig > div { border-right: 0; border-bottom: 1px solid #9AA7BD; }
+}
+@media print {
+  .grade-fig { border: .5pt solid #9AA7BD !important; }
+  .grade-fig > div { border-right: .5pt solid #9AA7BD !important; }
+  .grade-fig > div:last-child { border-right: 0 !important; }
+  .grade-fig .cap { font-size: 7.6pt; color: #1F3864 !important; border-top: .5pt solid #9AA7BD !important; }
+  .grade-tab td, .grade-tab th { font-size: 7.2pt; height: 5.6mm; }
+}
+
+/* ==== FE-T04-RM (gerar_rm_t04_fe.py): estrutura padrao do RM (molde ILB-T0E-RM-v10) ==== */
+.atencao { border: 1px solid #808080; background: #EEEEEE; padding: 5px 10px; margin: 0 0 8px; font-size: .86rem;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.atencao strong.tit { display: block; font-size: .95rem; color: #1F3864; }
+.secao-titulo h2 .sn { color: #E07B39; }
+.dica { font-size: .78rem; color: #555; font-style: italic; margin: 0 0 3px; }
+.sub { font-size: .86rem; font-weight: 700; color: #1F3864; margin: 6px 0 2px; }
+.escrita { min-height: 14mm; margin: 2px 0 4px; font-size: .8rem; line-height: 7mm;
+  position: relative; overflow: hidden; }
+.escrita .pauta { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.escrita .pauta i { display: block; height: 7mm; box-sizing: border-box; border-bottom: 1px solid #9A9A9A; }
+.escrita .g { position: relative; }
+.escrita .g { line-height: 1.35; display: inline-block; padding-top: 1mm; }
+.linha-res { display: flex; flex-wrap: wrap; gap: 4px 22px; font-size: .86rem; margin: 5px 0; align-items: baseline; }
+.linha-res .branco { min-width: 26mm; }
+.grade-tab.duas { grid-template-columns: 1fr 1.5fr; }
+.rcp { border: 1px solid #C00000; color: #C00000; padding: 3px 8px 4px; margin: 4px 0 6px; font-size: .76rem;
+  line-height: 1.35; }
+.rcp .rcp-tit { font-weight: 700; border-bottom: 1px solid #C00000; margin-bottom: 2px; }
+.rcp p { margin: 1px 0; }
+.rcp p b { color: #8A0000; }
+.rcp .rcp-esq { float: right; width: 52mm; margin: 2px 0 2px 8px; }
+.rcp .rcp-esq svg { display: block; width: 100%; height: auto; }
+.rcp .cond { clear: both; }
+.rcp .cond { border-top: 1px dotted #C00000; margin-top: 3px; padding-top: 2px; }
+table.quadro-contas { width: 100%; table-layout: fixed; }
+table.quadro-contas th { font-size: .72rem; }
+table.quadro-contas td { height: 11mm; text-align: center; }
+.tab-trans tr.alta td { height: 9mm; }
+.escrita .g { font-size: .78rem; }
+.reta-dec { display: block; width: 96mm; max-width: 100%; height: auto; margin: 2px auto 4px; }
+.card-qr { display: flex; align-items: center; gap: 10px; border: 1px solid #808080; padding: 5px 10px; margin: 6px 0 4px; }
+.card-qr .ico svg { width: 22px; height: 22px; }
+.card-qr .ico { display: flex; gap: 4px; }
+.card-qr .txt { flex: 1; font-size: .8rem; }
+.card-qr .txt strong { display: block; font-size: .86rem; }
+.card-qr .qr svg { width: 22mm; height: 22mm; display: block; }
+.so-papel { display: none; }
+.ia-bloco { border: 1.5px solid var(--azul, #1F3864); padding: 8px 12px; margin: 10px 0; font-size: .86rem; }
+.ia-bloco h3 { margin: 0 0 6px; font-size: 1rem; color: #1F3864; }
+.ia-bloco .card { border: 1px solid #9AA7BD; padding: 6px 8px; margin: 6px 0; }
+.ia-bloco pre { white-space: pre-wrap; word-break: break-word; font-family: inherit; font-size: .84rem; margin: 0 0 4px; }
+.ia-bloco .btn-copiar { font-size: .78rem; padding: 3px 10px; cursor: pointer; }
+.ia-bloco label { display: inline-block; margin: 2px 10px 2px 0; }
+.ia-bloco input[type=text] { width: 100%; max-width: 420px; }
+.nav-rm { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+.nav-rm a, .nav-rm button { border: 1px solid #1F3864; padding: 6px 12px; font-size: .86rem; color: #1F3864;
+  background: #fff; text-decoration: none; cursor: pointer; }
+table.rubrica td:last-child { text-align: center; width: 18mm; }
+@media (max-width: 560px) {
+  .grade-tab.duas { grid-template-columns: 1fr; }
+  .linha-res { gap: 4px 10px; }
+  .card-qr { flex-wrap: wrap; }
+  table.quadro-contas th, table.quadro-contas td { word-break: break-word; }
+}
+@media print {
+  .so-papel { display: block !important; }
+  .card-qr.so-papel { display: flex !important; }
+  .atencao { font-size: 8.4pt; padding: 3pt 8pt; margin-bottom: 5pt; border: .6pt solid #808080 !important; }
+  .atencao strong.tit { font-size: 9pt; color: #1F3864 !important; }
+  .dica { font-size: 7.4pt; color: #4D4D4D !important; }
+  .prof .dica, .prof .fonte-abnt { display: none !important; }
+  .sub { font-size: 8.6pt; margin: 4pt 0 1pt; color: #1F3864 !important; }
+  .escrita { line-height: 6.4mm; min-height: 12.8mm; }
+  .escrita .pauta i { height: 6.4mm; border-bottom: .6pt solid #9A9A9A !important; }
+  .linha-res { font-size: 8.6pt; margin: 3pt 0; }
+  .rcp { font-size: 7.2pt; padding: 2pt 6pt 3pt; margin: 3pt 0 4pt; border: .6pt solid #C00000 !important;
+    color: #C00000 !important; }
+  .rcp .rcp-tit { border-bottom: .5pt solid #C00000 !important; }
+  .rcp .rcp-esq { width: 46mm; }
+  .grade-tab tr.alta2 td { height: 6.4mm; }
+  table.quadro-contas td { height: 9mm; }
+  .prof table.quadro-contas td { height: 6.5mm; }
+  .prof .reta-dec { width: 78mm; }
+  .prof .linha-res { margin: 2pt 0; }
+  /* v2: Identificacao com as fontes e o espacamento do ILB-T0E-RM-v10 (labels e opcoes em negrito 8,9 pt,
+     linhas a cada ~20 pt) */
+  .cab-imp-sec { font-size: 9.6pt !important; }
+  .cab-imp-id .linha-id { font-size: 8.9pt !important; padding: 2pt 0 3pt !important; align-items: center; }
+  .cab-imp-id .opts { font-weight: 700 !important; font-size: 8.9pt !important; color: #1A1A1A !important;
+    gap: 8pt; margin-right: 10pt; }
+  .cab-imp-id .opts .opt::before { width: 8.5pt !important; height: 8.5pt !important; }
+  .cab-imp-id .opts.med { margin-left: 10pt; }
+  /* v2: professor sem a pauta nas Secoes 1 e 2; a Secao 3 da pagina 1 distribui a folga e leva a RCP para a base */
+  .prof .sem-pauta .pauta { display: none; }
+  /* v4 (regra do autor, secao 17.9 da FE1): RM do professor sem pauta em nenhuma das Secoes 1 a 5 */
+  .prof.v4 .escrita .pauta { display: none; }
+  .prof .s3p1 { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: space-between; }
+  .folha .secao { margin-bottom: 5pt; }
+  .folha .secao-titulo { margin-bottom: 3pt; }
+  .folha .legenda { margin-top: 3pt; }
+  .folha .fonte-abnt { margin-bottom: 1pt; }
+  .tab-trans tr.alta td { height: 7mm; }
+  .escrita .g { font-size: 7.6pt; }
+  .card-qr { border: .6pt solid #808080 !important; padding: 3pt 8pt; margin: 4pt 0 2pt; }
+  .card-qr .txt { font-size: 7.8pt; }
+  .card-qr .txt strong { font-size: 8.4pt; }
+  .card-qr .qr svg { width: 19mm; height: 19mm; }
+  .cresce .escrita.fim { flex: 1 1 auto; }
+  .secao-titulo h2 .sn { color: #E07B39 !important; }
+}
+html body .tau, html body span.tau { font-family: "Times New Roman", "Cambria Math", serif !important; font-style: italic; font-size: 1.12em; }
+</style>
 <!-- CELULAR:INICIO --><style>
 @media (max-width: 560px) {
   table { table-layout: fixed; width: 100% !important; max-width: 100%; min-width: 0 !important; }
@@ -20,8 +1043,254 @@
 </style><!-- CELULAR:FIM -->
 </head>
 <body data-pagina="t04:rm">
-<p>Esta trilha mudou de número: <a href="../../t05/rm/">abrir o endereço novo</a>.</p>
-<script>location.replace("../../t05/rm/" + location.hash);</script>
+
+<div class="folha v4">
+
+<!-- ═══════════ RM · PÁGINA 1 ═══════════ -->
+<div class="pagina">
+
+<!-- CAB-IMP-FE:INICIO -->
+  <div class="cab-imp">
+    <div class="cab-imp-topo"><div class="fe-cab-marcas"><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Curso Tecnico em Mineracao - Vagoneta (mono)"> <defs> <filter id="cab-curso-shVm" x="-20%" y="-20%" width="140%" height="140%"> <feDropShadow dx="0" dy="4" stdDeviation="4" flood-opacity="0.2"/> </filter> <pattern id="cab-curso-hatchV" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"> <line x1="0" y1="0" x2="0" y2="6" stroke="#5E5E5E" stroke-width="1.2"/> </pattern> </defs> <circle cx="256" cy="256" r="240" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="6"/> <circle cx="256" cy="256" r="222" fill="none" stroke="#5E5E5E" stroke-width="1.5" stroke-dasharray="4 6"/> <g fill="#5E5E5E"> <circle cx="130" cy="140" r="2"/> <circle cx="155" cy="175" r="1.5"/> <circle cx="390" cy="150" r="2"/> <circle cx="365" cy="120" r="1.5"/> <circle cx="100" cy="290" r="1.8"/> </g> <g filter="url(#cab-curso-shVm)"> <polygon points="155,195 175,168 198,186 175,200" fill="#1A1A1A" stroke="#1A1A1A" stroke-width="2"/> <polygon points="198,186 220,156 244,176 220,194" fill="#1A1A1A" stroke="#1A1A1A" stroke-width="2"/> <polygon points="244,176 268,148 294,170 268,190" fill="#1A1A1A" stroke="#1A1A1A" stroke-width="2"/> <polygon points="294,170 318,156 344,178 318,194" fill="#1A1A1A" stroke="#1A1A1A" stroke-width="2"/> <polygon points="344,178 362,166 384,192 358,200" fill="#1A1A1A" stroke="#1A1A1A" stroke-width="2"/> </g> <g filter="url(#cab-curso-shVm)"> <polygon points="132,200 380,200 350,305 162,305" fill="url(#cab-curso-hatchV)" stroke="#1A1A1A" stroke-width="3.5"/> <polygon points="126,186 386,186 380,206 132,206" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="3"/> <polygon points="380,200 398,188 368,303 350,305" fill="#B0B0B0" stroke="#1A1A1A" stroke-width="3"/> <polygon points="386,186 398,188 380,206" fill="#1A1A1A"/> <g stroke="#1A1A1A" stroke-width="2.2" stroke-linecap="round"> <line x1="198" y1="212" x2="194" y2="298"/> <line x1="256" y1="212" x2="256" y2="298"/> <line x1="314" y1="212" x2="318" y2="298"/> </g> <g fill="#1A1A1A"> <circle cx="148" cy="215" r="3"/> <circle cx="148" cy="290" r="3"/> <circle cx="364" cy="215" r="3"/> <circle cx="364" cy="290" r="3"/> </g> <rect x="150" y="305" width="210" height="8" fill="#1A1A1A"/> </g> <g filter="url(#cab-curso-shVm)"> <circle cx="196" cy="338" r="26" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="3"/> <circle cx="196" cy="338" r="17" fill="none" stroke="#1A1A1A" stroke-width="2"/> <circle cx="196" cy="338" r="5" fill="#1A1A1A"/> <g stroke="#1A1A1A" stroke-width="2"> <line x1="196" y1="317" x2="196" y2="359"/> <line x1="175" y1="338" x2="217" y2="338"/> </g> <circle cx="316" cy="338" r="26" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="3"/> <circle cx="316" cy="338" r="17" fill="none" stroke="#1A1A1A" stroke-width="2"/> <circle cx="316" cy="338" r="5" fill="#1A1A1A"/> <g stroke="#1A1A1A" stroke-width="2"> <line x1="316" y1="317" x2="316" y2="359"/> <line x1="295" y1="338" x2="337" y2="338"/> </g> </g> <g> <g fill="#1A1A1A"> <rect x="120" y="370" width="14" height="8" rx="1"/> <rect x="156" y="370" width="14" height="8" rx="1"/> <rect x="192" y="370" width="14" height="8" rx="1"/> <rect x="228" y="370" width="14" height="8" rx="1"/> <rect x="264" y="370" width="14" height="8" rx="1"/> <rect x="300" y="370" width="14" height="8" rx="1"/> <rect x="336" y="370" width="14" height="8" rx="1"/> <rect x="372" y="370" width="14" height="8" rx="1"/> </g> <rect x="110" y="364" width="292" height="4" fill="#1A1A1A"/> </g> </svg><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Marca da Física Experimental 1"> <title>Física Experimental 1 — Trilhas de Aprendizagem</title> <g fill="none" stroke="#E07B39" stroke-width="3"> <ellipse cx="60" cy="52" rx="46" ry="18"/> <ellipse cx="60" cy="52" rx="46" ry="18" transform="rotate(60 60 52)"/> <ellipse cx="60" cy="52" rx="46" ry="18" transform="rotate(120 60 52)"/> </g> <g fill="#E07B39"> <circle cx="53" cy="47" r="7"/> <circle cx="67" cy="47" r="7"/> <circle cx="60" cy="58" r="9"/> </g> <g stroke="#7FB2D6" stroke-width="3" stroke-linecap="square"> <line x1="26" y1="110" x2="94" y2="110"/> <line x1="30" y1="110" x2="30" y2="104"/> <line x1="40" y1="110" x2="40" y2="104"/> <line x1="50" y1="110" x2="50" y2="104"/> <line x1="60" y1="110" x2="60" y2="98"/> <line x1="70" y1="110" x2="70" y2="104"/> <line x1="80" y1="110" x2="80" y2="104"/> <line x1="90" y1="110" x2="90" y2="104"/> </g> </svg></div>
+      <div class="cab-imp-tit"><span class="trilha-code">FE1-T04</span> · Equilíbrio em Gangorras e Alavancas</div>
+      <div class="cab-imp-dir">Relatório Mínimo (RM)<br><span class="data">Pós-Lab: até ___/___/____</span></div>
+    </div>
+    <div class="cab-imp-sub">Pós-Lab · no mesmo dia das medições no Pavilhão de Física · Laboratório de Mecânica · Preencher à mão</div>
+    <div class="cab-imp-sec">Identificação</div>
+    <div class="id-box cab-imp-id">
+      <div class="linha-id"><label>Nome:</label><div class="vazio"></div><label>Registro Acadêmico (RA):</label><div class="vazio ra"></div><label>Data:</label><span class="data-campo">______/______/_______</span></div>
+      <div class="linha-id"><label>Turma:</label><div class="opts"><span class="opt">1</span><span class="opt">2</span><span class="opt">3</span></div><label>Grupo:</label><div class="opts"><span class="opt">A</span><span class="opt">B</span></div><div class="opts med"><span class="opt">Medições individuais</span><span class="opt">Medições em equipe</span></div></div>
+      <div class="linha-id"><label>RA dos colegas de bancada (separe por vírgula):</label><div class="vazio"></div></div>
+    </div>
+    <div class="atencao"><strong class="tit">Método de Estudo · Ciclo Circadiano de Aprendizagem</strong>Faça este Relatório Mínimo <strong>HOJE (dia em que você realizou as medições no Laboratório), antes de dormir</strong>, conforme explica Pierluigi Piazzi em <em>Aprendendo Inteligência</em>.</div>
+  </div>
+  <!-- CAB-IMP-FE:FIM -->
+
+  <div class="secao sem-pauta">
+    <div class="secao-titulo">
+      
+      <h2><span class="sn">Seção 1</span> · Introdução e Objetivo</h2>
+      
+    </div>
+    <p class="dica">Em 2 linhas: o que se mede nesta trilha e por quê; o objetivo é a pergunta, não o assunto.</p>
+    <div class="escrita" style="min-height:14mm"><div class="pauta"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+  </div>
+
+  <div class="secao sem-pauta">
+    <div class="secao-titulo">
+      
+      <h2><span class="sn">Seção 2</span> · Materiais e Procedimentos</h2>
+      
+    </div>
+    <p class="dica">Em 2 linhas: os materiais e como cada estação foi montada.</p>
+    <div class="escrita" style="min-height:14mm"><div class="pauta"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+    <div class="linha-res"><span>Peso de um objeto: <span class="branco"></span> N</span><span>Peso da alavanca: <span class="branco"></span> N</span><span>Entre dois ganchos: <span class="branco"></span> cm = <span class="branco"></span> m</span><span>Divisão do dinamômetro: <span class="branco"></span> N</span></div>
+  </div>
+
+  <div class="secao">
+    <div class="secao-titulo">
+      
+      <h2><span class="sn">Seção 3</span> · Dados Brutos e Análises</h2>
+      
+    </div>
+    <div class="sub">Estação 1 · A barra em equilíbrio</div>
+    <p class="dica">Copie do Roteiro de Bancada (RB) a sua montagem da Figura 2: as forças, com o sinal, e os objetos × gancho de cada lado.</p>
+    <div class="grade-tab duas">
+      <div>
+    <div class="legenda">Tabela 1 — Dados da Figura 2 do RB</div>
+      <table class="t0e tab-trans"><thead><tr><th><span class="un">Sentido da força</span></th><th><span class="un">Forças (N)</span></th></tr></thead>
+      <tbody><tr class="alta"><td>Para cima (+)</td><td></td></tr><tr class="alta"><td>Para baixo (−)</td><td></td></tr><tr><td>Soma das forças</td><td></td></tr></tbody></table>
+      </div>
+      <div>
+    <div class="legenda">Tabela 2 — Dados da Figura 2 do RB</div>
+      <table class="t0e"><thead><tr><th><span class="un">Lado</span></th><th><span class="un">Objetos</span></th><th><span class="un">Gancho</span></th><th><span class="un">Objetos × gancho</span></th></tr></thead>
+      <tbody><tr><td rowspan="2">Esquerdo (+)</td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td rowspan="2">Direito (−)</td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td colspan="3">Soma de objetos × gancho</td><td></td></tr></tbody></table>
+      </div>
+    </div>
+    <div class="fonte-abnt">Fonte: elaborado pelos autores, 2026.</div>
+    <div class="linha-res"><span>ΣF = <span class="branco" style="min-width:22mm"></span> N</span><span>Σ(objetos × gancho) = <span class="branco" style="min-width:22mm"></span></span></div>
+    <div class="sub">Estação 2 · Os torques na alavanca de um braço</div>
+    <p class="dica">Copie da Tabela 8 do RB (Figura 4) a força, o braço e o torque <span class="tau">τ</span> = F · d de cada puxão, com o sinal: + anti-horário, − horário.</p>
+    <div class="grade-tab" style="grid-template-columns:1fr">
+      <div>
+    <div class="legenda">Tabela 3 — Dados da Figura 4 do RB</div>
+      <table class="t0e"><thead><tr><th><span class="un">Força</span></th><th><span class="un">F (N)</span></th><th><span class="un">d (m)</span></th><th><span class="un"><span class="tau">τ</span> = F × d (N·m)</span></th></tr></thead>
+      <tbody><tr class="alta2"><td>Força elástica (+)</td><td></td><td></td><td></td></tr><tr class="alta2"><td>Peso da alavanca (−)</td><td></td><td></td><td></td></tr><tr class="alta2"><td>Peso dos objetos (−)</td><td></td><td></td><td></td></tr><tr><td colspan="3">Soma dos torques, Σ <span class="tau">τ</span></td><td></td></tr></tbody></table>
+      </div>
+    </div>
+    <div class="fonte-abnt">Fonte: elaborado pelos autores, 2026.</div>
+    <div class="linha-res"><span>Σ<span class="tau">τ</span> = <span class="branco" style="min-width:22mm"></span> N·m</span></div>
+  </div>
+
+  <div class="rodape-print">
+    FE1-T04 · RM v4 (estudante) · página 1 de 2 · Julio Azevedo
+  </div>
+</div>
+
+<!-- ═══════════ RM · PÁGINA 2 ═══════════ -->
+<div class="pagina">
+
+  <div class="secao">
+    <div class="legenda">Quadro 1 — Contas — as somas e as incertezas de leitura</div>
+    <table class="t0e quadro-contas"><thead><tr><th><span class="un">Soma das forças: ΣF (N)</span></th><th><span class="un">Objetos × gancho: Σ(o × g)</span></th><th><span class="un">Soma dos torques: Σ<span class="tau">τ</span> (N·m)</span></th><th><span class="un">Incerteza de leitura: δF = ½ divisão (N)</span></th><th><span class="un">Incerteza do torque: δ<span class="tau">τ</span> = δF · d (N·m)</span></th></tr></thead>
+    <tbody><tr><td></td><td></td><td></td><td></td><td></td></tr></tbody></table>
+    <div class="fonte-abnt">Fonte: elaborado pelos autores, 2026.</div>
+  </div>
+
+  <div class="secao cresce">
+    <div class="secao-titulo">
+      
+      <h2><span class="sn">Seção 4</span> · Discussão e Tomada de Decisão</h2>
+      
+    </div>
+    <div class="sub">A decisão</div>
+    <p class="dica">Compare |ΣF| com δF e |Σ<span class="tau">τ</span>| com δ<span class="tau">τ</span> = δF · d (d = braço do dinamômetro). Dentro da faixa, o equilíbrio está confirmado; fora dela, diga o que pode ter falhado.</p>
+    <div class="linha-res"><span>|ΣF| = <span class="branco"></span> N</span><span>δF = <span class="branco"></span> N</span><span>|Σ<span class="tau">τ</span>| = <span class="branco"></span> N·m</span><span>δ<span class="tau">τ</span> = <span class="branco"></span> N·m</span></div>
+    <div class="linha-res"><span>Equilíbrio confirmado? Por quê?</span></div>
+    <div class="escrita fim" style="min-height:7mm"><div class="pauta"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+<svg class="reta-dec" viewBox="0 0 160 30" xmlns="http://www.w3.org/2000/svg" font-family="Century Gothic, Arial, sans-serif"><line x1="8" y1="16" x2="152" y2="16" stroke="#333" stroke-width=".5"/><path d="M152 16 l-3 -1.6 v3.2 Z" fill="#333"/><line x1="14.0" y1="14.6" x2="14.0" y2="17.4" stroke="#333" stroke-width=".4"/><line x1="25.0" y1="14.6" x2="25.0" y2="17.4" stroke="#333" stroke-width=".4"/><line x1="36.0" y1="14.6" x2="36.0" y2="17.4" stroke="#333" stroke-width=".4"/><line x1="47.0" y1="14.6" x2="47.0" y2="17.4" stroke="#333" stroke-width=".4"/><line x1="58.0" y1="14.6" x2="58.0" y2="17.4" stroke="#333" stroke-width=".4"/><line x1="69.0" y1="14.6" x2="69.0" y2="17.4" stroke="#333" stroke-width=".4"/><line x1="80.0" y1="14.6" x2="80.0" y2="17.4" stroke="#333" stroke-width=".4"/><line x1="91.0" y1="14.6" x2="91.0" y2="17.4" stroke="#333" stroke-width=".4"/><line x1="102.0" y1="14.6" x2="102.0" y2="17.4" stroke="#333" stroke-width=".4"/><line x1="113.0" y1="14.6" x2="113.0" y2="17.4" stroke="#333" stroke-width=".4"/><line x1="124.0" y1="14.6" x2="124.0" y2="17.4" stroke="#333" stroke-width=".4"/><line x1="135.0" y1="14.6" x2="135.0" y2="17.4" stroke="#333" stroke-width=".4"/><line x1="146.0" y1="14.6" x2="146.0" y2="17.4" stroke="#333" stroke-width=".4"/><text x="80.0" y="24" font-size="6" text-anchor="middle" fill="#1F3864">0</text><text x="152" y="24" font-size="6" text-anchor="end" fill="#1F3864">N·m</text></svg>
+  </div>
+
+  <div class="secao cresce">
+    <div class="secao-titulo">
+      
+      <h2><span class="sn">Seção 5</span> · Recomendações e Melhorias</h2>
+      
+    </div>
+    <p class="dica">Em 2 linhas: o que você mudaria na montagem ou na leitura para diminuir a incerteza ou evitar o erro que apareceu.</p>
+    <div class="escrita fim" style="min-height:14mm"><div class="pauta"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+  </div>
+
+    <div class="card-qr so-papel">
+      <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#1F3864" stroke-width="1.6"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4v-1h6v1"/><path d="M8 10l1.5 1.5L12 9M8 15l1.5 1.5L12 14M14 10.5h3M14 15.5h3"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="#1F3864" stroke-width="1.6"><rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/><text x="12" y="15" font-size="6.5" text-anchor="middle" fill="#1F3864" stroke="none" font-family="Arial" font-weight="700">IA</text></svg></div>
+      <div class="txt"><strong>Rubrica e Uso de Tecnologias (IA)</strong>A rubrica desta Trilha de Aprendizagem e as dicas de uso da IA (prompt, Meu Perfil, contas gratuitas e nota extra) estão no site da FE1:<br>nidecop-jafb.github.io/fe1-oa/t04/rm</div>
+      <div class="qr"><svg width="35mm" height="35mm" version="1.1" viewBox="0 0 35 35" xmlns="http://www.w3.org/2000/svg"><path d="M1,1H2V2H1zM2,1H3V2H2zM3,1H4V2H3zM4,1H5V2H4zM5,1H6V2H5zM6,1H7V2H6zM7,1H8V2H7zM10,1H11V2H10zM17,1H18V2H17zM19,1H20V2H19zM20,1H21V2H20zM21,1H22V2H21zM24,1H25V2H24zM27,1H28V2H27zM28,1H29V2H28zM29,1H30V2H29zM30,1H31V2H30zM31,1H32V2H31zM32,1H33V2H32zM33,1H34V2H33zM1,2H2V3H1zM7,2H8V3H7zM11,2H12V3H11zM16,2H17V3H16zM17,2H18V3H17zM19,2H20V3H19zM23,2H24V3H23zM27,2H28V3H27zM33,2H34V3H33zM1,3H2V4H1zM3,3H4V4H3zM4,3H5V4H4zM5,3H6V4H5zM7,3H8V4H7zM9,3H10V4H9zM11,3H12V4H11zM12,3H13V4H12zM13,3H14V4H13zM15,3H16V4H15zM16,3H17V4H16zM20,3H21V4H20zM21,3H22V4H21zM22,3H23V4H22zM23,3H24V4H23zM24,3H25V4H24zM25,3H26V4H25zM27,3H28V4H27zM29,3H30V4H29zM30,3H31V4H30zM31,3H32V4H31zM33,3H34V4H33zM1,4H2V5H1zM3,4H4V5H3zM4,4H5V5H4zM5,4H6V5H5zM7,4H8V5H7zM9,4H10V5H9zM10,4H11V5H10zM12,4H13V5H12zM19,4H20V5H19zM20,4H21V5H20zM22,4H23V5H22zM25,4H26V5H25zM27,4H28V5H27zM29,4H30V5H29zM30,4H31V5H30zM31,4H32V5H31zM33,4H34V5H33zM1,5H2V6H1zM3,5H4V6H3zM4,5H5V6H4zM5,5H6V6H5zM7,5H8V6H7zM9,5H10V6H9zM10,5H11V6H10zM11,5H12V6H11zM14,5H15V6H14zM15,5H16V6H15zM16,5H17V6H16zM17,5H18V6H17zM21,5H22V6H21zM24,5H25V6H24zM25,5H26V6H25zM27,5H28V6H27zM29,5H30V6H29zM30,5H31V6H30zM31,5H32V6H31zM33,5H34V6H33zM1,6H2V7H1zM7,6H8V7H7zM9,6H10V7H9zM11,6H12V7H11zM12,6H13V7H12zM13,6H14V7H13zM14,6H15V7H14zM15,6H16V7H15zM18,6H19V7H18zM20,6H21V7H20zM23,6H24V7H23zM27,6H28V7H27zM33,6H34V7H33zM1,7H2V8H1zM2,7H3V8H2zM3,7H4V8H3zM4,7H5V8H4zM5,7H6V8H5zM6,7H7V8H6zM7,7H8V8H7zM9,7H10V8H9zM11,7H12V8H11zM13,7H14V8H13zM15,7H16V8H15zM17,7H18V8H17zM19,7H20V8H19zM21,7H22V8H21zM23,7H24V8H23zM25,7H26V8H25zM27,7H28V8H27zM28,7H29V8H28zM29,7H30V8H29zM30,7H31V8H30zM31,7H32V8H31zM32,7H33V8H32zM33,7H34V8H33zM9,8H10V9H9zM11,8H12V9H11zM12,8H13V9H12zM15,8H16V9H15zM17,8H18V9H17zM20,8H21V9H20zM21,8H22V9H21zM22,8H23V9H22zM23,8H24V9H23zM1,9H2V10H1zM3,9H4V10H3zM4,9H5V10H4zM5,9H6V10H5zM6,9H7V10H6zM7,9H8V10H7zM10,9H11V10H10zM11,9H12V10H11zM13,9H14V10H13zM14,9H15V10H14zM18,9H19V10H18zM20,9H21V10H20zM23,9H24V10H23zM24,9H25V10H24zM25,9H26V10H25zM27,9H28V10H27zM28,9H29V10H28zM29,9H30V10H29zM30,9H31V10H30zM31,9H32V10H31zM2,10H3V11H2zM3,10H4V11H3zM4,10H5V11H4zM5,10H6V11H5zM6,10H7V11H6zM8,10H9V11H8zM9,10H10V11H9zM10,10H11V11H10zM11,10H12V11H11zM13,10H14V11H13zM14,10H15V11H14zM17,10H18V11H17zM18,10H19V11H18zM19,10H20V11H19zM20,10H21V11H20zM23,10H24V11H23zM24,10H25V11H24zM27,10H28V11H27zM28,10H29V11H28zM30,10H31V11H30zM31,10H32V11H31zM32,10H33V11H32zM33,10H34V11H33zM1,11H2V12H1zM2,11H3V12H2zM3,11H4V12H3zM5,11H6V12H5zM6,11H7V12H6zM7,11H8V12H7zM9,11H10V12H9zM12,11H13V12H12zM13,11H14V12H13zM14,11H15V12H14zM15,11H16V12H15zM16,11H17V12H16zM18,11H19V12H18zM23,11H24V12H23zM26,11H27V12H26zM29,11H30V12H29zM31,11H32V12H31zM3,12H4V13H3zM6,12H7V13H6zM10,12H11V13H10zM12,12H13V13H12zM14,12H15V13H14zM17,12H18V13H17zM18,12H19V13H18zM19,12H20V13H19zM20,12H21V13H20zM29,12H30V13H29zM30,12H31V13H30zM31,12H32V13H31zM32,12H33V13H32zM2,13H3V14H2zM3,13H4V14H3zM4,13H5V14H4zM7,13H8V14H7zM10,13H11V14H10zM12,13H13V14H12zM13,13H14V14H13zM15,13H16V14H15zM17,13H18V14H17zM21,13H22V14H21zM22,13H23V14H22zM23,13H24V14H23zM25,13H26V14H25zM29,13H30V14H29zM30,13H31V14H30zM32,13H33V14H32zM4,14H5V15H4zM5,14H6V15H5zM8,14H9V15H8zM11,14H12V15H11zM16,14H17V15H16zM18,14H19V15H18zM19,14H20V15H19zM22,14H23V15H22zM24,14H25V15H24zM26,14H27V15H26zM27,14H28V15H27zM31,14H32V15H31zM32,14H33V15H32zM33,14H34V15H33zM2,15H3V16H2zM6,15H7V16H6zM7,15H8V16H7zM9,15H10V16H9zM10,15H11V16H10zM11,15H12V16H11zM12,15H13V16H12zM13,15H14V16H13zM16,15H17V16H16zM17,15H18V16H17zM19,15H20V16H19zM21,15H22V16H21zM22,15H23V16H22zM25,15H26V16H25zM26,15H27V16H26zM27,15H28V16H27zM29,15H30V16H29zM30,15H31V16H30zM31,15H32V16H31zM32,15H33V16H32zM1,16H2V17H1zM2,16H3V17H2zM3,16H4V17H3zM4,16H5V17H4zM5,16H6V17H5zM9,16H10V17H9zM10,16H11V17H10zM13,16H14V17H13zM14,16H15V17H14zM16,16H17V17H16zM22,16H23V17H22zM24,16H25V17H24zM25,16H26V17H25zM26,16H27V17H26zM27,16H28V17H27zM29,16H30V17H29zM31,16H32V17H31zM1,17H2V18H1zM2,17H3V18H2zM3,17H4V18H3zM5,17H6V18H5zM7,17H8V18H7zM9,17H10V18H9zM11,17H12V18H11zM12,17H13V18H12zM13,17H14V18H13zM15,17H16V18H15zM16,17H17V18H16zM18,17H19V18H18zM25,17H26V18H25zM26,17H27V18H26zM28,17H29V18H28zM29,17H30V18H29zM33,17H34V18H33zM3,18H4V19H3zM4,18H5V19H4zM8,18H9V19H8zM10,18H11V19H10zM11,18H12V19H11zM13,18H14V19H13zM20,18H21V19H20zM21,18H22V19H21zM22,18H23V19H22zM24,18H25V19H24zM27,18H28V19H27zM28,18H29V19H28zM30,18H31V19H30zM31,18H32V19H31zM33,18H34V19H33zM1,19H2V20H1zM2,19H3V20H2zM5,19H6V20H5zM7,19H8V20H7zM8,19H9V20H8zM9,19H10V20H9zM10,19H11V20H10zM13,19H14V20H13zM16,19H17V20H16zM19,19H20V20H19zM22,19H23V20H22zM25,19H26V20H25zM28,19H29V20H28zM29,19H30V20H29zM31,19H32V20H31zM32,19H33V20H32zM1,20H2V21H1zM5,20H6V21H5zM6,20H7V21H6zM9,20H10V21H9zM10,20H11V21H10zM11,20H12V21H11zM14,20H15V21H14zM15,20H16V21H15zM20,20H21V21H20zM21,20H22V21H21zM22,20H23V21H22zM23,20H24V21H23zM28,20H29V21H28zM29,20H30V21H29zM30,20H31V21H30zM31,20H32V21H31zM33,20H34V21H33zM1,21H2V22H1zM2,21H3V22H2zM4,21H5V22H4zM6,21H7V22H6zM7,21H8V22H7zM10,21H11V22H10zM11,21H12V22H11zM12,21H13V22H12zM14,21H15V22H14zM16,21H17V22H16zM19,21H20V22H19zM22,21H23V22H22zM28,21H29V22H28zM29,21H30V22H29zM30,21H31V22H30zM32,21H33V22H32zM1,22H2V23H1zM2,22H3V23H2zM3,22H4V23H3zM5,22H6V23H5zM6,22H7V23H6zM8,22H9V23H8zM9,22H10V23H9zM10,22H11V23H10zM11,22H12V23H11zM12,22H13V23H12zM16,22H17V23H16zM17,22H18V23H17zM21,22H22V23H21zM23,22H24V23H23zM24,22H25V23H24zM26,22H27V23H26zM27,22H28V23H27zM28,22H29V23H28zM30,22H31V23H30zM33,22H34V23H33zM1,23H2V24H1zM7,23H8V24H7zM8,23H9V24H8zM9,23H10V24H9zM10,23H11V24H10zM14,23H15V24H14zM20,23H21V24H20zM22,23H23V24H22zM23,23H24V24H23zM26,23H27V24H26zM27,23H28V24H27zM30,23H31V24H30zM31,23H32V24H31zM32,23H33V24H32zM1,24H2V25H1zM3,24H4V25H3zM4,24H5V25H4zM5,24H6V25H5zM9,24H10V25H9zM10,24H11V25H10zM13,24H14V25H13zM14,24H15V25H14zM17,24H18V25H17zM19,24H20V25H19zM20,24H21V25H20zM21,24H22V25H21zM22,24H23V25H22zM23,24H24V25H23zM24,24H25V25H24zM27,24H28V25H27zM28,24H29V25H28zM30,24H31V25H30zM31,24H32V25H31zM32,24H33V25H32zM1,25H2V26H1zM4,25H5V26H4zM6,25H7V26H6zM7,25H8V26H7zM8,25H9V26H8zM10,25H11V26H10zM11,25H12V26H11zM13,25H14V26H13zM14,25H15V26H14zM15,25H16V26H15zM18,25H19V26H18zM20,25H21V26H20zM23,25H24V26H23zM24,25H25V26H24zM25,25H26V26H25zM26,25H27V26H26zM27,25H28V26H27zM28,25H29V26H28zM29,25H30V26H29zM32,25H33V26H32zM33,25H34V26H33zM9,26H10V27H9zM13,26H14V27H13zM14,26H15V27H14zM15,26H16V27H15zM17,26H18V27H17zM18,26H19V27H18zM19,26H20V27H19zM20,26H21V27H20zM21,26H22V27H21zM25,26H26V27H25zM29,26H30V27H29zM31,26H32V27H31zM33,26H34V27H33zM1,27H2V28H1zM2,27H3V28H2zM3,27H4V28H3zM4,27H5V28H4zM5,27H6V28H5zM6,27H7V28H6zM7,27H8V28H7zM10,27H11V28H10zM13,27H14V28H13zM14,27H15V28H14zM15,27H16V28H15zM16,27H17V28H16zM17,27H18V28H17zM18,27H19V28H18zM21,27H22V28H21zM23,27H24V28H23zM24,27H25V28H24zM25,27H26V28H25zM27,27H28V28H27zM29,27H30V28H29zM31,27H32V28H31zM32,27H33V28H32zM1,28H2V29H1zM7,28H8V29H7zM9,28H10V29H9zM12,28H13V29H12zM13,28H14V29H13zM14,28H15V29H14zM16,28H17V29H16zM17,28H18V29H17zM18,28H19V29H18zM19,28H20V29H19zM24,28H25V29H24zM25,28H26V29H25zM29,28H30V29H29zM30,28H31V29H30zM31,28H32V29H31zM32,28H33V29H32zM33,28H34V29H33zM1,29H2V30H1zM3,29H4V30H3zM4,29H5V30H4zM5,29H6V30H5zM7,29H8V30H7zM9,29H10V30H9zM11,29H12V30H11zM12,29H13V30H12zM14,29H15V30H14zM15,29H16V30H15zM16,29H17V30H16zM17,29H18V30H17zM21,29H22V30H21zM22,29H23V30H22zM23,29H24V30H23zM25,29H26V30H25zM26,29H27V30H26zM27,29H28V30H27zM28,29H29V30H28zM29,29H30V30H29zM30,29H31V30H30zM32,29H33V30H32zM33,29H34V30H33zM1,30H2V31H1zM3,30H4V31H3zM4,30H5V31H4zM5,30H6V31H5zM7,30H8V31H7zM9,30H10V31H9zM15,30H16V31H15zM16,30H17V31H16zM18,30H19V31H18zM19,30H20V31H19zM24,30H25V31H24zM25,30H26V31H25zM26,30H27V31H26zM29,30H30V31H29zM30,30H31V31H30zM33,30H34V31H33zM1,31H2V32H1zM3,31H4V32H3zM4,31H5V32H4zM5,31H6V32H5zM7,31H8V32H7zM9,31H10V32H9zM10,31H11V32H10zM11,31H12V32H11zM13,31H14V32H13zM16,31H17V32H16zM17,31H18V32H17zM19,31H20V32H19zM21,31H22V32H21zM27,31H28V32H27zM28,31H29V32H28zM30,31H31V32H30zM1,32H2V33H1zM7,32H8V33H7zM13,32H14V33H13zM14,32H15V33H14zM16,32H17V33H16zM19,32H20V33H19zM22,32H23V33H22zM26,32H27V33H26zM29,32H30V33H29zM30,32H31V33H30zM31,32H32V33H31zM1,33H2V34H1zM2,33H3V34H2zM3,33H4V34H3zM4,33H5V34H4zM5,33H6V34H5zM6,33H7V34H6zM7,33H8V34H7zM9,33H10V34H9zM11,33H12V34H11zM16,33H17V34H16zM17,33H18V34H17zM18,33H19V34H18zM23,33H24V34H23zM25,33H26V34H25zM28,33H29V34H28zM32,33H33V34H32z" id="qr-path" fill="#000000" fill-opacity="1" fill-rule="nonzero" stroke="none"/></svg></div>
+    </div>
+  <div class="so-tela">
+    <div class="ia-bloco">
+      <h3>Uso de Tecnologias (IA)</h3>
+      <p>Depois de terminar as cinco seções: copie o prompt, cole na inteligência artificial que você usa e mande a foto do seu RM. Ela aponta o passo do primeiro erro sem resolver por você. Vale nota extra até completar o valor da trilha no SUAP; diga abaixo se usou.</p>
+      <ol><li>Peça perguntas, não respostas: a IA aponta o passo do erro, e quem corrige é você.</li><li>Confira o que ela disser contra as suas tabelas, as suas contas e as unidades (N, m, N·m): a IA erra com a mesma segurança com que acerta.</li><li>Declare o uso, qual IA e para quê: registrar o método com honestidade faz parte da ciência e é o que vale a nota extra.</li></ol>
+      <p><strong>Recomendação do Professor:</strong> crie uma conta gratuita (marque a que criou): <label><input type="checkbox"> Claude (Anthropic)</label> <label><input type="checkbox"> Gemini (Google)</label> <label><input type="checkbox"> ChatGPT (OpenAI)</label> <label><input type="checkbox"> Copilot (Microsoft)</label> <label><input type="checkbox"> Perplexity</label></p>
+      <div class="card"><strong>Meu Perfil</strong> (cole na personalização da IA):<pre>Sou estudante da 1.ª série do Técnico em Mineração Integrado do IFMG campus Ouro Preto e curso a Física Experimental 1, no Laboratório de Mecânica. Estou aprendendo a medir, a organizar os dados em tabelas e a tirar conclusões deles. Quando eu pedir ajuda, não me dê a resposta pronta: faça perguntas curtas que me levem a pensar, aponte o passo em que errei e deixe que eu corrija sozinho. Responda em português do Brasil, com linguagem simples, as grandezas nas unidades do SI (N, m, N·m) e exemplos da mineração ou do meu dia a dia. Quando eu acertar, diga o ponto forte do meu raciocínio.</pre><button class="btn-copiar" onclick="var p=this.closest('.card').querySelector('pre');navigator.clipboard.writeText(p.innerText);this.textContent='Copiado!'">Copiar</button></div>
+      <div class="card"><strong>Prompt</strong>:<pre>Fiz à mão o Relatório Mínimo (RM) da T04 da Física Experimental 1, Equilíbrio em Gangorras e Alavancas: na Estação 1, a soma das forças (ΣF) e a soma de objetos × gancho na barra; na Estação 2, o torque <span class="tau">τ</span> = F · d de cada força na alavanca de um braço e a soma dos torques (Σ<span class="tau">τ</span>); e a decisão, com |ΣF| e |Σ<span class="tau">τ</span>| comparados com a incerteza de leitura do dinamômetro, pelos 5 passos da Resolução Científica do Problema (1 O que a questão quer?; 2 O que eu tenho?; 3 Qual é o desenho?; 4 Minha solução; 5 Confiro e respondo). Vou te mandar a foto. Não me dê a resposta nem refaça as contas por mim. Diga em que passo está o primeiro erro, faça uma pergunta que me ajude a corrigir sozinho e, no fim, me diga um ponto forte do meu raciocínio.</pre><button class="btn-copiar" onclick="var p=this.closest('.card').querySelector('pre');navigator.clipboard.writeText(p.innerText);this.textContent='Copiado!'">Copiar</button></div>
+      <p><strong>Declaração de uso:</strong><br><label><input type="radio" name="usoia"> Não usei IA</label><label><input type="radio" name="usoia"> Usei IA para apoiar meu aprendizado neste relatório:</label><br><label><input type="checkbox"> Claude (Anthropic)</label><label><input type="checkbox"> Gemini (Google)</label><label><input type="checkbox"> ChatGPT (OpenAI)</label><label><input type="checkbox"> Copilot (Microsoft)</label><label><input type="checkbox"> Perplexity</label><label><input type="checkbox"> Outra (Qual?)</label><br>Para quê: <input type="text"></p>
+    </div>
+    <div class="legenda">Rubrica desta Trilha de Aprendizagem — a T04 vale ___ no SUAP</div>
+    <table class="rubrica"><thead><tr><th><span class="un">Instrumento</span></th><th><span class="un">Pontos</span></th></tr></thead><tbody>
+      <tr><td><strong>Pré-Lab</strong> · Texto Temático (TT) e Simulações (SM)</td><td>___</td></tr>
+      <tr><td><strong>Lab</strong> · Roteiro de Bancada (RB)</td><td>___</td></tr>
+      <tr><td><strong>Lab</strong> · Provinha (PR)</td><td>___</td></tr>
+      <tr><td><strong>Pós-Lab</strong> · Relatório Mínimo (RM)</td><td>___</td></tr>
+      <tr><td><strong>Extra</strong> · Uso de Tecnologias (IA) — até completar o valor da trilha</td><td>___</td></tr>
+      <tr><td><strong>Total da trilha</strong></td><td><strong>___</strong></td></tr></tbody></table>
+    <div class="legenda">Como o RM é corrigido (15 pontos = 15 % desta trilha)</div>
+    <table class="rubrica"><thead><tr><th><span class="un">Critério</span></th><th><span class="un">Pontos</span></th></tr></thead><tbody>
+      <tr><td><strong>Dado bruto</strong> — Tabelas 1 a 3 copiadas do RB: objetos, ganchos, forças (N) e braços (m), com os sinais e as unidades</td><td>4</td></tr>
+      <tr><td><strong>Estação 1</strong> — ΣF e Σ(objetos × gancho) com a conta à vista e os sinais certos</td><td>4</td></tr>
+      <tr><td><strong>Estação 2</strong> — <span class="tau">τ</span> = F · d de cada força, com o sinal (+ anti-horário, − horário) e a unidade N·m; Σ<span class="tau">τ</span></td><td>4</td></tr>
+      <tr><td><strong>A decisão</strong> — |ΣF| e |Σ<span class="tau">τ</span>| comparados com δF e δ<span class="tau">τ</span> = δF · d, e a decisão escrita</td><td>3</td></tr>
+      <tr><td><strong>Total</strong></td><td><strong>15</strong></td></tr></tbody></table>
+    <div class="nav-rm"><button onclick="abrirParaImpressao()">Gerar PDF</button><a href="../rb/">Roteiro de Bancada</a><a href="../../">Todas as Trilhas</a></div>
+  </div>
+  <!-- RODAPE-FE:INICIO --><div class="fe-rodape"><div class="fe-inst-marcas"><a href="https://ouropreto.ifmg.edu.br/ouropreto" target="_blank" rel="noopener" title="IFMG — Campus Ouro Preto (abre em nova aba)"><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="-36.75 -4 258.5 258.5" role="img" aria-label="Instituto Federal de Minas Gerais"> <title>Instituto Federal de Minas Gerais</title> <circle cx="27" cy="27" r="30" fill="#C8191E"/> <g fill="#32A041"> <rect x="65.5" y="0" width="54" height="54"/> <rect x="131" y="0" width="54" height="54"/> <rect x="0" y="65.5" width="54" height="54"/> <rect x="65.5" y="65.5" width="54" height="54"/> <rect x="0" y="131" width="54" height="54"/> <rect x="65.5" y="131" width="54" height="54"/> <rect x="131" y="131" width="54" height="54"/> <rect x="0" y="196.5" width="54" height="54"/> <rect x="65.5" y="196.5" width="54" height="54"/> </g> </svg></a><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="NIDEC — Núcleo de Inovação e Desenvolvimento de Experimentos Científicos"> <title>NIDEC — Núcleo de Inovação e Desenvolvimento de Experimentos Científicos</title> <defs> <linearGradient id="inst-nidec-o1" gradientUnits="userSpaceOnUse" x1="8" y1="100" x2="192" y2="100" gradientTransform="rotate(-30 100 100)"> <stop offset="0" stop-color="#4A1F95"/><stop offset=".38" stop-color="#2C5AA4"/> <stop offset=".70" stop-color="#2CC2A2"/><stop offset="1" stop-color="#2C9E41"/> </linearGradient> <linearGradient id="inst-nidec-o2" gradientUnits="userSpaceOnUse" x1="8" y1="100" x2="192" y2="100" gradientTransform="rotate(-90 100 100)"> <stop offset="0" stop-color="#4A1F95"/><stop offset=".38" stop-color="#2C5AA4"/> <stop offset=".70" stop-color="#2CC2A2"/><stop offset="1" stop-color="#2C9E41"/> </linearGradient> <linearGradient id="inst-nidec-o3" gradientUnits="userSpaceOnUse" x1="8" y1="100" x2="192" y2="100" gradientTransform="rotate(-150 100 100)"> <stop offset="0" stop-color="#4A1F95"/><stop offset=".38" stop-color="#2C5AA4"/> <stop offset=".70" stop-color="#2CC2A2"/><stop offset="1" stop-color="#2C9E41"/> </linearGradient> <radialGradient id="inst-nidec-nucleo" cx="40%" cy="36%" r="70%"> <stop offset="0" stop-color="#A0EBE1"/> <stop offset=".45" stop-color="#2CC8C2"/> <stop offset="1" stop-color="#1E5DA5"/> </radialGradient> </defs> <g fill="none" stroke-width="8"> <g transform="rotate(30 100 100)" stroke="url(#inst-nidec-o1)"> <ellipse cx="100" cy="100" rx="88" ry="31"/> <circle cx="188" cy="100" r="8" fill="url(#inst-nidec-o1)" stroke="none"/> </g> <g transform="rotate(90 100 100)" stroke="url(#inst-nidec-o2)"> <ellipse cx="100" cy="100" rx="88" ry="31"/> <circle cx="12" cy="100" r="8" fill="url(#inst-nidec-o2)" stroke="none"/> </g> <g transform="rotate(150 100 100)" stroke="url(#inst-nidec-o3)"> <ellipse cx="100" cy="100" rx="88" ry="31"/> <circle cx="188" cy="100" r="8" fill="url(#inst-nidec-o3)" stroke="none"/> </g> </g> <circle cx="100" cy="100" r="23" fill="url(#inst-nidec-nucleo)"/> </svg></div><div class="fe-agr-marca"><a href="https://nidecop-jafb.github.io/fe1-oa/agradecimentos/" title="Agradecimentos &middot; F&iacute;sica e Poesia"><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Agradecimentos — Física e Poesia"> <g fill="none" stroke="#7FB2D6" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"> <path d="M 60 44 C 46 36 28 36 12 40 L 12 104 C 28 100 46 100 60 108 C 74 100 92 100 108 104 L 108 40 C 92 36 74 36 60 44 Z"/> <line x1="60" y1="44" x2="60" y2="108"/> </g> <g stroke="#7FB2D6" stroke-width="2" stroke-linecap="round" opacity=".7"> <line x1="22" y1="58" x2="50" y2="56"/><line x1="22" y1="70" x2="50" y2="68"/><line x1="22" y1="82" x2="44" y2="81"/> </g> <path d="M 68 70 C 72 62 76 62 80 70 S 88 78 92 70 S 98 62 100 66" fill="none" stroke="#E07B39" stroke-width="2.5" stroke-linecap="round"/> <path d="M 104 8 C 86 12 72 24 66 44 C 80 40 94 28 104 8 Z" fill="none" stroke="#E07B39" stroke-width="3" stroke-linejoin="round"/> <line x1="100" y1="13" x2="62" y2="56" stroke="#E07B39" stroke-width="3" stroke-linecap="round"/> </svg></a></div><div class="fe-rodape-texto">IFMG campus Ouro Preto - Coordenadoria da Área de Física (CODAFIS) - Núcleo de Inovação e Desenvolvimento de Experimentos Científicos (NIDEC) &middot; Primeira edição &middot; 2026<span class="fe-pag"> &middot; FE1-T04 · RM v4 (estudante) · página 2 de 2 · Julio Azevedo</span></div></div><!-- RODAPE-FE:FIM -->
+  <div class="rodape-print">
+    FE1-T04 · RM v4 (estudante) · página 2 de 2 · Julio Azevedo
+  </div>
+</div>
+
+<div class="barra-tela">
+  <button class="btn" onclick="abrirParaImpressao()">Imprimir (A4 — 2 páginas)</button>
+  <div class="nota">
+    O botão abre uma <strong>janela nova</strong> só com a folha e já chama a impressão. Em "Salvar como PDF", o navegador sugere o nome correto: <strong>FE-T04-RM-v4-estudante</strong>.<br>
+    Nas opções de impressão, mantenha <strong>"Gráficos de plano de fundo"</strong> ligado.
+  </div>
+</div>
+
+</div><!-- .folha -->
+
+<script>
+/* Impressao em janela propria (padrao FA): o <title> vira o nome sugerido do
+   PDF, a barra de botoes fica de fora e o @page { margin: 0 } suprime o
+   cabecalho/rodape que o navegador injeta. */
+var NOME_ARQUIVO_PDF = 'FE-T04-RM-v4-estudante';
+
+function abrirParaImpressao() {
+  var folha = document.querySelector('.folha').cloneNode(true);
+  var barra = folha.querySelector('.barra-tela');
+  if (barra) { barra.parentNode.removeChild(barra); }
+
+  var w = window.open('', '_blank');
+  if (!w) {
+    alert('O navegador bloqueou a janela de impressao.\n' +
+          'Libere os pop-ups para esta página e clique de novo.');
+    return;
+  }
+
+  w.document.open();
+  w.document.write(
+    '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8">' +
+    '<base href="' + document.baseURI + '">' +
+    '<title>' + NOME_ARQUIVO_PDF + '</title>' +
+    document.querySelector('style').outerHTML +
+    '</head><body>' + folha.outerHTML + '</body></html>'
+  );
+  w.document.close();
+
+  var imprimir = function () { w.focus(); w.print(); };
+  if (w.document.readyState === 'complete') { setTimeout(imprimir, 500); }
+  else { w.addEventListener('load', function () { setTimeout(imprimir, 500); }); }
+}
+</script>
+
+<!-- ABA-SITE (injetada na publicacao — nao existe no OA canonico) -->
+<style>
+.aba-site-toggle { position: fixed; top: 56px; left: 0; z-index: 999; background: #1a1b1f; border: 1px solid #444; border-left: none; color: #bbb; font-size: .7rem; padding: 8px 10px; cursor: pointer; font-family: 'Courier New', Courier, monospace; writing-mode: vertical-rl; text-orientation: mixed; letter-spacing: 1px; text-transform: uppercase; transition: color .15s; border-radius: 0; }
+.aba-site-toggle:hover { color: #E07B39; }
+.aba-site-painel { position: fixed; top: 0; left: 0; z-index: 1001; width: 330px; max-width: 86vw; height: 100vh; overflow-y: auto; background: #1a1b1f; border-right: 1px solid #444; padding: 24px 22px 24px 42px; transform: translateX(-100%); transition: transform .25s; font-family: 'Courier New', Courier, monospace; font-size: .92rem; color: #c4c4c4; line-height: 1.6; }
+.aba-site-painel.open { transform: translateX(0); }
+.aba-site-painel h3 { font-family: 'Courier New', Courier, monospace; font-size: .8rem; text-transform: uppercase; letter-spacing: 2px; color: #E07B39; border-bottom: 1px solid #444; padding-bottom: 8px; margin: 0 0 14px; }
+.aba-site-painel a.aba-site-btn { display: block; margin: 10px 0; padding: 11px 14px; border: 1px solid #444; color: #e8e8e8; text-decoration: none; font-family: 'Courier New', Courier, monospace; font-size: .85rem; }
+.aba-site-painel a.aba-site-btn:hover { border-color: #E07B39; color: #E07B39; }
+/* TT: abre espaco no topo do trilho e oculta a aba Figuras (decisao 2026-08-08) */
+.musica-toggle { top: 128px !important; }
+.ineditismo-toggle { top: 210px !important; }
+.toc-toggle { top: 330px !important; }
+.creditos-toggle { top: 418px !important; }
+.figuras-toggle, .figuras-sidebar { display: none !important; }
+/* Celular: a aba fica sobre o conteudo, porque em tela estreita o texto ocupa
+   a largura toda e o trilho e `position: fixed` na borda esquerda. Abrir uma
+   faixa no body empurra TUDO para a direita — vale para a aba Site e para o
+   trilho do TT (Musica/Ineditismo/Sumario/Creditos), todos em left: 0.
+   Com `box-sizing: border-box` (padrao nos OAs) nao cria rolagem lateral. */
+@media (max-width: 600px) {
+  body { padding-left: 30px; }
+  .aba-site-toggle { font-size: .6rem; padding: 6px 6px; }
+  .aba-site-painel { width: 86vw; }
+}
+@media print { .aba-site-toggle, .aba-site-painel { display: none !important; } }
+</style>
+<button class="aba-site-toggle" id="abaSiteToggle">Site</button>
+<aside class="aba-site-painel" id="abaSitePainel">
+  <h3>Site</h3>
+  <a class="aba-site-btn" href="https://nidecop-jafb.github.io/fe1-oa/#t04">Ver todos os OAs da trilha</a>
+  <a class="aba-site-btn" href="https://nidecop-jafb.github.io/fe1-oa/">Início do site</a>
+  <a class="aba-site-btn" href="https://nidecop-jafb.github.io/fc1-oa/">Disciplina irmã: FC1 — Física Conceitual 1</a>
+</aside>
+<script>
+(function () {
+  var t = document.getElementById('abaSiteToggle');
+  var p = document.getElementById('abaSitePainel');
+  var outras = '.metodo-sidebar,.musica-sidebar,.ineditismo-sidebar,.toc-sidebar,.projeto-sidebar,.creditos-sidebar,.figuras-sidebar';
+  t.addEventListener('click', function () {
+    p.classList.toggle('open');
+    document.querySelectorAll(outras).forEach(function (s) { s.classList.remove('open'); });
+  });
+  document.addEventListener('click', function (e) {
+    if (!p.contains(e.target) && e.target !== t) { p.classList.remove('open'); }
+  });
+})();
+</script>
 <!-- CONTADOR:INICIO -->
 <script src="../../contador-config.js"></script>
 <script src="../../acessos.js"></script>

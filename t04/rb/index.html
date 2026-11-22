@@ -2,9 +2,931 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="refresh" content="0; url=../../t05/rb/">
-<link rel="canonical" href="../../t05/rb/">
-<title>Endereço novo &middot; FE1</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FE1-T04 · Roteiro de Bancada (RB)</title>
+<style>
+/* ============================================================
+   FE-T0A-RB-v6-estudante-impresso.html
+   Roteiro de Bancada — 3 paginas A4, para ESCRITA A MAO na bancada.
+   Mudancas v6 (2026-09-02, replicando o padrao do RB v5 da T04):
+     (1) TIPOGRAFIA DE TELA — bloco @media screen (piso .8rem);
+         a IMPRESSAO nao muda.
+     (2) IMAGENS DE FUNDO no padrao da FA impressa da T10/FC1
+         (.anot-fundo): grayscale, opacidade .34 tela / .26 impresso,
+         via ../_imagens/_web/ (derivadas leves).
+     (3) "Resolucao Cientifica do Problema" SEMPRE precede
+         "Protocolo C5 (8 passos)" — regra de toda a FE1.
+     (4) Fecho "Terminamos por aqui..." em destaque colorido.
+   Alinhado ao padrao da T04 (formatacao da FA impressa da FC1,
+   decisao do autor em 2026-08-29):
+     pag 1  cabecalho FA + caixa IDENTIFICACAO + linha Piazzi + epigrafe
+            + Minha Trilha (Pre-Lab/Lab/Pos-Lab) + Seguranca
+            + Parte 1 (protocolo + tabela das 4 medicoes)
+     pag 2  Parte 2 (calculos) + Parte 3 (Protocolo C5)
+     pag 3  Parte 4 (discussao) + Parte 5 (normas do Lab) + Conclusao
+            + fecho + Espaco da Equipe de Monitoria
+   Sem espaco morto no pe da pagina: a folga vira linha de escrita
+   (classe .cresce — regra da FA/TR), e o rodape cola na base.
+   ============================================================ */
+
+:root {
+  /* Paleta FE — _identidade/paleta-fe.md
+     laranja-EPI (primario) + azul-aco (acento) */
+  --epi: #E07B39;
+  --epi-claro: #EE9A63;
+  --epi-bg: oklch(0.28 0.06 55);
+  --aco: #7FB2D6;
+  --aco-claro: #A7CCE6;
+  --aco-bg: oklch(0.28 0.05 240);
+  --verde: oklch(0.7 0.15 150);
+  --verde-claro: oklch(0.25 0.04 150);
+  --erro: oklch(0.6 0.22 25);
+  --erro-claro: oklch(0.22 0.05 25);
+  --cinza: oklch(0.62 0.01 260);
+  --cinza-claro: oklch(0.18 0.01 260);
+  --cinza-borda: oklch(0.40 0.01 260);
+  --texto: oklch(0.93 0 0);
+  --branco: oklch(0.96 0 0);
+  --superficie: oklch(0.22 0.01 260);
+  --input-bg: oklch(0.18 0.01 260);
+  --hover-bg: oklch(0.25 0.01 260);
+  --fundo: oklch(0.13 0.01 260);
+  --painel: oklch(0.16 0.01 260);
+  --r: 0px;
+  --r-sm: 0px;
+  --font: 'Courier New', Courier, monospace;
+  --mono: 'Courier New', 'Cascadia Code', 'Consolas', monospace;
+  --serif: 'Georgia', 'Cambria', 'Times New Roman', serif;
+  /* nomes herdados dos OAs de 2026-07 — apontam para a paleta FE */
+  --azul: var(--epi);
+  --azul-claro: var(--epi-claro);
+  --azul-bg: var(--epi-bg);
+  --ouro: var(--aco);
+  --ouro-claro: var(--aco-bg);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font);
+  background: var(--fundo);
+  color: var(--texto);
+  line-height: 1.45;
+}
+
+.folha { max-width: 760px; margin: 0 auto; padding: 20px 16px; }
+
+/* ── PAGINA ── */
+.pagina { margin-bottom: 28px; }
+.pagina + .pagina { border-top: 2px dashed var(--cinza-borda); padding-top: 24px; }
+
+/* ── CABECALHO (padrao FA) ── */
+.header {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px;
+  border-top: 3px solid var(--azul);
+  border-bottom: 1px solid var(--cinza-borda);
+  padding: 10px 0; margin-bottom: 12px;
+}
+.header-left h1 { font-size: 1.05rem; font-weight: 700; color: var(--azul); }
+.header-left .sub { font-size: .72rem; color: var(--cinza); margin-top: 2px; }
+.header-right { text-align: right; font-size: .7rem; color: var(--cinza); line-height: 1.5; }
+.header-right .badge { font-weight: 700; color: var(--azul); font-size: .75rem; }
+
+/* ── CAIXA IDENTIFICACAO ── */
+.id-box {
+  border: 1.5px solid var(--cinza-borda);
+  padding: 8px 12px 9px;
+  margin-bottom: 10px;
+}
+.id-box-titulo {
+  font-size: .66rem; font-weight: 700; color: var(--cinza);
+  text-transform: uppercase; letter-spacing: .6px; margin-bottom: 6px;
+}
+.id-box .campo-linha {
+  display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap;
+  font-size: .8rem; border-bottom: 1px solid var(--linha);
+  padding-bottom: 5px; margin-bottom: 7px;
+}
+.id-box .campo-linha:last-child { margin-bottom: 0; }
+.id-box label { font-weight: 700; color: var(--azul); font-size: .74rem; white-space: nowrap; }
+.id-box .linha { flex: 1; min-width: 0; height: 1.3em; }
+.id-box .linha.ra { flex: 0 0 7.5em; }
+.id-box .linha.meia { flex: .6; }
+.opts { display: flex; gap: 12px; font-size: .72rem; color: var(--cinza); margin-right: 12px; white-space: nowrap; }
+.opts .opt { display: flex; align-items: center; gap: 4px; }
+.opts .opt::before {
+  content: '';
+  display: inline-block;
+  width: 13px; height: 13px;
+  border: 1.5px solid var(--cinza-borda);
+  flex-shrink: 0;
+}
+.data-campo { font-size: .78rem; color: var(--cinza); white-space: nowrap; }
+
+/* ── BARRA PIAZZI ── */
+.piazzi {
+  display: flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap;
+  border: 1px solid var(--cinza-borda); padding: 7px 12px; margin-bottom: 10px;
+  font-size: .74rem; color: var(--cinza); text-align: center;
+}
+.piazzi .mao { color: var(--branco); font-weight: 600; }
+.piazzi em { color: var(--ouro); font-style: italic; }
+
+/* ── EPIGRAFE ── */
+.epigrafe {
+  border-left: 3px solid var(--ouro); background: var(--ouro-bg);
+  padding: 8px 12px; margin-bottom: 12px;
+  font-family: var(--serif); font-size: .82rem;
+}
+.epigrafe .cit { font-style: italic; color: var(--ouro); }
+.epigrafe .atrib { font-family: var(--font); font-size: .7rem; color: var(--cinza); }
+
+/* ── MINHA TRILHA (checklist dos OAs, padrao FA) ── */
+.checklist { margin-bottom: 12px; }
+.checklist-titulo {
+  text-align: center; font-size: .68rem; font-weight: 700; color: var(--cinza);
+  text-transform: uppercase; letter-spacing: .6px; margin-bottom: 7px;
+}
+.checklist-fases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.fase { border: 1px solid var(--cinza-borda); border-top: 2px solid var(--ouro); padding: 6px 8px 7px; }
+.fase-nome {
+  font-size: .66rem; font-weight: 700; color: var(--ouro);
+  text-transform: uppercase; letter-spacing: .4px; margin-bottom: 5px;
+}
+.fase-oas { display: flex; flex-wrap: wrap; gap: 4px 8px; }
+.oa-item { display: flex; align-items: center; gap: 4px; font-size: .64rem; line-height: 1.2; }
+.oa-box { width: 9px; height: 9px; border: 1px solid var(--cinza); flex-shrink: 0; }
+.oa-sigla { font-family: var(--mono); font-weight: 700; color: var(--texto); }
+.oa-nome { color: var(--cinza); }
+
+/* ── SECAO ── */
+.secao { margin-bottom: 12px; }
+.secao-titulo { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.secao-titulo .num {
+  width: 24px; height: 24px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .78rem; font-weight: 700;
+  background: var(--azul-bg); color: var(--azul); border-radius: 50%;
+}
+.secao-titulo h2 {
+  font-size: .88rem; font-weight: 700; color: var(--azul);
+  text-transform: uppercase; letter-spacing: .4px;
+}
+.secao-titulo .hint { margin-left: auto; font-size: .66rem; color: var(--cinza); font-style: italic; }
+
+/* ── SEGURANCA ── */
+.alerta-seg {
+  background: var(--erro-bg);
+  border: 1px solid var(--erro);
+  padding: 6px 10px;
+  font-size: .72rem;
+  margin-bottom: 6px;
+}
+.alerta-seg strong { color: var(--erro); }
+.check-list { list-style: none; padding: 0; margin: 6px 0; }
+.check-list li {
+  display: flex; align-items: flex-start; gap: 8px;
+  font-size: .78rem;
+  padding: 3px 0;
+}
+.check-list li::before {
+  content: '';
+  display: inline-block;
+  width: 15px; height: 15px;
+  border: 1.5px solid var(--cinza-borda);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.check-list.seg li::before { border-color: var(--erro); }
+.assinatura {
+  display: flex; align-items: baseline; gap: 8px;
+  margin: 8px 0 0;
+  font-size: .78rem; font-weight: 700; color: var(--azul);
+}
+.assinatura .linha-ass { flex: 1; border-bottom: 1.5px solid var(--erro); min-height: 1.4em; }
+
+/* ── PROTOCOLO DE MEDICAO ── */
+.lembrete {
+  background: var(--ouro-bg);
+  border: 1px solid var(--ouro);
+  padding: 6px 10px;
+  font-size: .72rem;
+  margin-bottom: 8px;
+}
+.lembrete strong { color: var(--ouro); }
+.protocolo-lista { list-style: none; padding: 0; margin: 0 0 8px; }
+.protocolo-lista li {
+  font-size: .78rem;
+  padding: 2px 0 2px 18px;
+  position: relative;
+}
+.protocolo-lista li::before {
+  content: attr(data-n);
+  position: absolute; left: 0;
+  color: var(--azul); font-weight: 700;
+  font-size: .72rem;
+}
+.nota-metodo { font-size: .74rem; color: var(--cinza); font-style: italic; margin-top: 4px; }
+
+/* ── IMAGEM DE FUNDO DA SECAO (padrao .anot-fundo da FA impressa
+   da T10/FC1): a ilustracao IT fica ATRAS da area de escrita, em
+   escala de cinza e opacidade baixa — o estudante escreve por cima.
+   Valores de tela e de impressao copiados VERBATIM da FA. ── */
+.com-fundo { position: relative; overflow: hidden; }
+.fundo-ilustra {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  opacity: .34; filter: grayscale(1) contrast(.9);
+  pointer-events: none;
+}
+.com-fundo > :not(.fundo-ilustra) { position: relative; }
+
+/* ── TABELAS DE DADOS ── */
+.tabela-rotulo { font-size: .74rem; color: var(--cinza); font-style: italic; margin: 6px 0 3px; }
+table { width: 100%; border-collapse: collapse; font-size: .8rem; margin: 4px 0 8px; }
+th {
+  background: var(--azul-bg);
+  color: var(--azul);
+  padding: 5px 4px;
+  text-align: center;
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .2px;
+  font-weight: 700;
+  border: 1px solid var(--cinza-borda);
+}
+th:first-child { text-align: left; padding-left: 8px; }
+th .un { text-transform: none; }
+td {
+  padding: 8px 6px;
+  border: 1px solid var(--cinza-borda);
+  text-align: center;
+  vertical-align: middle;
+  height: 30px;
+}
+td:first-child { text-align: left; padding-left: 8px; }
+tr.voce td { background: var(--azul-bg); border-color: var(--azul); }
+tr.voce td:first-child { font-weight: 700; color: var(--azul); }
+
+/* ── CALCULOS ── */
+.calc-bloco { background: var(--superficie); padding: 8px 12px; margin: 6px 0 0; }
+.calc-formula { display: flex; align-items: center; gap: 6px; font-size: .8rem; margin: 6px 0; }
+.calc-formula .label { font-weight: 600; color: var(--azul); white-space: nowrap; }
+.calc-formula .eq { font-family: var(--mono); font-size: .78rem; color: var(--cinza); }
+.calc-formula .campo-calc { border-bottom: 1.5px solid var(--azul); min-width: 80px; height: 1.1em; display: inline-block; }
+.calc-formula .un-m { font-size: .72rem; }
+/* conversao para o SI antes da media — sem ela o aluno soma m + dm + cm + mm */
+.calc-formula.conv { flex-wrap: wrap; gap: 4px 12px; }
+.calc-formula.conv .conv-item { display: flex; align-items: center; gap: 5px; }
+.calc-formula.conv .campo-calc { min-width: 52px; }
+
+.resultado-final {
+  border: 1.5px solid var(--azul);
+  background: var(--azul-bg);
+  padding: 8px 12px;
+  text-align: center;
+  margin: 8px 0 0;
+}
+.resultado-final .titulo-res {
+  font-size: .72rem; text-transform: uppercase; letter-spacing: 1px;
+  color: var(--azul); font-weight: 700; margin-bottom: 4px;
+}
+.resultado-final .formula-res { font-size: 1.05rem; font-weight: 700; color: var(--branco); font-family: var(--mono); }
+.resultado-final .campo-res {
+  display: inline-block;
+  border-bottom: 1.5px solid var(--azul);
+  min-width: 70px;
+  height: 1.3em;
+}
+
+/* ── PROTOCOLO C5 ── */
+.c5-lista { list-style: none; padding: 0; margin: 0; }
+.c5-lista li {
+  padding: 4px 0 4px 24px;
+  position: relative;
+  font-size: .8rem;
+  border-bottom: 1px dotted var(--cinza-borda);
+  min-height: 30px;
+}
+.c5-lista li:last-child { border-bottom: none; }
+.c5-lista li .passo-num { position: absolute; left: 0; top: 4px; font-weight: 700; color: var(--azul); font-size: .8rem; }
+.c5-lista li .passo-label { font-weight: 600; color: var(--ouro); }
+.c5-lista li .inline-resp { font-size: .78rem; font-family: var(--mono); color: var(--azul); }
+.c5-esboco {
+  border: 1px dashed var(--cinza-borda);
+  height: 48px;
+  margin: 4px 0 2px;
+  display: flex; align-items: flex-end; justify-content: space-between;
+  padding: 0 12px 2px;
+  font-size: .74rem; color: var(--cinza);
+  font-family: var(--mono);
+}
+
+/* ── DISCUSSAO ── */
+.disc-item { display: flex; flex-direction: column; margin-bottom: 4px; }
+.disc-q { font-size: .8rem; margin: 4px 0 2px; }
+.disc-q strong { color: var(--azul); }
+.disc-linha { border-bottom: 1px dotted var(--cinza-borda); min-height: 24px; }
+
+/* ── NORMAS ── */
+.normas-table td:first-child {
+  width: 28px; text-align: center;
+  font-weight: 700; color: var(--azul);
+  font-size: .85rem;
+}
+.normas-table td:last-child { width: 110px; }
+
+/* ── FECHAMENTO (padrao FA) ── */
+.fechamento { border-top: 1px solid var(--cinza-borda); margin-top: 10px; padding-top: 9px; }
+.fechamento .frase {
+  text-align: center; font-size: .92rem; font-style: italic; color: var(--texto); line-height: 1.55;
+}
+.fechamento .frase strong { color: var(--ouro); font-style: normal; }
+/* v6: o fecho da despedida ganha destaque de cor e corpo maior */
+.fechamento .fecho-destaque { color: var(--azul); font-weight: 700; font-size: 1.08rem; }
+
+/* ── ESPACO DA EQUIPE DE MONITORIA (padrao FA) ── */
+.monitoria { border: 1.5px solid var(--verde); margin-top: 10px; padding: 8px 10px 9px; }
+.monitoria-titulo {
+  font-size: .8rem; font-weight: 700; color: var(--verde);
+  text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px;
+}
+.monitoria-entrega { font-size: .9rem; font-weight: 600; margin-bottom: 7px; }
+.monitoria-marcas { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-bottom: 7px; }
+.marca { display: flex; align-items: center; gap: 5px; font-size: .8rem; }
+.marca .cx { width: 12px; height: 12px; border: 1px solid var(--cinza); flex-shrink: 0; }
+.marca .data { display: inline-flex; align-items: flex-end; gap: 3px; color: var(--cinza); }
+.marca .data i { display: inline-block; border-bottom: 1px solid var(--linha); height: 1em; font-style: normal; }
+.marca .data .d, .marca .data .m { width: 22px; }
+.marca .data .a { width: 34px; }
+.monitoria-criterios { font-size: .8rem; color: var(--cinza); line-height: 1.55; margin-bottom: 7px; }
+.monitoria-criterios strong { color: var(--texto); font-weight: 600; }
+.monitoria-obs { font-size: .8rem; font-weight: 600; color: var(--cinza); text-transform: uppercase; letter-spacing: .4px; }
+.monitoria-linha { border-bottom: 1px solid var(--linha); height: 22px; }
+.monitoria-assina { display: grid; grid-template-columns: 2fr 1fr; gap: 18px; margin-top: 6px; }
+.monitoria-assina .campo {
+  display: flex; align-items: baseline; gap: 6px;
+  font-size: .8rem; border-bottom: 1px solid var(--linha); padding-bottom: 3px;
+}
+.monitoria-assina label { font-weight: 600; color: var(--verde); white-space: nowrap; font-size: .8rem; }
+.monitoria-assina .linha { flex: 1; min-width: 0; height: 1.2em; }
+
+/* ── RODAPES ── */
+.rodape-print { display: none; }
+.barra-tela { text-align: center; padding: 18px 0 6px; }
+.barra-tela .btn {
+  padding: 11px 26px; background: var(--azul); color: oklch(0.13 0.01 260);
+  border: none; font-family: var(--font); font-size: .85rem; font-weight: 700;
+  cursor: pointer; min-height: 44px;
+}
+.barra-tela .btn:hover { filter: brightness(1.1); }
+.barra-tela .nota { font-size: .8rem; color: var(--cinza); margin-top: 8px; line-height: 1.5; }
+
+/* ============================================================
+   TIPOGRAFIA DE TELA — padrao FE1 movel (v6): piso de .8rem e
+   corpos maiores para leitura no celular, como na atualizacao
+   do indice do site fe1-oa (nome 1.08rem / tag .95rem) e no
+   Espaco da Monitoria (A4.36). SO a tela cresce: o @media print
+   abaixo permanece intacto e a paginacao impressa nao muda.
+   REPLICAR este bloco identico nos RB das demais trilhas.
+   ============================================================ */
+@media screen {
+  body { font-size: 1.02rem; }
+  .header-left h1 { font-size: 1.2rem; }
+  .header-left .sub { font-size: .84rem; }
+  .header-right { font-size: .8rem; }
+  .header-right .badge { font-size: .9rem; }
+  .id-box-titulo { font-size: .8rem; }
+  .id-box .campo-linha { font-size: .92rem; }
+  .id-box label { font-size: .84rem; }
+  .opts { font-size: .84rem; }
+  .data-campo { font-size: .88rem; }
+  .piazzi { font-size: .84rem; }
+  .epigrafe { font-size: .95rem; }
+  .epigrafe .atrib { font-size: .8rem; }
+  .checklist-titulo { font-size: .8rem; }
+  .fase-nome { font-size: .8rem; }
+  .oa-item { font-size: .8rem; }
+  .secao-titulo .num { width: 26px; height: 26px; font-size: .86rem; }
+  .secao-titulo h2 { font-size: 1.02rem; }
+  .secao-titulo .hint { font-size: .8rem; }
+  .alerta-seg { font-size: .86rem; }
+  .check-list li { font-size: .92rem; }
+  .assinatura { font-size: .9rem; }
+  .lembrete { font-size: .86rem; }
+  .protocolo-lista li { font-size: .92rem; }
+  .protocolo-lista li::before { font-size: .84rem; }
+  .nota-metodo { font-size: .84rem; }
+  .tabela-rotulo { font-size: .84rem; }
+  table { font-size: .92rem; }
+  th { font-size: .8rem; }
+  .resultado-final .titulo-res { font-size: .8rem; }
+  .resultado-final .formula-res { font-size: 1.15rem; }
+  .c5-lista li { font-size: .92rem; }
+  .c5-lista li .passo-num { font-size: .92rem; }
+  .c5-lista li .inline-resp { font-size: .88rem; }
+  .c5-esboco { font-size: .84rem; }
+  .calc-formula { font-size: .92rem; }
+  .calc-formula .eq { font-size: .88rem; }
+  .calc-formula .un-m { font-size: .82rem; }
+  .disc-q { font-size: .92rem; }
+  .fechamento .frase { font-size: 1.02rem; }
+  .fechamento .fecho-destaque { font-size: 1.2rem; }
+  .barra-tela .nota { font-size: .84rem; }
+}
+
+/* ============================================================
+   IMPRESSAO — paleta azul sobre branco (padrao T04):
+   titulos e rotulos em azul #1F3864, linhas de escrita discretas.
+   @page { margin: 0 } suprime o cabecalho/rodape do navegador;
+   a margem real vira o padding de .pagina.
+   ============================================================ */
+@media print {
+  @page { size: A4 portrait; margin: 0; }
+
+  body {
+    background: #FFFFFF !important;
+    color: #1A1A1A !important;
+    font-size: 8.8pt;
+    line-height: 1.34;
+  }
+  .folha { max-width: none; padding: 0; }
+
+  /* uma .pagina por folha A4; coluna flex com a altura da folha:
+     a folga vira linha de escrita (.cresce) e o rodape cola na base */
+  .pagina {
+    margin: 0; padding: 11mm 13mm 9mm 13mm;
+    break-after: page; page-break-after: always;
+    display: flex; flex-direction: column; height: 297mm;
+  }
+  .pagina:last-of-type { break-after: auto; page-break-after: auto; }
+  /* ARMADILHA (FA): repetir o padding-top — a regra de tela
+     `.pagina + .pagina` vence dentro do @media print. */
+  .pagina + .pagina { border-top: none; padding-top: 11mm; }
+  .rodape-print {
+    display: block; text-align: center;
+    font-size: 6.8pt; color: #808080;
+    border-top: .5pt solid #D0D0D0; padding-top: 3pt;
+    margin-top: auto;
+  }
+
+  /* a secao marcada .cresce absorve a folga da pagina; tabela .estica
+     dentro dela distribui a folga entre as proprias linhas */
+  .cresce { flex: 1 1 auto; display: flex; flex-direction: column; }
+  .cresce table.estica { flex: 1 1 auto; }
+
+  .header { border-top: 2.5pt solid #1F3864; border-bottom: .5pt solid #C0C0C0; padding: 5pt 0; margin-bottom: 7pt; }
+  .header-left h1 { color: #1F3864 !important; font-size: 12pt; }
+  .header-left .sub { color: #4D6A96 !important; }
+  .header-right { color: #4D6A96 !important; }
+  .header-right .badge { color: #1F3864 !important; }
+
+  .id-box { border: 1pt solid #1A1A1A !important; padding: 5pt 8pt 6pt; margin-bottom: 6pt; }
+  .id-box-titulo { color: #1A1A1A !important; font-size: 7pt; margin-bottom: 4pt; }
+  .id-box .campo-linha { border-bottom: .75pt solid #7A7A7A !important; padding-bottom: 4pt; margin-bottom: 5pt; }
+  .id-box label { color: #1F3864 !important; }
+  .opts { color: #4D4D4D !important; }
+  .opts .opt::before { border: 1pt solid #808080 !important; width: 10pt; height: 10pt; }
+  .data-campo { color: #4D4D4D !important; }
+
+  .piazzi { border: .5pt solid #C0C0C0 !important; color: #1F3864 !important; padding: 4pt 8pt; margin-bottom: 6pt; font-size: 8pt; }
+  .piazzi .mao { color: #1F3864 !important; font-weight: 700; }
+  .piazzi em { color: #1F3864 !important; }
+
+  .epigrafe {
+    background: #F4F4F4 !important; border-left: 2.5pt solid #1F3864 !important;
+    padding: 5pt 9pt; margin-bottom: 7pt; font-size: 9pt;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .epigrafe .cit { color: #1F3864 !important; }
+  .epigrafe .atrib { color: #4D4D4D !important; }
+
+  .checklist { margin-bottom: 7pt; }
+  .checklist-titulo { color: #1F3864 !important; font-size: 7.2pt; margin-bottom: 3pt; }
+  .checklist-fases { gap: 6pt; }
+  .fase {
+    border: .5pt solid #B5B5B5 !important; border-top: 1.5pt solid #1F3864 !important;
+    padding: 4pt 6pt 4.5pt; break-inside: avoid;
+  }
+  .fase-nome { color: #1F3864 !important; font-size: 7.4pt; margin-bottom: 3pt; }
+  .fase-oas { gap: 3pt 7pt; }
+  .oa-item { font-size: 7pt; }
+  .oa-box { width: 7pt; height: 7pt; border: .75pt solid #1A1A1A !important; }
+  .oa-sigla { color: #000000 !important; }
+  .oa-nome { color: #4D4D4D !important; }
+
+  .secao { margin-bottom: 7pt; }
+  .secao-titulo { margin-bottom: 5pt; gap: 6pt; }
+  .secao-titulo .num {
+    background: #E8EDF4 !important; color: #1F3864 !important;
+    border: .75pt solid #1F3864;
+    width: 15pt; height: 15pt; font-size: 8pt;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .secao-titulo h2 { color: #1F3864 !important; font-size: 9.5pt; }
+  .secao-titulo .hint { color: #808080 !important; font-size: 7pt; }
+
+  .alerta-seg {
+    background: #FDEDEC !important; border-color: #C0392B !important;
+    padding: 4pt 8pt; margin-bottom: 4pt;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .alerta-seg strong { color: #C0392B !important; }
+  .check-list li { font-size: 8.2pt; padding: 2pt 0; }
+  .check-list li::before { width: 10pt; height: 10pt; border: 1pt solid #808080 !important; }
+  .check-list.seg li::before { border-color: #C0392B !important; }
+  .assinatura { color: #1F3864 !important; margin-top: 4pt; }
+  .assinatura .linha-ass { border-bottom-color: #C0392B !important; }
+
+  .lembrete {
+    background: #FFF5E0 !important; border-color: #C8922A !important;
+    padding: 4pt 8pt; margin-bottom: 5pt;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .lembrete strong { color: #8A6A18 !important; }
+  .protocolo-lista li { font-size: 8.2pt; padding: 1.5pt 0 1.5pt 14pt; }
+  .protocolo-lista li::before { color: #1F3864 !important; font-size: 7.6pt; }
+  .nota-metodo { color: #808080 !important; font-size: 7.4pt; }
+
+  /* Imagem de fundo: visivel o bastante para ilustrar, clara o bastante
+     para a caneta passar por cima — mesmos valores calibrados da FA
+     impressa da T10/FC1 (a impressora P&B clareia meios-tons; o valor
+     de tela nao serve aqui). */
+  .fundo-ilustra {
+    opacity: .26 !important;
+    filter: grayscale(1) contrast(.95) brightness(1.02) !important;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+
+  .tabela-rotulo { color: #4D4D4D !important; font-size: 7.6pt; margin: 3pt 0 2pt; }
+  table { font-size: 8.2pt; margin: 2pt 0 5pt; }
+  th {
+    background: #E8EDF4 !important; color: #1F3864 !important;
+    border: .5pt solid #9AA7BD !important; padding: 3pt 3pt;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  td { border: .5pt solid #9AA7BD !important; height: 11mm; padding: 3pt 4pt; }
+  tr.voce td {
+    background: #E8EDF4 !important; border-color: #1F3864 !important;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  tr.voce td:first-child { color: #1F3864 !important; }
+
+  .calc-bloco { background: #F8F8F8 !important; padding: 4pt 8pt; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .calc-formula { font-size: 8.4pt; margin: 4pt 0; }
+  .calc-formula .label { color: #1F3864 !important; }
+  .calc-formula .eq { color: #4D4D4D !important; }
+  .calc-formula .campo-calc { border-bottom-color: #1F3864 !important; }
+
+  .resultado-final {
+    background: #F4F6FA !important; border: 1pt solid #1F3864 !important;
+    padding: 5pt 9pt; margin-top: 4pt;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .resultado-final .titulo-res { color: #1F3864 !important; font-size: 7.4pt; }
+  .resultado-final .formula-res { color: #1A1A1A !important; font-size: 10pt; }
+  .resultado-final .campo-res { border-bottom-color: #1F3864 !important; }
+
+  .c5-lista { flex: 1 1 auto; display: flex; flex-direction: column; }
+  .c5-lista li { flex: 1 1 auto; border-bottom: .5pt dotted #9AA7BD !important; min-height: 8mm; }
+  .c5-lista li.fixo { flex: 0 0 auto; }
+  .c5-lista li .passo-num { color: #1F3864 !important; }
+  .c5-lista li .passo-label { color: #2E5A8F !important; }
+  .c5-lista li .inline-resp { color: #1F3864 !important; }
+  .c5-esboco { border-color: #9AA7BD !important; color: #808080 !important; height: 12mm; }
+
+  .disc-item { flex: 1 1 auto; }
+  .disc-q { font-size: 8.2pt; }
+  .disc-q strong { color: #1F3864 !important; }
+  .disc-linha { flex: 1 1 auto; border-bottom: .5pt dotted #9AA7BD !important; min-height: 7mm; }
+
+  .normas-table td:first-child { color: #1F3864 !important; }
+
+  .fechamento { border-top: .5pt solid #C0C0C0 !important; margin-top: 5pt; padding-top: 5pt; flex: 0 0 auto; }
+  .fechamento .frase { color: #1F3864 !important; font-size: 9.6pt; line-height: 1.4; }
+  .fechamento .frase strong { color: #1F3864 !important; }
+  /* v6: destaque do fecho no laranja de impressao da FE (#AE5314, 4,89:1) */
+  .fechamento .fecho-destaque { color: #AE5314 !important; font-size: 11pt; }
+
+  .monitoria { border: 1pt solid #1A1A1A !important; margin-top: 4pt; padding: 3pt 7pt 3pt; break-inside: avoid; }
+  .monitoria-titulo { color: #1A1A1A !important; font-size: 7.5pt; margin-bottom: 1.5pt; }
+  .monitoria-entrega { color: #000000 !important; font-size: 8.6pt; margin-bottom: 2pt; }
+  .monitoria-marcas { gap: 2pt 12pt; margin-bottom: 2pt; }
+  .marca { font-size: 7.8pt; color: #000000 !important; }
+  .marca .cx { width: 8.5pt; height: 8.5pt; border: .75pt solid #1A1A1A !important; }
+  .marca .data { color: #000000 !important; gap: 2pt; }
+  .marca .data i { border-bottom: .75pt solid #7A7A7A !important; height: .95em; }
+  .marca .data .d, .marca .data .m { width: 16pt; }
+  .marca .data .a { width: 26pt; }
+  .monitoria-criterios { color: #4D4D4D !important; font-size: 7pt; line-height: 1.3; margin-bottom: 2pt; }
+  .monitoria-criterios strong { color: #1A1A1A !important; }
+  .monitoria-obs { color: #4D4D4D !important; font-size: 7.2pt; }
+  .monitoria-linha { border-bottom: .5pt solid #7A7A7A !important; height: 4.5mm; }
+  .monitoria-assina { gap: 16pt; margin-top: 2pt; }
+  .monitoria-assina .campo { border-bottom: .75pt solid #7A7A7A !important; padding-bottom: 2pt; font-size: 7.8pt; }
+  .monitoria-assina label { color: #1A1A1A !important; font-size: 7.5pt; }
+
+  .barra-tela { display: none !important; }
+}
+
+  input, button, select, textarea { font-family: inherit; }
+  /* ==== PADRAO FE — aplicado por padronizar_oa_fe.py ==== */
+body { background: var(--fundo); color: var(--texto); line-height: 1.6; }
+.container { max-width: 800px; margin: 0 auto; padding: 24px 16px 80px; }
+/* HEADER */
+.header { background: var(--painel); border-top: 3px solid var(--epi); padding: 14px 20px; margin-bottom: 20px; }
+.header-inner { max-width: 800px; margin: 0 auto; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.header .marca { width: 52px; height: 52px; flex-shrink: 0; }
+.header h1 { font-size: 1.4rem; font-weight: 900; letter-spacing: -0.02em; flex: 1 1 240px; }
+.header h1 .trilha-code { color: var(--epi); }
+.badge {
+  display: inline-block;
+  background: var(--epi); color: oklch(0.13 0.01 260);
+  padding: 4px 12px; border-radius: var(--r-sm);
+  font-size: 0.68rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 2px;
+}
+.header-sub {
+  max-width: 800px; margin: 6px auto 0;
+  font-size: 0.88rem;
+  color: var(--cinza);
+}
+
+/* PIAZZI BAR */
+.piazzi-bar { display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; background:var(--painel); border:1px solid var(--cinza-borda); padding:10px 16px; margin-bottom:16px; font-size:.78rem; }
+.piazzi-bar .piazzi-ref { color:var(--cinza); }
+.piazzi-bar .piazzi-tag { display:inline-block; border:1px solid var(--epi); color:var(--epi); padding:2px 10px; font-size:.72rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; }
+.piazzi-bar .piazzi-text { color:var(--texto); font-style:italic; font-size:.74rem; }
+.piazzi-bar .piazzi-yt { display:inline-flex; align-items:center; gap:5px; background:var(--erro); color:var(--branco); padding:4px 12px; font-size:.72rem; font-weight:700; text-decoration:none; cursor:pointer; }
+.piazzi-bar .piazzi-yt::before { content:'\25B6'; font-size:.6rem; }
+
+/* INTRO */
+.intro-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  background: var(--superficie);
+  border: 1px solid var(--cinza-borda);
+  border-left: 4px solid var(--aco);
+  padding: 16px 18px;
+  margin-bottom: 20px;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--texto);
+}
+.intro-box .vagoneta { width: 84px; height: auto; flex-shrink: 0; display: block; margin-top: 2px; }
+.intro-box strong { color: var(--epi); }
+
+/* ENCERRAMENTO */
+.encerramento { max-width:800px; margin:30px auto 10px; padding:20px 16px; border-top:2px solid var(--epi); text-align:center; }
+/* fecho em destaque (padrao RB v5): cor da familia FE e corpo maior */
+.encerramento .fecho-frase { font-family:var(--serif); font-size:1.15rem; line-height:1.5; color:var(--epi); font-weight:700; }
+.encerramento .fecho-acao { color:var(--epi); font-size:.95rem; text-transform:uppercase; font-weight:700; margin-top:10px; line-height:1.5; }
+.encerramento .fecho-links { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:14px; }
+.encerramento .fecho-btn { display:inline-flex; align-items:center; gap:7px; padding:10px 18px; min-height:44px; background:var(--epi); color:oklch(0.13 0.01 260); font-family:var(--mono); font-size:.8rem; font-weight:700; text-decoration:none; letter-spacing:.03em; }
+.encerramento .fecho-btn::before { content:'\25B6'; font-size:.62rem; }
+.encerramento .fecho-btn:hover { background:var(--epi-claro); }
+.encerramento .fecho-btn.secundario { background:transparent; color:var(--aco); border:1px solid var(--aco); }
+.encerramento .fecho-btn.secundario::before { content:'\2630'; font-size:.72rem; }
+.encerramento .fecho-btn.secundario:hover { background:var(--aco-bg); }
+.encerramento .fecho-inst { color:var(--cinza); font-size:.85rem; margin-top:16px; line-height:1.5; }
+.footer-line { text-align:center; font-size:.85rem; color:var(--cinza); padding:16px 12px; line-height:1.5; }
+.header .badge { background: var(--epi); color: oklch(0.13 0.01 260); padding: 4px 12px; border-radius: var(--r-sm); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; }
+.header .header-inner h1 { font-size: 1.4rem; font-weight: 900; letter-spacing: -0.02em; flex: 1 1 240px; }
+.header .header-inner h1 .trilha-code { color: var(--epi); }
+
+.header .marca { width: 42px; height: 42px; flex-shrink: 0; }
+.header { display: flex; align-items: center; gap: 12px; }
+@media print { .header .marca { width: 38px; height: 38px; } }
+
+
+
+/* ==== FE-T0E-RB (gerar_rb_t0e_fe.py): legendas ABNT, equacoes, retas numericas, grafico, RCP ==== */
+.pim { text-decoration: overline; text-transform: none; }
+.legenda { font-size: .78rem; font-weight: 700; color: var(--azul); margin: 6px 0 2px; }
+.fonte-abnt { font-size: .7rem; color: var(--cinza); margin: 1px 0 6px; }
+.texto p { font-size: .84rem; margin: 0 0 5px; }
+.eqs { margin: 3px 0 6px; }
+.eq { display: flex; align-items: center; font-size: .86rem; margin: 3px 0; gap: 8px; }
+.eq .f { flex: 1 1 auto; text-align: center; font-family: var(--serif); }
+.eq .n { flex: 0 0 auto; font-weight: 700; color: var(--azul); }
+.contas { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 16px; font-size: .82rem; margin: 4px 0 6px; }
+.contas .conta { display: block; min-height: 8mm; border-bottom: 1px solid var(--cinza-borda); }
+.branco { display: inline-block; min-width: 22mm; min-height: 1.2em; border-bottom: 1px solid var(--cinza-borda); }
+.resultado { font-size: .92rem; font-weight: 700; margin: 5px 0; text-align: center; }
+.figura-svg { text-align: center; margin: 2px 0; }
+.figura-svg svg { max-width: 100%; height: auto; background: #fff; }
+table.t0e td { height: 7.5mm; text-align: center; }
+table.t0e td:first-child { text-align: center; }
+table.t0e tr.soma td { font-weight: 700; }
+.rcp { width: 100%; border-collapse: collapse; }
+.rcp td { text-align: left !important; vertical-align: top; height: 14mm; font-size: .8rem; }
+.rcp td.passo { width: 30%; font-weight: 700; color: var(--azul); }
+.espaco { border: 1px solid var(--cinza-borda); min-height: 18mm; padding: 4px 6px; font-size: .8rem; }
+.g, td.g, span.g, div.g { color: #C00000 !important; font-weight: 700; }
+.gab-nota { border: 1px dashed #C00000; color: #C00000; font-size: .78rem; padding: 4px 8px; margin: 4px 0 6px; }
+.gab-nota p { margin: 0 0 3px; }
+table.rubrica td { height: auto; font-size: .76rem; text-align: left; }
+table.rubrica td:last-child { text-align: center; width: 14mm; }
+.cx { display: inline-block; width: 10px; height: 10px; border: 1px solid #808080; vertical-align: -1px; margin: 0 4px 0 8px; }
+.cx.g { background: #C00000; border-color: #C00000; }
+.fim-parte { font-size: .84rem; font-weight: 700; color: var(--azul); text-align: center; margin: 6px 0; }
+.motiva { border: 1.5px solid var(--azul); padding: 6px 10px; font-size: .86rem; margin: 6px 0; }
+@media print {
+  .legenda { font-size: 7.8pt; color: #1F3864 !important; margin: 4pt 0 1.5pt; }
+  .fonte-abnt { font-size: 6.8pt; color: #4D4D4D !important; margin: 1pt 0 4pt; }
+  .texto p { font-size: 8.4pt; margin: 0 0 3.5pt; }
+  .eq { font-size: 8.8pt; margin: 2pt 0; }
+  .eq .n { color: #1F3864 !important; }
+  .contas { font-size: 8.2pt; gap: 3pt 12pt; }
+  .contas .conta { border-bottom: .5pt solid #9AA7BD !important; min-height: 7mm; }
+  .branco { border-bottom: .5pt solid #7A7A7A !important; }
+  .resultado { font-size: 9.6pt; }
+  table.t0e td { height: 6.5mm; }
+  .rcp td { height: auto; font-size: 8pt; border: .5pt solid #9AA7BD !important; }
+  .rcp td.passo { color: #1F3864 !important; }
+  .espaco { border: .5pt solid #9AA7BD !important; min-height: 16mm; font-size: 8pt; }
+  .cresce .espaco.estica, .cresce .rcp.estica { flex: 1 1 auto; }
+  .g, td.g, span.g, div.g { color: #C00000 !important; }
+  .gab-nota { font-size: 7.6pt; border-color: #C00000 !important; color: #C00000 !important; }
+  table.rubrica td { height: auto; font-size: 7.4pt; padding: 2pt 4pt; }
+  .fim-parte { font-size: 8.6pt; color: #1F3864 !important; }
+  .motiva { border-color: #AE5314 !important; font-size: 8.8pt; padding: 5pt 8pt; }
+  .figura-svg svg { max-width: none; }
+}
+
+/* ==== cabecalho e rodape padrao (v2, PRE-outro-t0e-cabecalho-padrao-rb-v2-rc-v1-fe1-2026-11-04) ==== */
+.header > .fe-cab-marcas { margin: 0; justify-content: flex-start; }
+.header > .fe-cab-marcas svg { width: 34px; height: 34px; }
+.header > .fe-cab-marcas + .header-left { margin-right: auto; }
+.header-left h1 .trilha-code { color: var(--epi); }
+.fe-header-sub { font-size: .82rem; color: var(--cinza); margin: -6px 0 10px; }
+.id-box .campo-id { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; font-size: .8rem;
+  padding-bottom: 4px; margin-bottom: 6px; }
+.id-box .campo-id:last-child { margin-bottom: 0; }
+.id-box .vazio { flex: 1; min-width: 0; height: 1.5em; }
+.id-box .vazio.ra { flex: 0 0 9em; }
+.rubrica-site { border: 1px solid #808080; background: #EEEEEE; color: #1A1A1A; font-weight: 700; font-size: .86rem;
+  text-align: center; padding: 5px 10px; margin: 0 0 10px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.pagina > .fe-rodape { margin-top: auto; padding: 6px 0 2px; font-size: .72rem; line-height: 1.4; border-top: 0; }
+.pagina > .fe-rodape .fe-inst-marcas { margin: 0 auto 4px; }
+.pagina > .fe-rodape .fe-inst-marcas svg { width: 24px; height: 24px; }
+.so-tela { margin: 10px 0; }
+table.rubrica-trilha td { font-size: .78rem; text-align: left; }
+table.rubrica-trilha td:last-child { text-align: center; width: 18mm; white-space: nowrap; }
+@media print {
+  .header > .fe-cab-marcas svg { width: 24px; height: 24px; }
+  .fe-header-sub { font-size: 7.6pt; margin: -3pt 0 6pt; color: #4D4D4D !important; }
+  .id-box .campo-id { border-bottom: 0 !important; padding-bottom: 2pt; margin-bottom: 4pt; }
+  .rubrica-site { font-size: 8.6pt !important; border: .6pt solid #808080 !important; padding: 3pt 8pt; margin-bottom: 6pt; }
+  /* no A4, icones e texto institucional numa linha so: a folha da Parte 1 nao ganha pagina */
+  .pagina > .fe-rodape { display: flex; align-items: center; justify-content: center; gap: 8pt;
+    font-size: 7pt; line-height: 1.3; color: #333 !important; padding: 2pt 0 0; }
+  .pagina > .fe-rodape .fe-inst-marcas { width: auto; margin: 0; flex: 0 0 auto; }
+  .pagina > .fe-rodape .fe-inst-marcas svg { width: 22px; height: 22px; }
+  .pagina > .fe-rodape .fe-rodape-texto { text-align: left; max-width: 150mm; margin: 0; }
+  .pagina > .fe-rodape + .rodape-print { margin-top: 2pt; }
+  table.t0e td { height: 6mm; }
+  .pagina { padding-top: 10mm; padding-bottom: 7mm; }
+  .pagina + .pagina { padding-top: 10mm; }
+  .so-tela { display: none !important; }
+}
+/* ICONES-FE */
+.fe-cab-marcas { display: flex; gap: 10px; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-bottom: 14px; }
+.fe-cab-marcas svg { width: 52px; height: 52px; display: block; }
+.fe-inst-marcas { display: flex; gap: 14px; align-items: center; justify-content: center;
+  width: 100%; margin: 0 auto 10px; }
+.fe-inst-marcas a { display: flex; }
+.fe-inst-marcas svg { width: 30px; height: 30px; display: block; }
+.fe-agr-marca { display: flex; justify-content: center; width: 100%; margin: 0 auto 10px; }
+.fe-agr-marca a { display: flex; }
+.fe-agr-marca svg { width: 30px; height: 30px; display: block; }
+.fe-rodape { text-align: center; padding: 22px 16px 26px; font-size: .82rem; line-height: 1.6;
+  color: var(--cinza, #8a8f98); border-top: 1px solid var(--fio, #333); margin-top: 40px; }
+.fe-rodape a { color: inherit; }
+.fe-rodape-texto { max-width: 960px; margin: 0 auto; }
+@media print { .fe-agr-marca { display: none !important; } }
+/* URL longa no corpo (autolink do pandoc ou texto corrido, como na Bibliografia da
+   Ementa) quebra em vez de alargar a pagina no celular; tabelas ficam de fora */
+.wrap a.uri, .wrap > p, .wrap > ul > li, .wrap > ol > li, .wrap > blockquote p { overflow-wrap: anywhere; }
+/* /ICONES-FE */
+/* CAB-IMP-FE */
+.cab-imp { font-family: 'Century Gothic', 'URW Gothic L', 'Avant Garde', Arial, sans-serif; color: #1A1A1A;
+  margin-bottom: 8px; }
+.cab-imp-topo { display: flex; align-items: center; gap: 10px; background: #FFFFFF;
+  border-top: 3px solid #1F3864; border-bottom: 1px solid #C0C0C0; padding: 8px 0; }
+.cab-imp .fe-cab-marcas { margin: 0; gap: 8px; justify-content: flex-start; }
+.cab-imp .fe-cab-marcas svg { width: 30px; height: 30px; }
+.cab-imp-tit { flex: 1 1 auto; font-size: 1.15rem; font-weight: 700; color: #1F3864; line-height: 1.25; }
+.cab-imp-tit .trilha-code { color: #E07B39; }
+.cab-imp-dir { text-align: right; font-size: .82rem; font-weight: 700; color: #1F3864; line-height: 1.5; }
+.cab-imp-dir .data { font-weight: 400; color: #1A1A1A; letter-spacing: .5px; }
+.cab-imp-dir .extra { font-weight: 400; color: #555; font-size: .72rem; }
+.cab-imp-sub { font-size: .76rem; color: #555; margin: 4px 0 0; }
+.cab-imp .parte-faixa { border-left: 5px solid #7A7A7A; background: #E8E8E8; padding: 5px 10px; margin: 8px 0;
+  font-size: 1.05rem; font-weight: 700; color: #1F3864; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.cab-imp .parte-faixa b { color: #7A7A7A; }
+.cab-imp-sec { font-size: .9rem; font-weight: 700; margin: 4px 0; }
+.cab-imp-sec span { font-weight: 400; color: #555; font-size: .78rem; }
+.cab-imp-id { border: 1.2px solid #333; padding: 4px 10px 2px; margin-bottom: 8px; }
+.cab-imp-id .linha-id { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; font-size: .82rem;
+  font-weight: 700; border-bottom: 1px solid #9A9A9A; padding: 5px 0 6px; margin-bottom: 2px; }
+.cab-imp-id .linha-id:last-child { border-bottom: 0; }
+.cab-imp-id .vazio { flex: 1; min-width: 0; height: 1.3em; }
+.cab-imp-id .vazio.ra { flex: 0 0 8em; }
+.cab-imp-id .data-campo { font-weight: 400; }
+.cab-imp-id .opts { font-weight: 400; }
+.cab-imp .rubrica-site { border: 1px solid #808080; background: #EEEEEE; color: #1A1A1A; font-weight: 700;
+  font-size: .84rem; text-align: center; padding: 5px 10px; margin: 0;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+/* rodape padrao na base da ultima pagina, acima do rodape impresso */
+.pagina > .fe-rodape { margin-top: auto; padding: 6px 0 2px; font-size: .72rem; line-height: 1.4; border-top: 0; }
+.pagina > .fe-rodape .fe-inst-marcas { margin: 0 auto 4px; }
+.pagina > .fe-rodape .fe-inst-marcas svg { width: 24px; height: 24px; }
+.fe-pag { display: none; }
+@media print {
+  .cab-imp { margin-bottom: 5pt; }
+  .cab-imp-topo { border-top: 2.5pt solid #1F3864 !important; border-bottom: .5pt solid #C0C0C0 !important; padding: 4pt 0; }
+  .cab-imp .fe-cab-marcas svg { width: 22px; height: 22px; }
+  .cab-imp-tit { font-size: 12pt; color: #1F3864 !important; }
+  .cab-imp-tit .trilha-code { color: #E07B39 !important; }
+  .cab-imp-dir { font-size: 8.4pt; color: #1F3864 !important; }
+  .cab-imp-dir .data, .cab-imp-dir .extra { color: #333 !important; }
+  .cab-imp-sub { font-size: 7.6pt; color: #4D4D4D !important; margin-top: 2pt; }
+  .cab-imp .parte-faixa { font-size: 10.5pt; padding: 3pt 8pt; margin: 5pt 0; color: #1F3864 !important; }
+  .cab-imp .parte-faixa b { color: #7A7A7A !important; }
+  .cab-imp-sec { font-size: 9pt; margin: 2pt 0 3pt; }
+  .cab-imp-sec span { font-size: 7.6pt; }
+  .cab-imp-id { border: .8pt solid #333 !important; padding: 2pt 8pt 1pt; margin-bottom: 5pt; }
+  .cab-imp-id .linha-id { font-size: 8.4pt; padding: 3pt 0 4pt; border-bottom: .5pt solid #9A9A9A !important; }
+  .cab-imp .rubrica-site { font-size: 8.4pt !important; border: .6pt solid #808080 !important; padding: 3pt 8pt; }
+  /* no A4, icones e texto institucional numa linha so: a folha nao ganha pagina */
+  .pagina > .fe-rodape { display: flex; align-items: center; justify-content: center; gap: 8pt;
+    font-family: 'Century Gothic', 'URW Gothic L', Arial, sans-serif;
+    font-size: 6.5pt; line-height: 1.25; color: #333 !important; padding: 1pt 0 0; }
+  .pagina > .fe-rodape .fe-inst-marcas { width: auto; margin: 0; flex: 0 0 auto; gap: 8pt; }
+  .pagina > .fe-rodape .fe-inst-marcas svg { width: 20px; height: 20px; }
+  .pagina > .fe-rodape .fe-rodape-texto { text-align: left; max-width: 160mm; margin: 0; }
+  .pagina > .fe-rodape + .rodape-print { display: none !important; }
+  .fe-pag { display: inline !important; color: #555 !important; }
+  /* a folga do rodape padrao sai da margem da folha (11/9 mm -> 9,5/6 mm), como no RB da LME */
+  .pagina { padding-top: 9.5mm; padding-bottom: 6mm; }
+  .pagina + .pagina { padding-top: 9.5mm; }
+  /* a ultima folha leva o rodape padrao: margem menor para ele caber sem empurrar a contagem de paginas */
+  .pagina:has(> .fe-rodape) { padding-top: 7mm; padding-bottom: 4mm; }
+}
+/* /CAB-IMP-FE */
+
+/* ==== v4: Century Gothic no corpo do RB (PRE-outro-t0e-rb-v4-parte1-century-gothic-fe1-2026-11-05) ==== */
+body, body * { font-family: 'Century Gothic', 'URW Gothic L', Arial, sans-serif !important; }
+@media print {
+  .pagina { padding-bottom: 10mm; }
+  .pagina > .fe-rodape { padding-top: 6pt; line-height: 1.6; }
+  .pagina > .fe-rodape + .rodape-print { margin-top: 5pt; }
+}
+
+/* ==== FE-T04-RB (gerar_rb_t04_fe.py): grade de figuras do autor e tabelas da Estacao 1 ==== */
+.grade-fig { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid #9AA7BD; margin: 4px 0 2px; }
+.grade-fig > div { border-right: 1px solid #9AA7BD; text-align: center; padding: 3px 2px 0; }
+.grade-fig > div:last-child { border-right: 0; }
+.grade-fig svg { width: 100%; height: auto; display: block; background: #fff; }
+.grade-fig .cap { border-top: 1px solid #9AA7BD; font-size: .76rem; text-align: left; padding: 2px 5px;
+  color: var(--azul); font-weight: 700; }
+.grade-tab { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 4px 0; }
+.grade-tab table { width: 100%; }
+.grade-tab td, .grade-tab th { font-size: .74rem; text-align: center; height: 6.5mm; padding: 1px 2px; }
+.grade-tab .legenda { margin-top: 0; }
+.tab-trans tr.alta td { height: 12mm; }
+.tab-trans td:first-child { text-align: left; }
+.grade-cal { margin: 4px 0; }
+.linha-med { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: .8rem; margin: 4px 0; }
+.tab-cal td, .tab-cal th { font-size: .74rem; text-align: center; padding: 1px 4px; height: 5.4mm; }
+.grade-cal .texto p { margin: 3px 0; font-size: .8rem; }
+tr.alta2 td { height: 8mm; }
+.grade-tab tr.alta2 td:first-child { text-align: left; }
+.grade-fig.duas { grid-template-columns: 1.1fr 1fr; }
+.tab-obl th { font-size: .7rem; padding: 2px 3px; }
+.tab-obl td { height: 9mm; text-align: center; }
+.secao .espaco.curto, .grade-fig.duas + .fonte-abnt ~ .espaco { min-height: 13mm; }
+.grade-fig.duas { max-width: 92%; margin-left: auto; margin-right: auto; }
+.tab-concl td { height: 10mm; font-size: .8rem; }
+.tab-concl td:first-child { width: 30%; text-align: left !important; }
+.tab-concl td:last-child { width: 20%; text-align: center; }
+@media (max-width: 560px) {
+  .grade-fig, .grade-fig.duas, .grade-tab, .grade-cal { grid-template-columns: 1fr; }
+  .grade-fig > div { border-right: 0; border-bottom: 1px solid #9AA7BD; }
+}
+@media print {
+  .grade-fig { border: .5pt solid #9AA7BD !important; }
+  .grade-fig > div { border-right: .5pt solid #9AA7BD !important; }
+  .grade-fig > div:last-child { border-right: 0 !important; }
+  .grade-fig .cap { font-size: 7.6pt; color: #1F3864 !important; border-top: .5pt solid #9AA7BD !important; }
+  .grade-tab td, .grade-tab th { font-size: 7.2pt; height: 5.6mm; }
+}
+html body .tau, html body span.tau { font-family: "Times New Roman", "Cambria Math", serif !important; font-style: italic; font-size: 1.12em; }
+</style>
 <!-- CELULAR:INICIO --><style>
 @media (max-width: 560px) {
   table { table-layout: fixed; width: 100% !important; max-width: 100%; min-width: 0 !important; }
@@ -20,8 +942,338 @@
 </style><!-- CELULAR:FIM -->
 </head>
 <body data-pagina="t04:rb">
-<p>Esta trilha mudou de número: <a href="../../t05/rb/">abrir o endereço novo</a>.</p>
-<script>location.replace("../../t05/rb/" + location.hash);</script>
+
+<div class="folha">
+
+<!-- ═══════════ ESTAÇÃO 1 · PÁGINA 1 ═══════════ -->
+<div class="pagina">
+
+<!-- CAB-IMP-FE:INICIO -->
+  <div class="cab-imp">
+    <div class="cab-imp-topo"><div class="fe-cab-marcas"><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Curso Tecnico em Mineracao - Vagoneta (mono)"> <defs> <filter id="cab-curso-shVm" x="-20%" y="-20%" width="140%" height="140%"> <feDropShadow dx="0" dy="4" stdDeviation="4" flood-opacity="0.2"/> </filter> <pattern id="cab-curso-hatchV" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"> <line x1="0" y1="0" x2="0" y2="6" stroke="#5E5E5E" stroke-width="1.2"/> </pattern> </defs> <circle cx="256" cy="256" r="240" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="6"/> <circle cx="256" cy="256" r="222" fill="none" stroke="#5E5E5E" stroke-width="1.5" stroke-dasharray="4 6"/> <g fill="#5E5E5E"> <circle cx="130" cy="140" r="2"/> <circle cx="155" cy="175" r="1.5"/> <circle cx="390" cy="150" r="2"/> <circle cx="365" cy="120" r="1.5"/> <circle cx="100" cy="290" r="1.8"/> </g> <g filter="url(#cab-curso-shVm)"> <polygon points="155,195 175,168 198,186 175,200" fill="#1A1A1A" stroke="#1A1A1A" stroke-width="2"/> <polygon points="198,186 220,156 244,176 220,194" fill="#1A1A1A" stroke="#1A1A1A" stroke-width="2"/> <polygon points="244,176 268,148 294,170 268,190" fill="#1A1A1A" stroke="#1A1A1A" stroke-width="2"/> <polygon points="294,170 318,156 344,178 318,194" fill="#1A1A1A" stroke="#1A1A1A" stroke-width="2"/> <polygon points="344,178 362,166 384,192 358,200" fill="#1A1A1A" stroke="#1A1A1A" stroke-width="2"/> </g> <g filter="url(#cab-curso-shVm)"> <polygon points="132,200 380,200 350,305 162,305" fill="url(#cab-curso-hatchV)" stroke="#1A1A1A" stroke-width="3.5"/> <polygon points="126,186 386,186 380,206 132,206" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="3"/> <polygon points="380,200 398,188 368,303 350,305" fill="#B0B0B0" stroke="#1A1A1A" stroke-width="3"/> <polygon points="386,186 398,188 380,206" fill="#1A1A1A"/> <g stroke="#1A1A1A" stroke-width="2.2" stroke-linecap="round"> <line x1="198" y1="212" x2="194" y2="298"/> <line x1="256" y1="212" x2="256" y2="298"/> <line x1="314" y1="212" x2="318" y2="298"/> </g> <g fill="#1A1A1A"> <circle cx="148" cy="215" r="3"/> <circle cx="148" cy="290" r="3"/> <circle cx="364" cy="215" r="3"/> <circle cx="364" cy="290" r="3"/> </g> <rect x="150" y="305" width="210" height="8" fill="#1A1A1A"/> </g> <g filter="url(#cab-curso-shVm)"> <circle cx="196" cy="338" r="26" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="3"/> <circle cx="196" cy="338" r="17" fill="none" stroke="#1A1A1A" stroke-width="2"/> <circle cx="196" cy="338" r="5" fill="#1A1A1A"/> <g stroke="#1A1A1A" stroke-width="2"> <line x1="196" y1="317" x2="196" y2="359"/> <line x1="175" y1="338" x2="217" y2="338"/> </g> <circle cx="316" cy="338" r="26" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="3"/> <circle cx="316" cy="338" r="17" fill="none" stroke="#1A1A1A" stroke-width="2"/> <circle cx="316" cy="338" r="5" fill="#1A1A1A"/> <g stroke="#1A1A1A" stroke-width="2"> <line x1="316" y1="317" x2="316" y2="359"/> <line x1="295" y1="338" x2="337" y2="338"/> </g> </g> <g> <g fill="#1A1A1A"> <rect x="120" y="370" width="14" height="8" rx="1"/> <rect x="156" y="370" width="14" height="8" rx="1"/> <rect x="192" y="370" width="14" height="8" rx="1"/> <rect x="228" y="370" width="14" height="8" rx="1"/> <rect x="264" y="370" width="14" height="8" rx="1"/> <rect x="300" y="370" width="14" height="8" rx="1"/> <rect x="336" y="370" width="14" height="8" rx="1"/> <rect x="372" y="370" width="14" height="8" rx="1"/> </g> <rect x="110" y="364" width="292" height="4" fill="#1A1A1A"/> </g> </svg><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Marca da Física Experimental 1"> <title>Física Experimental 1 — Trilhas de Aprendizagem</title> <g fill="none" stroke="#E07B39" stroke-width="3"> <ellipse cx="60" cy="52" rx="46" ry="18"/> <ellipse cx="60" cy="52" rx="46" ry="18" transform="rotate(60 60 52)"/> <ellipse cx="60" cy="52" rx="46" ry="18" transform="rotate(120 60 52)"/> </g> <g fill="#E07B39"> <circle cx="53" cy="47" r="7"/> <circle cx="67" cy="47" r="7"/> <circle cx="60" cy="58" r="9"/> </g> <g stroke="#7FB2D6" stroke-width="3" stroke-linecap="square"> <line x1="26" y1="110" x2="94" y2="110"/> <line x1="30" y1="110" x2="30" y2="104"/> <line x1="40" y1="110" x2="40" y2="104"/> <line x1="50" y1="110" x2="50" y2="104"/> <line x1="60" y1="110" x2="60" y2="98"/> <line x1="70" y1="110" x2="70" y2="104"/> <line x1="80" y1="110" x2="80" y2="104"/> <line x1="90" y1="110" x2="90" y2="104"/> </g> </svg></div>
+      <div class="cab-imp-tit"><span class="trilha-code">FE1-T04</span> · Equilíbrio em Gangorras e Alavancas</div>
+      <div class="cab-imp-dir">Roteiro de Bancada (RB)<br><span class="data">___/___/____</span></div>
+    </div>
+    <div class="cab-imp-sub">Pavilhão de Física · Laboratório de Mecânica · encontro presencial de 100 minutos · Preencher à mão</div>
+    <div class="cab-imp-sec">Identificação</div>
+    <div class="id-box cab-imp-id">
+      <div class="linha-id"><label>Nome:</label><div class="vazio"></div><label>Registro Acadêmico (RA):</label><div class="vazio ra"></div><label>Data:</label><span class="data-campo">______/______/_______</span></div>
+      <div class="linha-id"><label>Turma:</label><div class="opts"><span class="opt">1</span><span class="opt">2</span><span class="opt">3</span></div><label>Grupo:</label><div class="opts"><span class="opt">A</span><span class="opt">B</span></div></div>
+    </div>
+    <div class="rubrica-site">A rubrica desta trilha e a deste Roteiro de Bancada (RB) estão publicadas no site desta disciplina.</div>
+  </div>
+  <!-- CAB-IMP-FE:FIM -->
+
+  <div class="secao">
+    <div class="secao-titulo">
+      <div class="num">1</div>
+      <h2>Estação 1 · Parte 1 · Equilíbrio de translação de alavancas (barra de metal)</h2>
+      <span class="hint">observe, monte e desenhe</span>
+    </div>
+    <div class="texto">
+      <p>Observe, na montagem da Estação 1 (Figura 1), que a barra de metal não cai na vertical (não há queda) e não gira (não há rotação). Portanto, ela está em <strong>equilíbrio</strong>.</p>
+      <p>Faça mais duas montagens em que a barra permaneça em equilíbrio de translação e de rotação. Desenhe as suas montagens nas Figuras 2 e 3.</p>
+    </div>
+    <div class="grade-fig">
+      <div><svg viewBox="0 0 140 118" xmlns="http://www.w3.org/2000/svg" font-family="Century Gothic, Arial, sans-serif"><line x1="8" y1="113" x2="132" y2="113" stroke="#999" stroke-width=".5"/><path d="M50 113 L62 103 L78 103 L90 113 Z" fill="#6B7078" stroke="#333" stroke-width=".45"/><rect x="68.8" y="6" width="2.4" height="98" fill="#B0B5BC" stroke="#333" stroke-width=".35"/><rect x="66" y="13" width="8" height="6" rx="1" fill="#7A8089" stroke="#333" stroke-width=".4"/><path d="M74 16 h4" stroke="#333" stroke-width=".8"/><path d="M70 19 v4.5 a2 2 0 1 0 0 3.2" fill="none" stroke="#333" stroke-width=".7"/><rect x="8.0" y="26.0" width="124.0" height="4.2" rx=".8" fill="#9DA3AB" stroke="#333" stroke-width=".45"/><circle cx="13.0" cy="28.1" r=".9" fill="#333"/><path d="M13.0 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="13.0" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">6</text><circle cx="22.5" cy="28.1" r=".9" fill="#333"/><path d="M22.5 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="22.5" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">5</text><circle cx="32.0" cy="28.1" r=".9" fill="#333"/><path d="M32.0 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="32.0" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">4</text><circle cx="41.5" cy="28.1" r=".9" fill="#333"/><path d="M41.5 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="41.5" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">3</text><circle cx="51.0" cy="28.1" r=".9" fill="#333"/><path d="M51.0 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="51.0" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">2</text><circle cx="60.5" cy="28.1" r=".9" fill="#333"/><path d="M60.5 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="60.5" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">1</text><circle cx="70.0" cy="28.1" r=".9" fill="#333"/><text x="70.0" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">0</text><circle cx="79.5" cy="28.1" r=".9" fill="#333"/><path d="M79.5 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="79.5" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">1</text><circle cx="89.0" cy="28.1" r=".9" fill="#333"/><path d="M89.0 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="89.0" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">2</text><circle cx="98.5" cy="28.1" r=".9" fill="#333"/><path d="M98.5 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="98.5" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">3</text><circle cx="108.0" cy="28.1" r=".9" fill="#333"/><path d="M108.0 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="108.0" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">4</text><circle cx="117.5" cy="28.1" r=".9" fill="#333"/><path d="M117.5 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="117.5" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">5</text><circle cx="127.0" cy="28.1" r=".9" fill="#333"/><path d="M127.0 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="127.0" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">6</text><path d="M11.7 34.7 v2" stroke="#555" stroke-width=".5"/><rect x="8.9" y="36.7" width="5.6" height="5.4" rx="1" fill="#B8BEC6" stroke="#555" stroke-width=".4"/><path d="M11.7 42.1 v1.6" stroke="#555" stroke-width=".5"/><path d="M97.2 34.7 v2" stroke="#555" stroke-width=".5"/><rect x="94.4" y="36.7" width="5.6" height="5.4" rx="1" fill="#B8BEC6" stroke="#555" stroke-width=".4"/><path d="M97.2 42.1 v1.6" stroke="#555" stroke-width=".5"/><path d="M97.2 43.7 v2" stroke="#555" stroke-width=".5"/><rect x="94.4" y="45.7" width="5.6" height="5.4" rx="1" fill="#B8BEC6" stroke="#555" stroke-width=".4"/><path d="M97.2 51.1 v1.6" stroke="#555" stroke-width=".5"/></svg><div class="cap">Figura 1 - Montagem inicial.</div></div>
+      <div><svg viewBox="0 0 140 118" xmlns="http://www.w3.org/2000/svg" font-family="Century Gothic, Arial, sans-serif"><line x1="8" y1="113" x2="132" y2="113" stroke="#999" stroke-width=".5"/><path d="M50 113 L62 103 L78 103 L90 113 Z" fill="#6B7078" stroke="#333" stroke-width=".45"/><rect x="68.8" y="6" width="2.4" height="98" fill="#B0B5BC" stroke="#333" stroke-width=".35"/><rect x="66" y="13" width="8" height="6" rx="1" fill="#7A8089" stroke="#333" stroke-width=".4"/><path d="M74 16 h4" stroke="#333" stroke-width=".8"/><path d="M70 19 v4.5 a2 2 0 1 0 0 3.2" fill="none" stroke="#333" stroke-width=".7"/><rect x="8.0" y="26.0" width="124.0" height="4.2" rx=".8" fill="#9DA3AB" stroke="#333" stroke-width=".45"/><circle cx="13.0" cy="28.1" r=".9" fill="#333"/><path d="M13.0 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="13.0" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">6</text><circle cx="22.5" cy="28.1" r=".9" fill="#333"/><path d="M22.5 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="22.5" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">5</text><circle cx="32.0" cy="28.1" r=".9" fill="#333"/><path d="M32.0 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="32.0" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">4</text><circle cx="41.5" cy="28.1" r=".9" fill="#333"/><path d="M41.5 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="41.5" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">3</text><circle cx="51.0" cy="28.1" r=".9" fill="#333"/><path d="M51.0 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="51.0" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">2</text><circle cx="60.5" cy="28.1" r=".9" fill="#333"/><path d="M60.5 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="60.5" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">1</text><circle cx="70.0" cy="28.1" r=".9" fill="#333"/><text x="70.0" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">0</text><circle cx="79.5" cy="28.1" r=".9" fill="#333"/><path d="M79.5 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="79.5" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">1</text><circle cx="89.0" cy="28.1" r=".9" fill="#333"/><path d="M89.0 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="89.0" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">2</text><circle cx="98.5" cy="28.1" r=".9" fill="#333"/><path d="M98.5 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="98.5" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">3</text><circle cx="108.0" cy="28.1" r=".9" fill="#333"/><path d="M108.0 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="108.0" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">4</text><circle cx="117.5" cy="28.1" r=".9" fill="#333"/><path d="M117.5 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="117.5" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">5</text><circle cx="127.0" cy="28.1" r=".9" fill="#333"/><path d="M127.0 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="127.0" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">6</text></svg><div class="cap">Figura 2 - Minha montagem.</div></div>
+      <div><svg viewBox="0 0 140 118" xmlns="http://www.w3.org/2000/svg" font-family="Century Gothic, Arial, sans-serif"><line x1="8" y1="113" x2="132" y2="113" stroke="#999" stroke-width=".5"/><path d="M50 113 L62 103 L78 103 L90 113 Z" fill="#6B7078" stroke="#333" stroke-width=".45"/><rect x="68.8" y="6" width="2.4" height="98" fill="#B0B5BC" stroke="#333" stroke-width=".35"/><rect x="66" y="13" width="8" height="6" rx="1" fill="#7A8089" stroke="#333" stroke-width=".4"/><path d="M74 16 h4" stroke="#333" stroke-width=".8"/><path d="M70 19 v4.5 a2 2 0 1 0 0 3.2" fill="none" stroke="#333" stroke-width=".7"/><rect x="8.0" y="26.0" width="124.0" height="4.2" rx=".8" fill="#9DA3AB" stroke="#333" stroke-width=".45"/><circle cx="13.0" cy="28.1" r=".9" fill="#333"/><path d="M13.0 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="13.0" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">6</text><circle cx="22.5" cy="28.1" r=".9" fill="#333"/><path d="M22.5 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="22.5" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">5</text><circle cx="32.0" cy="28.1" r=".9" fill="#333"/><path d="M32.0 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="32.0" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">4</text><circle cx="41.5" cy="28.1" r=".9" fill="#333"/><path d="M41.5 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="41.5" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">3</text><circle cx="51.0" cy="28.1" r=".9" fill="#333"/><path d="M51.0 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="51.0" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">2</text><circle cx="60.5" cy="28.1" r=".9" fill="#333"/><path d="M60.5 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="60.5" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">1</text><circle cx="70.0" cy="28.1" r=".9" fill="#333"/><text x="70.0" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">0</text><circle cx="79.5" cy="28.1" r=".9" fill="#333"/><path d="M79.5 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="79.5" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">1</text><circle cx="89.0" cy="28.1" r=".9" fill="#333"/><path d="M89.0 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="89.0" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">2</text><circle cx="98.5" cy="28.1" r=".9" fill="#333"/><path d="M98.5 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="98.5" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">3</text><circle cx="108.0" cy="28.1" r=".9" fill="#333"/><path d="M108.0 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="108.0" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">4</text><circle cx="117.5" cy="28.1" r=".9" fill="#333"/><path d="M117.5 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="117.5" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">5</text><circle cx="127.0" cy="28.1" r=".9" fill="#333"/><path d="M127.0 30.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="127.0" y="24.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">6</text></svg><div class="cap">Figura 3 - Minha montagem.</div></div>
+    </div>
+    <div class="fonte-abnt">Fonte: elaborado pelos autores, 2026.</div>
+    <div class="texto">
+      <p><strong>Considerações essenciais:</strong> cada objeto dependurado exerce na barra de metal um puxão de 1 N. O peso da barra, 2 N, já está desenhado no centro geométrico da barra (gancho 0). As forças que apontam para cima levam o sinal +, e as que apontam para baixo, o sinal −. Desenhe essas forças nas Figuras 1A a 3A e preencha as Tabelas 1 a 3.</p>
+    </div>
+    <div class="grade-fig">
+      <div><svg viewBox="0 0 140 84" xmlns="http://www.w3.org/2000/svg" font-family="Century Gothic, Arial, sans-serif"><rect x="8.0" y="40.0" width="124.0" height="4.2" rx=".8" fill="#9DA3AB" stroke="#333" stroke-width=".45"/><circle cx="13.0" cy="42.1" r=".9" fill="#333"/><path d="M13.0 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="13.0" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">6</text><circle cx="22.5" cy="42.1" r=".9" fill="#333"/><path d="M22.5 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="22.5" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">5</text><circle cx="32.0" cy="42.1" r=".9" fill="#333"/><path d="M32.0 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="32.0" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">4</text><circle cx="41.5" cy="42.1" r=".9" fill="#333"/><path d="M41.5 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="41.5" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">3</text><circle cx="51.0" cy="42.1" r=".9" fill="#333"/><path d="M51.0 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="51.0" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">2</text><circle cx="60.5" cy="42.1" r=".9" fill="#333"/><path d="M60.5 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="60.5" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">1</text><circle cx="70.0" cy="42.1" r=".9" fill="#333"/><text x="70.0" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">0</text><circle cx="79.5" cy="42.1" r=".9" fill="#333"/><path d="M79.5 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="79.5" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">1</text><circle cx="89.0" cy="42.1" r=".9" fill="#333"/><path d="M89.0 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="89.0" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">2</text><circle cx="98.5" cy="42.1" r=".9" fill="#333"/><path d="M98.5 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="98.5" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">3</text><circle cx="108.0" cy="42.1" r=".9" fill="#333"/><path d="M108.0 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="108.0" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">4</text><circle cx="117.5" cy="42.1" r=".9" fill="#333"/><path d="M117.5 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="117.5" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">5</text><circle cx="127.0" cy="42.1" r=".9" fill="#333"/><path d="M127.0 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="127.0" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">6</text><circle cx="70.0" cy="42.1" r="1.1" fill="#1F3864"/><line x1="70.0" y1="42.1" x2="70.0" y2="56.5" stroke="#1F3864" stroke-width=".9"/><path d="M70.0 59.1 l-1.8 -3.2 h3.6 Z" fill="#1F3864"/><text x="71.8" y="51.8" font-size="3.6" fill="#1F3864" font-weight="700"></text><text x="70.0" y="63.6" font-size="3.6" text-anchor="middle" fill="#1F3864" font-weight="700">peso 2 N</text></svg><div class="cap">Figura 1A - Montagem inicial.</div></div>
+      <div><svg viewBox="0 0 140 84" xmlns="http://www.w3.org/2000/svg" font-family="Century Gothic, Arial, sans-serif"><rect x="8.0" y="40.0" width="124.0" height="4.2" rx=".8" fill="#9DA3AB" stroke="#333" stroke-width=".45"/><circle cx="13.0" cy="42.1" r=".9" fill="#333"/><path d="M13.0 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="13.0" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">6</text><circle cx="22.5" cy="42.1" r=".9" fill="#333"/><path d="M22.5 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="22.5" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">5</text><circle cx="32.0" cy="42.1" r=".9" fill="#333"/><path d="M32.0 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="32.0" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">4</text><circle cx="41.5" cy="42.1" r=".9" fill="#333"/><path d="M41.5 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="41.5" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">3</text><circle cx="51.0" cy="42.1" r=".9" fill="#333"/><path d="M51.0 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="51.0" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">2</text><circle cx="60.5" cy="42.1" r=".9" fill="#333"/><path d="M60.5 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="60.5" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">1</text><circle cx="70.0" cy="42.1" r=".9" fill="#333"/><text x="70.0" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">0</text><circle cx="79.5" cy="42.1" r=".9" fill="#333"/><path d="M79.5 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="79.5" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">1</text><circle cx="89.0" cy="42.1" r=".9" fill="#333"/><path d="M89.0 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="89.0" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">2</text><circle cx="98.5" cy="42.1" r=".9" fill="#333"/><path d="M98.5 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="98.5" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">3</text><circle cx="108.0" cy="42.1" r=".9" fill="#333"/><path d="M108.0 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="108.0" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">4</text><circle cx="117.5" cy="42.1" r=".9" fill="#333"/><path d="M117.5 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="117.5" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">5</text><circle cx="127.0" cy="42.1" r=".9" fill="#333"/><path d="M127.0 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="127.0" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">6</text><circle cx="70.0" cy="42.1" r="1.1" fill="#1F3864"/><line x1="70.0" y1="42.1" x2="70.0" y2="56.5" stroke="#1F3864" stroke-width=".9"/><path d="M70.0 59.1 l-1.8 -3.2 h3.6 Z" fill="#1F3864"/><text x="71.8" y="51.8" font-size="3.6" fill="#1F3864" font-weight="700"></text><text x="70.0" y="63.6" font-size="3.6" text-anchor="middle" fill="#1F3864" font-weight="700">peso 2 N</text></svg><div class="cap">Figura 2A - Minha montagem.</div></div>
+      <div><svg viewBox="0 0 140 84" xmlns="http://www.w3.org/2000/svg" font-family="Century Gothic, Arial, sans-serif"><rect x="8.0" y="40.0" width="124.0" height="4.2" rx=".8" fill="#9DA3AB" stroke="#333" stroke-width=".45"/><circle cx="13.0" cy="42.1" r=".9" fill="#333"/><path d="M13.0 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="13.0" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">6</text><circle cx="22.5" cy="42.1" r=".9" fill="#333"/><path d="M22.5 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="22.5" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">5</text><circle cx="32.0" cy="42.1" r=".9" fill="#333"/><path d="M32.0 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="32.0" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">4</text><circle cx="41.5" cy="42.1" r=".9" fill="#333"/><path d="M41.5 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="41.5" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">3</text><circle cx="51.0" cy="42.1" r=".9" fill="#333"/><path d="M51.0 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="51.0" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">2</text><circle cx="60.5" cy="42.1" r=".9" fill="#333"/><path d="M60.5 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="60.5" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">1</text><circle cx="70.0" cy="42.1" r=".9" fill="#333"/><text x="70.0" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">0</text><circle cx="79.5" cy="42.1" r=".9" fill="#333"/><path d="M79.5 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="79.5" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">1</text><circle cx="89.0" cy="42.1" r=".9" fill="#333"/><path d="M89.0 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="89.0" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">2</text><circle cx="98.5" cy="42.1" r=".9" fill="#333"/><path d="M98.5 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="98.5" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">3</text><circle cx="108.0" cy="42.1" r=".9" fill="#333"/><path d="M108.0 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="108.0" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">4</text><circle cx="117.5" cy="42.1" r=".9" fill="#333"/><path d="M117.5 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="117.5" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">5</text><circle cx="127.0" cy="42.1" r=".9" fill="#333"/><path d="M127.0 44.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="127.0" y="38.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">6</text><circle cx="70.0" cy="42.1" r="1.1" fill="#1F3864"/><line x1="70.0" y1="42.1" x2="70.0" y2="56.5" stroke="#1F3864" stroke-width=".9"/><path d="M70.0 59.1 l-1.8 -3.2 h3.6 Z" fill="#1F3864"/><text x="71.8" y="51.8" font-size="3.6" fill="#1F3864" font-weight="700"></text><text x="70.0" y="63.6" font-size="3.6" text-anchor="middle" fill="#1F3864" font-weight="700">peso 2 N</text></svg><div class="cap">Figura 3A - Minha montagem.</div></div>
+    </div>
+    <div class="fonte-abnt">Fonte: elaborado pelos autores, 2026.</div>
+    <div class="grade-tab">
+      <div>
+    <div class="legenda">Tabela 1 — Dados da Figura 1</div>
+      <table class="t0e tab-trans"><thead><tr><th><span class="un">Sentido da força</span></th><th><span class="un">Forças (N)</span></th></tr></thead>
+      <tbody><tr class="alta"><td>Para cima (+)</td><td></td></tr><tr class="alta"><td>Para baixo (−)</td><td></td></tr><tr><td>Soma das forças</td><td></td></tr></tbody></table>
+      </div>
+      <div>
+    <div class="legenda">Tabela 2 — Dados da Figura 2</div>
+      <table class="t0e tab-trans"><thead><tr><th><span class="un">Sentido da força</span></th><th><span class="un">Forças (N)</span></th></tr></thead>
+      <tbody><tr class="alta"><td>Para cima (+)</td><td></td></tr><tr class="alta"><td>Para baixo (−)</td><td></td></tr><tr><td>Soma das forças</td><td></td></tr></tbody></table>
+      </div>
+      <div>
+    <div class="legenda">Tabela 3 — Dados da Figura 3</div>
+      <table class="t0e tab-trans"><thead><tr><th><span class="un">Sentido da força</span></th><th><span class="un">Forças (N)</span></th></tr></thead>
+      <tbody><tr class="alta"><td>Para cima (+)</td><td></td></tr><tr class="alta"><td>Para baixo (−)</td><td></td></tr><tr><td>Soma das forças</td><td></td></tr></tbody></table>
+      </div>
+    </div>
+    <div class="fonte-abnt">Fonte: elaborado pelos autores, 2026.</div>
+  </div>
+
+  <div class="rodape-print">
+    FE1-T04 · RB v4 · Estações 1 e 2 (estudante) · página 1 de 4 · Julio Azevedo
+  </div>
+</div>
+
+<!-- ═══════════ ESTAÇÃO 1 · PÁGINA 2 ═══════════ -->
+<div class="pagina">
+
+  <div class="secao">
+    <div class="texto"><p><strong>a)</strong> Qual seria a condição para a barra permanecer em equilíbrio vertical de translação? Responda em palavras.</p></div>
+    <div class="espaco"></div>
+    <div class="texto"><p><strong>b)</strong> Agora escreva a mesma condição em símbolos matemáticos, por uma fórmula:</p></div>
+    <div class="resultado">ΣF = <span class="branco" style="min-width:22mm"></span></div>
+  </div>
+
+  <div class="secao">
+    <div class="secao-titulo">
+      <div class="num">2</div>
+      <h2>Estação 1 · Parte 2 · Equilíbrio de rotação de alavancas (barra de metal)</h2>
+      <span class="hint">use os sinais + e −</span>
+    </div>
+    <div class="texto">
+      <p><strong>Considerações essenciais:</strong> observe nas Figuras 1A a 3A que as forças que atuam à direita do gancho central tendem a girar a barra em torno do eixo central no sentido horário, indicado pelo sinal −. Já as forças que atuam à esquerda tendem a girá-la no sentido anti-horário, indicado pelo sinal +. Use esses sinais para preencher as Tabelas 4 a 6.</p>
+    </div>
+    <div class="grade-tab">
+      <div>
+    <div class="legenda">Tabela 4 — Dados da Figura 1A</div>
+      <table class="t0e"><thead><tr><th><span class="un">Lado</span></th><th><span class="un">Objetos</span></th><th><span class="un">Gancho</span></th><th><span class="un">Objetos × gancho</span></th></tr></thead>
+      <tbody><tr><td rowspan="2">Esquerdo (+)</td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td rowspan="2">Direito (−)</td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td colspan="3">Soma de objetos × gancho</td><td></td></tr></tbody></table>
+      </div>
+      <div>
+    <div class="legenda">Tabela 5 — Dados da Figura 2A</div>
+      <table class="t0e"><thead><tr><th><span class="un">Lado</span></th><th><span class="un">Objetos</span></th><th><span class="un">Gancho</span></th><th><span class="un">Objetos × gancho</span></th></tr></thead>
+      <tbody><tr><td rowspan="2">Esquerdo (+)</td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td rowspan="2">Direito (−)</td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td colspan="3">Soma de objetos × gancho</td><td></td></tr></tbody></table>
+      </div>
+      <div>
+    <div class="legenda">Tabela 6 — Dados da Figura 3A</div>
+      <table class="t0e"><thead><tr><th><span class="un">Lado</span></th><th><span class="un">Objetos</span></th><th><span class="un">Gancho</span></th><th><span class="un">Objetos × gancho</span></th></tr></thead>
+      <tbody><tr><td rowspan="2">Esquerdo (+)</td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td rowspan="2">Direito (−)</td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td colspan="3">Soma de objetos × gancho</td><td></td></tr></tbody></table>
+      </div>
+    </div>
+    <div class="fonte-abnt">Fonte: elaborado pelos autores, 2026.</div>
+    <div class="texto"><p><strong>c)</strong> Compare a soma de objetos × gancho do lado esquerdo com a do lado direito em cada tabela. O que se repete nas três montagens?</p></div>
+    <div class="espaco"></div>
+    <div class="texto"><p><strong>d)</strong> Agora escreva a mesma condição em símbolos matemáticos, por uma fórmula:</p></div>
+    <div class="resultado">Σ(o × g) = <span class="branco" style="min-width:22mm"></span></div>
+  </div>
+
+  <div class="secao">
+    <div class="secao-titulo">
+      <div class="num">3</div>
+      <h2>Estação 2 · Parte 3 · A alavanca de um braço</h2>
+      <span class="hint">monte, calibre e meça</span>
+    </div>
+    <div class="texto">
+      <p>Duas hastes verticais, cada uma presa em uma base e com uma presilha (peça de fixação). Na presilha da esquerda, o dinamômetro de 10 N fica pendurado e zerado.</p>
+      <p><strong>Calibração.</strong> Pendure 1 objeto no dinamômetro e, no equilíbrio, leia a força elástica que neutraliza o peso dele. Repita com 2, 3, 4 e 5 objetos e, por fim, com a alavanca (a barra de metal) descarregada. Anote na Tabela 7.</p>
+      <p><strong>A alavanca de um braço.</strong> Prenda uma extremidade da alavanca no gancho da presilha da direita (o <strong>eixo</strong> de rotação) e a outra no dinamômetro; ajuste a presilha até a alavanca ficar nivelada. Pendure 4 objetos no gancho central (Figura 4) e leia a força do dinamômetro. Depois, na Figura 5, os mesmos 4 objetos em outro gancho (desenhe-os); na Figura 6, 2 objetos no gancho central.</p>
+    </div>
+    <div class="grade-fig">
+      <div><svg viewBox="0 0 162 106" xmlns="http://www.w3.org/2000/svg" font-family="Century Gothic, Arial, sans-serif"><line x1="2" y1="103" x2="160" y2="103" stroke="#999" stroke-width=".5"/><path d="M1 103 L4 98 L14 98 L17 103 Z" fill="#6B7078" stroke="#333" stroke-width=".4"/><rect x="8.2" y="4" width="1.8" height="94" fill="#B0B5BC" stroke="#333" stroke-width=".3"/><rect x="6" y="5.6" width="6.4" height="4.6" rx=".8" fill="#7A8089" stroke="#333" stroke-width=".35"/><rect x="12.4" y="7.2" width="38.6" height="1.6" fill="#B0B5BC" stroke="#333" stroke-width=".3"/><text x="29.0" y="5" font-size="3.2" fill="#1F3864">haste horizontal</text><path d="M145.0 103 L148.0 98 L158.0 98 L161.0 103 Z" fill="#6B7078" stroke="#333" stroke-width=".4"/><rect x="152.2" y="4" width="1.8" height="94" fill="#B0B5BC" stroke="#333" stroke-width=".3"/><rect x="150.0" y="48.8" width="6.4" height="5" rx=".8" fill="#7A8089" stroke="#333" stroke-width=".35"/><text x="149.0" y="42.5" font-size="3.4" fill="#1F3864" text-anchor="middle">eixo</text><g transform="translate(22.0 0)"><rect x="8.0" y="50.0" width="124.0" height="4.2" rx=".8" fill="#9DA3AB" stroke="#333" stroke-width=".45"/><circle cx="13.0" cy="52.1" r=".9" fill="#333"/><path d="M13.0 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="13.0" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">6</text><circle cx="22.5" cy="52.1" r=".9" fill="#333"/><path d="M22.5 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="22.5" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">5</text><circle cx="32.0" cy="52.1" r=".9" fill="#333"/><path d="M32.0 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="32.0" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">4</text><circle cx="41.5" cy="52.1" r=".9" fill="#333"/><path d="M41.5 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="41.5" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">3</text><circle cx="51.0" cy="52.1" r=".9" fill="#333"/><path d="M51.0 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="51.0" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">2</text><circle cx="60.5" cy="52.1" r=".9" fill="#333"/><path d="M60.5 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="60.5" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">1</text><circle cx="70.0" cy="52.1" r=".9" fill="#333"/><path d="M70.0 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="70.0" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">0</text><circle cx="79.5" cy="52.1" r=".9" fill="#333"/><path d="M79.5 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="79.5" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">1</text><circle cx="89.0" cy="52.1" r=".9" fill="#333"/><path d="M89.0 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="89.0" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">2</text><circle cx="98.5" cy="52.1" r=".9" fill="#333"/><path d="M98.5 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="98.5" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">3</text><circle cx="108.0" cy="52.1" r=".9" fill="#333"/><path d="M108.0 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="108.0" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">4</text><circle cx="117.5" cy="52.1" r=".9" fill="#333"/><path d="M117.5 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="117.5" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">5</text><circle cx="127.0" cy="52.1" r=".9" fill="#333"/><path d="M127.0 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="127.0" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">6</text></g><circle cx="149.0" cy="52.1" r="1.5" fill="none" stroke="#C00000" stroke-width=".5"/><g transform="translate(35.00 10.00) rotate(-0.00)"><path d="M0 0 v4" stroke="#333" stroke-width=".5"/><rect x="-2.2" y="4" width="4.4" height="22" rx="1.2" fill="#E8EBEF" stroke="#333" stroke-width=".4"/><path d="M-2.2 7.0 h1.6" stroke="#333" stroke-width=".25"/><path d="M-2.2 9.2 h1.6" stroke="#333" stroke-width=".25"/><path d="M-2.2 11.4 h1.6" stroke="#333" stroke-width=".25"/><path d="M-2.2 13.6 h1.6" stroke="#333" stroke-width=".25"/><path d="M-2.2 15.8 h1.6" stroke="#333" stroke-width=".25"/><path d="M-2.2 18.0 h1.6" stroke="#333" stroke-width=".25"/><path d="M-2.2 20.2 h1.6" stroke="#333" stroke-width=".25"/><path d="M-2.2 22.4 h1.6" stroke="#333" stroke-width=".25"/><path d="M0 26 V40.00" stroke="#333" stroke-width=".5"/></g><text x="38.2" y="24" font-size="3.4" fill="#1F3864">dinamômetro</text><path d="M90.7 58.7 v2" stroke="#555" stroke-width=".5"/><rect x="87.9" y="60.7" width="5.6" height="5.4" rx="1" fill="#B8BEC6" stroke="#555" stroke-width=".4"/><path d="M90.7 66.1 v1.6" stroke="#555" stroke-width=".5"/><path d="M90.7 67.7 v2" stroke="#555" stroke-width=".5"/><rect x="87.9" y="69.7" width="5.6" height="5.4" rx="1" fill="#B8BEC6" stroke="#555" stroke-width=".4"/><path d="M90.7 75.1 v1.6" stroke="#555" stroke-width=".5"/><path d="M90.7 76.7 v2" stroke="#555" stroke-width=".5"/><rect x="87.9" y="78.7" width="5.6" height="5.4" rx="1" fill="#B8BEC6" stroke="#555" stroke-width=".4"/><path d="M90.7 84.1 v1.6" stroke="#555" stroke-width=".5"/><path d="M90.7 85.7 v2" stroke="#555" stroke-width=".5"/><rect x="87.9" y="87.7" width="5.6" height="5.4" rx="1" fill="#B8BEC6" stroke="#555" stroke-width=".4"/><path d="M90.7 93.1 v1.6" stroke="#555" stroke-width=".5"/></svg><div class="cap">Figura 4 - Montagem inicial.</div></div>
+      <div><svg viewBox="0 0 162 106" xmlns="http://www.w3.org/2000/svg" font-family="Century Gothic, Arial, sans-serif"><line x1="2" y1="103" x2="160" y2="103" stroke="#999" stroke-width=".5"/><path d="M1 103 L4 98 L14 98 L17 103 Z" fill="#6B7078" stroke="#333" stroke-width=".4"/><rect x="8.2" y="4" width="1.8" height="94" fill="#B0B5BC" stroke="#333" stroke-width=".3"/><rect x="6" y="5.6" width="6.4" height="4.6" rx=".8" fill="#7A8089" stroke="#333" stroke-width=".35"/><rect x="12.4" y="7.2" width="38.6" height="1.6" fill="#B0B5BC" stroke="#333" stroke-width=".3"/><text x="29.0" y="5" font-size="3.2" fill="#1F3864">haste horizontal</text><path d="M145.0 103 L148.0 98 L158.0 98 L161.0 103 Z" fill="#6B7078" stroke="#333" stroke-width=".4"/><rect x="152.2" y="4" width="1.8" height="94" fill="#B0B5BC" stroke="#333" stroke-width=".3"/><rect x="150.0" y="48.8" width="6.4" height="5" rx=".8" fill="#7A8089" stroke="#333" stroke-width=".35"/><text x="149.0" y="42.5" font-size="3.4" fill="#1F3864" text-anchor="middle">eixo</text><g transform="translate(22.0 0)"><rect x="8.0" y="50.0" width="124.0" height="4.2" rx=".8" fill="#9DA3AB" stroke="#333" stroke-width=".45"/><circle cx="13.0" cy="52.1" r=".9" fill="#333"/><path d="M13.0 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="13.0" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">6</text><circle cx="22.5" cy="52.1" r=".9" fill="#333"/><path d="M22.5 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="22.5" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">5</text><circle cx="32.0" cy="52.1" r=".9" fill="#333"/><path d="M32.0 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="32.0" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">4</text><circle cx="41.5" cy="52.1" r=".9" fill="#333"/><path d="M41.5 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="41.5" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">3</text><circle cx="51.0" cy="52.1" r=".9" fill="#333"/><path d="M51.0 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="51.0" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">2</text><circle cx="60.5" cy="52.1" r=".9" fill="#333"/><path d="M60.5 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="60.5" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">1</text><circle cx="70.0" cy="52.1" r=".9" fill="#333"/><path d="M70.0 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="70.0" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">0</text><circle cx="79.5" cy="52.1" r=".9" fill="#333"/><path d="M79.5 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="79.5" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">1</text><circle cx="89.0" cy="52.1" r=".9" fill="#333"/><path d="M89.0 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="89.0" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">2</text><circle cx="98.5" cy="52.1" r=".9" fill="#333"/><path d="M98.5 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="98.5" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">3</text><circle cx="108.0" cy="52.1" r=".9" fill="#333"/><path d="M108.0 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="108.0" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">4</text><circle cx="117.5" cy="52.1" r=".9" fill="#333"/><path d="M117.5 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="117.5" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">5</text><circle cx="127.0" cy="52.1" r=".9" fill="#333"/><path d="M127.0 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="127.0" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">6</text></g><circle cx="149.0" cy="52.1" r="1.5" fill="none" stroke="#C00000" stroke-width=".5"/><g transform="translate(35.00 10.00) rotate(-0.00)"><path d="M0 0 v4" stroke="#333" stroke-width=".5"/><rect x="-2.2" y="4" width="4.4" height="22" rx="1.2" fill="#E8EBEF" stroke="#333" stroke-width=".4"/><path d="M-2.2 7.0 h1.6" stroke="#333" stroke-width=".25"/><path d="M-2.2 9.2 h1.6" stroke="#333" stroke-width=".25"/><path d="M-2.2 11.4 h1.6" stroke="#333" stroke-width=".25"/><path d="M-2.2 13.6 h1.6" stroke="#333" stroke-width=".25"/><path d="M-2.2 15.8 h1.6" stroke="#333" stroke-width=".25"/><path d="M-2.2 18.0 h1.6" stroke="#333" stroke-width=".25"/><path d="M-2.2 20.2 h1.6" stroke="#333" stroke-width=".25"/><path d="M-2.2 22.4 h1.6" stroke="#333" stroke-width=".25"/><path d="M0 26 V40.00" stroke="#333" stroke-width=".5"/></g><text x="38.2" y="24" font-size="3.4" fill="#1F3864">dinamômetro</text></svg><div class="cap">Figura 5 - Minha montagem.</div></div>
+      <div><svg viewBox="0 0 162 106" xmlns="http://www.w3.org/2000/svg" font-family="Century Gothic, Arial, sans-serif"><line x1="2" y1="103" x2="160" y2="103" stroke="#999" stroke-width=".5"/><path d="M1 103 L4 98 L14 98 L17 103 Z" fill="#6B7078" stroke="#333" stroke-width=".4"/><rect x="8.2" y="4" width="1.8" height="94" fill="#B0B5BC" stroke="#333" stroke-width=".3"/><rect x="6" y="5.6" width="6.4" height="4.6" rx=".8" fill="#7A8089" stroke="#333" stroke-width=".35"/><rect x="12.4" y="7.2" width="38.6" height="1.6" fill="#B0B5BC" stroke="#333" stroke-width=".3"/><text x="29.0" y="5" font-size="3.2" fill="#1F3864">haste horizontal</text><path d="M145.0 103 L148.0 98 L158.0 98 L161.0 103 Z" fill="#6B7078" stroke="#333" stroke-width=".4"/><rect x="152.2" y="4" width="1.8" height="94" fill="#B0B5BC" stroke="#333" stroke-width=".3"/><rect x="150.0" y="48.8" width="6.4" height="5" rx=".8" fill="#7A8089" stroke="#333" stroke-width=".35"/><text x="149.0" y="42.5" font-size="3.4" fill="#1F3864" text-anchor="middle">eixo</text><g transform="translate(22.0 0)"><rect x="8.0" y="50.0" width="124.0" height="4.2" rx=".8" fill="#9DA3AB" stroke="#333" stroke-width=".45"/><circle cx="13.0" cy="52.1" r=".9" fill="#333"/><path d="M13.0 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="13.0" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">6</text><circle cx="22.5" cy="52.1" r=".9" fill="#333"/><path d="M22.5 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="22.5" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">5</text><circle cx="32.0" cy="52.1" r=".9" fill="#333"/><path d="M32.0 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="32.0" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">4</text><circle cx="41.5" cy="52.1" r=".9" fill="#333"/><path d="M41.5 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="41.5" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">3</text><circle cx="51.0" cy="52.1" r=".9" fill="#333"/><path d="M51.0 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="51.0" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">2</text><circle cx="60.5" cy="52.1" r=".9" fill="#333"/><path d="M60.5 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="60.5" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">1</text><circle cx="70.0" cy="52.1" r=".9" fill="#333"/><path d="M70.0 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="70.0" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">0</text><circle cx="79.5" cy="52.1" r=".9" fill="#333"/><path d="M79.5 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="79.5" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">1</text><circle cx="89.0" cy="52.1" r=".9" fill="#333"/><path d="M89.0 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="89.0" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">2</text><circle cx="98.5" cy="52.1" r=".9" fill="#333"/><path d="M98.5 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="98.5" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">3</text><circle cx="108.0" cy="52.1" r=".9" fill="#333"/><path d="M108.0 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="108.0" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">4</text><circle cx="117.5" cy="52.1" r=".9" fill="#333"/><path d="M117.5 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="117.5" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">5</text><circle cx="127.0" cy="52.1" r=".9" fill="#333"/><path d="M127.0 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="127.0" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">6</text></g><circle cx="149.0" cy="52.1" r="1.5" fill="none" stroke="#C00000" stroke-width=".5"/><g transform="translate(35.00 10.00) rotate(-0.00)"><path d="M0 0 v4" stroke="#333" stroke-width=".5"/><rect x="-2.2" y="4" width="4.4" height="22" rx="1.2" fill="#E8EBEF" stroke="#333" stroke-width=".4"/><path d="M-2.2 7.0 h1.6" stroke="#333" stroke-width=".25"/><path d="M-2.2 9.2 h1.6" stroke="#333" stroke-width=".25"/><path d="M-2.2 11.4 h1.6" stroke="#333" stroke-width=".25"/><path d="M-2.2 13.6 h1.6" stroke="#333" stroke-width=".25"/><path d="M-2.2 15.8 h1.6" stroke="#333" stroke-width=".25"/><path d="M-2.2 18.0 h1.6" stroke="#333" stroke-width=".25"/><path d="M-2.2 20.2 h1.6" stroke="#333" stroke-width=".25"/><path d="M-2.2 22.4 h1.6" stroke="#333" stroke-width=".25"/><path d="M0 26 V40.00" stroke="#333" stroke-width=".5"/></g><text x="38.2" y="24" font-size="3.4" fill="#1F3864">dinamômetro</text><path d="M90.7 58.7 v2" stroke="#555" stroke-width=".5"/><rect x="87.9" y="60.7" width="5.6" height="5.4" rx="1" fill="#B8BEC6" stroke="#555" stroke-width=".4"/><path d="M90.7 66.1 v1.6" stroke="#555" stroke-width=".5"/><path d="M90.7 67.7 v2" stroke="#555" stroke-width=".5"/><rect x="87.9" y="69.7" width="5.6" height="5.4" rx="1" fill="#B8BEC6" stroke="#555" stroke-width=".4"/><path d="M90.7 75.1 v1.6" stroke="#555" stroke-width=".5"/></svg><div class="cap">Figura 6 - Dois objetos no gancho central.</div></div>
+    </div>
+    <div class="fonte-abnt">Fonte: elaborado pelos autores, 2026.</div>
+  </div>
+
+  <div class="rodape-print">
+    FE1-T04 · RB v4 · Estações 1 e 2 (estudante) · página 2 de 4 · Julio Azevedo
+  </div>
+</div>
+
+<!-- ═══════════ ESTAÇÃO 1 · PÁGINA 3 ═══════════ -->
+<div class="pagina">
+
+  <div class="secao">
+    <div class="secao-titulo">
+      <div class="num">4</div>
+      <h2>Estação 2 · Parte 4 · Três montagens da alavanca de um braço</h2>
+      <span class="hint">use os sinais + e −</span>
+    </div>
+    <div class="grade-cal">
+    <div class="legenda">Tabela 7 — Calibração: a força lida no dinamômetro</div>
+    <table class="t0e tab-cal"><thead><tr><th><span class="un">Objetos pendurados</span></th><th><span class="un">1</span></th><th><span class="un">2</span></th><th><span class="un">3</span></th><th><span class="un">4</span></th><th><span class="un">5</span></th><th><span class="un">Alavanca descarregada</span></th></tr></thead>
+    <tbody><tr><td>Força lida (N)</td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table>
+      <div class="linha-med"><span>Peso de um objeto: <span class="branco"></span> N</span><span>Peso da alavanca: <span class="branco"></span> N</span><span>Distância entre dois ganchos vizinhos (régua): <span class="branco"></span> cm = <span class="branco"></span> m</span></div>
+      <p class="nota-metodo">O <strong>braço</strong> (d) de uma força é a distância do eixo até a reta em que a força atua; aqui, medido ao longo da alavanca, a partir do eixo. O peso da alavanca atua no centro dela.</p>
+    </div>
+    <div class="texto"><p>Para cada montagem, anote a força de cada puxão (em N), o braço dela (em m) e o produto F × d. Use o sinal + para o que tende a girar a alavanca no sentido anti-horário e o sinal − para o que tende a girá-la no sentido horário.</p></div>
+    <div class="grade-tab">
+      <div>
+    <div class="legenda">Tabela 8 — Dados da Figura 4</div>
+      <table class="t0e"><thead><tr><th><span class="un">Força</span></th><th><span class="un">F (N)</span></th><th><span class="un">d (m)</span></th><th><span class="un"><span class="tau">τ</span> = F × d (N·m)</span></th></tr></thead>
+      <tbody><tr class="alta2"><td>Força elástica (+)</td><td></td><td></td><td></td></tr><tr class="alta2"><td>Peso da alavanca (−)</td><td></td><td></td><td></td></tr><tr class="alta2"><td>Peso dos objetos (−)</td><td></td><td></td><td></td></tr><tr><td colspan="3">Soma dos torques, Σ <span class="tau">τ</span></td><td></td></tr></tbody></table>
+      </div>
+      <div>
+    <div class="legenda">Tabela 9 — Dados da Figura 5</div>
+      <table class="t0e"><thead><tr><th><span class="un">Força</span></th><th><span class="un">F (N)</span></th><th><span class="un">d (m)</span></th><th><span class="un"><span class="tau">τ</span> = F × d (N·m)</span></th></tr></thead>
+      <tbody><tr class="alta2"><td>Força elástica (+)</td><td></td><td></td><td></td></tr><tr class="alta2"><td>Peso da alavanca (−)</td><td></td><td></td><td></td></tr><tr class="alta2"><td>Peso dos objetos (−)</td><td></td><td></td><td></td></tr><tr><td colspan="3">Soma dos torques, Σ <span class="tau">τ</span></td><td></td></tr></tbody></table>
+      </div>
+      <div>
+    <div class="legenda">Tabela 10 — Dados da Figura 6</div>
+      <table class="t0e"><thead><tr><th><span class="un">Força</span></th><th><span class="un">F (N)</span></th><th><span class="un">d (m)</span></th><th><span class="un"><span class="tau">τ</span> = F × d (N·m)</span></th></tr></thead>
+      <tbody><tr class="alta2"><td>Força elástica (+)</td><td></td><td></td><td></td></tr><tr class="alta2"><td>Peso da alavanca (−)</td><td></td><td></td><td></td></tr><tr class="alta2"><td>Peso dos objetos (−)</td><td></td><td></td><td></td></tr><tr><td colspan="3">Soma dos torques, Σ <span class="tau">τ</span></td><td></td></tr></tbody></table>
+      </div>
+    </div>
+    <div class="fonte-abnt">Fonte: elaborado pelos autores, 2026.</div>
+    <div class="texto"><p><strong>e)</strong> Nas Figuras 4 e 5 os objetos são os mesmos, mas a leitura do dinamômetro mudou. Por quê?</p></div>
+    <div class="espaco"></div>
+    <div class="texto"><p><strong>f)</strong> Some os produtos F × d, com o sinal, em cada tabela. O que se repete nas três montagens?</p></div>
+    <div class="espaco"></div>
+    <div class="motiva"><p><strong>Torque de uma força em relação a um eixo de rotação.</strong> O produto que você calculou, a força vezes o braço, mede o efeito de giro da força. Ele se chama <strong>torque</strong> (ou momento de giro) da força em relação ao eixo e é simbolizado pela letra grega <span class="tau">τ</span> (tau):</p>
+      <div class="resultado"><span class="tau">τ</span> = F · d &nbsp;&nbsp; (em N·m)</div>
+      <p>O torque leva o sinal + quando a força tende a girar o corpo no sentido anti-horário, e o sinal − no sentido horário. Os "objetos × gancho" da Estação 1 já eram torques, medidos em outra unidade.</p></div>
+    <div class="texto"><p><strong>g)</strong> Escreva, em palavras, a condição para a alavanca permanecer em equilíbrio de rotação.</p></div>
+    <div class="espaco"></div>
+    <div class="texto"><p>Agora em símbolos matemáticos:</p></div>
+    <div class="resultado">Σ <span class="tau">τ</span> = <span class="branco" style="min-width:22mm"></span></div>
+  </div>
+
+  <div class="rodape-print">
+    FE1-T04 · RB v4 · Estações 1 e 2 (estudante) · página 3 de 4 · Julio Azevedo
+  </div>
+</div>
+
+<!-- ═══════════ ESTAÇÃO 1 · PÁGINA 4 ═══════════ -->
+<div class="pagina">
+
+  <div class="secao">
+    <div class="secao-titulo">
+      <div class="num">5</div>
+      <h2>Estação 2 · Parte 5 · Momento de giro de forças oblíquas</h2>
+      <span class="hint">use <em>F</em><sub>⊾</sub> ou <em>d</em><sub>⊾</sub></span>
+    </div>
+    <div class="texto">
+      <p>Na montagem da Figura 4, desloque ao longo da haste horizontal a extremidade do dinamômetro presa nela: a força elástica fica <strong>oblíqua</strong> em relação à alavanca. Reajuste a presilha da direita até a alavanca voltar a ficar nivelada. A Figura 7 mostra essa montagem: varia apenas a inclinação do dinamômetro em relação à alavanca. Meça com o transferidor o ângulo θ entre o dinamômetro e a alavanca.</p>
+    </div>
+    <div class="grade-fig duas">
+      <div><svg viewBox="0 0 162 106" xmlns="http://www.w3.org/2000/svg" font-family="Century Gothic, Arial, sans-serif"><line x1="2" y1="103" x2="160" y2="103" stroke="#999" stroke-width=".5"/><path d="M1 103 L4 98 L14 98 L17 103 Z" fill="#6B7078" stroke="#333" stroke-width=".4"/><rect x="8.2" y="4" width="1.8" height="94" fill="#B0B5BC" stroke="#333" stroke-width=".3"/><rect x="6" y="5.6" width="6.4" height="4.6" rx=".8" fill="#7A8089" stroke="#333" stroke-width=".35"/><rect x="12.4" y="7.2" width="38.6" height="1.6" fill="#B0B5BC" stroke="#333" stroke-width=".3"/><text x="29.0" y="5" font-size="3.2" fill="#1F3864">haste horizontal</text><path d="M145.0 103 L148.0 98 L158.0 98 L161.0 103 Z" fill="#6B7078" stroke="#333" stroke-width=".4"/><rect x="152.2" y="4" width="1.8" height="94" fill="#B0B5BC" stroke="#333" stroke-width=".3"/><rect x="150.0" y="48.8" width="6.4" height="5" rx=".8" fill="#7A8089" stroke="#333" stroke-width=".35"/><text x="149.0" y="42.5" font-size="3.4" fill="#1F3864" text-anchor="middle">eixo</text><g transform="translate(22.0 0)"><rect x="8.0" y="50.0" width="124.0" height="4.2" rx=".8" fill="#9DA3AB" stroke="#333" stroke-width=".45"/><circle cx="13.0" cy="52.1" r=".9" fill="#333"/><path d="M13.0 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="13.0" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">6</text><circle cx="22.5" cy="52.1" r=".9" fill="#333"/><path d="M22.5 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="22.5" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">5</text><circle cx="32.0" cy="52.1" r=".9" fill="#333"/><path d="M32.0 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="32.0" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">4</text><circle cx="41.5" cy="52.1" r=".9" fill="#333"/><path d="M41.5 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="41.5" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">3</text><circle cx="51.0" cy="52.1" r=".9" fill="#333"/><path d="M51.0 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="51.0" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">2</text><circle cx="60.5" cy="52.1" r=".9" fill="#333"/><path d="M60.5 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="60.5" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">1</text><circle cx="70.0" cy="52.1" r=".9" fill="#333"/><path d="M70.0 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="70.0" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">0</text><circle cx="79.5" cy="52.1" r=".9" fill="#333"/><path d="M79.5 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="79.5" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">1</text><circle cx="89.0" cy="52.1" r=".9" fill="#333"/><path d="M89.0 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="89.0" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">2</text><circle cx="98.5" cy="52.1" r=".9" fill="#333"/><path d="M98.5 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="98.5" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">3</text><circle cx="108.0" cy="52.1" r=".9" fill="#333"/><path d="M108.0 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="108.0" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">4</text><circle cx="117.5" cy="52.1" r=".9" fill="#333"/><path d="M117.5 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="117.5" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">5</text><circle cx="127.0" cy="52.1" r=".9" fill="#333"/><path d="M127.0 54.2 v3.2 a1.3 1.3 0 0 1 -2.6 0" fill="none" stroke="#333" stroke-width=".45"/><text x="127.0" y="48.8" font-size="4.4" text-anchor="middle" fill="#1F3864" stroke="#fff" stroke-width=".9" paint-order="stroke">6</text></g><circle cx="149.0" cy="52.1" r="1.5" fill="none" stroke="#C00000" stroke-width=".5"/><g transform="translate(11.91 10.00) rotate(-30.00)"><path d="M0 0 v4" stroke="#333" stroke-width=".5"/><rect x="-2.2" y="4" width="4.4" height="22" rx="1.2" fill="#E8EBEF" stroke="#333" stroke-width=".4"/><path d="M-2.2 7.0 h1.6" stroke="#333" stroke-width=".25"/><path d="M-2.2 9.2 h1.6" stroke="#333" stroke-width=".25"/><path d="M-2.2 11.4 h1.6" stroke="#333" stroke-width=".25"/><path d="M-2.2 13.6 h1.6" stroke="#333" stroke-width=".25"/><path d="M-2.2 15.8 h1.6" stroke="#333" stroke-width=".25"/><path d="M-2.2 18.0 h1.6" stroke="#333" stroke-width=".25"/><path d="M-2.2 20.2 h1.6" stroke="#333" stroke-width=".25"/><path d="M-2.2 22.4 h1.6" stroke="#333" stroke-width=".25"/><path d="M0 26 V46.19" stroke="#333" stroke-width=".5"/></g><text x="38.2" y="24" font-size="3.4" fill="#1F3864">dinamômetro</text><path d="M35.0 50.0 H21.0" stroke="#1F3864" stroke-width=".35" stroke-dasharray="1 1"/><path d="M26.0 50.0 A9.0 9.0 0 0 1 30.5 42.2" fill="none" stroke="#1F3864" stroke-width=".45"/><text x="22.5" y="47.0" font-size="4" font-style="italic" fill="#1F3864">θ</text><path d="M90.7 58.7 v2" stroke="#555" stroke-width=".5"/><rect x="87.9" y="60.7" width="5.6" height="5.4" rx="1" fill="#B8BEC6" stroke="#555" stroke-width=".4"/><path d="M90.7 66.1 v1.6" stroke="#555" stroke-width=".5"/><path d="M90.7 67.7 v2" stroke="#555" stroke-width=".5"/><rect x="87.9" y="69.7" width="5.6" height="5.4" rx="1" fill="#B8BEC6" stroke="#555" stroke-width=".4"/><path d="M90.7 75.1 v1.6" stroke="#555" stroke-width=".5"/><path d="M90.7 76.7 v2" stroke="#555" stroke-width=".5"/><rect x="87.9" y="78.7" width="5.6" height="5.4" rx="1" fill="#B8BEC6" stroke="#555" stroke-width=".4"/><path d="M90.7 84.1 v1.6" stroke="#555" stroke-width=".5"/><path d="M90.7 85.7 v2" stroke="#555" stroke-width=".5"/><rect x="87.9" y="87.7" width="5.6" height="5.4" rx="1" fill="#B8BEC6" stroke="#555" stroke-width=".4"/><path d="M90.7 93.1 v1.6" stroke="#555" stroke-width=".5"/></svg><div class="cap">Figura 7 - Montagem com a força oblíqua.</div></div>
+      <div><svg viewBox="0 0 150 96" xmlns="http://www.w3.org/2000/svg" font-family="Century Gothic, Arial, sans-serif"><rect x="15.0" y="28.0" width="120.0" height="4" rx=".8" fill="#9DA3AB" stroke="#333" stroke-width=".4"/><circle cx="132.0" cy="30.0" r="1.8" fill="#fff" stroke="#C00000" stroke-width=".6"/><text x="132.0" y="25.0" font-size="3.6" fill="#1F3864" text-anchor="middle">eixo</text><line x1="18.0" y1="30.0" x2="49.5" y2="84.6" stroke="#888" stroke-width=".35" stroke-dasharray="1.5 1.2"/><line x1="132.0" y1="30.0" x2="46.5" y2="79.4" stroke="#1F3864" stroke-width=".7"/><path d="M48.0 82.0 l2.6 -1.5 l-1.5 -2.6" fill="none" stroke="#888" stroke-width=".35"/><text x="91.2" y="59.7" font-size="4" font-style="italic" fill="#1F3864">d<tspan font-size="3" dy="1.2">⊾</tspan></text><line x1="18.0" y1="37.0" x2="132.0" y2="37.0" stroke="#1F3864" stroke-width=".4"/><path d="M18.0 38.2 v-2.4 M132.0 38.2 v-2.4" stroke="#1F3864" stroke-width=".4"/><text x="75.0" y="36.0" font-size="4" font-style="italic" fill="#1F3864" text-anchor="middle">d</text><line x1="18.0" y1="30.0" x2="4.0" y2="30.0" stroke="#888" stroke-width=".35" stroke-dasharray="1 1"/><line x1="18.0" y1="30.0" x2="3.0" y2="4.0" stroke="#C00000" stroke-width="0.90"/><path d="M3.0 4.0 L5.4 5.8 L3.4 7.0 Z" fill="#C00000"/><text x="-2.0" y="6.0" font-size="4.2" font-style="italic" font-weight="700" fill="#C00000">F</text><line x1="18.0" y1="30.0" x2="18.0" y2="4.0" stroke="#C00000" stroke-width="0.60" stroke-dasharray="1.6 1"/><path d="M18.0 4.0 L19.2 6.8 L16.8 6.8 Z" fill="#C00000"/><text x="20.0" y="8.0" font-size="4" font-style="italic" fill="#C00000">F<tspan font-size="3" dy="1.2">⊾</tspan></text><path d="M10.0 30.0 A8 8 0 0 1 14.0 23.1" fill="none" stroke="#1F3864" stroke-width=".45"/><text x="6.0" y="27.0" font-size="4" font-style="italic" fill="#1F3864">θ</text></svg><div class="cap">Figura 8 - A força oblíqua <em>F</em>, a parte <em>F</em><sub>⊾</sub> e o braço <em>d</em><sub>⊾</sub>.</div></div>
+    </div>
+    <div class="fonte-abnt">Fonte: elaborado pelos autores, 2026.</div>
+    <div class="legenda">Tabela 11 — Dados da Figura 7 (θ: ângulo entre o dinamômetro e a alavanca)</div>
+    <table class="t0e tab-obl"><thead><tr><th><span class="un">θ (°)</span></th><th><span class="un">sen θ</span></th><th><span class="un"><em>F</em> lida (N)</span></th><th><span class="un"><em>F</em><sub>⊾</sub> = <em>F</em> · sen θ (N)</span></th><th><span class="un"><em>d</em> (m)</span></th><th><span class="un"><span class="tau">τ</span> = <em>F</em><sub>⊾</sub> · <em>d</em> (N·m)</span></th><th><span class="un"><em>d</em><sub>⊾</sub> = <em>d</em> · sen θ (m)</span></th><th><span class="un"><span class="tau">τ</span> = <em>F</em> · <em>d</em><sub>⊾</sub> (N·m)</span></th></tr></thead>
+    <tbody><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table>
+    <div class="fonte-abnt">Fonte: elaborado pelos autores, 2026.</div>
+    <div class="texto"><p><strong>h)</strong> Compare a força lida na Figura 7 com a da Figura 4. Por que, com o dinamômetro inclinado, ele precisa puxar mais para manter a alavanca em equilíbrio?</p></div>
+    <div class="espaco"></div>
+    <div class="motiva"><p><strong>Torque de uma força oblíqua.</strong> Com a força a um ângulo θ da alavanca, só a parte perpendicular a ela faz girar: o torque é menor que o da mesma força a 90°. A fórmula se desdobra de dois modos:</p>
+      <div class="resultado"><span class="tau">τ</span> = <em>F</em><sub>⊾</sub> · <em>d</em>, onde <em>F</em><sub>⊾</sub> = <em>F</em> · sen θ &nbsp;&nbsp;&nbsp; ou &nbsp;&nbsp;&nbsp; <span class="tau">τ</span> = <em>F</em> · <em>d</em><sub>⊾</sub>, onde <em>d</em><sub>⊾</sub> = <em>d</em> · sen θ</div>
+      <p><em>d</em><sub>⊾</sub> é a distância do eixo até a reta em que a força atua (Figura 8). Com θ = 90°, sen θ = 1, e volta-se a <span class="tau">τ</span> = <em>F</em> · <em>d</em>.</p></div>
+    <div class="texto"><p><strong>i)</strong> Calcule o torque da força elástica pelas duas fórmulas, na Tabela 11. Os dois resultados coincidem? Compare com o torque da força elástica na Figura 4.</p></div>
+    <div class="espaco"></div>
+  </div>
+
+  <div class="secao">
+    <div class="secao-titulo">
+      
+      <h2>Conclusão · Condição de equilíbrio de uma barra ou de um corpo que gira em torno de um eixo</h2>
+      <span class="hint">resuma</span>
+    </div>
+    <div class="texto"><p>No equilíbrio de alavancas ou de corpos extensos há duas condições, traduzidas por equações. Resuma-as preenchendo a Tabela 12.</p></div>
+    <div class="legenda">Tabela 12 — As duas condições de equilíbrio</div>
+    <table class="t0e tab-concl"><thead><tr><th><span class="un">Condição de equilíbrio</span></th><th><span class="un">Em palavras</span></th><th><span class="un">Em símbolos</span></th></tr></thead>
+    <tbody><tr><td>De translação (o corpo não se desloca)</td><td></td><td></td></tr><tr><td>De rotação (o corpo não gira)</td><td></td><td></td></tr></tbody></table>
+  </div>
+
+  <!-- RODAPE-FE:INICIO --><div class="fe-rodape"><div class="fe-inst-marcas"><a href="https://ouropreto.ifmg.edu.br/ouropreto" target="_blank" rel="noopener" title="IFMG — Campus Ouro Preto (abre em nova aba)"><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="-36.75 -4 258.5 258.5" role="img" aria-label="Instituto Federal de Minas Gerais"> <title>Instituto Federal de Minas Gerais</title> <circle cx="27" cy="27" r="30" fill="#C8191E"/> <g fill="#32A041"> <rect x="65.5" y="0" width="54" height="54"/> <rect x="131" y="0" width="54" height="54"/> <rect x="0" y="65.5" width="54" height="54"/> <rect x="65.5" y="65.5" width="54" height="54"/> <rect x="0" y="131" width="54" height="54"/> <rect x="65.5" y="131" width="54" height="54"/> <rect x="131" y="131" width="54" height="54"/> <rect x="0" y="196.5" width="54" height="54"/> <rect x="65.5" y="196.5" width="54" height="54"/> </g> </svg></a><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="NIDEC — Núcleo de Inovação e Desenvolvimento de Experimentos Científicos"> <title>NIDEC — Núcleo de Inovação e Desenvolvimento de Experimentos Científicos</title> <defs> <linearGradient id="inst-nidec-o1" gradientUnits="userSpaceOnUse" x1="8" y1="100" x2="192" y2="100" gradientTransform="rotate(-30 100 100)"> <stop offset="0" stop-color="#4A1F95"/><stop offset=".38" stop-color="#2C5AA4"/> <stop offset=".70" stop-color="#2CC2A2"/><stop offset="1" stop-color="#2C9E41"/> </linearGradient> <linearGradient id="inst-nidec-o2" gradientUnits="userSpaceOnUse" x1="8" y1="100" x2="192" y2="100" gradientTransform="rotate(-90 100 100)"> <stop offset="0" stop-color="#4A1F95"/><stop offset=".38" stop-color="#2C5AA4"/> <stop offset=".70" stop-color="#2CC2A2"/><stop offset="1" stop-color="#2C9E41"/> </linearGradient> <linearGradient id="inst-nidec-o3" gradientUnits="userSpaceOnUse" x1="8" y1="100" x2="192" y2="100" gradientTransform="rotate(-150 100 100)"> <stop offset="0" stop-color="#4A1F95"/><stop offset=".38" stop-color="#2C5AA4"/> <stop offset=".70" stop-color="#2CC2A2"/><stop offset="1" stop-color="#2C9E41"/> </linearGradient> <radialGradient id="inst-nidec-nucleo" cx="40%" cy="36%" r="70%"> <stop offset="0" stop-color="#A0EBE1"/> <stop offset=".45" stop-color="#2CC8C2"/> <stop offset="1" stop-color="#1E5DA5"/> </radialGradient> </defs> <g fill="none" stroke-width="8"> <g transform="rotate(30 100 100)" stroke="url(#inst-nidec-o1)"> <ellipse cx="100" cy="100" rx="88" ry="31"/> <circle cx="188" cy="100" r="8" fill="url(#inst-nidec-o1)" stroke="none"/> </g> <g transform="rotate(90 100 100)" stroke="url(#inst-nidec-o2)"> <ellipse cx="100" cy="100" rx="88" ry="31"/> <circle cx="12" cy="100" r="8" fill="url(#inst-nidec-o2)" stroke="none"/> </g> <g transform="rotate(150 100 100)" stroke="url(#inst-nidec-o3)"> <ellipse cx="100" cy="100" rx="88" ry="31"/> <circle cx="188" cy="100" r="8" fill="url(#inst-nidec-o3)" stroke="none"/> </g> </g> <circle cx="100" cy="100" r="23" fill="url(#inst-nidec-nucleo)"/> </svg></div><div class="fe-agr-marca"><a href="https://nidecop-jafb.github.io/fe1-oa/agradecimentos/" title="Agradecimentos &middot; F&iacute;sica e Poesia"><svg class="fe-ic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Agradecimentos — Física e Poesia"> <g fill="none" stroke="#7FB2D6" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"> <path d="M 60 44 C 46 36 28 36 12 40 L 12 104 C 28 100 46 100 60 108 C 74 100 92 100 108 104 L 108 40 C 92 36 74 36 60 44 Z"/> <line x1="60" y1="44" x2="60" y2="108"/> </g> <g stroke="#7FB2D6" stroke-width="2" stroke-linecap="round" opacity=".7"> <line x1="22" y1="58" x2="50" y2="56"/><line x1="22" y1="70" x2="50" y2="68"/><line x1="22" y1="82" x2="44" y2="81"/> </g> <path d="M 68 70 C 72 62 76 62 80 70 S 88 78 92 70 S 98 62 100 66" fill="none" stroke="#E07B39" stroke-width="2.5" stroke-linecap="round"/> <path d="M 104 8 C 86 12 72 24 66 44 C 80 40 94 28 104 8 Z" fill="none" stroke="#E07B39" stroke-width="3" stroke-linejoin="round"/> <line x1="100" y1="13" x2="62" y2="56" stroke="#E07B39" stroke-width="3" stroke-linecap="round"/> </svg></a></div><div class="fe-rodape-texto">IFMG campus Ouro Preto - Coordenadoria da Área de Física (CODAFIS) - Núcleo de Inovação e Desenvolvimento de Experimentos Científicos (NIDEC) &middot; Primeira edição &middot; 2026<span class="fe-pag"> &middot; FE1-T04 · RB v4 · Estações 1 e 2 (estudante) · página 4 de 4 · Julio Azevedo</span></div></div><!-- RODAPE-FE:FIM -->
+  <div class="rodape-print">
+    FE1-T04 · RB v4 · Estações 1 e 2 (estudante) · página 4 de 4 · Julio Azevedo
+  </div>
+</div>
+
+<div class="barra-tela">
+  <button class="btn" onclick="abrirParaImpressao()">Imprimir (A4 — 4 páginas)</button>
+  <div class="nota">
+    O botão abre uma <strong>janela nova</strong> só com a folha e já chama a impressão. Em "Salvar como PDF", o navegador sugere o nome correto: <strong>FE-T04-RB-v4-estudante-impresso</strong>.<br>
+    Nas opções de impressão, mantenha <strong>"Gráficos de plano de fundo"</strong> ligado.
+  </div>
+</div>
+
+</div><!-- .folha -->
+
+<script>
+/* Impressao em janela propria (padrao FA): o <title> vira o nome sugerido do
+   PDF, a barra de botoes fica de fora e o @page { margin: 0 } suprime o
+   cabecalho/rodape que o navegador injeta. */
+var NOME_ARQUIVO_PDF = 'FE-T04-RB-v4-estudante-impresso';
+
+function abrirParaImpressao() {
+  var folha = document.querySelector('.folha').cloneNode(true);
+  var barra = folha.querySelector('.barra-tela');
+  if (barra) { barra.parentNode.removeChild(barra); }
+
+  var w = window.open('', '_blank');
+  if (!w) {
+    alert('O navegador bloqueou a janela de impressao.\n' +
+          'Libere os pop-ups para esta página e clique de novo.');
+    return;
+  }
+
+  w.document.open();
+  w.document.write(
+    '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8">' +
+    '<base href="' + document.baseURI + '">' +
+    '<title>' + NOME_ARQUIVO_PDF + '</title>' +
+    document.querySelector('style').outerHTML +
+    '</head><body>' + folha.outerHTML + '</body></html>'
+  );
+  w.document.close();
+
+  var imprimir = function () { w.focus(); w.print(); };
+  if (w.document.readyState === 'complete') { setTimeout(imprimir, 500); }
+  else { w.addEventListener('load', function () { setTimeout(imprimir, 500); }); }
+}
+</script>
+
+<!-- ABA-SITE (injetada na publicacao — nao existe no OA canonico) -->
+<style>
+.aba-site-toggle { position: fixed; top: 56px; left: 0; z-index: 999; background: #1a1b1f; border: 1px solid #444; border-left: none; color: #bbb; font-size: .7rem; padding: 8px 10px; cursor: pointer; font-family: 'Courier New', Courier, monospace; writing-mode: vertical-rl; text-orientation: mixed; letter-spacing: 1px; text-transform: uppercase; transition: color .15s; border-radius: 0; }
+.aba-site-toggle:hover { color: #E07B39; }
+.aba-site-painel { position: fixed; top: 0; left: 0; z-index: 1001; width: 330px; max-width: 86vw; height: 100vh; overflow-y: auto; background: #1a1b1f; border-right: 1px solid #444; padding: 24px 22px 24px 42px; transform: translateX(-100%); transition: transform .25s; font-family: 'Courier New', Courier, monospace; font-size: .92rem; color: #c4c4c4; line-height: 1.6; }
+.aba-site-painel.open { transform: translateX(0); }
+.aba-site-painel h3 { font-family: 'Courier New', Courier, monospace; font-size: .8rem; text-transform: uppercase; letter-spacing: 2px; color: #E07B39; border-bottom: 1px solid #444; padding-bottom: 8px; margin: 0 0 14px; }
+.aba-site-painel a.aba-site-btn { display: block; margin: 10px 0; padding: 11px 14px; border: 1px solid #444; color: #e8e8e8; text-decoration: none; font-family: 'Courier New', Courier, monospace; font-size: .85rem; }
+.aba-site-painel a.aba-site-btn:hover { border-color: #E07B39; color: #E07B39; }
+/* TT: abre espaco no topo do trilho e oculta a aba Figuras (decisao 2026-08-08) */
+.musica-toggle { top: 128px !important; }
+.ineditismo-toggle { top: 210px !important; }
+.toc-toggle { top: 330px !important; }
+.creditos-toggle { top: 418px !important; }
+.figuras-toggle, .figuras-sidebar { display: none !important; }
+/* Celular: a aba fica sobre o conteudo, porque em tela estreita o texto ocupa
+   a largura toda e o trilho e `position: fixed` na borda esquerda. Abrir uma
+   faixa no body empurra TUDO para a direita — vale para a aba Site e para o
+   trilho do TT (Musica/Ineditismo/Sumario/Creditos), todos em left: 0.
+   Com `box-sizing: border-box` (padrao nos OAs) nao cria rolagem lateral. */
+@media (max-width: 600px) {
+  body { padding-left: 30px; }
+  .aba-site-toggle { font-size: .6rem; padding: 6px 6px; }
+  .aba-site-painel { width: 86vw; }
+}
+@media print { .aba-site-toggle, .aba-site-painel { display: none !important; } }
+</style>
+<button class="aba-site-toggle" id="abaSiteToggle">Site</button>
+<aside class="aba-site-painel" id="abaSitePainel">
+  <h3>Site</h3>
+  <a class="aba-site-btn" href="https://nidecop-jafb.github.io/fe1-oa/#t04">Ver todos os OAs da trilha</a>
+  <a class="aba-site-btn" href="https://nidecop-jafb.github.io/fe1-oa/">Início do site</a>
+  <a class="aba-site-btn" href="https://nidecop-jafb.github.io/fc1-oa/">Disciplina irmã: FC1 — Física Conceitual 1</a>
+</aside>
+<script>
+(function () {
+  var t = document.getElementById('abaSiteToggle');
+  var p = document.getElementById('abaSitePainel');
+  var outras = '.metodo-sidebar,.musica-sidebar,.ineditismo-sidebar,.toc-sidebar,.projeto-sidebar,.creditos-sidebar,.figuras-sidebar';
+  t.addEventListener('click', function () {
+    p.classList.toggle('open');
+    document.querySelectorAll(outras).forEach(function (s) { s.classList.remove('open'); });
+  });
+  document.addEventListener('click', function (e) {
+    if (!p.contains(e.target) && e.target !== t) { p.classList.remove('open'); }
+  });
+})();
+</script>
 <!-- CONTADOR:INICIO -->
 <script src="../../contador-config.js"></script>
 <script src="../../acessos.js"></script>
