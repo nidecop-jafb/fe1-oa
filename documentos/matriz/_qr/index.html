@@ -49,6 +49,44 @@
 .wrap a.uri, .wrap > p, .wrap > ul > li, .wrap > ol > li, .wrap > blockquote p { overflow-wrap: anywhere; }
 /* /ICONES-FE */
 </style>
+<!-- VISUAL:INICIO --><style id="visual-fe1" data-fe1-tema="fixo">
+@media screen {
+:root { --fe1-sans: 'Segoe UI', Arial, sans-serif; --fe1-mono: 'Courier New', Courier, monospace; }
+/* tema claro dos OAs: o cinza de apoio (--cinza oklch .55 invertido) ficava em 4,0:1 no fundo claro
+   (piloto de 2026-11-27); o mesmo valor da FC1. A folha leva data-fe1-tema="fixo" para o motor do tema
+   claro nao inverter este valor. */
+html[data-tema="claro"]:root { --cinza: oklch(0.45 0.02 260); }
+body, body *:not(:is(svg, svg *, canvas, math, math *, .katex, .katex *, .MathJax, .MathJax *)) { font-family: var(--fe1-sans) !important; }
+body *:not(:is(svg, svg *, canvas, math, math *, .katex, .katex *, .MathJax, .MathJax *))::before, body *:not(:is(svg, svg *, canvas, math, math *, .katex, .katex *, .MathJax, .MathJax *))::after { font-family: var(--fe1-sans) !important; }
+body :is(code, pre, kbd, samp, input[type="number"], .fe1-num, .badge, .selo:not(.selo-nota):not(.selo-prazo), .contador, .contador *, #seloAcessos, .q-num, .figura-num, .fe1-acessos-num) { font-family: var(--fe1-mono) !important; }
+@media (max-width: 400px) { body .qr { max-width: 100%; box-sizing: border-box; } }
+}
+</style><script>
+(function () {
+  var RE = /^[\s(±+\-−–]*\d[\d\s.,]*(\s*[±]\s*[\d.,]+)?\s*[)]?\s*([a-zA-Zµμ°%²³·\/]{1,8}\)?)?\s*$/;
+  var NAO = 'header, footer, nav, aside, figcaption, small, svg, table, .fe1-topo, .fe1-menu, .fe1-estilo, [class*="aba"], [class*="rodape"], [class*="footer"], [class*="legenda"], [class*="card"], [class*="cartao"], [class*="header"], [class*="piazzi"], [class*="selo"], .badge, button, label, summary';
+  function marcar() {
+    var cs = document.querySelectorAll('td, th'), i, e, n, t;
+    for (i = 0; i < cs.length; i++) {
+      t = cs[i].textContent;
+      if (t && t.length < 40 && RE.test(t)) cs[i].classList.add('fe1-num');
+    }
+    if (!false) return;
+    var raiz = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+    var todos = document.body.querySelectorAll('div, span, p, li, dd, blockquote');
+    for (i = 0; i < todos.length; i++) {
+      e = todos[i];
+      if (e.closest(NAO)) continue;
+      t = 0;
+      for (n = e.firstChild; n; n = n.nextSibling) if (n.nodeType === 3) t += n.textContent.trim().length;
+      if (t < 60) continue;
+      if (parseFloat(getComputedStyle(e).fontSize) / raiz < 1.06) e.classList.add('fe1-corrido');
+    }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', marcar);
+  else marcar();
+})();
+</script><!-- VISUAL:FIM -->
 </head>
 <body data-pagina="qr:documentos/matriz">
 <div class="wrap">
