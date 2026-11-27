@@ -153,6 +153,71 @@
   @media (max-width: 560px) { details.trilha > summary { font-size: 1.28rem; } }
 /* METODO:CSS-FIM */
 
+/* ENTREGAS:CSS-INICIO */
+.entregas { border: 1px solid var(--cinza-borda, #333); border-radius: 6px; padding: 16px 18px;
+  margin: 22px 0 26px; background: rgba(255,255,255,.02); }
+.entregas h2 { font-family: 'Courier New', monospace; font-size: .82rem; text-transform: uppercase;
+  letter-spacing: 2px; color: #E07B39; margin: 0 0 10px; }
+.entregas .ent-intro { font-size: .92rem; color: #b8b8b8; margin: 0 0 12px; line-height: 1.6; }
+.entregas .ent-form { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.entregas input { background: #0f0f0f; border: 1px solid #444; color: #e8e8e8; padding: 8px 10px;
+  font-family: 'Courier New', monospace; font-size: .95rem; border-radius: 4px; width: 130px; }
+.entregas button { background: #E07B39; border: none; color: #111; font-weight: 700; padding: 9px 16px;
+  border-radius: 4px; cursor: pointer; font-size: .9rem; }
+.entregas button:hover { filter: brightness(1.12); }
+.entregas .ent-msg { font-size: .88rem; margin-top: 10px; color: #c9a227; }
+.entregas .ent-painel { margin-top: 14px; display: none; }
+.entregas .ent-painel.on { display: block; }
+.entregas .ent-nome { font-weight: 700; color: #e8e8e8; margin-bottom: 10px; font-size: .98rem; }
+.entregas .ent-cards { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+.entregas .ent-card { flex: 1 1 150px; border: 1px solid #3a3a3a; border-radius: 5px; padding: 10px 12px; }
+.entregas .ent-card .rot { font-size: .72rem; text-transform: uppercase; letter-spacing: 1px; color: #8a8a8a; }
+.entregas .ent-card .val { font-size: 1.25rem; font-weight: 700; color: #E07B39; margin-top: 3px; }
+.entregas .ent-card .obs { font-size: .78rem; color: #8a8a8a; margin-top: 2px; }
+.entregas .ent-card.alerta .val { color: #E05B4B; }
+.entregas table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+.entregas th { text-align: left; color: #8a8a8a; font-weight: 400; font-size: .78rem;
+  text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #3a3a3a; padding: 5px 4px; }
+.entregas td { padding: 5px 4px; border-bottom: 1px solid #262626; color: #d0d0d0; }
+.entregas .vazio { color: #8a8a8a; font-size: .9rem; font-style: italic; }
+@media (max-width: 600px) { .entregas .ent-card { flex: 1 1 100%; } }
+/* ENTREGAS:CSS-FIM */
+
+/* ENTRADA:CSS-INICIO */
+.entrada-caixa { display: flex; align-items: stretch; gap: 0; border: 1px solid #444; padding: 0; }
+.entrada-col { flex: 0 0 112px; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 14px; margin: 0; padding: 14px 8px; background: #1d1d1d; border-right: 1px solid #444; }
+.entrada-corpo { flex: 1 1 auto; min-width: 0; padding: 14px 20px; background: #161616; }
+.entrada-entregas { margin: 0 0 44px; }
+.entrada-corpo .entregas { border: 0; border-radius: 0; padding: 0; margin: 0; background: none; }
+.entrada-corpo .entregas h2 { font-family: 'Segoe UI', Arial, sans-serif; font-size: 1.45rem; text-transform: none;
+  letter-spacing: 0; color: #E07B39; margin: 0 0 8px; border: 0; padding: 0; }
+.entrada-corpo .entregas .ent-intro { color: #c4c4c4; }
+.entrada-corpo .entregas .ent-intro strong { color: #e8e8e8; font-weight: 700; }
+.entrada-corpo .entregas .ent-msg { color: #E07B39; }
+.entrada-entregas:has(#minhasEntregas[hidden]):has(#blocoAcessos[style*="none"]) { display: none; }
+html[data-tema="claro"] .entrada-caixa { border-color: #b8b8b8; }
+html[data-tema="claro"] .entrada-col { background: #ececec; border-color: #b8b8b8; }
+html[data-tema="claro"] .entrada-corpo { background: #fff; }
+html[data-tema="claro"] .entrada-corpo .entregas h2,
+html[data-tema="claro"] .entrada-corpo .entregas .ent-msg { color: #A9531C; }
+html[data-tema="claro"] .entrada-corpo .entregas .ent-intro { color: #333; }
+html[data-tema="claro"] .entrada-corpo .entregas .ent-intro strong,
+html[data-tema="claro"] .entregas .ent-nome,
+html[data-tema="claro"] .entregas td { color: #1a1a1a; }
+html[data-tema="claro"] .entregas input { background: #fff; color: #1a1a1a; border-color: #888; }
+html[data-tema="claro"] .entregas .ent-card { border-color: #b8b8b8; }
+html[data-tema="claro"] .entregas .ent-card .val { color: #A9531C; }
+html[data-tema="claro"] .entregas .ent-card .rot, html[data-tema="claro"] .entregas .ent-card .obs,
+html[data-tema="claro"] .entregas th, html[data-tema="claro"] .entregas .vazio { color: #555; }
+html[data-tema="claro"] .entregas td { border-color: #ddd; }
+@media (max-width: 560px) {
+  .entrada-caixa { flex-direction: column; align-items: stretch; }
+  .entrada-col { flex: 0 0 auto; flex-direction: row; border-right: 0; border-bottom: 1px solid #444; }
+  .entrada-corpo { padding: 14px 16px; }
+}
+/* ENTRADA:CSS-FIM */
+
 </style>
 <!-- TOPO-FE1-CABECA:INICIO -->
 <script data-fe1-tema="fixo">(function () {
@@ -383,6 +448,7 @@ body h3:not(:is(footer, nav, aside, table, figcaption, .fe1-topo, .fe1-menu, .fe
   else marcar();
 })();
 </script><!-- VISUAL:FIM -->
+  <script src="coleta-config.js"></script>
 </head>
 <body data-pagina="inicio">
 <!-- TOPO-FE1:INICIO -->
@@ -461,7 +527,7 @@ html[data-tema="claro"] .fe1-estilo a.est-btn-2 { background: #fff; color: #1F5F
 body > header { padding-top: 54px !important; }
 #fe1AvaMenu { right: auto; left: 0; }
 </style>
-<div class="fe1-topo"><a class="tb" href="index.html" aria-label="Início" title="Início"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 9.5V20h13V9.5"/><path d="M10 20v-5.5h4V20"/></svg></a><div class="fe1-caixa"><button class="tb" id="fe1AvaBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="fe1AvaMenu" aria-label="Avaliação das Etapas" title="Avaliação das Etapas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1"/><path d="M8.5 13l2.5 2.5 4.5-5"/></svg></button><nav class="fe1-menu" id="fe1AvaMenu" hidden><span class="tit">Avaliação das Etapas</span><a href="avaliacao/#etapa1">Avaliação da 1.ª Etapa<small>30 pontos</small></a><a href="avaliacao/#etapa2">Avaliação da 2.ª Etapa<small>35 pontos</small></a><a href="avaliacao/#etapa3">Avaliação da 3.ª Etapa<small>35 pontos</small></a><a href="sugestoes/">Enviar uma sugestão</a><a href="agradecimentos/">Agradecimentos</a></nav></div><div class="fe1-caixa"><button class="tb" id="fe1CronoBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="fe1CronoMenu" aria-label="Cronometrar" title="Cronometrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13.5" r="8"/><path d="M12 9.5v4l2.5 2.5M9.5 2.5h5M12 2.5v3"/></svg></button><nav class="fe1-menu" id="fe1CronoMenu" hidden><span class="tit">Cronometrar uma sessão</span><a href="sessao/pre/">Sessão do Pré-Laboratório<small>até 20 min</small></a><a href="sessao/lab/">Sessão do Laboratório<small>até 100 min</small></a><a href="sessao/pos/">Sessão do Pós-Laboratório<small>até 40 min</small></a></nav></div><button class="tb" id="fe1LetraMenos" type="button" aria-label="Diminuir a letra" title="Diminuir a letra">A&minus;</button><button class="tb" id="fe1LetraMais" type="button" aria-label="Aumentar a letra" title="Aumentar a letra">A+</button><button class="tb" id="fe1TemaBtn" type="button" aria-label="Mudar o tema"><svg class="sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 1.5v2.5M12 20v2.5M1.5 12h2.5M20 12h2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/></svg><svg class="lua" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z"/></svg></button><a class="tb" href="instalar/" aria-label="Instalar" title="Instalar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M12 7v7"/><path d="M9 11l3 3 3-3"/><path d="M10 18h4"/></svg></a><button class="tb" id="fe1EstiloBtn" type="button" aria-controls="fe1Estilo" aria-expanded="false" aria-label="Estilo de aprendizagem" title="Estilo de aprendizagem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.6.5 1.1 1.3 1.1 2.2h5c0-.9.5-1.7 1.1-2.2A6 6 0 0 0 12 3z"/></svg></button></div>
+<div class="fe1-topo"><a class="tb" href="index.html" aria-label="Início" title="Início"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 9.5V20h13V9.5"/><path d="M10 20v-5.5h4V20"/></svg></a><div class="fe1-caixa"><button class="tb" id="fe1AvaBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="fe1AvaMenu" aria-label="Fique ligado" title="Fique ligado"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1"/><path d="M8.5 13l2.5 2.5 4.5-5"/></svg></button><nav class="fe1-menu" id="fe1AvaMenu" hidden><span class="tit">Fique ligado</span><a href="presenca/">Lista de Presença<small>durante a aula · no Wi-Fi do IFMG</small></a><a href="sugestoes/">Dúvidas e Sugestões<small>texto ou áudio · para a equipe</small></a><a href="https://nidecop-jafb.github.io/painel-ecossistema/monitoria-v1.html?de=fe1" target="_blank" rel="noopener">Monitoria<small>equipe da monitoria · registro das entregas</small></a><span class="tit">Avaliação das Etapas</span><a href="avaliacao/#etapa1">Avaliação da 1.ª Etapa<small>30 pontos</small></a><a href="avaliacao/#etapa2">Avaliação da 2.ª Etapa<small>35 pontos</small></a><a href="avaliacao/#etapa3">Avaliação da 3.ª Etapa<small>35 pontos</small></a><a href="agradecimentos/">Agradecimentos</a></nav></div><div class="fe1-caixa"><button class="tb" id="fe1CronoBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="fe1CronoMenu" aria-label="Cronometrar" title="Cronometrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13.5" r="8"/><path d="M12 9.5v4l2.5 2.5M9.5 2.5h5M12 2.5v3"/></svg></button><nav class="fe1-menu" id="fe1CronoMenu" hidden><span class="tit">Cronometrar uma sessão</span><a href="sessao/pre/">Sessão do Pré-Laboratório<small>até 20 min</small></a><a href="sessao/lab/">Sessão do Laboratório<small>até 100 min</small></a><a href="sessao/pos/">Sessão do Pós-Laboratório<small>até 40 min</small></a></nav></div><button class="tb" id="fe1LetraMenos" type="button" aria-label="Diminuir a letra" title="Diminuir a letra">A&minus;</button><button class="tb" id="fe1LetraMais" type="button" aria-label="Aumentar a letra" title="Aumentar a letra">A+</button><button class="tb" id="fe1TemaBtn" type="button" aria-label="Mudar o tema"><svg class="sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 1.5v2.5M12 20v2.5M1.5 12h2.5M20 12h2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/></svg><svg class="lua" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z"/></svg></button><a class="tb" href="instalar/" aria-label="Instalar" title="Instalar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M12 7v7"/><path d="M9 11l3 3 3-3"/><path d="M10 18h4"/></svg></a><button class="tb" id="fe1EstiloBtn" type="button" aria-controls="fe1Estilo" aria-expanded="false" aria-label="Estilo de aprendizagem" title="Estilo de aprendizagem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.6.5 1.1 1.3 1.1 2.2h5c0-.9.5-1.7 1.1-2.2A6 6 0 0 0 12 3z"/></svg></button></div>
 <aside class="fe1-estilo" id="fe1Estilo" hidden aria-label="Estilo de aprendizagem"><h3>Estilo de aprendizagem</h3><button class="fechar" id="fe1EstiloFechar" type="button" aria-label="Fechar">&times;</button>
   <p class="est-lead">Conhecer o seu estilo de aprendizagem é descobrir como você prefere receber, processar e organizar o
   que aprende — na bancada do laboratório e na hora de estudar em casa. O Índice de Estilos de Aprendizagem de
@@ -751,6 +817,19 @@ body > header { padding-top: 54px !important; }
         </g>
       </svg>
       <img class="vagoneta" src="_icones/icon-vagoneta.png" alt="Vagoneta carregada de minério sobre trilhos" width="200" height="200">
+    </figure>
+    <section>
+      <h2 class="intro-t">Trilhas de Aprendizagem</h2>
+      <p>Trilhas de Aprendizagem são percursos de estudo construídos para orientar, apoiar e avaliar a sua caminhada pelo mundo da Física.</p>
+      <p>Nas <strong>abas da lateral esquerda</strong> estão, nesta ordem: o site (endereço, QR code, projeto e ineditismo), o método de estudo, a música para estudar, as três etapas com as suas trilhas, os documentos do curso e da disciplina e os créditos. No alto, os ícones levam ao início, ao Fique ligado (presença, dúvidas e sugestões, monitoria e avaliação das Etapas), ao cronômetro das sessões, ao tamanho da letra, ao modo claro ou escuro, à instalação do site e ao seu estilo de aprendizagem.</p>
+      <p>Escolha uma trilha e explore os objetos de aprendizagem <strong>na ordem numerada</strong>, sem pular nenhum — a ordem segue como o cérebro aprende. Se pulou, volte.</p>
+      <p class="sucesso">Sucesso no seu estudo.</p>
+    </section>
+  </div>
+
+  <!-- ENTRADA2:INICIO -->
+<div class="entrada-caixa entrada-entregas">
+  <div class="entrada-col"><!-- ENTRADA2:COL -->
       <!-- ACESSOS:INICIO -->
       <style>
         .fe1-acessos { display: flex; flex-direction: column; align-items: center; gap: 4px; margin-top: 2px; }
@@ -765,17 +844,32 @@ body > header { padding-top: 54px !important; }
         <span class="fe1-acessos-txt"><span class="fe1-acessos-num" id="acessosNum"></span><span class="fe1-acessos-rot" id="acessosRot">acessos</span></span>
       </div>
       <!-- ACESSOS:FIM -->
-    </figure>
-    <section>
-      <h2 class="intro-t">Trilhas de Aprendizagem</h2>
-      <p>Trilhas de Aprendizagem são percursos de estudo construídos para orientar, apoiar e avaliar a sua caminhada pelo mundo da Física.</p>
-      <p>Nas <strong>abas da lateral esquerda</strong> estão, nesta ordem: o site (endereço, QR code, projeto e ineditismo), o método de estudo, a música para estudar, as três etapas com as suas trilhas, os documentos do curso e da disciplina e os créditos. No alto, os ícones levam ao início, ao cronômetro das sessões, ao tamanho da letra, ao modo claro ou escuro, à instalação do site, ao seu estilo de aprendizagem e à avaliação das Etapas.</p>
-      <p>Escolha uma trilha e explore os objetos de aprendizagem <strong>na ordem numerada</strong>, sem pular nenhum — a ordem segue como o cérebro aprende. Se pulou, volte.</p>
-      <p class="sucesso">Sucesso no seu estudo.</p>
-    </section>
   </div>
+  <div class="entrada-corpo">
+<!-- ENTREGAS:INICIO -->
+<section class="entregas" id="minhasEntregas" hidden>
+  <h2>Minhas entregas</h2>
+  <p class="ent-intro">Digite a sua matr&iacute;cula para ver <strong>o que falta entregar</strong>,
+  os <strong>pontos j&aacute; lan&ccedil;ados</strong> e a sua <strong>frequ&ecirc;ncia</strong>.
+  Sem senha &mdash; a mesma identifica&ccedil;&atilde;o que voc&ecirc; usa nos objetos de aprendizagem.</p>
+  <div class="ent-form">
+    <input id="entRA" type="text" inputmode="numeric" maxlength="7" placeholder="0000000"
+           aria-label="Matr&iacute;cula (7 d&iacute;gitos)">
+    <button type="button" id="entBtn">Ver minhas entregas</button>
+  </div>
+  <div class="ent-msg" id="entMsg" role="status"></div>
+  <div class="ent-painel" id="entPainel">
+    <div class="ent-nome" id="entNome"></div>
+    <div class="ent-cards" id="entCards"></div>
+    <div id="entTabela"></div>
+  </div>
+</section>
+<!-- ENTREGAS:FIM -->
+  </div>
+</div>
+<!-- ENTRADA2:FIM -->
 
-  <!-- TRILHAS:INICIO -->
+<!-- TRILHAS:INICIO -->
   <style>
   .etapa-t { font-family: 'Courier New', monospace; font-size: 1.05rem; letter-spacing: .08em; text-transform: uppercase; color: #7FB2D6; border-bottom: 2px solid #E07B39; padding-bottom: 8px; margin: 34px 0 14px; scroll-margin-top: 64px; }
   .trilha-prep { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 12px; border: 1px dashed #444; padding: 12px 14px; margin-bottom: 12px; color: #9a9a9a; font-family: 'Courier New', monospace; scroll-margin-top: 64px; }
@@ -982,15 +1076,7 @@ body > header { padding-top: 54px !important; }
 </script>
   <!-- TRILHAS:FIM -->
 
-  <h2>Lista de Presen&ccedil;a</h2>
-  <ul>
-    <li><a class="oa extra" href="presenca/"><img class="oa-icone" src="_icones/app-presenca-192.png" alt="" width="30" height="30">Registrar presen&ccedil;a<span class="tag">durante a aula de laborat&oacute;rio &middot; no Wi-Fi do IFMG &middot; login por RA</span></a></li>
-  </ul>
 
-  <h2>Sugest&otilde;es de aprimoramento</h2>
-  <ul>
-    <li><a class="oa extra" href="sugestoes/">Envie a sua sugest&atilde;o &mdash; por texto ou &aacute;udio<span class="tag">formul&aacute;rio &middot; estudantes e equipe &middot; Pedagogia e Napnee</span></a></li>
-  </ul>
 
   <div class="footer">
     <div class="footer-marcas">
@@ -1106,6 +1192,92 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
 }
 </script>
 <!-- SW:FIM -->
+<!-- ENTREGAS-JS:INICIO -->
+<script>
+/* Minhas Entregas — le do endpoint ?entregas=1&ra= do Apps Script da disciplina.
+   Sem endpoint configurado, a secao nem aparece: o site segue igual ao que era. */
+(function () {
+  var sec = document.getElementById('minhasEntregas');
+  if (!sec) return;
+  /* O contrato do coleta-config.js e `window.COLETA.url` (FC1 e FE1). Aceitamos tambem
+     COLETA_URL porque o arquivo semente da ILB nasceu com esse nome — os dois valem. */
+  var C = window.COLETA || {};
+  var URL_BASE = C.url || C.COLETA_URL || '';
+  if (!URL_BASE) return;            // modo offline: secao fica oculta
+  sec.hidden = false;
+
+  var inp = document.getElementById('entRA');
+  var btn = document.getElementById('entBtn');
+  var msg = document.getElementById('entMsg');
+  var pan = document.getElementById('entPainel');
+
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+  function card(rot, val, obs, alerta) {
+    return '<div class="ent-card' + (alerta ? ' alerta' : '') + '"><div class="rot">' + esc(rot) +
+           '</div><div class="val">' + esc(val) + '</div>' +
+           (obs ? '<div class="obs">' + esc(obs) + '</div>' : '') + '</div>';
+  }
+
+  function render(d) {
+    document.getElementById('entNome').textContent = d.nome + ' · ' + d.turma;
+
+    var f = d.frequencia || {};
+    var abaixo = (f.percentual != null && f.minimo != null && f.percentual < f.minimo);
+    var cards = card('Objetos entregues', d.entregas.length, d.reenvios ? d.reenvios + ' reenvio(s)' : '');
+    if (d.pontos && d.pontos.possiveis) {
+      cards += card('Pontos', d.pontos.obtidos + ' / ' + d.pontos.possiveis,
+                    'do que já foi lançado');
+    }
+    if (f.percentual != null) {
+      cards += card('Frequência', f.percentual + '%',
+                    f.presentes + ' de ' + f.aulas + ' aulas · mínimo ' + f.minimo + '%', abaixo);
+    }
+    document.getElementById('entCards').innerHTML = cards;
+
+    var alvo = document.getElementById('entTabela');
+    if (!d.entregas.length) {
+      alvo.innerHTML = '<p class="vazio">Nenhum envio registrado ainda. ' +
+                       'Assim que voce enviar o primeiro objeto, ele aparece aqui.</p>';
+    } else {
+      var linhas = d.entregas.map(function (e) {
+        var nota = e.total ? (e.pontos + ' / ' + e.total) : '—';
+        return '<tr><td>' + esc(e.trilha) + '</td><td>' + esc(e.oa) + '</td><td>' +
+               esc(e.quando) + '</td><td>' + esc(nota) + '</td></tr>';
+      }).join('');
+      alvo.innerHTML = '<table><thead><tr><th>Trilha</th><th>Objeto</th><th>Enviado em</th>' +
+                       '<th>Pontos</th></tr></thead><tbody>' + linhas + '</tbody></table>';
+    }
+    pan.classList.add('on');
+  }
+
+  function consultar() {
+    var ra = (inp.value || '').replace(/\D/g, '');
+    pan.classList.remove('on');
+    if (ra.length !== 7) { msg.textContent = 'A matricula tem 7 digitos.'; return; }
+    msg.textContent = 'Consultando...';
+    btn.disabled = true;
+    fetch(URL_BASE + '?entregas=1&ra=' + encodeURIComponent(ra))
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        btn.disabled = false;
+        if (!d.ok) { msg.textContent = d.erro || 'Nao foi possivel consultar.'; return; }
+        msg.textContent = '';
+        render(d);
+      })
+      .catch(function () {
+        btn.disabled = false;
+        msg.textContent = 'Sem conexao com o servidor. Tente de novo em instantes.';
+      });
+  }
+
+  btn.addEventListener('click', consultar);
+  inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') consultar(); });
+})();
+</script>
+<!-- ENTREGAS-JS:FIM -->
+
 <!-- CONTADOR:INICIO -->
 <script src="contador-config.js"></script>
 <script src="acessos.js"></script>
