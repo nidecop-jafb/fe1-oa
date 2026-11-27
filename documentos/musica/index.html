@@ -461,6 +461,15 @@ body :is(code, pre, kbd, samp, input[type="number"], .fe1-num, .badge, .selo:not
   body .branco { max-width: 100%; }
   body .branco[style*="min-width:90mm"] { min-width: 0 !important; display: block; width: 100%; }
 }
+/* Celular estreito, 320 px (autor, 2026-11-27): a imagem do QR (_qr/) tem 300 px fixos, a grade dos
+   Cartoes Didaticos tem coluna minima de 280 px e o titulo de Ato do TT (letter-spacing 3 px) nao
+   quebrava. So tela. */
+@media (max-width: 400px) {
+  body .qr img { max-width: 100%; height: auto; }
+  body .cartoes-container { grid-template-columns: minmax(0, 1fr) !important; }
+  body .cartoes-container > * { min-width: 0; max-width: 100%; }
+  body .ato-titulo { overflow-wrap: anywhere; letter-spacing: 1px; }
+}
 
 body :is(p, li, dd, blockquote):not(:is(header, footer, nav, aside, table, figcaption, .fe1-topo, .fe1-menu, .fe1-estilo, [class*="aba"], [class*="rodape"], [class*="footer"], [class*="card"], [class*="cartao"], [class*="piazzi"], [class*="header"], .fase, .selos, .badge, button, label, summary) *):not(:is(header, footer, nav, aside, table, figcaption, .fe1-topo, .fe1-menu, .fe1-estilo, [class*="aba"], [class*="rodape"], [class*="footer"], [class*="card"], [class*="cartao"], [class*="piazzi"], [class*="header"], .fase, .selos, .badge, button, label, summary)) {
   font-size: 1.0625rem; line-height: 1.6; }
