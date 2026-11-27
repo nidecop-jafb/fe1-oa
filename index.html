@@ -184,6 +184,7 @@
 /* ENTREGAS:CSS-FIM */
 
 /* ENTRADA:CSS-INICIO */
+/* tema claro: o motor do topo (topo_site) deriva sozinho das cores escuras — sem regra clara aqui */
 .entrada-caixa { display: flex; align-items: stretch; gap: 0; border: 1px solid #444; padding: 0; }
 .entrada-col { flex: 0 0 112px; display: flex; flex-direction: column; align-items: center;
   justify-content: center; gap: 14px; margin: 0; padding: 14px 8px; background: #1d1d1d; border-right: 1px solid #444; }
@@ -196,21 +197,6 @@
 .entrada-corpo .entregas .ent-intro strong { color: #e8e8e8; font-weight: 700; }
 .entrada-corpo .entregas .ent-msg { color: #E07B39; }
 .entrada-entregas:has(#minhasEntregas[hidden]):has(#blocoAcessos[style*="none"]) { display: none; }
-html[data-tema="claro"] .entrada-caixa { border-color: #b8b8b8; }
-html[data-tema="claro"] .entrada-col { background: #ececec; border-color: #b8b8b8; }
-html[data-tema="claro"] .entrada-corpo { background: #fff; }
-html[data-tema="claro"] .entrada-corpo .entregas h2,
-html[data-tema="claro"] .entrada-corpo .entregas .ent-msg { color: #A9531C; }
-html[data-tema="claro"] .entrada-corpo .entregas .ent-intro { color: #333; }
-html[data-tema="claro"] .entrada-corpo .entregas .ent-intro strong,
-html[data-tema="claro"] .entregas .ent-nome,
-html[data-tema="claro"] .entregas td { color: #1a1a1a; }
-html[data-tema="claro"] .entregas input { background: #fff; color: #1a1a1a; border-color: #888; }
-html[data-tema="claro"] .entregas .ent-card { border-color: #b8b8b8; }
-html[data-tema="claro"] .entregas .ent-card .val { color: #A9531C; }
-html[data-tema="claro"] .entregas .ent-card .rot, html[data-tema="claro"] .entregas .ent-card .obs,
-html[data-tema="claro"] .entregas th, html[data-tema="claro"] .entregas .vazio { color: #555; }
-html[data-tema="claro"] .entregas td { border-color: #ddd; }
 @media (max-width: 560px) {
   .entrada-caixa { flex-direction: column; align-items: stretch; }
   .entrada-col { flex: 0 0 auto; flex-direction: row; border-right: 0; border-bottom: 1px solid #444; }
@@ -219,6 +205,7 @@ html[data-tema="claro"] .entregas td { border-color: #ddd; }
 /* ENTRADA:CSS-FIM */
 
 </style>
+  <script src="coleta-config.js"></script>
 <!-- TOPO-FE1-CABECA:INICIO -->
 <script data-fe1-tema="fixo">(function () {
   var h = document.documentElement, t, l;
@@ -448,7 +435,6 @@ body h3:not(:is(footer, nav, aside, table, figcaption, .fe1-topo, .fe1-menu, .fe
   else marcar();
 })();
 </script><!-- VISUAL:FIM -->
-  <script src="coleta-config.js"></script>
 </head>
 <body data-pagina="inicio">
 <!-- TOPO-FE1:INICIO -->
