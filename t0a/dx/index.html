@@ -639,6 +639,17 @@ body, body *:not(:is(svg, svg *, canvas, math, math *, .katex, .katex *, .MathJa
 body *:not(:is(svg, svg *, canvas, math, math *, .katex, .katex *, .MathJax, .MathJax *))::before, body *:not(:is(svg, svg *, canvas, math, math *, .katex, .katex *, .MathJax, .MathJax *))::after { font-family: var(--fe1-sans) !important; }
 body :is(code, pre, kbd, samp, input[type="number"], .fe1-num, .badge, .selo:not(.selo-nota):not(.selo-prazo), .contador, .contador *, #seloAcessos, .q-num, .figura-num, .fe1-acessos-num) { font-family: var(--fe1-mono) !important; }
 @media (max-width: 400px) { body .qr { max-width: 100%; box-sizing: border-box; } }
+/* RC/RM no celular sem rolagem lateral (autor, 2026-11-27): o rotulo do cabecalho impresso
+   ("RA dos colegas de bancada...") nao quebrava linha e a linha de preenchimento "qual IA"
+   tem 90 mm fixos (style inline). So tela e so ate 560 px: a folha impressa fica como esta. */
+@media (max-width: 560px) {
+  body .cab-imp-id .linha-id label { white-space: normal; min-width: 0; }
+  body .cab-imp-id .opts { white-space: normal; flex-wrap: wrap; min-width: 0; }
+  body .cab-imp-topo { flex-wrap: wrap; }
+  body .cab-imp-dir { min-width: 0; overflow-wrap: anywhere; }
+  body .branco { max-width: 100%; }
+  body .branco[style*="min-width:90mm"] { min-width: 0 !important; display: block; width: 100%; }
+}
 
 body :is(p, li, dd, blockquote):not(:is(header, footer, nav, aside, table, figcaption, .fe1-topo, .fe1-menu, .fe1-estilo, [class*="aba"], [class*="rodape"], [class*="footer"], [class*="card"], [class*="cartao"], [class*="piazzi"], [class*="header"], .fase, .selos, .badge, button, label, summary) *):not(:is(header, footer, nav, aside, table, figcaption, .fe1-topo, .fe1-menu, .fe1-estilo, [class*="aba"], [class*="rodape"], [class*="footer"], [class*="card"], [class*="cartao"], [class*="piazzi"], [class*="header"], .fase, .selos, .badge, button, label, summary)) {
   font-size: 1.0625rem; line-height: 1.6; }
